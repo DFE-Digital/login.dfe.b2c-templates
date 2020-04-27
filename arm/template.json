@@ -181,13 +181,13 @@
         "resourceNames": {
             "applicationInsightsName": "[concat(variables('baseName'), '-ai')]",
             "apiManagementName": "[concat(variables('baseName'), '-apim')]",
-            "defaultStorageAccountName": "[replace(variables('baseName'), '-', 'default')]",
-            "secondaryStorageAccountName": "[replace(variables('baseName'), '-', 'storage')]",
+            "defaultStorageAccountName": "[replace(concat(variables('baseName'), 'default'), '-', '')]",
+            "secondaryStorageAccountName": "[replace(concat(variables('baseName'), 'storage'), '-', '')]",
             "servicePlanName": "[concat(variables('baseName'), '-function-asp')]",
             "functionName": "[concat(variables('baseName'), '-function')]",
             "autoScaleRuleName": "[concat(variables('baseName'), '-function-asp-autoscale-setting')]",
             "actionGroupName": "[concat(variables('baseName'),'-action-group')]",
-            "actionGroupShortName": "[concat(parameters('environmentName'),'-ag')]"
+            "actionGroupShortName": "[concat(variables('baseName'),'-ag')]"
         },
         "resourceIds": {
             "apimId": "[resourceId('Microsoft.ApiManagement/service', variables('resourceNames').apiManagementName)]",
@@ -196,7 +196,7 @@
             "secondaryStorageAccountId": "[resourceId('Microsoft.Storage/storageAccounts', variables('resourceNames').secondaryStorageAccountName)]",
             "servicePlanId": "[resourceId('Microsoft.Web/serverfarms', variables('resourceNames').servicePlanName)]",
             "functionId": "[resourceId('Microsoft.Web/sites', variables('resourceNames').functionName )]",
-            "actionGroupResourceId": "[resourceId('microsoft.insights/actionGroups', variables('resourceNames').actionGroupName)]",
+            "actionGroupId": "[resourceId('microsoft.insights/actionGroups', variables('resourceNames').actionGroupName)]",
             "storageAccountDefaultBlobContainerId": "[resourceId('Microsoft.Storage/storageAccounts/blobServices', variables('resourceNames').defaultStorageAccountName, 'default')]"
         },
         "alertRules": [
@@ -434,7 +434,7 @@
                 "targetResourceType": "[variables('alertRules')[copyIndex()].criteriaMetricNamespace]",
                 "actions": [
                     {
-                        "actionGroupId": "[variables('resourceIds').actionGroupResourceId]",
+                        "actionGroupId": "[variables('resourceIds').actionGroupId]",
                         "webHookProperties": {
                         }
                     }
@@ -442,7 +442,7 @@
             },
             "dependsOn": [
                 "[variables('resourceIds').functionId]",
-                "[variables('resourceIds').actionGroupResourceId]",
+                "[variables('resourceIds').actionGroupId]",
                 "[variables('alertRules')[copyIndex()].scopeResourceId]"
             ]
         },
