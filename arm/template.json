@@ -3,31 +3,87 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "applicationName": {
-            "type": "string"
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 25
         },
         "environmentName": {
-            "type": "string"
+            "type": "string",
+            "defaultValue": "dev"
         },
         "publisherEmail": {
-            "type": "string"
+            "type": "string",
+            "minLength": 1,
+            "metadata": {
+                "description": "The email address of the owner of the service"
+            },
+            "defaultValue": "publisher@internet.com"
         },
         "publisherName": {
-            "type": "string"
+            "type": "string",
+            "minLength": 1,
+            "metadata": {
+                "description": "The name of the owner of the service"
+            },
+            "defaultValue": "Paul Sheridan"
         },
         "apimSku": {
-            "type": "string"
+            "type": "string",
+            "allowedValues": [
+                "Developer",
+                "Standard",
+                "Premium"
+            ],
+            "defaultValue": "Developer"
         },
         "apimSkuCount": {
-            "type": "string"
+            "type": "string",
+            "defaultValue": "1",
+            "metadata": {
+                "description": "The instance size of this API Management service."
+            }
         },
         "servicePlanSkuName": {
-            "type": "string"
+            "defaultValue": "F1",
+            "type": "string",
+            "allowedValues": [
+                "F1",
+                "D1",
+                "B1",
+                "B2",
+                "B3",
+                "S1",
+                "S2",
+                "S3",
+                "P1",
+                "P2",
+                "P3",
+                "P4",
+                "I1"
+            ],
+            "metadata": {
+                "description": "The instance size of the app."
+            }
         },
         "servicePlanSkuTier": {
-            "type": "string"
+            "type": "string",
+            "defaultValue": "Standard",
+            "allowedValues": [
+                "Standard",
+                "Premium",
+                "Isolated",
+                "Basic",
+                "Free"
+            ],
+            "metadata": {
+                "description": "The pricing tier for the App Service plan."
+            }
         },
         "servicePlanSkuCount": {
-            "type": "string"
+            "type": "string",
+            "metadata": {
+                "description": "Instance Size"
+            }
         },
         "tags": {
             "type": "object"
@@ -36,22 +92,95 @@
             "type": "string"
         },
         "actionGroupReceiverEmailAddress": {
-            "type": "string"
+            "type": "string",
+                "defaultValue": "azuremonitor@internet.com",
+                "metadata": {
+                    "description": "An email address that receives alert emails."
+                }
         },
         "alertsEnabled": {
-            "type": "bool"
+            "type": "bool",
+            "defaultValue": true,
+            "allowedValues": [
+                true,
+                false
+            ],
+            "metadata": {
+                "description": "Enable Alerts"
+            }
         },
         "alertRequestsRuleCriteriaThreshold": {
-            "type": "string"
+            "type": "string",
+            "defaultValue": "60",
+            "metadata": {
+                "description": "An integer to indicate the number of requests required to trigger the alert."
+            }
         },
         "alertAppConnectionsRuleCriteriaThreshold": {
-            "type": "string"
+            "type": "string",
+            "defaultValue": "100",
+            "metadata": {
+                "description": "An integer to indicate the number of connections required to trigger the alert."
+            }
         },
         "alertAverageResponseTimeRuleCriteriaThreshold": {
-            "type": "string"
+            "type": "string",
+            "defaultValue": "1",
+            "metadata": {
+                "description": "An integer to indicate the average response time in seconds that is required to trigger the alert."
+            }
         },
         "alertMemoryWorkingSetRuleCriteriaThreshold": {
-            "type": "string"
+            "type": "string",
+            "defaultValue": "536870912",
+            "metadata": {
+                "description": "An integer to indicate the number of bytes required to trigger the alert."
+            }
+        },
+        "useAutoScaling": {
+            "type": "bool",
+            "defaultValue": true,
+            "allowedValues": [
+                true,
+                false
+            ],
+            "metadata": {
+                "description": "Enable AutoScale rule"
+            }
+        },
+        "autoScaleMinimumNumberOfInstances": {
+            "type": "string",
+            "defaultValue": 1,
+            "metadata": {
+                "description": "minimum instance count"
+            }
+        },
+        "autoScaleMaximumNumberOfInstances": {
+            "type": "string",
+            "defaultValue": 1,
+            "metadata": {
+                "description": "maximum instance count"
+            }
+        },
+        "scaleUpthreshold": {
+            "type": "string",
+            "defaultValue": "50",
+            "metadata": {
+                "description": "Threshold before scale event"
+            }
+        },
+        "scaleDownThreshold": {
+            "type": "string",
+            "defaultValue": "30",
+            "metadata": {
+                "description": "Threshold before scale event"
+            }
+        },
+        "alertWebHookUrl": {
+            "type": "string",
+            "metadata": {
+                "description": "Web hook for Autoscaling Alerts"
+            }
         }
     },
     "variables": {
@@ -63,6 +192,7 @@
             "secondaryStorageAccountName": "[replace(variables('baseName'), '-', 'storage')]",
             "servicePlanName": "[concat(variables('baseName'), '-function-asp')]",
             "functionName": "[concat(variables('baseName'), '-function')]",
+            "autoScaleRuleName": "[concat(variables('baseName'), '-function-asp-autoscale-setting')]",
             "actionGroupName": "[concat(variables('baseName'),'-action-group')]",
             "actionGroupShortName": "[concat(parameters('environmentName'),'-ag')]"
         },
@@ -322,6 +452,82 @@
                 "[variables('resourceIds').actionGroupResourceId]",
                 "[variables('alertRules')[copyIndex()].scopeResourceId]"
             ]
+        },
+        {
+            "condition": "[parameters('useAutoScaling')]",
+            "type": "Microsoft.Insights/autoscalesettings",
+            "name": "[variables('resourceNames').autoScaleRuleName]",
+            "apiVersion": "2015-04-01",
+            "location": "[resourceGroup().location]",
+            "dependsOn": [
+                "[variables('resourceIds').servicePlanId]"
+            ],
+            "properties": {
+                "profiles": [
+                    {
+                        "name": "DefaultAutoscaleProfile",
+                        "capacity": {
+                            "minimum": "[parameters('autoScaleMinimumNumberOfInstances')]",
+                            "maximum": "[parameters('autoScaleMaximumNumberOfInstances')]",
+                            "default": "[parameters('servicePlanSkuCount')]"
+                        },
+                        "rules": [
+                            {
+                                "metricTrigger": {
+                                    "metricName": "CpuPercentage",
+                                    "metricNamespace": "",
+                                    "MetricResourceUri": "[variables('resourceIds').servicePlanId]",
+                                    "timeGrain": "PT5M",
+                                    "statistic": "Average",
+                                    "timeWindow": "PT10M",
+                                    "timeAggregation": "Average",
+                                    "operator": "GreaterThan",
+                                    "threshold": "[parameters('scaleUpThreshold')]"
+                                },
+                                "scaleAction": {
+                                    "direction": "Increase",
+                                    "type": "ChangeCount",
+                                    "value": "1",
+                                    "cooldown": "PT5M"
+                                }
+                            },
+                            {
+                                "metricTrigger": {
+                                    "metricName": "CpuPercentage",
+                                    "metricNamespace": "",
+                                    "MetricResourceUri": "[variables('resourceIds').servicePlanId]",
+                                    "timeGrain": "PT5M",
+                                    "statistic": "Average",
+                                    "timeWindow": "PT10M",
+                                    "timeAggregation": "Average",
+                                    "operator": "LessThan",
+                                    "threshold": "[parameters('scaleDownThreshold')]"
+                                },
+                                "scaleAction": {
+                                    "direction": "Decrease",
+                                    "type": "ChangeCount",
+                                    "value": "1",
+                                    "cooldown": "PT5M"
+                                }
+                            }
+                        ]
+                    }
+                ],
+                "enabled": true,
+                "targetResourceUri": "[variables('resourceIds').servicePlanId]",
+                "notifications": [
+                    {
+                        "operation": "Scale",
+                        "webhooks": [
+                            {
+                                "serviceUri": "[parameters('alertWebHookUrl')]",
+                                "properties": {
+                                }
+                            }
+                        ]
+                    }
+                ]
+            }
         },
         {
             "apiVersion": "2019-01-01",
