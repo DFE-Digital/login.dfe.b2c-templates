@@ -91,13 +91,6 @@
         "secondaryStorageLocation": {
             "type": "string"
         },
-        "actionGroupReceiverEmailAddress": {
-            "type": "string",
-                "defaultValue": "azuremonitor@internet.com",
-                "metadata": {
-                    "description": "An email address that receives alert emails."
-                }
-        },
         "alertsEnabled": {
             "type": "bool",
             "defaultValue": true,
@@ -394,7 +387,7 @@
                 "emailReceivers": [
                     {
                         "name": "Email",
-                        "emailAddress": "[parameters('actionGroupReceiverEmailAddress')]",
+                        "emailAddress": "[parameters('publisherEmail')]",
                         "useCommonAlertSchema": true
                     }
                 ]
