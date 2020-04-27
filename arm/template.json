@@ -1,0 +1,425 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "applicationName": {
+            "type": "string"
+        },
+        "environmentName": {
+            "type": "string"
+        },
+        "publisherEmail": {
+            "type": "string"
+        },
+        "publisherName": {
+            "type": "string"
+        },
+        "apimSku": {
+            "type": "string"
+        },
+        "apimSkuCount": {
+            "type": "string"
+        },
+        "servicePlanSkuName": {
+            "type": "string"
+        },
+        "servicePlanSkuTier": {
+            "type": "string"
+        },
+        "servicePlanSkuCount": {
+            "type": "string"
+        },
+        "tags": {
+            "type": "object"
+        },
+        "secondaryStorageLocation": {
+            "type": "string"
+        },
+        "actionGroupReceiverEmailAddress": {
+            "type": "string"
+        },
+        "alertsEnabled": {
+            "type": "bool"
+        },
+        "alertRequestsRuleCriteriaThreshold": {
+            "type": "string"
+        },
+        "alertAppConnectionsRuleCriteriaThreshold": {
+            "type": "string"
+        },
+        "alertAverageResponseTimeRuleCriteriaThreshold": {
+            "type": "string"
+        },
+        "alertMemoryWorkingSetRuleCriteriaThreshold": {
+            "type": "string"
+        }
+    },
+    "variables": {
+        "baseName": "[concat(parameters('applicationName'), '-', parameters('environmentName'))]",
+        "resourceNames": {
+            "applicationInsightsName": "[concat(variables('baseName'), '-ai')]",
+            "apiManagementName": "[concat(variables('baseName'), '-apim')]",
+            "defaultStorageAccountName": "[replace(variables('baseName'), '-', 'default')]",
+            "secondaryStorageAccountName": "[replace(variables('baseName'), '-', 'storage')]",
+            "servicePlanName": "[concat(variables('baseName'), '-function-asp')]",
+            "functionName": "[concat(variables('baseName'), '-function')]",
+            "actionGroupName": "[concat(variables('baseName'),'-action-group')]",
+            "actionGroupShortName": "[concat(parameters('environmentName'),'-ag')]"
+        },
+        "resourceIds": {
+            "apimId": "[resourceId('Microsoft.ApiManagement/service', variables('resourceNames').apiManagementName)]",
+            "appInsightsId": "[resourceId('Microsoft.Insights/components/', variables('resourceNames').applicationInsightsName)]",
+            "defaultStorageAccountId": "[resourceId('Microsoft.Storage/storageAccounts', variables('resourceNames').defaultStorageAccountName)]",
+            "secondaryStorageAccountId": "[resourceId('Microsoft.Storage/storageAccounts', variables('resourceNames').secondaryStorageAccountName)]",
+            "servicePlanId": "[resourceId('Microsoft.Web/serverfarms', variables('resourceNames').servicePlanName)]",
+            "functionId": "[resourceId('Microsoft.Web/sites', variables('resourceNames').functionName )]",
+            "actionGroupResourceId": "[resourceId('microsoft.insights/actionGroups', variables('resourceNames').actionGroupName)]",
+            "storageAccountDefaultBlobContainerId": "[resourceId('Microsoft.Storage/storageAccounts/blobServices', variables('resourceNames').defaultStorageAccountName, 'default')]"
+        },
+        "alertRules": [
+            {
+                "name": "[concat('Requests - ', variables('resourceNames').functionName)]",
+                "description": "[concat('Raises an alert whenever the average number of requests is greater than ', parameters('alertRequestsRuleCriteriaThreshold') ,' per minute over a 5 minute period')]",
+                "evaluationFrequency": "PT1M",
+                "windowSize": "PT5M",
+                "severity": 3,
+                "scopeResourceId": "[variables('resourceIds').functionId]",
+                "tagDisplayName": "Requests",
+                "criteriaName": "Requests",
+                "criteriaMetricName": "Requests",
+                "criteriaOperator": "GreaterThan",
+                "criteriaTimeAggregation": "Average",
+                "criteriaMetricNamespace": "Microsoft.Web/sites",
+                "criteriaThreshold": "[parameters('alertRequestsRuleCriteriaThreshold')]"
+            },
+            {
+                "name": "[concat('Connections - ', variables('resourceNames').functionName)]",
+                "description": "[concat('Raises an alert whenever the total number of connections is greater than ', parameters('alertAppConnectionsRuleCriteriaThreshold') ,' per minute period')]",
+                "evaluationFrequency": "PT1M",
+                "windowSize": "PT1M",
+                "severity": 3,
+                "scopeResourceId": "[variables('resourceIds').functionId]",
+                "tagDisplayName": "AppConnections",
+                "criteriaName": "AppConnections",
+                "criteriaMetricName": "AppConnections",
+                "criteriaOperator": "GreaterThan",
+                "criteriaTimeAggregation": "Total",
+                "criteriaMetricNamespace": "Microsoft.Web/sites",
+                "criteriaThreshold": "[parameters('alertAppConnectionsRuleCriteriaThreshold')]"
+            },
+            {
+                "name": "[concat('Average Response Time - ', variables('resourceNames').functionName)]",
+                "description": "[concat('Raises an alert whenever the average response time is greater than ', parameters('alertAverageResponseTimeRuleCriteriaThreshold') ,' seconds per minute over a 5 minute period')]",
+                "evaluationFrequency": "PT1M",
+                "windowSize": "PT5M",
+                "severity": 3,
+                "scopeResourceId": "[variables('resourceIds').functionId]",
+                "tagDisplayName": "AverageResponseTime",
+                "criteriaName": "AverageResponseTime",
+                "criteriaMetricName": "AverageResponseTime",
+                "criteriaOperator": "GreaterThan",
+                "criteriaTimeAggregation": "Average",
+                "criteriaMetricNamespace": "Microsoft.Web/sites",
+                "criteriaThreshold": "[parameters('alertAverageResponseTimeRuleCriteriaThreshold')]"
+            },
+            {
+                "name": "[concat('Memory Working Set - ', variables('resourceNames').functionName)]",
+                "description": "[concat('Raises an alert whenever the average memory working set is greater than ', parameters('alertMemoryWorkingSetRuleCriteriaThreshold') ,' bytes per minute over a 5 minute period')]",
+                "evaluationFrequency": "PT1M",
+                "windowSize": "PT5M",
+                "severity": 3,
+                "scopeResourceId": "[variables('resourceIds').functionId]",
+                "tagDisplayName": "MemoryWorkingSet",
+                "criteriaName": "MemoryWorkingSet",
+                "criteriaMetricName": "MemoryWorkingSet",
+                "criteriaOperator": "GreaterThan",
+                "criteriaTimeAggregation": "Average",
+                "criteriaMetricNamespace": "Microsoft.Web/sites",
+                "criteriaThreshold": "[parameters('alertMemoryWorkingSetRuleCriteriaThreshold')]"
+            }
+        ]
+    },
+    "resources": [
+        {
+            "apiVersion": "2019-06-01",
+            "kind": "StorageV2",
+            "name": "[variables('resourceNames').defaultStorageAccountName]",
+            "type": "Microsoft.Storage/storageAccounts",
+            "sku": {
+                "name": "Standard_LRS",
+                "tier": "Standard"
+            },
+            "location": "[resourceGroup().location]",
+            "tags": "[parameters('tags')]",
+            "properties": {
+                "networkAcls": {
+                    "bypass": "AzureServices",
+                    "virtualNetworkRules": [
+                    ],
+                    "ipRules": [
+                    ],
+                    "defaultAction": "Allow"
+                },
+                "supportsHttpsTrafficOnly": true,
+                "encryption": {
+                    "services": {
+                        "file": {
+                            "enabled": true
+                        },
+                        "blob": {
+                            "enabled": true
+                        }
+                    },
+                    "keySource": "Microsoft.Storage"
+                },
+                "accessTier": "Hot"
+            }
+        },
+        {
+            "apiVersion": "2019-06-01",
+            "kind": "StorageV2",
+            "name": "[variables('resourceNames').secondaryStorageAccountName]",
+            "type": "Microsoft.Storage/storageAccounts",
+            "sku": {
+                "name": "Standard_RAGRS",
+                "tier": "Standard"
+            },
+            "location": "[resourceGroup().location]",
+            "tags": "[parameters('tags')]",
+            "properties": {
+                "networkAcls": {
+                    "bypass": "AzureServices",
+                    "virtualNetworkRules": [
+                    ],
+                    "ipRules": [
+                    ],
+                    "defaultAction": "Allow"
+                },
+                "supportsHttpsTrafficOnly": true,
+                "encryption": {
+                    "services": {
+                        "file": {
+                            "enabled": true
+                        },
+                        "blob": {
+                            "enabled": true
+                        }
+                    },
+                    "keySource": "Microsoft.Storage"
+                },
+                "accessTier": "Hot",
+                "primaryLocation": "[resourceGroup().location]",
+                "secondaryLcation": "[parameters('secondaryStorageLocation')]"
+            }
+        },
+        {
+            "type": "Microsoft.Storage/storageAccounts/blobServices",
+            "apiVersion": "2019-06-01",
+            "name": "[concat(variables('resourceNames').secondaryStorageAccountName, concat('ui-files-', parameters('environmentName')))]",
+            "dependsOn": [
+                "[variables('resourceIds').secondaryStorageAccountId]"
+            ],
+            "tags": "[parameters('tags')]",
+            "sku": {
+                "name": "Standard_RAGRS"
+            },
+            "properties": {
+                "cors": {
+                    "corsRules": [
+                    ]
+                },
+                "deleteRetentionPolicy": {
+                    "enabled": false
+                }
+            }
+        },
+        {
+            "name": "[variables('resourceNames').applicationInsightsName]",
+            "apiVersion": "2015-05-01",
+            "tags": "[parameters('tags')]",
+            "type": "microsoft.insights/components",
+            "location": "[resourceGroup().location]",
+            "kind": "web",
+            "properties": {
+                "Ver": "v2",
+                "ApplicationId": "[variables('resourceNames').applicationInsightsName]"
+            },
+            "dependsOn": [
+                "[variables('resourceIds').defaultStorageAccountId]"
+            ]
+        },
+        {
+            "type": "Microsoft.Insights/actionGroups",
+            "name": "[variables('resourceNames')]",
+            "apiVersion": "2019-06-01",
+            "location": "Global",
+            "tags": "[parameters('tags')]",
+            "dependsOn": [
+                "[variables('resourceIds').functionId]"
+            ],
+            "scale": null,
+            "properties": {
+                "groupShortName": "[variables('resourceNames').actionGroupShortName]",
+                "enabled": "[parameters('alertsEnabled')]",
+                "emailReceivers": [
+                    {
+                        "name": "Email",
+                        "emailAddress": "[parameters('actionGroupReceiverEmailAddress')]",
+                        "useCommonAlertSchema": true
+                    }
+                ]
+            }
+        },
+        {
+            "type": "Microsoft.Insights/metricAlerts",
+            "name": "[variables('alertRules')[copyIndex()].name]",
+            "apiVersion": "2018-03-01",
+            "location": "global",
+            "copy": {
+                "name": "rulescopy",
+                "count": "[length(variables('alertRules'))]"
+            },
+            "tags": "[parameters('tags')]",
+            "scale": null,
+            "properties": {
+                "description": "[variables('alertRules')[copyIndex()].description]",
+                "severity": "[variables('alertRules')[copyIndex()].severity]",
+                "enabled": "[parameters('alertsEnabled')]",
+                "scopes": [
+                    "[variables('alertRules')[copyIndex()].scopeResourceId]"
+                ],
+                "evaluationFrequency": "[variables('alertRules')[copyIndex()].evaluationFrequency]",
+                "windowSize": "[variables('alertRules')[copyIndex()].windowSize]",
+                "templateType": 8,
+                "criteria": {
+                    "allOf": [
+                        {
+                            "threshold": "[variables('alertRules')[copyIndex()].criteriaThreshold]",
+                            "name": "[variables('alertRules')[copyIndex()].criteriaName]",
+                            "metricNamespace": "[variables('alertRules')[copyIndex()].criteriaMetricNamespace]",
+                            "metricName": "[variables('alertRules')[copyIndex()].criteriaMetricName]",
+                            "dimensions": [
+                            ],
+                            "operator": "[variables('alertRules')[copyIndex()].criteriaOperator]",
+                            "timeAggregation": "[variables('alertRules')[copyIndex()].criteriaTimeAggregation]",
+                            "monitorTemplateType": 8
+                        }
+                    ],
+                    "odata.type": "Microsoft.Azure.Monitor.SingleResourceMultipleMetricCriteria"
+                },
+                "autoMitigate": true,
+                "targetResourceType": "[variables('alertRules')[copyIndex()].criteriaMetricNamespace]",
+                "actions": [
+                    {
+                        "actionGroupId": "[variables('resourceIds').actionGroupResourceId]",
+                        "webHookProperties": {
+                        }
+                    }
+                ]
+            },
+            "dependsOn": [
+                "[variables('resourceIds').functionId]",
+                "[variables('resourceIds').actionGroupResourceId]",
+                "[variables('alertRules')[copyIndex()].scopeResourceId]"
+            ]
+        },
+        {
+            "apiVersion": "2019-01-01",
+            "name": "[variables('resourceNames').apiManagementName]",
+            "type": "Microsoft.ApiManagement/service",
+            "tags": "[parameters('tags')]",
+            "sku": {
+                "name": "[parameters('apimSku')]",
+                "capacity": "[parameters('apimSkuCount')]"
+            },
+            "location": "[resourceGroup().location]",
+            "properties": {
+                "publisherEmail": "[parameters('publisherEmail')]",
+                "publisherName": "[parameters('publisherName')]",
+                "notificationSenderEmail": "noreply@mail.windowsazure.com"
+            },
+            "identity": {
+                "type": "SystemAssigned"
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/loggers",
+            "apiVersion": "2019-01-01",
+            "name": "[concat(variables('resourceNames').apiManagementName, '/', variables('resourceNames').applicationInsightsName)]",
+            "dependsOn": [
+                "[variables('resourceIds').apimId]",
+                "[variables('resourceIds').appInsightsId]"
+            ],
+            "tags": "[parameters('tags')]",
+            "properties": {
+                "loggerType": "applicationInsights",
+                "credentials": {
+                    "instrumentationKey": "[reference(variables('resourceIds').appInsightsId, '2015-05-01').InstrumentationKey]"
+                },
+                "isBuffered": true
+            }
+        },
+        {
+            "type": "Microsoft.Web/serverfarms",
+            "location": "[resourceGroup().location]",
+            "sku": {
+                "name": "[parameters('servicePlanSkuName')]",
+                "tier": "[parameters('servicePlanSkuTier')]",
+                "capacity": "[parameters('servicePlanSkuCount')]"
+            },
+            "apiVersion": "2018-11-01",
+            "name": "[variables('resourceNames').servicePlanName]",
+            "properties": {
+                "name": "[variables('resourceNames').servicePlanName]"
+            }
+        },
+        {
+            "name": "[variables('resourceNames').functionName]",
+            "type": "Microsoft.Web/sites",
+            "kind": "functionapp",
+            "apiVersion": "2019-08-01",
+            "location": "[resourceGroup().location]",
+            "identity": {
+                "type": "SystemAssigned"
+            },
+            "properties": {
+                "httpsOnly": true,
+                "siteConfig": {
+                    "alwaysOn": true,
+                    "appSettings": [
+                        {
+                            "name": "APPINSIGHTS_INSTRUMENTATIONKEY",
+                            "value": "[reference(variables('resourceIds').appInsightsId, '2015-05-01').InstrumentationKey]"
+                        },
+                        {
+                            "name": "APPLICATIONINSIGHTS_CONNECTION_STRING",
+                            "value": "[concat('InstrumentationKey=', reference(variables('resourceIds').appInsightsId, '2015-05-01').InstrumentationKey)]"
+                        },
+                        {
+                            "name": "AzureWebJobsStorage",
+                            "value": "[concat('DefaultEndpointsProtocol=https;AccountName=', variables('resourceNames').defaultStorageAccountName, ';AccountKey=', listKeys(variables('resourceIds').defaultStorageAccountId, '2015-05-01-preview').key1)]"
+                        },
+                        {
+                            "name": "FUNCTIONS_EXTENSION_VERSION",
+                            "value": "~3"
+                        },
+                        {
+                            "name": "FUNCTIONS_WORKER_RUNTIME",
+                            "value": "dotnet"
+                        }
+                    ]
+                },
+                "name": "[variables('resourceNames').functionName]",
+                "serverFarmId": "[variables('resourceIds').servicePlanId]",
+                "clientAffinityEnabled": true
+            },
+            "dependsOn": [
+                "[variables('resourceIds').defaultStorageAccountId]",
+                "[variables('resourceIds').servicePlanId]",
+                "[variables('resourceIds').appInsightsId]"
+            ]
+        }
+    ],
+    "outputs": {
+    }
+}

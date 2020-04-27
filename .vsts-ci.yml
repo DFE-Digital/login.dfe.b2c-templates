@@ -1,0 +1,46 @@
+trigger:
+  branches:
+    include:
+    - master
+    exclude:
+    - develop/*
+
+stages:
+- stage: preReqs
+  jobs:
+  - job: buildNumber
+    steps:
+      - checkout: none
+      - download: none
+      - pwsh: |
+          Write-Host $Env:BUILD_BUILDNUMBER
+
+          $versions = $Env:BUILD_BUILDNUMBER.Split('.')
+
+          $MAJOR = $versions[0]
+          $MINOR = $versions[1]
+          $PATCH = $versions[2].Split('-')[0]
+          $FULLVERSIONNAME = "$MAJOR.$MINOR.$PATCH"
+          $FRIENDLYVERSIONNAME = "$MAJOR-$MINOR-$PATCH"
+
+          Write-Host "fullVersionName : $FULLVERSIONNAME"
+          Write-Host "##vso[task.setvariable variable=fullVersionName;isOutput=true]$FULLVERSIONNAME"
+
+          Write-Host "friendlyVersionName : $FRIENDLYVERSIONNAME"
+          Write-Host "##vso[task.setvariable variable=friendlyVersionName;isOutput=true]$FRIENDLYVERSIONNAME"
+
+          Write-Host "Major: $MAJOR"
+          Write-Host "##vso[task.setvariable variable=major;isOutput=true]$MAJOR";
+
+          Write-Host "Minor: $MINOR"
+          Write-Host "##vso[task.setvariable variable=minor;isOutput=true]$MINOR";
+
+          Write-Host "Patch: $PATCH"
+          Write-Host "##vso[task.setvariable variable=patch;isOutput=true]$PATCH";
+        displayName: Set Stage Variables  
+        name: StageVariables  
+        env:
+          ${{ if ne( parameters.buildNumber, '') }}:
+            BUILD_BUILDNUMBER: ${{ parameters.buildNumber }}
+        
+      
