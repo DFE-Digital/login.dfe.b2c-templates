@@ -11,6 +11,17 @@
             "type": "string",
             "defaultValue": "dev"
         },
+        "deployApim": {
+            "type": "bool",
+            "defaultValue": false,
+            "allowedValues": [
+                true,
+                false
+            ],
+            "metadata": {
+                "description": "Deploy Apim Layer6edd5a57-4efa-4c5e-93c4-a26a13591694"
+            }
+        },
         "publisherEmail": {
             "type": "string",
             "minLength": 1,
@@ -542,6 +553,7 @@
             }
         },
         {
+            "condition": "[parameters('deployApim')]",
             "apiVersion": "2019-01-01",
             "name": "[variables('resourceNames').apiManagementName]",
             "type": "Microsoft.ApiManagement/service",
@@ -561,6 +573,7 @@
             }
         },
         {
+            "condition": "[parameters('deployApim')]",
             "type": "Microsoft.ApiManagement/service/loggers",
             "apiVersion": "2019-01-01",
             "name": "[concat(variables('resourceNames').apiManagementName, '/', variables('resourceNames').applicationInsightsName)]",
