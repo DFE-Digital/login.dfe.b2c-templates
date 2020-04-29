@@ -85,7 +85,10 @@
             }
         },
         "tags": {
-            "type": "object"
+            "type": "object",
+            "defaultValue": {
+                "Organisation": "DfE"
+            }
         },
         "secondaryStorageLocation": {
             "type": "string"
