@@ -7,13 +7,15 @@ trigger:
 
 variables:
   armOutputsName: b2cOutputs
+  applicationName: ncsauth
+  environmentName: dev
 
 stages:
 - stage: buildAndDeploy
   jobs:
   - job: armDeploy
     pool:
-      vmImage: windows-latest
+      vmImage: ubuntu-latest
     steps:
       - checkout: self
       - download: none
@@ -27,7 +29,7 @@ stages:
           location: $(deploymentLocation)
           csmFile: '$(Build.SourcesDirectory)/arm/template.json'
           overrideParameters: '-applicationName "ncsauth"
-            -environmentName "dev"
+            -environmentName "$(environmentName)"
             -publisherEmail "test@test.com"
             -publisherName "deploymentTest"
             -apimSku "Developer"
@@ -40,15 +42,12 @@ stages:
           deploymentMode: 'Incremental'  
           deploymentOutputs: $(armOutputsName) 
           
-      - task: ARMTemplateOutputs@0
-        inputs:
-          ARMOutputs: $(armOutputsName) 
-
       - task: AzureAppServiceManage@0
+        displayName: Install Site Extensions
         inputs:
           azureSubscription: $(serviceConnection)
           Action: 'Install Extensions'
-          WebAppName: 'ncsauth-dev-function'
+          WebAppName: $(applicationName)-$(environmentName)-function
           ExtensionsList: 'Microsoft.VisualStudio.SnapshotDebugger.AzureAppServices.Standalone'
                   
       
