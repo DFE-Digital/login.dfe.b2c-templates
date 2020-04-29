@@ -340,7 +340,7 @@
         {
             "type": "Microsoft.Storage/storageAccounts/blobServices",
             "apiVersion": "2019-06-01",
-            "name": "[concat(variables('resourceNames').secondaryStorageAccountName, concat('/ui-files-', parameters('environmentName')))]",
+            "name": "[concat(variables('resourceNames').secondaryStorageAccountName, '/default')]",
             "dependsOn": [
                 "[variables('resourceIds').secondaryStorageAccountId]"
             ],
@@ -356,6 +356,23 @@
                 "deleteRetentionPolicy": {
                     "enabled": false
                 }
+            }
+        },
+        {
+            "type": "Microsoft.Storage/storageAccounts/blobServices/containers",
+            "apiVersion": "2019-06-01",
+            "name": "[concat(variables('resourceNames').secondaryStorageAccountName, concat('/default/ui-files-', parameters('environmentName')))]",
+            "dependsOn": [
+                "[variables('resourceIds').secondaryStorageAccountId]",
+                "[variables('resourceIds').storageAccountDefaultBlobContainerId]"
+
+            ],
+            "tags": "[parameters('tags')]",
+            "sku": {
+                "name": "Standard_RAGRS"
+            },
+            "properties": {
+                "publicAccess": "None"
             }
         },
         {
