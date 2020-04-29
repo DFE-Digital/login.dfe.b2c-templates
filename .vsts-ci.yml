@@ -5,6 +5,9 @@ trigger:
     exclude:
     - develop/*
 
+variables:
+  armOutputsName: b2cOutputs
+
 stages:
 - stage: buildAndDeploy
   jobs:
@@ -32,5 +35,18 @@ stages:
             -servicePlanSkuCount "1"
             -secondaryStorageLocation "northeurope"
             -alertWebHookUrl "http://www.test.com"'
-          deploymentMode: 'Incremental'              
+          deploymentMode: 'Incremental'  
+          deploymentOutputs: $(armOutputsName) 
+          
+      - task: ARMTemplateOutputs@0
+        inputs:
+          ARMOutputs: $(armOutputsName) 
+          
+      - task: AzureAppServiceManage@0
+        inputs:
+          azureSubscription: $(serviceConnection)
+          Action: 'Install Extensions'
+          WebAppName: 'ncsauth-dev-function'
+          ExtensionsList: 'Microsoft.VisualStudio.SnapshotDebugger.AzureAppServices.Standalone'
+                  
       
