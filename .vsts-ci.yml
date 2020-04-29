@@ -27,9 +27,9 @@ stages:
             -publisherName "deploymentTest"
             -apimSku "Developer"
             -apimSkuCount "1"
-            -servicePlanSkuName "F1"
-            -servicePlanSkuTier "Free"
-            -servicePlanSkuCount "0"
+            -servicePlanSkuName "B1"
+            -servicePlanSkuTier "Basic"
+            -servicePlanSkuCount "1"
             -secondaryStorageLocation "northeurope"
             -alertWebHookUrl "http://www.test.com"'
           deploymentMode: 'Incremental'              
