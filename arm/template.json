@@ -388,14 +388,15 @@
         },
         {
             "name": "[variables('resourceNames').applicationInsightsName]",
-            "apiVersion": "2015-05-01",
+            "apiVersion": "2018-05-01-preview",
             "tags": "[parameters('tags')]",
             "type": "microsoft.insights/components",
             "location": "[resourceGroup().location]",
             "kind": "web",
             "properties": {
                 "Ver": "v2",
-                "ApplicationId": "[variables('resourceNames').applicationInsightsName]"
+                "ApplicationId": "[variables('resourceNames').applicationInsightsName]",
+                "Request_Source": "IbizaWebAppExtensionCreate"
             },
             "dependsOn": [
                 "[variables('resourceIds').defaultStorageAccountId]"
@@ -625,6 +626,10 @@
                         {
                             "name": "APPLICATIONINSIGHTS_CONNECTION_STRING",
                             "value": "[concat('InstrumentationKey=', reference(variables('resourceIds').appInsightsId, '2015-05-01').InstrumentationKey)]"
+                        },
+                        {
+                            "name": "ApplicationInsightsAgent_EXTENSION_VERSION",
+                            "value": "~2"
                         },
                         {
                             "name": "AzureWebJobsStorage",
