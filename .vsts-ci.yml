@@ -1,4 +1,4 @@
-trigger:
+  trigger:
   branches:
     include:
     - master
@@ -12,6 +12,8 @@ stages:
 - stage: buildAndDeploy
   jobs:
   - job: armDeploy
+    pool:
+      vmImage: windows-latest
     steps:
       - checkout: self
       - download: none
@@ -41,7 +43,7 @@ stages:
       - task: ARMTemplateOutputs@0
         inputs:
           ARMOutputs: $(armOutputsName) 
-          
+
       - task: AzureAppServiceManage@0
         inputs:
           azureSubscription: $(serviceConnection)
