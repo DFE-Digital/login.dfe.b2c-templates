@@ -210,7 +210,7 @@
             "servicePlanId": "[resourceId('Microsoft.Web/serverfarms', variables('resourceNames').servicePlanName)]",
             "functionId": "[resourceId('Microsoft.Web/sites', variables('resourceNames').functionName )]",
             "actionGroupId": "[resourceId('microsoft.insights/actionGroups', variables('resourceNames').actionGroupName)]",
-            "storageAccountDefaultBlobContainerId": "[resourceId('Microsoft.Storage/storageAccounts/blobServices', variables('resourceNames').defaultStorageAccountName, 'default')]"
+            "storageAccountDefaultBlobContainerId": "[resourceId('Microsoft.Storage/storageAccounts/blobServices', variables('resourceNames').secondaryStorageAccountName, 'default')]"
         },
         "alertRules": [
             {
