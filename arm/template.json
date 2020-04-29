@@ -340,7 +340,7 @@
         {
             "type": "Microsoft.Storage/storageAccounts/blobServices",
             "apiVersion": "2019-06-01",
-            "name": "[concat(variables('resourceNames').secondaryStorageAccountName, concat('ui-files-', parameters('environmentName')))]",
+            "name": "[concat(variables('resourceNames').secondaryStorageAccountName, concat('/ui-files-', parameters('environmentName')))]",
             "dependsOn": [
                 "[variables('resourceIds').secondaryStorageAccountId]"
             ],
