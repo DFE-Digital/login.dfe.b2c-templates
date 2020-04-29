@@ -31,7 +31,6 @@ stages:
             -servicePlanSkuTier "Free"
             -servicePlanSkuCount "0"
             -secondaryStorageLocation "northeurope"
-            -actionGroupRecieverEmailAddress "test@test.com"      
             -alertWebHookUrl "http://www.test.com"'
           deploymentMode: 'Incremental'              
       
