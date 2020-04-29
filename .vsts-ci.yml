@@ -21,8 +21,7 @@ stages:
           resourceGroupName: $(resourceGroupName)
           location: $(deploymentLocation)
           csmFile: '$(Build.SourcesDirectory)/arm/template.json'
-          overrideParameters: |
-            '-applicationName "ncsauth"
+          overrideParameters: '-applicationName "ncsauth"
             -environmentName "dev"
             -publisherEmail "test@test.com"
             -publisherName "deploymentTest"
@@ -33,6 +32,6 @@ stages:
             -servicePlanSkuCount "0"
             -secondaryStorageLocation "northeurope"
             -actionGroupRecieverEmailAddress "test@test.com"      
-            -alertWebHookUrl "http://www.test.com"''
+            -alertWebHookUrl "http://www.test.com"'
           deploymentMode: 'Incremental'              
       
