@@ -624,6 +624,14 @@
                             "value": "[reference(variables('resourceIds').appInsightsId, '2015-05-01').InstrumentationKey]"
                         },
                         {
+                            "name": "APPINSIGHTS_PROFILERFEATURE_VERSION",
+                            "value": "disabled"
+                        },
+                        {
+                            "name": "APPINSIGHTS_SNAPSHOTFEATURE_VERSION",
+                            "value": "1.0.0"
+                        },
+                        {
                             "name": "APPLICATIONINSIGHTS_CONNECTION_STRING",
                             "value": "[concat('InstrumentationKey=', reference(variables('resourceIds').appInsightsId, '2015-05-01').InstrumentationKey)]"
                         },
@@ -636,12 +644,32 @@
                             "value": "[concat('DefaultEndpointsProtocol=https;AccountName=', variables('resourceNames').defaultStorageAccountName, ';AccountKey=', listKeys(variables('resourceIds').defaultStorageAccountId, '2015-05-01-preview').key1)]"
                         },
                         {
+                            "name": "DiagnosticServices_EXTENSION_VERSION",
+                            "value": "~3"
+                        },
+                        {
                             "name": "FUNCTIONS_EXTENSION_VERSION",
                             "value": "~3"
                         },
                         {
                             "name": "FUNCTIONS_WORKER_RUNTIME",
                             "value": "dotnet"
+                        },
+                        {
+                            "name": "InstrumentationEngine_EXTENSION_VERSION",
+                            "value": "disabled"
+                        },
+                        {
+                            "name": "SnapshotDebugger_EXTENSION_VERSION",
+                            "value": "disabled"
+                        },
+                        {
+                            "name": "XDT_MicrosoftApplicationInsights_BaseExtensions",
+                            "value": "disabled"
+                        },
+                        {
+                            "name": "XDT_MicrosoftApplicationInsights_Mode",
+                            "value": "recommended"
                         }
                     ]
                 },
