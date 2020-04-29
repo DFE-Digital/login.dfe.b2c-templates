@@ -657,5 +657,9 @@
         }
     ],
     "outputs": {
+        "functionName": {
+            "type": "string",
+            "value": "[variables('resourceNames').functionName]"
+        }
     }
 }
