@@ -19,9 +19,10 @@ variables:
 
 stages:
 - stage: armDeployDev
-  displayName: Deploy to Dev
+  displayName: Deployment
   jobs:
   - deployment: deployDev
+    displayName: Dev deployment
     environment: dev
     strategy:
       runOnce:
