@@ -18,7 +18,8 @@ variables:
   applicationName: ncsauth
 
 stages:
-- stage: buildAndDeploy
+- stage: armDeployDev
+  displayName: Deploy to Dev
   jobs:
   - deployment: deployDev
     environment: dev
