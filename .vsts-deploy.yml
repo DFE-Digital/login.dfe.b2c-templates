@@ -9,13 +9,15 @@ parameters:
   type: string
 - name: overrideParameters
   type: string
+- name: resourceGroupName
+  type: string
 
 steps:
 - template: /Infrastructure/steps/deploy-template.yml@devopsTemplates
   parameters:
     serviceConnection: ${{parameters.serviceConnection}}
     subscriptionId: $(subscriptionId)
-    resourceGroupName: ${{parameters.applicationName}}-${{parameters.environmentName}}
+    resourceGroupName: ${{parameters.resourceGroupName}}
     location: ${{parameters.location}}
     templateFilePath: '$(Build.SourcesDirectory)/arm/template.json'
     armParameterOverrideString: ${{parameters.overrideParameters}}
