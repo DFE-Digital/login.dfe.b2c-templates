@@ -2,8 +2,8 @@ resources:
   repositories:
     - repository: devopsTemplates
       type: git
-      endpoint: DfE-Digital
-      name: operations-devops-pipeline-templates
+      endpoint: DfE Digital
+      name: DFE-Digital/operations-devops-pipeline-templates
 
 trigger:
   branches:
