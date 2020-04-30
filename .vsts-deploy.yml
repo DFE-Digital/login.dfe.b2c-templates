@@ -1,6 +1,8 @@
 parameters:
 - name: serviceConnection
   type: string
+- name: subscriptionId
+  type: string
 - name: applicationName
   type: string
 - name: environmentName
@@ -16,7 +18,7 @@ steps:
 - template: /Infrastructure/steps/deploy-template.yml@devopsTemplates
   parameters:
     serviceConnection: ${{parameters.serviceConnection}}
-    subscriptionId: $(subscriptionId)
+    subscriptionId: ${{parameters.subscriptionId}}
     resourceGroupName: ${{parameters.resourceGroupName}}
     location: ${{parameters.location}}
     templateFilePath: '$(Build.SourcesDirectory)/arm/template.json'

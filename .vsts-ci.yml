@@ -29,6 +29,7 @@ stages:
           - template: .vsts-deploy.yml
             parameters:
               serviceConnection: $(serviceConnection)
+              subscriptionId: $(subscriptionId)
               resourceGroupName: $(resourceGroupName)
               applicationName: $(applicationName)
               environmentName: dev
