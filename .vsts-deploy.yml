@@ -15,7 +15,6 @@ steps:
   parameters:
     serviceConnection: ${{parameters.serviceConnection}}
     subscriptionId: $(subscriptionId)
-    environmentName: ${{parameters.environmentName}}
     resourceGroupName: ${{parameters.applicationName}}-${{parameters.environmentName}}
     location: ${{parameters.location}}
     templateFilePath: '$(Build.SourcesDirectory)/arm/template.json'
