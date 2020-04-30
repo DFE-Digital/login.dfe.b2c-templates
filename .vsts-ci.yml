@@ -1,7 +1,7 @@
 resources:
   repositories:
     - repository: devopsTemplates
-      type: github
+      type: git
       endpoint: DfE Digital
       name: DFE-Digital/operations-devops-pipeline-templates
 
