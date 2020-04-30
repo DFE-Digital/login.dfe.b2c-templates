@@ -13,6 +13,7 @@ trigger:
     exclude:
     - develop/*
 
+
 variables:
   armOutputsName: b2cOutputs
   applicationName: ncsauth
