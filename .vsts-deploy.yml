@@ -1,0 +1,29 @@
+parameters:
+- name: serviceConnection
+  type: string
+- name: applicationName
+  type: string
+- name: environmentName
+  type: string
+- name: location
+  type: string
+- name: overrideParameters
+  type: string
+
+steps:
+- template: /Infrastructure/steps/deploy-template.yml@devopsTemplates
+  parameters:
+    serviceConnection: ${{parameters.serviceConnection}}
+    subscriptionId: $(subscriptionId)
+    environmentName: ${{parameters.environmentName}}
+    resourceGroupName: ${{parameters.applicationName}}-${{parameters.environmentName}}
+    location: ${{parameters.location}}
+    templateFilePath: '$(Build.SourcesDirectory)/arm/template.json'
+    armParameterOverrideString: ${{parameters.overrideParameters}}
+- task: AzureAppServiceManage@0
+  displayName: Install Site Extensions
+  inputs:
+    azureSubscription: $(serviceConnection)
+    Action: 'Install Extensions'
+    WebAppName: $(applicationName)-$(environmentName)-function
+    ExtensionsList: 'Microsoft.VisualStudio.SnapshotDebugger.AzureAppServices.Standalone'

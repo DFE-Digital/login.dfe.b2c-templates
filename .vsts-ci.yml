@@ -9,52 +9,37 @@ trigger:
   branches:
     include:
     - master
+    - feature/*
     exclude:
     - develop/*
 
 variables:
   armOutputsName: b2cOutputs
   applicationName: ncsauth
-  environmentName: dev
 
 stages:
 - stage: buildAndDeploy
   jobs:
-  - job: armDeploy
-    pool:
-      vmImage: ubuntu-latest
-    steps:
-      - checkout: self
-      - download: none
-      - task: AzureResourceManagerTemplateDeployment@3
-        displayName: Create Infrastructure
-        inputs:
-          deploymentScope: 'Resource Group'
-          azureResourceManagerConnection: $(serviceConnection)
-          subscriptionId: $(subscriptionId)
-          resourceGroupName: $(resourceGroupName)
-          location: $(deploymentLocation)
-          csmFile: '$(Build.SourcesDirectory)/arm/template.json'
-          overrideParameters: '-applicationName "ncsauth"
-            -environmentName "$(environmentName)"
-            -publisherEmail "test@test.com"
-            -publisherName "deploymentTest"
-            -apimSku "Developer"
-            -apimSkuCount "1"
-            -servicePlanSkuName "B1"
-            -servicePlanSkuTier "Basic"
-            -servicePlanSkuCount "1"
-            -secondaryStorageLocation "northeurope"
-            -alertWebHookUrl "http://www.test.com"'
-          deploymentMode: 'Incremental'  
-          deploymentOutputs: $(armOutputsName) 
-          
-      - task: AzureAppServiceManage@0
-        displayName: Install Site Extensions
-        inputs:
-          azureSubscription: $(serviceConnection)
-          Action: 'Install Extensions'
-          WebAppName: $(applicationName)-$(environmentName)-function
-          ExtensionsList: 'Microsoft.VisualStudio.SnapshotDebugger.AzureAppServices.Standalone'
-                  
-      
+  - deployment: deployDev
+    environment: dev
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - template: .vsts-deploy.yml
+            parameters:
+              serviceConnection: $(serviceConnection)
+              applicationName: $(applicationName)
+              environmentName: dev
+              location: $(deploymentLocation)
+              overrideParameters: '-applicationName "ncsauth"
+                -environmentName "dev"
+                -publisherEmail "test@test.com"
+                -publisherName "deploymentTest"
+                -apimSku "Developer"
+                -apimSkuCount "1"
+                -servicePlanSkuName "B1"
+                -servicePlanSkuTier "Basic"
+                -servicePlanSkuCount "1"
+                -secondaryStorageLocation "northeurope"
+                -alertWebHookUrl "http://www.test.com"'
