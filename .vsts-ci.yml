@@ -2,7 +2,7 @@ resources:
   repositories:
     - repository: devopsTemplates
       type: git
-      endpoint: DfE Digital
+      endpoint: DfE-Digital
       name: DFE-Digital/operations-devops-pipeline-templates
 
 trigger:
