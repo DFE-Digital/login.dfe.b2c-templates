@@ -3,7 +3,7 @@ resources:
     - repository: devopsTemplates
       type: github
       endpoint: DfE Signin
-      name: DFE-Digital/operations-devops-pipeline-templates
+      name: DFE-Digital/operations-devops-pipeline-templates`
 
 trigger:
   branches:
