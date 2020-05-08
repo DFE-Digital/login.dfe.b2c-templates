@@ -30,7 +30,7 @@ steps:
     Action: 'Install Extensions'
     WebAppName: ${{parameters.applicationName}}-${{parameters.environmentName}}-function
     ExtensionsList: 'Microsoft.VisualStudio.SnapshotDebugger.AzureAppServices.Standalone'
-- template: /Application/dotnet/steps/deploy-function.yml@templates
+- template: /Application/dotnet/steps/deploy-function.yml@devopsTemplates
   parameters:
     azureSubscription: ${{parameters.serviceConnection}}
     applicationName: ${{parameters.applicationName}}
