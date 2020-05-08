@@ -19,6 +19,13 @@ variables:
   applicationName: ncsauth
 
 stages:
+- stage: build
+  jobs:
+  - template: /Application/dotnet/jobs/build-application.yml@templates
+    parameters:
+      applicationName: $(applicationName)
+      webPublish: false
+
 - stage: armDeployDev
   displayName: Deployment
   jobs:
