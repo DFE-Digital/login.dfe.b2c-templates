@@ -32,6 +32,6 @@ steps:
     ExtensionsList: 'Microsoft.VisualStudio.SnapshotDebugger.AzureAppServices.Standalone'
 - template: /Application/dotnet/steps/deploy-function.yml@templates
   parameters:
-    azureSubscription: ${{parameters.azureSubscription}}
+    azureSubscription: ${{parameters.serviceConnection}}
     applicationName: ${{parameters.applicationName}}
     environmentName: ${{parameters.environmentName}}
