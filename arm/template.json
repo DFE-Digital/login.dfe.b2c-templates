@@ -824,6 +824,10 @@
         "functionName": {
             "type": "string",
             "value": "[variables('resourceNames').functionName]"
+        },
+        "applicationInsightsInstrumentationKey": {
+            "type": "string",
+            "value": "[reference(variables('resourceIds').appInsightsId, '2015-05-01').InstrumentationKey]"
         }
     }
 }
