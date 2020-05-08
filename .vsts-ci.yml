@@ -15,7 +15,7 @@ trigger:
 
 
 variables:
-s  applicationName: ncsauth
+  applicationName: ncsauth
 
 stages:
 - stage: Build
