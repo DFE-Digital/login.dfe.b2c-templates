@@ -1,0 +1,29 @@
+{
+    "Logging": {
+      "LogLevel": {
+        "Default": "Warning"
+      }
+    },
+    "AllowedHosts": "*",
+    "AppSettings": {
+      "B2CTenant": "",
+      "B2CSignUpPolicy": "",
+      "B2CSignupConirmPolicy": "",
+      "B2CPasswordResetConirmPolicy": "",
+      "B2CClientId": "",
+      "B2CRedirectUri": "",
+      "B2CAuthorizationUrl": "",
+      "ClientSigningKey": "",
+      "AccountActivationEmailExpiryInSeconds": 300,
+      "SMTPServer": "",
+      "SMTPPort": 587,
+      "SMTPUsername": "",
+      "SMTPPassword": "",
+      "SMTPUseSSL": true,
+      "SMTPFromAddress": "",
+      "SMTPSubject": "",
+      "SignupEmailSubject": "",
+      "SignupConfirmationEmailSubject": "",
+      "PasswordResetConfirmationEmailSubject": ""
+    }
+  }
