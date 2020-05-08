@@ -21,7 +21,7 @@ variables:
 stages:
 - stage: build
   jobs:
-  - template: /Application/dotnet/jobs/build-application.yml@templates
+  - template: /Application/dotnet/jobs/build-application.yml@devopsTemplates
     parameters:
       applicationName: $(applicationName)
       webPublish: false
