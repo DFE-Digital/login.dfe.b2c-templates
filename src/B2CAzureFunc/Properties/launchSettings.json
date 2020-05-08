@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "B2CAzureFunc": {
+      "commandName": "Project",
+      "nativeDebugging": true
+    }
+  }
+}
