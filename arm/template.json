@@ -187,6 +187,66 @@
             "metadata": {
                 "description": "Web hook for Autoscaling Alerts"
             }
+        },
+        "B2CTenant": {
+            "type": "string"
+        },
+        "B2CSignUpPolicy": {
+            "type": "string"
+        },
+        "B2CSignupConfirmPolicy": {
+            "type": "string"
+        },
+        "B2CPasswordResetConfirmPolicy": {
+            "type": "string"
+        },
+        "B2CClientId": {
+            "type": "string"
+        },
+        "B2CRedirectUri": {
+            "type": "string"
+        },
+        "B2CAuthorizationUrl": {
+            "type": "string"
+        },
+        "ClientSigningKey": {
+            "type": "string"
+        },
+        "AccountActivationEmailExpiryInSeconds": {
+            "type": "int",
+            "defaultValue": 300
+        },
+        "SMTPServer": {
+            "type": "string"
+        },
+        "SMTPPort": {
+            "type": "int",
+            "defaultValue": 587
+        },
+        "SMTPUsername": {
+            "type": "string"
+        },
+        "SMTPPassword": {
+            "type": "string"
+        },
+        "SMTPUseSSL": {
+            "type": "bool",
+            "defaultValue": true
+        },
+        "SMTPFromAddress": {
+            "type": "string"
+        },
+        "SMTPSubject": {
+            "type": "string"
+        },
+        "SignupEmailSubject": {
+            "type": "string"
+        },
+        "SignupConfirmationEmailSubject": {
+            "type": "string"
+        },
+        "PasswordResetConfirmationEmailSubject": {
+            "type": "string"
         }
     },
     "variables": {
@@ -670,6 +730,82 @@
                         {
                             "name": "XDT_MicrosoftApplicationInsights_Mode",
                             "value": "recommended"
+                        },
+                        {
+                            "name": "B2CTenant",
+                            "value": "[parameters('B2CTenant')]"
+                        },
+                        {
+                            "name": "B2CSignUpPolicy",
+                            "value": "[parameters('B2CSignUpPolicy')]"
+                        },
+                        {
+                            "name": "B2CSignupConfirmPolicy",
+                            "value": "[parameters('B2CSignupConfirmPolicy')]"
+                        },
+                        {
+                            "name": "B2CPasswordResetConfirmPolicy",
+                            "value": "[parameters('B2CPasswordResetConfirmPolicy')]"
+                        },
+                        {
+                            "name": "B2CClientId",
+                            "value": "[parameters('B2CClientId')]"
+                        },
+                        {
+                            "name": "B2CRedirectUri",
+                            "value": "[parameters('B2CRedirectUri')]"
+                        },
+                        {
+                            "name": "B2CAuthorizationUrl",
+                            "value": "[parameters('B2CAuthorizationUrl')]"
+                        },
+                        {
+                            "name": "ClientSigningKey",
+                            "value": "[parameters('ClientSigningKey')]"
+                        },
+                        {
+                            "name": "AccountActivationEmailExpiryInSeconds",
+                            "value": "[parameters('AccountActivationEmailExpiryInSeconds')]"
+                        },
+                        {
+                            "name": "SMTPServer",
+                            "value": "[parameters('SMTPServer')]"
+                        },
+                        {
+                            "name": "SMTPPort",
+                            "value": "[parameters('SMTPPort')]"
+                        },
+                        {
+                            "name": "SMTPUsername",
+                            "value": "[parameters('SMTPUsername')]"
+                        },
+                        {
+                            "name": "SMTPPassword",
+                            "value": "[parameters('SMTPPassword')]"
+                        },
+                        {
+                            "name": "SMTPUseSSL",
+                            "value": "[parameters('SMTPUseSSL')]"
+                        },
+                        {
+                            "name": "SMTPFromAddress",
+                            "value": "[parameters('SMTPFromAddress')]"
+                        },
+                        {
+                            "name": "SMTPSubject",
+                            "value": "[parameters('SMTPSubject')]"
+                        },
+                        {
+                            "name": "SignupEmailSubject",
+                            "value": "[parameters('SignupEmailSubject')]"
+                        },
+                        {
+                            "name": "SignupConfirmationEmailSubject",
+                            "value": "[parameters('SignupConfirmationEmailSubject')]"
+                        },
+                        {
+                            "name": "PasswordResetConfirmationEmailSubject",
+                            "value": "[parameters('PasswordResetConfirmationEmailSubject')]"
                         }
                     ]
                 },
