@@ -7,9 +7,8 @@ namespace Providers.Email
 {
     public class EmailService
     {
-        public static bool SendEmial(EmailModel model)
+        public static bool SendEmail(EmailModel model)
         {
-           
                 MailMessage mailMessage = new MailMessage();
                 mailMessage.To.Add(model.To);
                 mailMessage.From = new MailAddress(Environment.GetEnvironmentVariable("SMTPFromAddress", EnvironmentVariableTarget.Process));

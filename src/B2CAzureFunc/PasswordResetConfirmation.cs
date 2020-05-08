@@ -51,7 +51,7 @@ namespace B2CAzureFunc
                     To = data.email.ToString()
                 };
 
-                var result = EmailService.SendEmial(model);
+                var result = EmailService.SendEmail(model);
                 return result
                     ? (ActionResult)new OkObjectResult(true)
                     : new BadRequestObjectResult(new

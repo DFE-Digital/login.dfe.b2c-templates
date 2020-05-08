@@ -19,7 +19,7 @@ variables:
   applicationName: ncsauth
 
 stages:
-- stage: build
+- stage: Build
   jobs:
   - template: /Application/dotnet/jobs/build-application.yml@devopsTemplates
     parameters:
