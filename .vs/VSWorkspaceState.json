@@ -1,9 +1,7 @@
 {
   "ExpandedNodes": [
     "",
-    "\\Policies",
-    "\\Source",
-    "\\src"
+    "\\src\\Providers.Email"
   ],
   "PreviewInSolutionExplorer": false
 }
