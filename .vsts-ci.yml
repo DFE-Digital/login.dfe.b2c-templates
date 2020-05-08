@@ -59,7 +59,7 @@ stages:
                 -SMTPServer ""
                 -SMTPUsername ""
                 -SMTPPassword ""
-                -SMTPUseSSL ""
+                -SMTPUseSSL true
                 -SMTPFromAddress ""
                 -SMTPSubject ""
                 -SignupEmailSubject ""
