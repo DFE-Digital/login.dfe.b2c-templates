@@ -15,8 +15,7 @@ trigger:
 
 
 variables:
-  armOutputsName: b2cOutputs
-  applicationName: ncsauth
+s  applicationName: ncsauth
 
 stages:
 - stage: Build
@@ -26,49 +25,42 @@ stages:
       applicationName: $(applicationName)
       webPublish: false
 
-- stage: armDeployDev
-  displayName: Deployment
+- stage: Deploy
   jobs:
-  - deployment: deployDev
-    displayName: Dev deployment
-    environment: dev
-    strategy:
-      runOnce:
-        deploy:
-          steps:
-          - template: .vsts-deploy.yml
-            parameters:
-              serviceConnection: $(serviceConnection)
-              subscriptionId: $(subscriptionId)
-              resourceGroupName: $(resourceGroupName)
-              applicationName: $(applicationName)
-              environmentName: dev
-              location: $(deploymentLocation)
-              overrideParameters: '-applicationName "ncsauth"
-                -environmentName "dev"
-                -publisherEmail "test@test.com"
-                -publisherName "deploymentTest"
-                -apimSku "Developer"
-                -apimSkuCount "1"
-                -servicePlanSkuName "B1"
-                -servicePlanSkuTier "Basic"
-                -servicePlanSkuCount "1"
-                -secondaryStorageLocation "northeurope"
-                -alertWebHookUrl "http://www.test.com"
-                -B2CTenant ""
-                -B2CSignUpPolicy ""
-                -B2CSignupConfirmPolicy ""
-                -B2CPasswordResetConfirmPolicy ""
-                -B2CClientId ""
-                -B2CRedirectUri ""
-                -B2CAuthorizationUrl ""
-                -ClientSigningKey ""
-                -SMTPServer ""
-                -SMTPUsername ""
-                -SMTPPassword ""
-                -SMTPUseSSL true
-                -SMTPFromAddress ""
-                -SMTPSubject ""
-                -SignupEmailSubject ""
-                -SignupConfirmationEmailSubject ""
-                -PasswordResetConfirmationEmailSubject ""'
+  - template: /Application/dotnet/jobs/deploy-function.yml@devopsTemplates
+    parameters:
+      applicationName: $(applicationName)
+      environmentName: dev
+      serviceConnection: $(serviceConnection)
+      subscriptionId: $(subscriptionId)
+      resourceGroupName: $(resourceGroupName)
+      location: $(deploymentLocation)
+      templatePath: '$(Build.SourcesDirectory)/arm/template.json'
+      overrideParameters: '-applicationName "ncsauth"
+        -environmentName "dev"
+        -publisherEmail "test@test.com"
+        -publisherName "deploymentTest"
+        -apimSku "Developer"
+        -apimSkuCount "1"
+        -servicePlanSkuName "B1"
+        -servicePlanSkuTier "Basic"
+        -servicePlanSkuCount "1"
+        -secondaryStorageLocation "northeurope"
+        -alertWebHookUrl "http://www.test.com"
+        -B2CTenant ""
+        -B2CSignUpPolicy ""
+        -B2CSignupConfirmPolicy ""
+        -B2CPasswordResetConfirmPolicy ""
+        -B2CClientId ""
+        -B2CRedirectUri ""
+        -B2CAuthorizationUrl ""
+        -ClientSigningKey ""
+        -SMTPServer ""
+        -SMTPUsername ""
+        -SMTPPassword ""
+        -SMTPUseSSL true
+        -SMTPFromAddress ""
+        -SMTPSubject ""
+        -SignupEmailSubject ""
+        -SignupConfirmationEmailSubject ""
+        -PasswordResetConfirmationEmailSubject ""'
