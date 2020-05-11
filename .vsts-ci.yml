@@ -63,3 +63,15 @@ stages:
         -SignupEmailSubject ""
         -SignupConfirmationEmailSubject ""
         -PasswordResetConfirmationEmailSubject ""'
+  - task: EapimManageProductRelease@1
+    inputs:
+      azureSubscription: 'S141D.bsvc.cip.azdo'
+      AddOrRemoveProduct: 'Add'
+      ProductName: 'NCS Identity'
+      RequiresSubscription: true
+      RequiresApproval: true
+      isPublished: false
+      APICapability: 'Customer Engagement'
+      APIEnvironment: 'Development'
+
+  
