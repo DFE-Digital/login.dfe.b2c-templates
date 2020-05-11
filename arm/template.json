@@ -333,7 +333,8 @@
                 "criteriaMetricNamespace": "Microsoft.Web/sites",
                 "criteriaThreshold": "[parameters('alertMemoryWorkingSetRuleCriteriaThreshold')]"
             }
-        ]
+        ],
+        "azureApiVersion": "[providers('Microsoft.Web', 'sites').apiVersions[0]]"
     },
     "resources": [
         {
@@ -831,7 +832,7 @@
         },
         "functionHostKey":{
             "type":"string",
-            "value":"[reference(variables('resourceNames').functionName).outputs.HostKey.value]"
+            "value":"[listSecrets(variables('resourceIds').functionId, variables('azureApiVersion').key)]"
         },
         "applicationInsightsInstrumentationKey": {
             "type": "string",
