@@ -66,10 +66,10 @@ stages:
         -SignupConfirmationEmailSubject ""
         -PasswordResetConfirmationEmailSubject ""'
       eapimRegister: false
-      eapimServiceConnection: 
-      eapimProductName: 
-      eapimProductContactEmail:
-      eapimApiPublishedName:
-      eapimApiOpenApiSchemaPath:
+      eapimServiceConnection: $(eapimServiceConnection)
+      eapimProductName: 'NCS Identity'
+      eapimProductContactEmail: paul.sheridan@digital.education.gov.uk
+      eapimApiPublishedName: 'NCS Identity'
+      eapimApiOpenApiSchemaPath: 
       eapimApiPublishedPath:
       eapimApiXmlPolicyPath:
