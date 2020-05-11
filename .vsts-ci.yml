@@ -15,6 +15,8 @@ trigger:
 
 variables:
   applicationName: ncsauth
+  environmentName: dev
+  eapimProductName: 'NCS Identity'
 
 stages:
 - stage: Build
@@ -29,7 +31,7 @@ stages:
   - template: /Application/dotnet/jobs/deploy-function.yml@devopsTemplates
     parameters:
       applicationName: $(applicationName)
-      environmentName: dev
+      environmentName: $(environmentName)
       serviceConnection: $(serviceConnection)
       subscriptionId: $(devSubscriptionId)
       resourceGroupName: $(projectId)d01-$(applicationName)
@@ -63,20 +65,11 @@ stages:
         -SignupEmailSubject ""
         -SignupConfirmationEmailSubject ""
         -PasswordResetConfirmationEmailSubject ""'
-        
-- stage: PostDeploy
-  jobs:
-  - job: postDeployDev
-    pool:
-      vmImage: windows-latest
-    steps:
-    - task: EapimManageProductRelease@1
-      inputs:
-        azureSubscription: $(serviceConnection)
-        AddOrRemoveProduct: 'Add'
-        ProductName: 'NCS Identity'
-        RequiresSubscription: true
-        RequiresApproval: true
-        isPublished: false
-        APICapability: 'Customer Engagement'
-        APIEnvironment: 'Development'
+      eapimRegister: false
+      eapimServiceConnection: 
+      eapimProductName: 
+      eapimProductContactEmail:
+      eapimApiPublishedName:
+      eapimApiOpenApiSchemaPath:
+      eapimApiPublishedPath:
+      eapimApiXmlPolicyPath:

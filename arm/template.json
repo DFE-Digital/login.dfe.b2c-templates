@@ -825,6 +825,10 @@
             "type": "string",
             "value": "[variables('resourceNames').functionName]"
         },
+        "functionHostKey":{
+            "type":"string",
+            "value":"[reference(variables('resourceNames').functionName).outputs.HostKey.value]"
+        },
         "applicationInsightsInstrumentationKey": {
             "type": "string",
             "value": "[reference(variables('resourceIds').appInsightsId, '2015-05-01').InstrumentationKey]"
