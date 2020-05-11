@@ -72,7 +72,7 @@ stages:
     steps:
     - task: EapimManageProductRelease@1
       inputs:
-        azureSubscription: $(serviceConneciton)
+        azureSubscription: $(serviceConnection)
         AddOrRemoveProduct: 'Add'
         ProductName: 'NCS Identity'
         RequiresSubscription: true
