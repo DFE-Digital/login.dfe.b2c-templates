@@ -68,7 +68,7 @@ stages:
   jobs:
   - job: postDeployDev
     pool:
-      vmImage: ubuntu-latest
+      vmImage: windows-latest
     steps:
     - task: EapimManageProductRelease@1
       inputs:
