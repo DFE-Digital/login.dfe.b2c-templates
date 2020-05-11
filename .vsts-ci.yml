@@ -63,3 +63,21 @@ stages:
         -SignupEmailSubject ""
         -SignupConfirmationEmailSubject ""
         -PasswordResetConfirmationEmailSubject ""'
+
+- stage: PostDeploy
+  jobs:
+  - job: postDeployDev
+    dependsOn: Deploy
+    pool:
+      vmImage: ubuntu-latest
+    steps:
+    - task: EapimManageProductRelease@1
+      inputs:
+        azureSubscription: $(serviceConneciton)
+        AddOrRemoveProduct: 'Add'
+        ProductName: 'NCS Identity'
+        RequiresSubscription: true
+        RequiresApproval: true
+        isPublished: false
+        APICapability: 'Customer Engagement'
+        APIEnvironment: 'Development'
