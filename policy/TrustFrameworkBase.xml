@@ -379,7 +379,6 @@
 
     <ContentDefinitions>
 
-      <!-- This content definition is to render an error page that displays unhandled errors. -->
       <ContentDefinition Id="api.error">
         <LoadUri>~/tenant/templates/AzureBlue/exception.cshtml</LoadUri>
         <RecoveryUri>~/common/default_page_error.html</RecoveryUri>
@@ -413,7 +412,7 @@
         <LoadUri>https://s141d01-signin-int.azurewebsites.net/b2c/login</LoadUri>
         <RecoveryUri>~/common/default_page_error.html</RecoveryUri>
         <!-- <DataUri>urn:com:microsoft:aad:b2c:elements:contract:unifiedssd:1.2.0</DataUri> -->
-        <DataUri>urn:com:microsoft:aad:b2c:elements:unifiedssp:1.0.0</DataUri>
+        <DataUri>urn:com:microsoft:aad:b2c:elements:contract:unifiedssp:1.2.0</DataUri>
         <Metadata>
           <Item Key="DisplayName">Signin and Signup</Item>
         </Metadata>
@@ -431,6 +430,24 @@
         </Metadata>
       </ContentDefinition>
 
+      <ContentDefinition Id="api.signup.emailsent">
+        <LoadUri>https://s141d01-signin-int.azurewebsites.net/b2c/emailsent</LoadUri>
+        <RecoveryUri>~/common/default_page_error.html</RecoveryUri>
+        <DataUri>urn:com:microsoft:aad:b2c:elements:contract:selfasserted:1.2.0</DataUri>
+        <Metadata>
+          <Item Key="DisplayName">Collect information from user page</Item>
+        </Metadata>
+      </ContentDefinition>
+
+      <ContentDefinition Id="api.activated.account">
+        <LoadUri>https://s141d01-signin-int.azurewebsites.net/b2c/activated</LoadUri>
+        <RecoveryUri>~/common/default_page_error.html</RecoveryUri>
+        <DataUri>urn:com:microsoft:aad:b2c:elements:contract:selfasserted:1.2.0</DataUri>
+        <Metadata>
+          <Item Key="DisplayName">Collect information from user page</Item>
+        </Metadata>
+      </ContentDefinition>
+
       <ContentDefinition Id="api.selfasserted.profileupdate">
         <LoadUri>~/tenant/templates/AzureBlue/selfAsserted.cshtml</LoadUri>
         <RecoveryUri>~/common/default_page_error.html</RecoveryUri>
@@ -441,7 +458,7 @@
       </ContentDefinition>
 
       <ContentDefinition Id="api.localaccountsignup">
-        <LoadUri>~/tenant/templates/AzureBlue/selfAsserted.cshtml</LoadUri>
+        <LoadUri>https://s141d01-signin-int.azurewebsites.net/b2c/signup</LoadUri>
         <RecoveryUri>~/common/default_page_error.html</RecoveryUri>
         <DataUri>urn:com:microsoft:aad:b2c:elements:contract:selfasserted:1.2.0</DataUri>
         <Metadata>
