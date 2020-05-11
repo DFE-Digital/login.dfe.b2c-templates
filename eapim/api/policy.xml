@@ -1,0 +1,21 @@
+<policies>
+  <inbound>
+    <cache-lookup vary-by-developer="false" vary-by-developer-groups="false">
+      <vary-by-header>Accept</vary-by-header>
+      <vary-by-header>Accept-Charset</vary-by-header>
+      <vary-by-header>Authorization</vary-by-header>
+    </cache-lookup>
+    <authentication-certificate thumbprint="{{AuthenticationThumbprint}}"/>
+    <base />
+  </inbound>
+  <backend>
+    <base />
+  </backend>
+  <outbound>
+    <cache-store caching-mode="cache-on" duration="20" />
+    <base />
+  </outbound>
+  <on-error>
+    <base />
+  </on-error>
+</policies>
