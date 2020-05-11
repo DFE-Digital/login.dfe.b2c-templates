@@ -8,7 +8,7 @@ resources:
 trigger:
   branches:
     include:
-    - master
+    - mastersigni
     exclude:
     - develop/*
 
@@ -67,7 +67,6 @@ stages:
 - stage: PostDeploy
   jobs:
   - job: postDeployDev
-    dependsOn: Deploy
     pool:
       vmImage: ubuntu-latest
     steps:
