@@ -831,7 +831,7 @@
         },
         "functionHostKey":{
             "type":"string",
-            "value":"[listSecrets(variables('resourceIds').functionId, '2019-08-01').key]"
+            "value":"[listsecrets(resourceId('Microsoft.Web/sites/functions', variables('resourceNames').functionName, 'default'),'2015-08-01').key]"
         },
         "applicationInsightsInstrumentationKey": {
             "type": "string",
