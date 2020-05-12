@@ -189,7 +189,7 @@
             }
         },
         "NCSApimSubscriptionKey": {
-            "type": "string"
+            "type": "securestring"
         },
         "B2CTenant": {
             "type": "string"
