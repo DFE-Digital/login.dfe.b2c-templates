@@ -22,4 +22,3 @@ C:\Repos\Github\DFE-Digital\login.dfe.b2c-templates\src\Providers.Email\obj\Debu
 C:\Repos\Github\DFE-Digital\login.dfe.b2c-templates\src\Providers.Email\obj\Debug\netstandard2.0\Providers.Email.AssemblyInfo.cs
 C:\Repos\Github\DFE-Digital\login.dfe.b2c-templates\src\Providers.Email\obj\Debug\netstandard2.0\Providers.Email.dll
 C:\Repos\Github\DFE-Digital\login.dfe.b2c-templates\src\Providers.Email\obj\Debug\netstandard2.0\Providers.Email.pdb
-C:\Repos\Github\DFE-Digital\login.dfe.b2c-templates\src\Providers.Email\obj\Debug\netstandard2.0\Providers.Email.csprojAssemblyReference.cache

@@ -179,19 +179,21 @@
   },
   "packageFolders": {
     "C:\\Users\\pault\\.nuget\\packages\\": {},
-    "C:\\Microsoft\\Xamarin\\NuGet\\": {}
+    "C:\\Microsoft\\Xamarin\\NuGet\\": {},
+    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Repos\\Github\\DFE-Digital\\login.dfe.b2c-templates\\src\\Providers.Email\\Providers.Email.csproj",
+      "projectUniqueName": "C:\\Repos\\GitHub\\DFE-Digital\\login.dfe.b2c-templates\\src\\Providers.Email\\Providers.Email.csproj",
       "projectName": "Providers.Email",
-      "projectPath": "C:\\Repos\\Github\\DFE-Digital\\login.dfe.b2c-templates\\src\\Providers.Email\\Providers.Email.csproj",
+      "projectPath": "C:\\Repos\\GitHub\\DFE-Digital\\login.dfe.b2c-templates\\src\\Providers.Email\\Providers.Email.csproj",
       "packagesPath": "C:\\Users\\pault\\.nuget\\packages\\",
-      "outputPath": "C:\\Repos\\Github\\DFE-Digital\\login.dfe.b2c-templates\\src\\Providers.Email\\obj\\",
+      "outputPath": "C:\\Repos\\GitHub\\DFE-Digital\\login.dfe.b2c-templates\\src\\Providers.Email\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
-        "C:\\Microsoft\\Xamarin\\NuGet\\"
+        "C:\\Microsoft\\Xamarin\\NuGet\\",
+        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
       ],
       "configFilePaths": [
         "C:\\Users\\pault\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -204,6 +206,7 @@
       "sources": {
         "C:\\Local NuGet Packages": {},
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "https://api.nuget.org/v3/index.json": {},
         "https://pkgs.dev.azure.com/phobos-team/_packaging/phobos-team/nuget/v3/index.json": {}
       },
       "frameworks": {

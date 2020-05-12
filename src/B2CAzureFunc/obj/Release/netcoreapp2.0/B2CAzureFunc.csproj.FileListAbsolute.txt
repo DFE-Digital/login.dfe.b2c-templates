@@ -1,5 +1,4 @@
 C:\Repos\Github\DFE-Digital\login.dfe.b2c-templates\src\B2CAzureFunc\obj\Release\netcoreapp2.0\B2CAzureFunc.csprojAssemblyReference.cache
-C:\Repos\Github\DFE-Digital\login.dfe.b2c-templates\src\B2CAzureFunc\obj\Release\netcoreapp2.0\B2CAzureFunc.csproj.CoreCompileInputs.cache
 C:\Repos\Github\DFE-Digital\login.dfe.b2c-templates\src\B2CAzureFunc\obj\Release\netcoreapp2.0\B2CAzureFunc.AssemblyInfoInputs.cache
 C:\Repos\Github\DFE-Digital\login.dfe.b2c-templates\src\B2CAzureFunc\obj\Release\netcoreapp2.0\B2CAzureFunc.AssemblyInfo.cs
 C:\Repos\Github\DFE-Digital\login.dfe.b2c-templates\src\B2CAzureFunc\bin\Release\netcoreapp2.0\host.json

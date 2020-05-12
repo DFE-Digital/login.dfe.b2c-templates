@@ -1,11 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "3zrWGXkEVJ4W9jliUmTnxq4bhBkyfp6gyF6mhpV+qzc1RqBN1rB5cDKkcz2TqVE8ItN00yDo1I7p/RhtbKVxjA==",
+  "dgSpecHash": "ZemT5WZfKHnjKN9WRbdE/i3ydGuXnGbaAzdESLdV2gx3mmoqdqbHHCMtB3f4/7SOlPycKRI4mSaibRHpWMcjkQ==",
   "success": true,
-  "projectFilePath": "C:\\Repos\\Github\\DFE-Digital\\login.dfe.b2c-templates\\src\\Providers.Email\\Providers.Email.csproj",
+  "projectFilePath": "C:\\Repos\\GitHub\\DFE-Digital\\login.dfe.b2c-templates\\src\\Providers.Email\\Providers.Email.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\pault\\.nuget\\packages\\microsoft.netcore.platforms\\1.1.0\\microsoft.netcore.platforms.1.1.0.nupkg.sha512",
-    "C:\\Users\\pault\\.nuget\\packages\\netstandard.library\\2.0.3\\netstandard.library.2.0.3.nupkg.sha512"
+    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder\\microsoft.netcore.platforms\\1.1.0\\microsoft.netcore.platforms.1.1.0.nupkg.sha512",
+    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder\\netstandard.library\\2.0.3\\netstandard.library.2.0.3.nupkg.sha512"
   ],
   "logs": []
 }

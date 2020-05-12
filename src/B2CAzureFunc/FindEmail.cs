@@ -12,8 +12,18 @@ using System.Net.Http;
 
 namespace B2CAzureFunc
 {
+    /// <summary>
+    ///     FindEmail
+    /// </summary>
     public static class FindEmail
     {
+        /// <summary>
+        ///     FindEmail
+        /// </summary>
+        /// <verb>POST</verb>
+        /// <param name="req"></param>
+        /// <param name="log"></param>
+        /// <returns></returns>
         [FunctionName("FindEmail")]
         public static async Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] HttpRequest req,
@@ -28,7 +38,7 @@ namespace B2CAzureFunc
                 FindEmailModel data = JsonConvert.DeserializeObject<FindEmailModel>(requestBody);
                 log.LogInformation(requestBody);
 
-                if (!String.IsNullOrEmpty(data.GivenName) && !String.IsNullOrEmpty(data.SurName) &&
+                if (!String.IsNullOrEmpty(data.GivenName) && !String.IsNullOrEmpty(data.Surname) &&
                     !String.IsNullOrEmpty(data.Day) && !String.IsNullOrEmpty(data.Month) && !String.IsNullOrEmpty(data.Year)
                     && !String.IsNullOrEmpty(data.PostalCode))
                 {
@@ -38,7 +48,7 @@ namespace B2CAzureFunc
                         var dob = String.Format("{0}-{1}-{2}", data.Year, data.Month, data.Day);
                         var searchApiUrl = Environment.GetEnvironmentVariable("ncs-dss-search-api-url", EnvironmentVariableTarget.Process);
                         var url = String.Format("{0}?&search=GivenName:{1} FamilyName:{2} PostCode={3}&filter=DateOfBirth eq {4}",
-                             searchApiUrl, data.GivenName, data.SurName, data.PostalCode, dob);
+                             searchApiUrl, data.GivenName, data.Surname, data.PostalCode, dob);
                         using (var request = new HttpRequestMessage(new HttpMethod("GET"), url))
                         {
                             request.Headers.TryAddWithoutValidation("api-key", Environment.GetEnvironmentVariable("ncs-dss-api-key", EnvironmentVariableTarget.Process));
