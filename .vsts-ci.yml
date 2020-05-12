@@ -2,19 +2,21 @@ resources:
   repositories:
     - repository: devopsTemplates
       type: github
-      endpoint: DfE Signin
+      endpoint: DfE-Digital
       name: DFE-Digital/operations-devops-pipeline-templates
 
 trigger:
   branches:
     include:
-    - master
+    - mastersigni
     exclude:
     - develop/*
 
 
 variables:
   applicationName: ncsauth
+  environmentName: dev
+  eapimProductName: 'NCS Identity'
 
 stages:
 - stage: Build
@@ -29,13 +31,13 @@ stages:
   - template: /Application/dotnet/jobs/deploy-function.yml@devopsTemplates
     parameters:
       applicationName: $(applicationName)
-      environmentName: dev
+      environmentName: $(environmentName)
       serviceConnection: $(serviceConnection)
-      subscriptionId: $(subscriptionId)
-      resourceGroupName: $(resourceGroupName)
-      location: $(deploymentLocation)
+      subscriptionId: $(devSubscriptionId)
+      resourceGroupName: $(projectId)d01-$(applicationName)
+      location: $(deploymentPrimaryLocation)
       templatePath: '$(Build.SourcesDirectory)/arm/template.json'
-      overrideParameters: '-applicationName "ncsauth"
+      overrideParameters: '-applicationName "$(applicationName)"
         -environmentName "dev"
         -publisherEmail "test@test.com"
         -publisherName "deploymentTest"
@@ -44,7 +46,7 @@ stages:
         -servicePlanSkuName "B1"
         -servicePlanSkuTier "Basic"
         -servicePlanSkuCount "1"
-        -secondaryStorageLocation "northeurope"
+        -secondaryStorageLocation "$(deploymentSecondaryLocation)"
         -alertWebHookUrl "http://www.test.com"
         -B2CTenant "B2Cdemotenant"
         -B2CSignUpPolicy "B2C_1A_signup_invitation"
@@ -57,21 +59,24 @@ stages:
         -SMTPServer "smtp.sendgrid.net"
         -SMTPPort "587"
         -SMTPUseSSL true
+        -SMTPFromAddress ""
+        -SMTPSubject ""
+        -SignupEmailSubject ""
+        -SignupConfirmationEmailSubject ""
+        -PasswordResetConfirmationEmailSubject ""
         -SMTPFromAddress "aman.gupta@digital.education.gov.uk"
         -SMTPSubject "Sign-in to NCS"
         -SignupEmailSubject "Create your account"
         -SignupConfirmationEmailSubject "Verify your account"
         -PasswordResetConfirmationEmailSubject "Verify your account"
         -AccountActivationEmailExpiryInSeconds "86400"
-        -ncs-dss-search-api-url "https://at.api.nationalcareersservice.org.uk/search/api/"
-        -ncs-dss-search-api-version "v2"'
-  - task: EapimManageProductRelease@1
-    inputs:
-      azureSubscription: 'S141D.bsvc.cip.azdo'
-      AddOrRemoveProduct: 'Add'
-      ProductName: 'NCS Identity'
-      RequiresSubscription: true
-      RequiresApproval: true
-      isPublished: false
-      APICapability: 'Customer Engagement'
-      APIEnvironment: 'Development'
+        -NCSDSSSearchApiUrl "https://at.api.nationalcareersservice.org.uk/search/api/"
+        -NCSDSSSearchApiVersion "v2"'
+      eapimRegister: true
+      eapimServiceConnection: $(eapimServiceConnection)
+      eapimProductName: 'NCS Identity'
+      eapimProductContactEmail: paul.sheridan@digital.education.gov.uk
+      eapimApiPublishedName: 'NCS Identity'
+      eapimApiOpenApiSchemaPath: '$(Build.SourcesDirectory)/eapim/api/schema.json'
+      eapimApiPublishedPath: ncsauth
+      eapimApiXmlPolicyPath: '$(Build.SourcesDirectory)/eapim/api/policy.xml'

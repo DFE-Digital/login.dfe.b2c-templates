@@ -824,6 +824,18 @@
         "functionName": {
             "type": "string",
             "value": "[variables('resourceNames').functionName]"
+        },
+        "functionUrl": {
+            "type": "string",
+            "value": "[concat('https://', variables('resourceNames').functionName, '.azurewebsites.net')]"
+        },
+        "functionHostKey":{
+            "type":"string",
+            "value":"[listkeys(concat(variables('resourceIds').functionId, '/host/default/'),'2016-08-01').masterKey]"
+        },
+        "applicationInsightsInstrumentationKey": {
+            "type": "string",
+            "value": "[reference(variables('resourceIds').appInsightsId, '2015-05-01').InstrumentationKey]"
         }
     }
 }
