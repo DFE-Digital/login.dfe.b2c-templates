@@ -8,7 +8,7 @@ resources:
 trigger:
   branches:
     include:
-    - mastersigni
+    - master
     exclude:
     - develop/*
 
@@ -48,7 +48,6 @@ stages:
         -servicePlanSkuCount "1"
         -secondaryStorageLocation "$(deploymentSecondaryLocation)"
         -alertWebHookUrl "http://www.test.com"
-        -NCSApimSubscriptionKey "$(ncsApimSubscriptionKey)"
         -B2CTenant "B2Cdemotenant"
         -B2CSignUpPolicy "B2C_1A_signup_invitation"
         -B2CSignupConfirmPolicy "B2C_1A_signup_confirmation"
@@ -66,6 +65,7 @@ stages:
         -SignupConfirmationEmailSubject "Verify your account"
         -PasswordResetConfirmationEmailSubject "Verify your account"
         -AccountActivationEmailExpiryInSeconds "86400"
+        -NCSApimSubscriptionKey "$(ncsApimSubscriptionKey)"
         -NCSDSSApiKey "$(ncsDssApiKey)"
         -NCSDSSSearchApiUrl "$(ncsDssSearchApiUrl)"
         -NCSDSSSearchApiVersion "$(ncsDssSearchApiVersion)"'

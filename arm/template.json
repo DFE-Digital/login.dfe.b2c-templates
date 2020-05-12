@@ -188,9 +188,6 @@
                 "description": "Web hook for Autoscaling Alerts"
             }
         },
-        "NCSApimSubscriptionKey": {
-            "type": "securestring"
-        },
         "B2CTenant": {
             "type": "string"
         },
@@ -250,6 +247,9 @@
         },
         "PasswordResetConfirmationEmailSubject": {
             "type": "string"
+        },
+        "NCSApimSubscriptionKey": {
+            "type": "securestring"
         },
         "NCSDSSApiKey": {
             "type": "securestring"
