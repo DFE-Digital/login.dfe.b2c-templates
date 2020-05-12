@@ -69,7 +69,7 @@ stages:
         -NCSDSSApiKey "$(ncsDssApiKey)"
         -NCSDSSSearchApiUrl "$(ncsDssSearchApiUrl)"
         -NCSDSSSearchApiVersion "$(ncsDssSearchApiVersion)"'
-      eapimRegister: false
+      eapimRegister: true
       eapimServiceConnection: $(eapimServiceConnection)
       eapimProductName: 'NCS Identity'
       eapimProductContactEmail: paul.sheridan@digital.education.gov.uk
