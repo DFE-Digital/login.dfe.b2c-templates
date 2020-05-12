@@ -40,8 +40,9 @@
           <UserInputType>Paragraph</UserInputType>
         </ClaimType> 
         <ClaimType Id="tncCheckbox">
+          <DisplayName>Terms and conditions</DisplayName>
           <DataType>boolean</DataType>
-          <UserHelpText/>
+          <UserHelpText>You must accept our Terms and Conditions</UserHelpText>
           <UserInputType>CheckboxMultiSelect</UserInputType>
           <Restriction>
             <Enumeration Text="I accept the terms and conditions and I am 13 or over" Value="true" SelectByDefault="false" />
@@ -79,6 +80,13 @@
           <DataType>boolean</DataType>
         </ClaimType>
 
+        <ClaimType Id="dobLabel">
+          <DisplayName>Date of birth</DisplayName>
+          <DataType>string</DataType>
+          <UserHelpText>For example, 31 3 1980</UserHelpText>
+          <UserInputType>Paragraph</UserInputType>
+        </ClaimType>
+
         <ClaimType Id="day">
           <DisplayName>Day</DisplayName>
           <DataType>int</DataType>
@@ -100,6 +108,7 @@
         <ClaimType Id="postCode">
           <DisplayName>Postal Code</DisplayName>
           <DataType>string</DataType>
+          <UserHelpText>For example, SW1A 1AA</UserHelpText>
           <UserInputType>TextBox</UserInputType>
         </ClaimType>
 
@@ -107,12 +116,18 @@
           <DataType>string</DataType>
         </ClaimType>
 
+        <ClaimType Id="isFound">
+          <DataType>boolean</DataType>
+        </ClaimType>
+
         <ClaimType Id="foundEmailMessageWithEmail">
           <DataType>string</DataType>
+          <UserInputType>Paragraph</UserInputType>
         </ClaimType>
 
         <ClaimType Id="foundEmailMessagelast">
           <DataType>string</DataType>
+          <UserInputType>Paragraph</UserInputType>
         </ClaimType>
 
     </ClaimsSchema>
@@ -228,6 +243,15 @@
         </OutputClaims>
       </ClaimsTransformation>
 
+      <ClaimsTransformation Id="CreateEmailNotFoundMessage" TransformationMethod="CreateStringClaim">
+        <InputParameters>
+          <InputParameter Id="value" DataType="string" Value="We have not been able to find your account" />
+        </InputParameters>
+        <OutputClaims>
+          <OutputClaim ClaimTypeReferenceId="errorMessage" TransformationClaimType="createdClaim" />
+        </OutputClaims>
+      </ClaimsTransformation>
+
       <ClaimsTransformation Id="CreateFoundEmailMessageWithEmail" TransformationMethod="FormatStringClaim">
         <InputClaims>
           <InputClaim ClaimTypeReferenceId="foundEmail" TransformationClaimType="inputClaim" />
@@ -276,7 +300,8 @@
           <Metadata>
             <Item Key="IpAddressClaimReferenceId">IpAddress</Item>
             <Item Key="ContentDefinitionReferenceId">api.localaccountsignup</Item>
-            <Item Key="language.button_continue">Create</Item>
+            <Item Key="language.button_continue">Create an account</Item>
+            <Item Key="setting.showCancelButton">false</Item>
             <!-- Sample: Remove sign-up email verification -->
             <Item Key="EnforceEmailVerification">False</Item>
           </Metadata>
@@ -341,7 +366,7 @@
           <Protocol Name="Proprietary" Handler="Web.TPEngine.Providers.SelfAssertedAttributeProvider, Web.TPEngine, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" />
           <Metadata>
             <Item Key="IpAddressClaimReferenceId">IpAddress</Item>
-            <Item Key="ContentDefinitionReferenceId">api.localaccountsignup</Item>
+            <Item Key="ContentDefinitionReferenceId">api.localaccountaidedsignup</Item>
             <Item Key="language.button_continue">Activate Account</Item>
             <!-- Sample: Remove sign-up email verification -->
             <Item Key="EnforceEmailVerification">False</Item>
@@ -359,6 +384,7 @@
             <OutputClaim ClaimTypeReferenceId="objectId" />
             <OutputClaim ClaimTypeReferenceId="newPassword" Required="true" />
             <OutputClaim ClaimTypeReferenceId="reenterPassword" Required="true" />
+            <OutputClaim ClaimTypeReferenceId="dobLabel" />
             <OutputClaim ClaimTypeReferenceId="day" Required="true" />
             <OutputClaim ClaimTypeReferenceId="month" Required="true" />
             <OutputClaim ClaimTypeReferenceId="year" Required="true" />
@@ -469,7 +495,26 @@
           <DisplayName>Email Sent</DisplayName>
           <Protocol Name="Proprietary" Handler="Web.TPEngine.Providers.SelfAssertedAttributeProvider, Web.TPEngine, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"/>
           <Metadata>
-            <Item Key="ContentDefinitionReferenceId">api.selfasserted</Item>
+            <Item Key="ContentDefinitionReferenceId">api.signup.emailsent</Item>
+            <Item Key="setting.showContinueButton">false</Item>
+            <Item Key="setting.showCancelButton">false</Item>
+         </Metadata>
+          <InputClaimsTransformations>
+            <InputClaimsTransformation ReferenceId="CreateEmailSentMessage" />
+          </InputClaimsTransformations>
+          <InputClaims>
+            <InputClaim ClaimTypeReferenceId="successMessage"/>
+          </InputClaims>
+          <OutputClaims>
+            <OutputClaim ClaimTypeReferenceId="successMessage"/>
+          </OutputClaims>
+        </TechnicalProfile>
+        
+        <TechnicalProfile Id="SelfAsserted-PasswordReset-EmailSentConfirmation">
+          <DisplayName>Email Sent</DisplayName>
+          <Protocol Name="Proprietary" Handler="Web.TPEngine.Providers.SelfAssertedAttributeProvider, Web.TPEngine, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"/>
+          <Metadata>
+            <Item Key="ContentDefinitionReferenceId">api.passwordreset.emailsent</Item>
             <Item Key="setting.showContinueButton">false</Item>
             <Item Key="setting.showCancelButton">false</Item>
          </Metadata>
@@ -488,7 +533,7 @@
           <DisplayName>Unsolicited error message</DisplayName>
           <Protocol Name="Proprietary" Handler="Web.TPEngine.Providers.SelfAssertedAttributeProvider, Web.TPEngine, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"/>
           <Metadata>
-            <Item Key="ContentDefinitionReferenceId">api.selfasserted</Item>
+            <Item Key="ContentDefinitionReferenceId">api.activated.account</Item>
             <Item Key="setting.showContinueButton">false</Item>
             <Item Key="setting.showCancelButton">false</Item>
          </Metadata>
@@ -556,6 +601,21 @@
           </OutputClaimsTransformations>
         </TechnicalProfile>
 
+        <TechnicalProfile Id="SelfAsserted-CreateFoundEmailMessageWithEmail">
+          <DisplayName>Create FoundEmail Message With Email</DisplayName>                    
+          <Protocol Name="Proprietary" Handler="Web.TPEngine.Providers.ClaimsTransformationProtocolProvider, Web.TPEngine, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" />                    
+          <InputClaimsTransformations>
+              <InputClaimsTransformation ReferenceId="CreateFoundEmailMessageWithEmail" />
+          </InputClaimsTransformations>
+          <InputClaims>
+              <InputClaim ClaimTypeReferenceId="foundEmail" />
+              <InputClaim ClaimTypeReferenceId="foundEmailMessageWithEmail" />
+          </InputClaims> 
+          <OutputClaims>
+              <OutputClaim ClaimTypeReferenceId="foundEmailMessageWithEmail" />
+          </OutputClaims>
+        </TechnicalProfile>
+
         <TechnicalProfile Id="SelfAsserted-EmailFoundConfirmation">
           <DisplayName>Email Sent</DisplayName>
           <Protocol Name="Proprietary" Handler="Web.TPEngine.Providers.SelfAssertedAttributeProvider, Web.TPEngine, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"/>
@@ -581,6 +641,25 @@
           </OutputClaims>
         </TechnicalProfile>
 
+        <TechnicalProfile Id="SelfAsserted-EmailNotFoundConfirmation">
+          <DisplayName>Email Sent</DisplayName>
+          <Protocol Name="Proprietary" Handler="Web.TPEngine.Providers.SelfAssertedAttributeProvider, Web.TPEngine, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"/>
+          <Metadata>
+            <Item Key="ContentDefinitionReferenceId">api.selfasserted</Item>
+            <Item Key="setting.showContinueButton">false</Item>
+            <Item Key="setting.showCancelButton">false</Item>
+         </Metadata>
+          <InputClaimsTransformations>
+            <InputClaimsTransformation ReferenceId="CreateEmailNotFoundMessage" />
+          </InputClaimsTransformations>
+          <InputClaims>
+            <InputClaim ClaimTypeReferenceId="errorMessage" />           
+          </InputClaims>
+          <OutputClaims>
+            <OutputClaim ClaimTypeReferenceId="errorMessage"/>
+          </OutputClaims>
+        </TechnicalProfile>
+
         <TechnicalProfile Id="SelfAsserted-FindUserEmail">
           <DisplayName>Find User Email</DisplayName>
           <Protocol Name="Proprietary" Handler="Web.TPEngine.Providers.SelfAssertedAttributeProvider, Web.TPEngine, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" />
@@ -588,21 +667,23 @@
             <Item Key="IpAddressClaimReferenceId">IpAddress</Item>
             <Item Key="ContentDefinitionReferenceId">api.localaccountpasswordreset</Item>
             <Item Key="UserMessageIfClaimsTransformationBooleanValueIsNotEqual">Your account has been locked. Contact your support person to unlock it, then try again.</Item>
-            <Item Key="language.button_continue">Send Email</Item>
+            <Item Key="language.button_continue">Find email address</Item>
           </Metadata>
           <CryptographicKeys>
             <Key Id="issuer_secret" StorageReferenceId="B2C_1A_TokenSigningKeyContainer" />
           </CryptographicKeys>
           <IncludeInSso>false</IncludeInSso>
           <OutputClaims>
-            <OutputClaim ClaimTypeReferenceId="givenName" />
-            <OutputClaim ClaimTypeReferenceId="surname" />
-            <OutputClaim ClaimTypeReferenceId="day" />
-            <OutputClaim ClaimTypeReferenceId="month" />
-            <OutputClaim ClaimTypeReferenceId="year" />
-            <OutputClaim ClaimTypeReferenceId="postCode" />
+            <OutputClaim ClaimTypeReferenceId="givenName" Required="true" />
+            <OutputClaim ClaimTypeReferenceId="surname" Required="true" />
+            <OutputClaim ClaimTypeReferenceId="dobLabel" />
+            <OutputClaim ClaimTypeReferenceId="day" Required="true" />
+            <OutputClaim ClaimTypeReferenceId="month" Required="true" />
+            <OutputClaim ClaimTypeReferenceId="year" Required="true" />
+            <OutputClaim ClaimTypeReferenceId="postCode" Required="true" />
             <OutputClaim ClaimTypeReferenceId="foundEmail" />
-            <OutputClaim ClaimTypeReferenceId="objectId" />
+            <OutputClaim ClaimTypeReferenceId="isFound" />
+            <OutputClaim ClaimTypeReferenceId="objectId" DefaultValue="123" />
           </OutputClaims>
           <ValidationTechnicalProfiles>
             <ValidationTechnicalProfile ReferenceId="API-Find-User-Email" />
@@ -619,7 +700,7 @@
                 <DisplayName>User OTP Notifications</DisplayName>    
                 <Protocol Name="Proprietary" Handler="Web.TPEngine.Providers.RestfulProvider, Web.TPEngine, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" />
                 <Metadata>
-                    <Item Key="ServiceUrl">https://devauthncs.azure-api.net/ncsidentity/SignupConfirmation</Item>
+                    <Item Key="ServiceUrl">https://dev-api-customerengagement.platform.education.gov.uk/ncsidentity/SignupConfirmation</Item>
                         <Item Key="SendClaimsIn">Body</Item>                        
                         <Item Key="AuthenticationType">ClientCertificate</Item>
                     </Metadata>
@@ -637,7 +718,7 @@
                 <DisplayName>User OTP Notifications</DisplayName>    
                 <Protocol Name="Proprietary" Handler="Web.TPEngine.Providers.RestfulProvider, Web.TPEngine, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" />
                 <Metadata>
-                    <Item Key="ServiceUrl">https://devauthncs.azure-api.net/ncsidentity/PasswordResetConfirmation</Item>
+                    <Item Key="ServiceUrl">https://dev-api-customerengagement.platform.education.gov.uk/ncsidentity/PasswordResetConfirmation</Item>
                         <Item Key="SendClaimsIn">Body</Item>                        
                         <Item Key="AuthenticationType">ClientCertificate</Item>
                     </Metadata>
@@ -655,7 +736,7 @@
                 <DisplayName>User OTP Notifications</DisplayName>    
                 <Protocol Name="Proprietary" Handler="Web.TPEngine.Providers.RestfulProvider, Web.TPEngine, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" />
                 <Metadata>
-                  <Item Key="ServiceUrl">https://devauthncs.azure-api.net/ncsidentity/PasswordResetConfirmation</Item>
+                  <Item Key="ServiceUrl">https://dev-api-customerengagement.platform.education.gov.uk/ncsidentity/FindEmail</Item>
                   <Item Key="SendClaimsIn">Body</Item>                        
                   <Item Key="AuthenticationType">ClientCertificate</Item>
                 </Metadata>
@@ -672,6 +753,7 @@
                 </InputClaims>
                 <OutputClaims>
                   <OutputClaim ClaimTypeReferenceId="foundEmail" />
+                  <OutputClaim ClaimTypeReferenceId="isFound" />
                 </OutputClaims>
                 <UseTechnicalProfileForSessionManagement ReferenceId="SM-Noop" />
             </TechnicalProfile>
@@ -684,7 +766,7 @@
   <UserJourneys>
     <UserJourney Id="SelfSignUp">
       <OrchestrationSteps>
-        <OrchestrationStep Order="1" Type="ClaimsExchange">
+        <OrchestrationStep Order="1" Type="ClaimsExchange" ContentDefinitionReferenceId="api.localaccountsignup">
           <ClaimsExchanges>
             <ClaimsExchange Id="LocalAccountSignUpWithEmail" TechnicalProfileReferenceId="LocalAccountSignUpWithEmail"/>
           </ClaimsExchanges>
@@ -882,7 +964,7 @@
 
         <OrchestrationStep Order="2" Type="ClaimsExchange">
           <ClaimsExchanges>
-            <ClaimsExchange Id="LocalAccountPasswordResetEmailSentConfirmation" TechnicalProfileReferenceId="SelfAsserted-EmailSentConfirmation"/>
+            <ClaimsExchange Id="LocalAccountPasswordResetEmailSentConfirmation" TechnicalProfileReferenceId="SelfAsserted-PasswordReset-EmailSentConfirmation"/>
           </ClaimsExchanges>
         </OrchestrationStep>
 
@@ -987,20 +1069,22 @@
 
         <OrchestrationStep Order="2" Type="ClaimsExchange">
           <Preconditions>
-            <Precondition Type="ClaimsExist" ExecuteActionsIf="true">
-              <Value>foundEmail</Value>
+            <Precondition Type="ClaimEquals" ExecuteActionsIf="true">
+              <Value>isFound</Value>
+              <Value>True</Value>
               <Action>SkipThisOrchestrationStep</Action>
             </Precondition>
-          </Preconditions> 
+          </Preconditions>
           <ClaimsExchanges>
-            <ClaimsExchange Id="EmailNotFound" TechnicalProfileReferenceId="SelfAsserted-EmailSentConfirmation"/>
+            <ClaimsExchange Id="EmailNotFound" TechnicalProfileReferenceId="SelfAsserted-EmailNotFoundConfirmation"/>
           </ClaimsExchanges>
         </OrchestrationStep>
 
         <OrchestrationStep Order="3" Type="ClaimsExchange">
           <Preconditions>
-            <Precondition Type="ClaimsExist" ExecuteActionsIf="false">
-              <Value>foundEmail</Value>
+            <Precondition Type="ClaimEquals" ExecuteActionsIf="false">
+              <Value>isFound</Value>
+              <Value>True</Value>
               <Action>SkipThisOrchestrationStep</Action>
             </Precondition>
           </Preconditions> 

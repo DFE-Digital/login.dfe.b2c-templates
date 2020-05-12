@@ -15,6 +15,10 @@
 
   <RelyingParty>
     <DefaultUserJourney ReferenceId="SelfSignUp" />
+    <UserJourneyBehaviors>
+        <JourneyInsights TelemetryEngine="ApplicationInsights" InstrumentationKey="1804da14-6a11-4b44-a6ff-2000f360bd87" DeveloperMode="true" ClientEnabled="false" ServerEnabled="true" TelemetryVersion="1.0.0" />
+        <ScriptExecution>Allow</ScriptExecution>
+    </UserJourneyBehaviors>
     <TechnicalProfile Id="PolicyProfile">
       <DisplayName>PolicyProfile</DisplayName>
       <Protocol Name="OpenIdConnect" />
