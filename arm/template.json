@@ -188,6 +188,9 @@
                 "description": "Web hook for Autoscaling Alerts"
             }
         },
+        "NCSApimSubscriptionKey": {
+            "type": "securestring"
+        },
         "B2CTenant": {
             "type": "string"
         },
@@ -224,10 +227,10 @@
             "defaultValue": 587
         },
         "SMTPUsername": {
-            "type": "string"
+            "type": "securestring"
         },
         "SMTPPassword": {
-            "type": "string"
+            "type": "securestring"
         },
         "SMTPUseSSL": {
             "type": "bool",
@@ -247,6 +250,9 @@
         },
         "PasswordResetConfirmationEmailSubject": {
             "type": "string"
+        },
+        "NCSDSSApiKey": {
+            "type": "securestring"
         },
         "NCSDSSSearchApiUrl": {
             "type": "string"
@@ -739,6 +745,10 @@
                             "value": "recommended"
                         },
                         {
+                            "name": "Ocp-Apim-Subscription-Key",
+                            "value": "[parameters('NCSApimSubscriptionKey')]"
+                        },
+                        {
                             "name": "B2CTenant",
                             "value": "[parameters('B2CTenant')]"
                         },
@@ -813,6 +823,10 @@
                         {
                             "name": "PasswordResetConfirmationEmailSubject",
                             "value": "[parameters('PasswordResetConfirmationEmailSubject')]"
+                        },
+                        {
+                            "name": "ncs-dss-api-key",
+                            "value": "[parameters('NCSDSSApiKey')]"
                         },
                         {
                             "name": "ncs-dss-search-api-url",
