@@ -247,7 +247,14 @@
         },
         "PasswordResetConfirmationEmailSubject": {
             "type": "string"
+        },
+        "NCSDSSSearchApiUrl": {
+            "type": "string"
+        },
+        "NCSDSSSearchApiVersion": {
+            "type": "string"
         }
+
     },
     "variables": {
         "baseName": "[concat(parameters('applicationName'), '-', parameters('environmentName'))]",
@@ -806,6 +813,14 @@
                         {
                             "name": "PasswordResetConfirmationEmailSubject",
                             "value": "[parameters('PasswordResetConfirmationEmailSubject')]"
+                        },
+                        {
+                            "name": "ncs-dss-search-api-url",
+                            "value": "[parameters('NCSDSSSearchApiUrl')]"
+                        },
+                        {
+                            "name": "ncs-dss-search-api-version",
+                            "value": "[parameters('NCSDSSSearchApiVersion')]"
                         }
                     ]
                 },
