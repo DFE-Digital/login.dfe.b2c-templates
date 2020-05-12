@@ -65,3 +65,13 @@ stages:
         -AccountActivationEmailExpiryInSeconds "86400"
         -ncs-dss-search-api-url "https://at.api.nationalcareersservice.org.uk/search/api/"
         -ncs-dss-search-api-version "v2"'
+  - task: EapimManageProductRelease@1
+    inputs:
+      azureSubscription: 'S141D.bsvc.cip.azdo'
+      AddOrRemoveProduct: 'Add'
+      ProductName: 'NCS Identity'
+      RequiresSubscription: true
+      RequiresApproval: true
+      isPublished: false
+      APICapability: 'Customer Engagement'
+      APIEnvironment: 'Development'
