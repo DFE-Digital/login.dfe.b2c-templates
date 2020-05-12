@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using B2CAzureFunc.Models;
+using System.Net.Http;
 
 namespace B2CAzureFunc
 {
@@ -31,19 +32,68 @@ namespace B2CAzureFunc
                     !String.IsNullOrEmpty(data.Day) && !String.IsNullOrEmpty(data.Month) && !String.IsNullOrEmpty(data.Year)
                     && !String.IsNullOrEmpty(data.PostalCode))
                 {
-                    return new OkObjectResult(new
+                    string email = "";
+                    using (var httpClient = new HttpClient())
                     {
-                        foundEmail = "amangupta@yopmail.com",
+                        var dob = String.Format("{0}-{1}-{2}", data.Year, data.Month, data.Day);
+                        var searchApiUrl = Environment.GetEnvironmentVariable("ncs-dss-search-api-url", EnvironmentVariableTarget.Process);
+                        var url = String.Format("{0}?&search=GivenName:{1} FamilyName:{2} PostCode={3}&filter=DateOfBirth eq {4}",
+                             searchApiUrl, data.GivenName, data.SurName, data.PostalCode, dob);
+                        using (var request = new HttpRequestMessage(new HttpMethod("GET"), url))
+                        {
+                            request.Headers.TryAddWithoutValidation("api-key", Environment.GetEnvironmentVariable("ncs-dss-api-key", EnvironmentVariableTarget.Process));
+                            request.Headers.TryAddWithoutValidation("version", Environment.GetEnvironmentVariable("ncs-dss-search-api-version", EnvironmentVariableTarget.Process));
+                            request.Headers.TryAddWithoutValidation("Ocp-Apim-Subscription-Key", Environment.GetEnvironmentVariable("Ocp-Apim-Subscription-Key", EnvironmentVariableTarget.Process));
+
+                            var response = await httpClient.SendAsync(request);
+                            if (response.StatusCode == System.Net.HttpStatusCode.OK)
+                            {
+                                var result = JsonConvert.DeserializeObject<SearchAPIResponseModel>(await response.Content.ReadAsStringAsync());
+                                if (result.Value.Length > 0)
+                                {
+                                    email = result.Value[0].EmailAddress != null ? result.Value[0].EmailAddress.ToString() : "";
+                                }
+                            }
+                            else
+                            {
+                                return new BadRequestObjectResult(new
+                                {
+                                    userMessage = "Sorry, Something happened unexpectedly. Please try after sometime.",
+                                    status = 404
+                                });
+                            }
+                        }
+                    }
+                    if (!String.IsNullOrEmpty(email))
+                    {
+                        return new OkObjectResult(new EmailFoundResponseModel
+                        {
+                            foundEmail = email,
+                            isFound = true
+                        });
+                    }
+                    else
+                    {
+                        return new OkObjectResult(new EmailFoundResponseModel
+                        {
+                            foundEmail = "",
+                            isFound = false
+                        });
+                    }
+                }
+                else
+                {
+                    return new OkObjectResult(new EmailFoundResponseModel
+                    {
+                        foundEmail = "",
+                        isFound = false
                     });
                 }
-
-                return new OkObjectResult(new
-                {
-                    foundEmail = "",
-                });
             }
             catch (Exception ex)
             {
+                log.LogInformation(ex.ToString());
+
                 return new BadRequestObjectResult(new
                 {
                     userMessage = "Sorry, Something happened unexpectedly. Please try after sometime.",
