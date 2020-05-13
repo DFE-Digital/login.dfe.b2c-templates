@@ -87,9 +87,13 @@ namespace B2CAzureFunc
                         break;
                 }
 
+                //switch the hostname for current known
+                var definition = openApiDocuments.First().Value;
+                definition.ExternalDocs.Url = new Uri(Environment.GetEnvironmentVariable("WEBSITE_HOSTNAME"));
+
                 return new HttpResponseMessage(HttpStatusCode.OK)
                 {
-                    Content = new StringContent(openApiDocuments.First().Value.SerializeAsJson(openApiVersion), Encoding.UTF8, "application/json")
+                    Content = new StringContent(definition.SerializeAsJson(openApiVersion), Encoding.UTF8, "application/json")
                 };
             }
             catch (System.Exception ex)
