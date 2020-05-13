@@ -51,6 +51,8 @@ namespace B2CAzureFunc
 
                 var documentPath = Path.GetFullPath(Path.Combine(ctx.FunctionAppDirectory, $"{FunctionConstants.FunctionName}.xml"));
 
+                log.LogInformation($"Looking for Documentation : {documentPath}");
+
                 var input = new OpenApiGeneratorConfig(
                     annotationXmlDocuments: new List<XDocument>()
                     {
@@ -90,7 +92,7 @@ namespace B2CAzureFunc
             }
             catch (System.Exception ex)
             {
-                log.LogError("Exception Encountered", ex);
+                log.LogCritical("Exception Encountered", ex);
                 throw;
             }
         }
