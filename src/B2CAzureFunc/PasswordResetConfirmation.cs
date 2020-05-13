@@ -22,9 +22,11 @@ namespace B2CAzureFunc
         ///     PasswordResetConfirmation
         /// </summary>
         /// <verb>POST</verb>
+        /// <url>http://localhost:7070/api/PasswordResetConfirmation</url>
         /// <param name="req"></param>
         /// <param name="log"></param>
-        /// <returns></returns>
+        /// <response code="200"><see cref="bool"/>Password Reset Sent</response>
+        /// <response code="409"><see cref="Object"/>Error</response>
         [FunctionName("PasswordResetConfirmation")]
         public static async Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] HttpRequest req,

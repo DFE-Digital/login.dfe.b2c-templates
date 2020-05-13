@@ -17,8 +17,12 @@ D:\GIT\DFE\login.dfe.b2c-templates\Source\Providers.Email\obj\Debug\netstandard2
 C:\Repos\Github\DFE-Digital\login.dfe.b2c-templates\src\Providers.Email\bin\Debug\netstandard2.0\Providers.Email.deps.json
 C:\Repos\Github\DFE-Digital\login.dfe.b2c-templates\src\Providers.Email\bin\Debug\netstandard2.0\Providers.Email.dll
 C:\Repos\Github\DFE-Digital\login.dfe.b2c-templates\src\Providers.Email\bin\Debug\netstandard2.0\Providers.Email.pdb
-C:\Repos\Github\DFE-Digital\login.dfe.b2c-templates\src\Providers.Email\obj\Debug\netstandard2.0\Providers.Email.csproj.CoreCompileInputs.cache
-C:\Repos\Github\DFE-Digital\login.dfe.b2c-templates\src\Providers.Email\obj\Debug\netstandard2.0\Providers.Email.AssemblyInfoInputs.cache
-C:\Repos\Github\DFE-Digital\login.dfe.b2c-templates\src\Providers.Email\obj\Debug\netstandard2.0\Providers.Email.AssemblyInfo.cs
-C:\Repos\Github\DFE-Digital\login.dfe.b2c-templates\src\Providers.Email\obj\Debug\netstandard2.0\Providers.Email.dll
-C:\Repos\Github\DFE-Digital\login.dfe.b2c-templates\src\Providers.Email\obj\Debug\netstandard2.0\Providers.Email.pdb
+C:\Repos\GitHub\DFE-Digital\login.dfe.b2c-templates\src\Providers.Email\bin\netstandard2.0\Providers.Email.deps.json
+C:\Repos\GitHub\DFE-Digital\login.dfe.b2c-templates\src\Providers.Email\bin\netstandard2.0\Providers.Email.dll
+C:\Repos\GitHub\DFE-Digital\login.dfe.b2c-templates\src\Providers.Email\bin\netstandard2.0\Providers.Email.pdb
+C:\Repos\GitHub\DFE-Digital\login.dfe.b2c-templates\src\Providers.Email\bin\netstandard2.0\Providers.Email.xml
+C:\Repos\GitHub\DFE-Digital\login.dfe.b2c-templates\src\Providers.Email\obj\Debug\netstandard2.0\Providers.Email.csproj.CoreCompileInputs.cache
+C:\Repos\GitHub\DFE-Digital\login.dfe.b2c-templates\src\Providers.Email\obj\Debug\netstandard2.0\Providers.Email.AssemblyInfoInputs.cache
+C:\Repos\GitHub\DFE-Digital\login.dfe.b2c-templates\src\Providers.Email\obj\Debug\netstandard2.0\Providers.Email.AssemblyInfo.cs
+C:\Repos\GitHub\DFE-Digital\login.dfe.b2c-templates\src\Providers.Email\obj\Debug\netstandard2.0\Providers.Email.dll
+C:\Repos\GitHub\DFE-Digital\login.dfe.b2c-templates\src\Providers.Email\obj\Debug\netstandard2.0\Providers.Email.pdb

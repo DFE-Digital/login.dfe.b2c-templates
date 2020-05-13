@@ -22,9 +22,11 @@ namespace B2CAzureFunc
         ///     SignUpInvitation
         /// </summary>
         /// <verb>POST</verb>
+        /// <url>http://localhost:7070/api/SignUpInvitation</url>
         /// <param name="req"></param>
         /// <param name="log"></param>
-        /// <returns></returns>
+        /// <response code="200"><see cref="bool"/>Invitation Sent</response>
+        /// <response code="404"><see cref="Object"/>Error</response>
         [FunctionName("SignUpInvitation")]
         public static async Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] HttpRequest req,

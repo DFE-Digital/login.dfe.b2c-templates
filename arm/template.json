@@ -835,6 +835,14 @@
                         {
                             "name": "ncs-dss-search-api-version",
                             "value": "[parameters('NCSDSSSearchApiVersion')]"
+                        },
+                        {
+                            "name": "B2COpenApiConfig:ServiceDescription",
+                            "value": "DfE NCS B2C Service"
+                        },
+                        {
+                            "name": "B2COpenApiConfig:OpenApiVersion",
+                            "value": "V2"
                         }
                     ]
                 },

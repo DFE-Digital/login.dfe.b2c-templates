@@ -21,9 +21,11 @@ namespace B2CAzureFunc
         ///     FindEmail
         /// </summary>
         /// <verb>POST</verb>
+        /// <url>http://localhost:7070/api/FindEmail</url>
         /// <param name="req"></param>
         /// <param name="log"></param>
-        /// <returns></returns>
+        /// <response code="200"><see cref="EmailFoundResponseModel"/>Email Found Response</response>
+        /// <response code="404"><see cref="Object"/>Not Found</response>
         [FunctionName("FindEmail")]
         public static async Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] HttpRequest req,
