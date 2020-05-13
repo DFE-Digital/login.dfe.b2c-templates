@@ -50,8 +50,10 @@ namespace B2CAzureFunc
                 log.LogInformation("Starting Swagger Retrieval");
 
                 var documentPath = Path.GetFullPath(Path.Combine(ctx.FunctionAppDirectory, $"{FunctionConstants.FunctionName}.xml"));
+                var binaryPath = Path.GetFullPath(Path.Combine(ctx.FunctionAppDirectory, $"bin\\{FunctionConstants.FunctionName}.dll"));
 
                 log.LogInformation($"Looking for Documentation : {documentPath}");
+                log.LogInformation($"Looking for Binary : {binaryPath}");
 
                 var input = new OpenApiGeneratorConfig(
                     annotationXmlDocuments: new List<XDocument>()
@@ -60,7 +62,7 @@ namespace B2CAzureFunc
                     },
                     assemblyPaths: new List<string>()
                     {
-                        @$"bin\{FunctionConstants.FunctionName}.dll"
+                        binaryPath
                     },
                     openApiDocumentVersion: "V1",
                     filterSetVersion: FilterSetVersion.V1
