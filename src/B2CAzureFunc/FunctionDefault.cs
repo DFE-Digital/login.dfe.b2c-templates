@@ -89,7 +89,9 @@ namespace B2CAzureFunc
 
                 //switch the hostname for current known
                 var definition = openApiDocuments.First().Value;
-                definition.ExternalDocs.Url = new Uri(Environment.GetEnvironmentVariable("WEBSITE_HOSTNAME"));
+                definition.Info.Title = _options.ServiceTitle;
+
+                if (definition.Servers.Any()) definition.Servers.First().Url = Environment.GetEnvironmentVariable("WEBSITE_HOSTNAME");
 
                 return new HttpResponseMessage(HttpStatusCode.OK)
                 {

@@ -841,6 +841,10 @@
                             "value": "DfE NCS B2C Service"
                         },
                         {
+                            "name": "B2COpenApiConfig:ServiceTitle",
+                            "value": "DFE NCS Auth"
+                        },
+                        {
                             "name": "B2COpenApiConfig:OpenApiVersion",
                             "value": "V2"
                         }

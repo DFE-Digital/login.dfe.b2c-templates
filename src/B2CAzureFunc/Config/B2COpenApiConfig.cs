@@ -5,6 +5,7 @@
     /// </summary>
     public class B2COpenApiConfig
     {
+        public string ServiceTitle { get; set; }
         /// <summary>
         /// Service Description
         /// </summary>
