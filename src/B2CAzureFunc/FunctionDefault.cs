@@ -94,8 +94,18 @@ namespace B2CAzureFunc
 
                 if (definition.Servers.Any())
                 {
-                    log.LogInformation($"Server Name Switch : Swapping [{definition.Servers.First().Url}] for [{Environment.GetEnvironmentVariable("WEBSITE_HOSTNAME")}]");
-                    definition.Servers.First().Url = Environment.GetEnvironmentVariable("WEBSITE_HOSTNAME");
+                    string hostname = "";
+                    bool.TryParse(Environment.GetEnvironmentVariable("HTTPS"), out bool sslOn);
+
+                    if (sslOn)
+                    {
+                        hostname = $"https://{Environment.GetEnvironmentVariable("WEBSITE_HOSTNAME")}";
+                    }
+                    else
+                        hostname = $"http://{Environment.GetEnvironmentVariable("WEBSITE_HOSTNAME")}";
+
+                    log.LogInformation($"Server Name Switch : Swapping [{definition.Servers.First().Url}] for [{hostname}]");
+                    definition.Servers.First().Url = hostname;
                 }
 
                 return new HttpResponseMessage(HttpStatusCode.OK)
