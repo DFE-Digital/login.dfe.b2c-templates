@@ -16,6 +16,8 @@ using B2CAzureFunc.Constants;
 using Microsoft.Extensions.Options;
 using B2CAzureFunc.Config;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.IO;
 
 namespace B2CAzureFunc
 {
@@ -41,15 +43,18 @@ namespace B2CAzureFunc
         /// <param name="req"></param>
         /// <param name="log"></param>
         [FunctionName("Swagger")]
-        public HttpResponseMessage GenerateSwagger([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = null)] HttpRequest req, ILogger log)
+        public HttpResponseMessage GenerateSwagger([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = null)] HttpRequest req, ILogger log, ExecutionContext ctx)
         {
             try
             {
                 log.LogInformation("Starting Swagger Retrieval");
+
+                var documentPath = Path.GetFullPath(Path.Combine(ctx.FunctionAppDirectory, $"{FunctionConstants.FunctionName}.xml"));
+
                 var input = new OpenApiGeneratorConfig(
                     annotationXmlDocuments: new List<XDocument>()
                     {
-                        XDocument.Load(@$"{FunctionConstants.FunctionName}.xml"),
+                        XDocument.Load(documentPath),
                     },
                     assemblyPaths: new List<string>()
                     {
