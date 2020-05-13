@@ -55,7 +55,7 @@ namespace B2CAzureFunc
                 openApiDocumentVersion: "V1",
                 filterSetVersion: FilterSetVersion.V1
             );
-            input.OpenApiInfoDescription = _options.ServiceDescription;
+            input.OpenApiInfoDescription = _options.ServiceDescription ?? "B2CAzureFunc";
 
             var generator = new OpenApiGenerator();
             var openApiDocuments = generator.GenerateDocuments(
