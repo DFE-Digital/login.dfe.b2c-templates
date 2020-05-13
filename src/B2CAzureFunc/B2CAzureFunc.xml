@@ -4,6 +4,21 @@
         <name>B2CAzureFunc</name>
     </assembly>
     <members>
+        <member name="T:B2CAzureFunc.Config.B2COpenApiConfig">
+            <summary>
+            OpenApi Config
+            </summary>
+        </member>
+        <member name="P:B2CAzureFunc.Config.B2COpenApiConfig.ServiceDescription">
+            <summary>
+            Service Description
+            </summary>
+        </member>
+        <member name="P:B2CAzureFunc.Config.B2COpenApiConfig.OpenApiVersion">
+            <summary>
+            Required OpeanApi Version
+            </summary>
+        </member>
         <member name="T:B2CAzureFunc.Constants.FunctionConstants">
             <summary>
                 OpenApiConstants
@@ -24,14 +39,22 @@
                 FindEmail
             </summary>
             <verb>POST</verb>
+            <url>http://localhost:7070/api/FindEmail</url>
             <param name="req"></param>
             <param name="log"></param>
-            <returns></returns>
+            <response code="200"><see cref="T:B2CAzureFunc.Models.EmailFoundResponseModel"/>Email Found Response</response>
+            <response code="404"><see cref="T:System.Object"/>Not Found</response>
         </member>
         <member name="T:B2CAzureFunc.FunctionDefault">
             <summary>
                 FunctionDefault
             </summary>
+        </member>
+        <member name="M:B2CAzureFunc.FunctionDefault.#ctor(Microsoft.Extensions.Options.IOptions{B2CAzureFunc.Config.B2COpenApiConfig})">
+            <summary>
+            Constructor
+            </summary>
+            <param name="options"></param>
         </member>
         <member name="M:B2CAzureFunc.FunctionDefault.GenerateSwagger(Microsoft.AspNetCore.Http.HttpRequest,Microsoft.Extensions.Logging.ILogger)">
             <summary>
@@ -39,7 +62,14 @@
             </summary>
             <param name="req"></param>
             <param name="log"></param>
-            <returns></returns>
+        </member>
+        <member name="M:B2CAzureFunc.FunctionDefault.Run(Microsoft.AspNetCore.Http.HttpRequest,Microsoft.Extensions.Logging.ILogger)">
+            <summary>
+                Hearbeat - Required for EAPIM health check
+            </summary>
+            <param name="req"></param>
+            <param name="log"></param>
+            <response code="200"><see cref="T:System.String"/>Hearbeat Ok</response>
         </member>
         <member name="T:B2CAzureFunc.Helpers.TokenBuilder">
             <summary>
@@ -283,9 +313,11 @@
                 PasswordResetConfirmation
             </summary>
             <verb>POST</verb>
+            <url>http://localhost:7070/api/PasswordResetConfirmation</url>
             <param name="req"></param>
             <param name="log"></param>
-            <returns></returns>
+            <response code="200"><see cref="T:System.Boolean"/>Password Reset Sent</response>
+            <response code="409"><see cref="T:System.Object"/>Error</response>
         </member>
         <member name="T:B2CAzureFunc.SignupConfirmation">
             <summary>
@@ -297,9 +329,11 @@
                 SignupConfirmation
             </summary>
             <verb>POST</verb>
+            <url>http://localhost:7070/api/SignupConfirmation</url>
             <param name="req"></param>
             <param name="log"></param>
-            <returns></returns>
+            <response code="200"><see cref="T:System.Boolean"/>Signup Confirmed</response>
+            <response code="409"><see cref="T:System.Object"/>Error</response>
         </member>
         <member name="T:B2CAzureFunc.SignUpInvitation">
             <summary>
@@ -311,9 +345,22 @@
                 SignUpInvitation
             </summary>
             <verb>POST</verb>
+            <url>http://localhost:7070/api/SignUpInvitation</url>
             <param name="req"></param>
             <param name="log"></param>
-            <returns></returns>
+            <response code="200"><see cref="T:System.Boolean"/>Invitation Sent</response>
+            <response code="404"><see cref="T:System.Object"/>Error</response>
+        </member>
+        <member name="T:B2CAzureFunc.Startup">
+            <summary>
+            Function Startup Bootstrapper
+            </summary>
+        </member>
+        <member name="M:B2CAzureFunc.Startup.Configure(Microsoft.Azure.Functions.Extensions.DependencyInjection.IFunctionsHostBuilder)">
+            <summary>
+            Function Configure Method
+            </summary>
+            <param name="builder"></param>
         </member>
     </members>
 </doc>

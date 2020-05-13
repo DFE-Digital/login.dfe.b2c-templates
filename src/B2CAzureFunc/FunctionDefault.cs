@@ -15,7 +15,6 @@ using System.Text;
 using B2CAzureFunc.Constants;
 using Microsoft.Extensions.Options;
 using B2CAzureFunc.Config;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 
 namespace B2CAzureFunc
