@@ -2,6 +2,7 @@
 using Microsoft.Azure.Functions.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Serilog;
 
 [assembly: FunctionsStartup(typeof(B2CAzureFunc.Startup))]
 
@@ -23,6 +24,9 @@ namespace B2CAzureFunc
                 {
                     config.GetSection("B2COpenApiConfig").Bind(openApiConfig);
                 });
+
+            var logger = new LoggerConfiguration().CreateLogger();
+            builder.Services.AddLogging(lb => lb.AddSerilog(logger));
         }
     }
 }

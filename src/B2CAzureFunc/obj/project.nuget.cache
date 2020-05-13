@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "4KEHQ42e2V3fvfHykimVWKyQXNzQgT5U2rANHrlyuw3TCme5BoUQp620jhs+DY+Jk3ZjyhGAy0KDYL6i+0AIvw==",
+  "dgSpecHash": "TdY4PDgg1BkXHpW0ntNyn2V0eq1EzydZ/FKFF3MUPe9/R57fhc7PPxwYce3n44Y3zEQBCnHi3P/9hC0o53nDgA==",
   "success": true,
   "projectFilePath": "C:\\Repos\\GitHub\\DFE-Digital\\login.dfe.b2c-templates\\src\\B2CAzureFunc\\B2CAzureFunc.csproj",
   "expectedPackageFiles": [
@@ -88,6 +88,9 @@
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder\\runtime.ubuntu.14.04-x64.runtime.native.system.security.cryptography.openssl\\4.3.0\\runtime.ubuntu.14.04-x64.runtime.native.system.security.cryptography.openssl.4.3.0.nupkg.sha512",
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder\\runtime.ubuntu.16.04-x64.runtime.native.system.security.cryptography.openssl\\4.3.0\\runtime.ubuntu.16.04-x64.runtime.native.system.security.cryptography.openssl.4.3.0.nupkg.sha512",
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder\\runtime.ubuntu.16.10-x64.runtime.native.system.security.cryptography.openssl\\4.3.0\\runtime.ubuntu.16.10-x64.runtime.native.system.security.cryptography.openssl.4.3.0.nupkg.sha512",
+    "C:\\Users\\pault\\.nuget\\packages\\serilog\\2.9.0\\serilog.2.9.0.nupkg.sha512",
+    "C:\\Users\\pault\\.nuget\\packages\\serilog.extensions.hosting\\3.0.0\\serilog.extensions.hosting.3.0.0.nupkg.sha512",
+    "C:\\Users\\pault\\.nuget\\packages\\serilog.extensions.logging\\3.0.1\\serilog.extensions.logging.3.0.1.nupkg.sha512",
     "C:\\Users\\pault\\.nuget\\packages\\sharpyaml\\1.6.1\\sharpyaml.1.6.1.nupkg.sha512",
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder\\system.appcontext\\4.3.0\\system.appcontext.4.3.0.nupkg.sha512",
     "C:\\Users\\pault\\.nuget\\packages\\system.buffers\\4.5.0\\system.buffers.4.5.0.nupkg.sha512",

@@ -43,45 +43,52 @@ namespace B2CAzureFunc
         [FunctionName("Swagger")]
         public HttpResponseMessage GenerateSwagger([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = null)] HttpRequest req, ILogger log)
         {
-            var input = new OpenApiGeneratorConfig(
-                annotationXmlDocuments: new List<XDocument>()
-                {
-                    XDocument.Load(@$"{FunctionConstants.FunctionName}.xml"),
-                },
-                assemblyPaths: new List<string>()
-                {
-                    @$"bin\{FunctionConstants.FunctionName}.dll"
-                },
-                openApiDocumentVersion: "V1",
-                filterSetVersion: FilterSetVersion.V1
-            );
-            input.OpenApiInfoDescription = _options.ServiceDescription ?? "B2CAzureFunc";
-
-            var generator = new OpenApiGenerator();
-            var openApiDocuments = generator.GenerateDocuments(
-                openApiGeneratorConfig: input,
-                generationDiagnostic: out GenerationDiagnostic result
-            );
-
-            OpenApiSpecVersion openApiVersion;
-
-            switch (_options.OpenApiVersion)
+            try
             {
-                default:
-                    openApiVersion = OpenApiSpecVersion.OpenApi2_0;
-                    break;
-                case "V3":
-                    openApiVersion = OpenApiSpecVersion.OpenApi3_0;
-                    break;
+                log.LogInformation("Starting Swagger Retrieval");
+                var input = new OpenApiGeneratorConfig(
+                    annotationXmlDocuments: new List<XDocument>()
+                    {
+                        XDocument.Load(@$"{FunctionConstants.FunctionName}.xml"),
+                    },
+                    assemblyPaths: new List<string>()
+                    {
+                        @$"bin\{FunctionConstants.FunctionName}.dll"
+                    },
+                    openApiDocumentVersion: "V1",
+                    filterSetVersion: FilterSetVersion.V1
+                );
+                input.OpenApiInfoDescription = _options.ServiceDescription ?? "B2CAzureFunc";
+
+                var generator = new OpenApiGenerator();
+                var openApiDocuments = generator.GenerateDocuments(
+                    openApiGeneratorConfig: input,
+                    generationDiagnostic: out GenerationDiagnostic result
+                );
+
+                OpenApiSpecVersion openApiVersion;
+
+                switch (_options.OpenApiVersion)
+                {
+                    default:
+                        openApiVersion = OpenApiSpecVersion.OpenApi2_0;
+                        break;
+                    case "V3":
+                        openApiVersion = OpenApiSpecVersion.OpenApi3_0;
+                        break;
+                }
+
+                return new HttpResponseMessage(HttpStatusCode.OK)
+                {
+                    Content = new StringContent(openApiDocuments.First().Value.SerializeAsJson(openApiVersion), Encoding.UTF8, "application/json")
+                };
             }
-
-            return new HttpResponseMessage(HttpStatusCode.OK)
+            catch (System.Exception ex)
             {
-                Content = new StringContent(openApiDocuments.First().Value.SerializeAsJson(openApiVersion), Encoding.UTF8, "application/json")
-            };
-
+                log.LogError("Exception Encountered", ex);
+                throw;
+            }
         }
-
 
         /// <summary>
         ///     Hearbeat - Required for EAPIM health check
