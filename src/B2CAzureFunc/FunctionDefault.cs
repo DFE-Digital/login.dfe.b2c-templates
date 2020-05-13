@@ -52,8 +52,8 @@ namespace B2CAzureFunc
                 var documentPath = Path.GetFullPath(Path.Combine(ctx.FunctionAppDirectory, $"{FunctionConstants.FunctionName}.xml"));
                 var binaryPath = Path.GetFullPath(Path.Combine(ctx.FunctionAppDirectory, $"bin\\{FunctionConstants.FunctionName}.dll"));
 
-                log.LogInformation($"Looking for Documentation : {documentPath}");
-                log.LogInformation($"Looking for Binary : {binaryPath}");
+                log.LogDebug($"Looking for Documentation : {documentPath}");
+                log.LogDebug($"Looking for Binary : {binaryPath}");
 
                 var input = new OpenApiGeneratorConfig(
                     annotationXmlDocuments: new List<XDocument>()
@@ -91,14 +91,19 @@ namespace B2CAzureFunc
                 var definition = openApiDocuments.First().Value;
                 definition.Info.Title = _options.ServiceTitle;
 
-                if (definition.Servers.Any()) definition.Servers.First().Url = Environment.GetEnvironmentVariable("WEBSITE_HOSTNAME");
+
+                if (definition.Servers.Any())
+                {
+                    log.LogInformation($"Server Name Switch : Swapping [{definition.Servers.First().Url}] for [{Environment.GetEnvironmentVariable("WEBSITE_HOSTNAME")}]");
+                    definition.Servers.First().Url = Environment.GetEnvironmentVariable("WEBSITE_HOSTNAME");
+                }
 
                 return new HttpResponseMessage(HttpStatusCode.OK)
                 {
                     Content = new StringContent(definition.SerializeAsJson(openApiVersion), Encoding.UTF8, "application/json")
                 };
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
                 log.LogCritical("Exception Encountered", ex);
                 throw;

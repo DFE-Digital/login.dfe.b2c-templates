@@ -74,7 +74,7 @@ stages:
       eapimProductName: 'NCS Identity'
       eapimProductContactEmail: paul.sheridan@digital.education.gov.uk
       eapimApiPublishedName: 'NCS Identity'
-      eapimApiOpenApiSchemaPath: '$(Build.SourcesDirectory)/eapim/api/schema.json'
+      eapimApiOpenApiSchemaPath: '/api/swagger.json'
       eapimApiPublishedPath: ncsauth
       eapimApiXmlPolicyPath: '$(Build.SourcesDirectory)/eapim/api/policy.xml'
 
