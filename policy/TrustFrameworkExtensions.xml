@@ -727,6 +727,7 @@
                     </CryptographicKeys>
                 <InputClaims>
                     <InputClaim ClaimTypeReferenceId="email" PartnerClaimType="email" />
+                    <InputClaim ClaimTypeReferenceId="givenName" PartnerClaimType="givenName" />
                     <InputClaim ClaimTypeReferenceId="ObjectId" PartnerClaimType="ObjectId"/>
                 </InputClaims>
                 <UseTechnicalProfileForSessionManagement ReferenceId="SM-Noop" />
