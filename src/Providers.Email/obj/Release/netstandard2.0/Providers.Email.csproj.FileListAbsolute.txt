@@ -23,11 +23,3 @@ C:\Repos\Github\DFE-Digital\login.dfe.b2c-templates\src\Providers.Email\obj\Rele
 C:\Repos\Github\DFE-Digital\login.dfe.b2c-templates\src\Providers.Email\obj\Release\netstandard2.0\Providers.Email.AssemblyInfo.cs
 C:\Repos\Github\DFE-Digital\login.dfe.b2c-templates\src\Providers.Email\obj\Release\netstandard2.0\Providers.Email.dll
 C:\Repos\Github\DFE-Digital\login.dfe.b2c-templates\src\Providers.Email\obj\Release\netstandard2.0\Providers.Email.pdb
-D:\GIT\DFE\login.dfe.b2c-templates\src\Providers.Email\bin\Release\netstandard2.0\Providers.Email.deps.json
-D:\GIT\DFE\login.dfe.b2c-templates\src\Providers.Email\bin\Release\netstandard2.0\Providers.Email.dll
-D:\GIT\DFE\login.dfe.b2c-templates\src\Providers.Email\bin\Release\netstandard2.0\Providers.Email.pdb
-D:\GIT\DFE\login.dfe.b2c-templates\src\Providers.Email\obj\Release\netstandard2.0\Providers.Email.csprojAssemblyReference.cache
-D:\GIT\DFE\login.dfe.b2c-templates\src\Providers.Email\obj\Release\netstandard2.0\Providers.Email.AssemblyInfoInputs.cache
-D:\GIT\DFE\login.dfe.b2c-templates\src\Providers.Email\obj\Release\netstandard2.0\Providers.Email.AssemblyInfo.cs
-D:\GIT\DFE\login.dfe.b2c-templates\src\Providers.Email\obj\Release\netstandard2.0\Providers.Email.dll
-D:\GIT\DFE\login.dfe.b2c-templates\src\Providers.Email\obj\Release\netstandard2.0\Providers.Email.pdb
