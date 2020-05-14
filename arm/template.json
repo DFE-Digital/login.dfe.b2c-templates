@@ -188,9 +188,6 @@
                 "description": "Web hook for Autoscaling Alerts"
             }
         },
-        "NCSApimSubscriptionKey": {
-            "type": "securestring"
-        },
         "B2CTenant": {
             "type": "string"
         },
@@ -250,6 +247,9 @@
         },
         "PasswordResetConfirmationEmailSubject": {
             "type": "string"
+        },
+        "NCSApimSubscriptionKey": {
+            "type": "securestring"
         },
         "NCSDSSApiKey": {
             "type": "securestring"
@@ -835,6 +835,18 @@
                         {
                             "name": "ncs-dss-search-api-version",
                             "value": "[parameters('NCSDSSSearchApiVersion')]"
+                        },
+                        {
+                            "name": "B2COpenApiConfig:ServiceDescription",
+                            "value": "DfE NCS B2C Service"
+                        },
+                        {
+                            "name": "B2COpenApiConfig:ServiceTitle",
+                            "value": "DFE NCS Auth"
+                        },
+                        {
+                            "name": "B2COpenApiConfig:OpenApiVersion",
+                            "value": "V2"
                         }
                     ]
                 },
@@ -858,7 +870,7 @@
             "type": "string",
             "value": "[concat('https://', variables('resourceNames').functionName, '.azurewebsites.net')]"
         },
-        "functionHostKey":{
+        "functionKey":{
             "type":"string",
             "value":"[listkeys(concat(variables('resourceIds').functionId, '/host/default/'),'2016-08-01').masterKey]"
         },

@@ -2,8 +2,21 @@
 
 namespace B2CAzureFunc.Helpers
 {
-    public class URLBuilder
+    /// <summary>
+    ///     URLBuilder
+    /// </summary>
+    public static class UrlBuilder
     {
+        /// <summary>
+        ///     BuildUrl
+        /// </summary>
+        /// <param name="token"></param>
+        /// <param name="b2CAuthURL"></param>
+        /// <param name="b2cTenant"></param>
+        /// <param name="b2cPolicyId"></param>
+        /// <param name="b2cClientId"></param>
+        /// <param name="b2cRedirectURI"></param>
+        /// <returns></returns>
         public static string BuildUrl(string token,string b2CAuthURL,string b2cTenant,string b2cPolicyId,string b2cClientId,string b2cRedirectURI)
         {
             string nonce = Guid.NewGuid().ToString("n");

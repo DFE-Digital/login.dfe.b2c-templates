@@ -13,8 +13,20 @@ using Providers.Email;
 
 namespace B2CAzureFunc
 {
+    /// <summary>
+    ///     SignUpInvitation
+    /// </summary>
     public static class SignUpInvitation
     {
+        /// <summary>
+        ///     SignUpInvitation
+        /// </summary>
+        /// <verb>POST</verb>
+        /// <url>http://localhost:7070/api/SignUpInvitation</url>
+        /// <param name="req"></param>
+        /// <param name="log"></param>
+        /// <response code="200"><see cref="bool"/>Invitation Sent</response>
+        /// <response code="404"><see cref="Object"/>Error</response>
         [FunctionName("SignUpInvitation")]
         public static async Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] HttpRequest req,
@@ -24,13 +36,11 @@ namespace B2CAzureFunc
             {
                 log.LogInformation("Request started");
 
-
                 string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
                 dynamic data = JsonConvert.DeserializeObject(requestBody);
                 log.LogInformation(requestBody);
 
                 var accountActivationEmailExpiryInSeconds = Convert.ToInt32(Environment.GetEnvironmentVariable("AccountActivationEmailExpiryInSeconds", EnvironmentVariableTarget.Process));
-
 
                 string token = TokenBuilder.BuildIdToken(data.email.ToString(), data.givenName.ToString(), data.surname.ToString(), DateTime.UtcNow.AddSeconds(accountActivationEmailExpiryInSeconds), req.Scheme, req.Host.Value, req.PathBase.Value);
                 string b2cURL = Environment.GetEnvironmentVariable("B2CAuthorizationUrl", EnvironmentVariableTarget.Process);
@@ -38,7 +48,7 @@ namespace B2CAzureFunc
                 string b2cPolicyId = Environment.GetEnvironmentVariable("B2CSignUpPolicy", EnvironmentVariableTarget.Process);
                 string b2cClientId = Environment.GetEnvironmentVariable("B2CClientId", EnvironmentVariableTarget.Process);
                 string b2cRedirectUri = Environment.GetEnvironmentVariable("B2CRedirectUri", EnvironmentVariableTarget.Process);
-                string url = URLBuilder.BuildUrl(token, b2cURL, b2cTenant, b2cPolicyId, b2cClientId, b2cRedirectUri);
+                string url = UrlBuilder.BuildUrl(token, b2cURL, b2cTenant, b2cPolicyId, b2cClientId, b2cRedirectUri);
 
                 string htmlTemplate = System.IO.File.ReadAllText(@"D:\home\site\wwwroot\AidedRegistrationEmailTemplate.html");
                 string from = Environment.GetEnvironmentVariable("SMTPFromAddress", EnvironmentVariableTarget.Process);

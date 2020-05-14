@@ -6,8 +6,22 @@ using System.Text;
 
 namespace B2CAzureFunc.Helpers
 {
-    public class TokenBuilder
+    /// <summary>
+    /// TokenBuilder
+    /// </summary>
+    public static class TokenBuilder
     {
+        /// <summary>
+        ///     BuildIdToken
+        /// </summary>
+        /// <param name="email"></param>
+        /// <param name="givenName"></param>
+        /// <param name="surname"></param>
+        /// <param name="expiry"></param>
+        /// <param name="requestScheme"></param>
+        /// <param name="host"></param>
+        /// <param name="path"></param>
+        /// <returns></returns>
         public static string BuildIdToken(string email, string givenName, string surname, DateTime expiry, string requestScheme, string host, string path)
         {
             string issuer = $"{requestScheme}://{host}{path}/";
@@ -40,6 +54,16 @@ namespace B2CAzureFunc.Helpers
             return jwtHandler.WriteToken(token);
         }
 
+        /// <summary>
+        ///     BuildIdToken
+        /// </summary>
+        /// <param name="email"></param>
+        /// <param name="expiry"></param>
+        /// <param name="requestScheme"></param>
+        /// <param name="host"></param>
+        /// <param name="path"></param>
+        /// <param name="objectId"></param>
+        /// <returns></returns>
         public static string BuildIdToken(string email, DateTime expiry, string requestScheme, string host, string path, string objectId)
         {
             string issuer = $"{requestScheme}://{host}{path}/";

@@ -48,7 +48,6 @@ stages:
         -servicePlanSkuCount "1"
         -secondaryStorageLocation "$(deploymentSecondaryLocation)"
         -alertWebHookUrl "http://www.test.com"
-        -NCSApimSubscriptionKey "$(ncsApimSubscriptionKey)"
         -B2CTenant "B2Cdemotenant"
         -B2CSignUpPolicy "B2C_1A_signup_invitation"
         -B2CSignupConfirmPolicy "B2C_1A_signup_confirmation"
@@ -66,14 +65,16 @@ stages:
         -SignupConfirmationEmailSubject "Verify your account"
         -PasswordResetConfirmationEmailSubject "Verify your account"
         -AccountActivationEmailExpiryInSeconds "86400"
+        -NCSApimSubscriptionKey "$(ncsApimSubscriptionKey)"
         -NCSDSSApiKey "$(ncsDssApiKey)"
         -NCSDSSSearchApiUrl "$(ncsDssSearchApiUrl)"
         -NCSDSSSearchApiVersion "$(ncsDssSearchApiVersion)"'
-      eapimRegister: false
+      eapimRegister: true
       eapimServiceConnection: $(eapimServiceConnection)
       eapimProductName: 'NCS Identity'
       eapimProductContactEmail: paul.sheridan@digital.education.gov.uk
       eapimApiPublishedName: 'NCS Identity'
-      eapimApiOpenApiSchemaPath: '$(Build.SourcesDirectory)/eapim/api/schema.json'
+      eapimApiOpenApiSchemaPath: '/api/swagger'
       eapimApiPublishedPath: ncsauth
       eapimApiXmlPolicyPath: '$(Build.SourcesDirectory)/eapim/api/policy.xml'
+

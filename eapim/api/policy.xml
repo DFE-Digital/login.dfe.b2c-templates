@@ -5,7 +5,6 @@
       <vary-by-header>Accept-Charset</vary-by-header>
       <vary-by-header>Authorization</vary-by-header>
     </cache-lookup>
-    <authentication-certificate thumbprint="{{AuthenticationThumbprint}}"/>
     <base />
   </inbound>
   <backend>
