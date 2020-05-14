@@ -13,7 +13,13 @@
         /// From
         /// </summary>
         public string From { get; set; }
+        /// <summary>
+        /// Name
+        /// </summary>
         public string Name { get; set; }
+        /// <summary>
+        /// Content
+        /// </summary>
         public string Content { get; set; }
         /// <summary>
         /// Subject
