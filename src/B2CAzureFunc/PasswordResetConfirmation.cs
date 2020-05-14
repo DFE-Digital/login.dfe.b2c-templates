@@ -40,7 +40,7 @@ namespace B2CAzureFunc
                 string b2cRedirectUri = Environment.GetEnvironmentVariable("B2CRedirectUri", EnvironmentVariableTarget.Process);
                 string url = URLBuilder.BuildUrl(token, b2cURL, b2cTenant, b2cPolicyId, b2cClientId, b2cRedirectUri);
 
-                string htmlTemplate = System.IO.File.ReadAllText(@"D:\home\site\wwwroot\Template.html");
+                string htmlTemplate = System.IO.File.ReadAllText(@"D:\home\site\wwwroot\ForgotPasswordEmailTemplate.html");
                 string from = Environment.GetEnvironmentVariable("SMTPFromAddress", EnvironmentVariableTarget.Process);
                 string subject = Environment.GetEnvironmentVariable("PasswordResetConfirmationEmailSubject", EnvironmentVariableTarget.Process);
 
@@ -50,7 +50,8 @@ namespace B2CAzureFunc
                     EmailTemplate = htmlTemplate,
                     From = from,
                     Subject = subject,
-                    To = data.email.ToString()
+                    To = data.email.ToString(),
+                    Name=data.givenName.ToString()
                 };
 
                 var result = EmailService.SendEmail(model);

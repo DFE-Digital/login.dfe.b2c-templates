@@ -179,7 +179,7 @@
         <UserInputType>TextBox</UserInputType>
         <Restriction>
           <!-- <Pattern RegularExpression="^[a-zA-Z0-9.!#$%&amp;'^_`{}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$" HelpText="Please enter a valid email address." /> -->
-          <Pattern RegularExpression="^[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}$" HelpText="Please enter a valid email address." />
+          <Pattern RegularExpression="^[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}$" HelpText="Enter a valid email address." />
         </Restriction>
       </ClaimType>
 
@@ -734,6 +734,7 @@
             <!-- Optional claims -->
             <OutputClaim ClaimTypeReferenceId="userPrincipalName" />
             <OutputClaim ClaimTypeReferenceId="displayName" />
+            <OutputClaim ClaimTypeReferenceId="givenName" />
             <OutputClaim ClaimTypeReferenceId="accountEnabled" />
             <OutputClaim ClaimTypeReferenceId="otherMails" />
             <OutputClaim ClaimTypeReferenceId="signInNames.emailAddress" />
