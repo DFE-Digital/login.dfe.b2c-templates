@@ -42,6 +42,7 @@ namespace B2CAzureFunc
         /// </summary>
         /// <param name="req"></param>
         /// <param name="log"></param>
+        /// <param name="ctx"></param>
         [FunctionName("Swagger")]
         public HttpResponseMessage GenerateSwagger([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = null)] HttpRequest req, ILogger log, ExecutionContext ctx)
         {

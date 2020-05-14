@@ -5,8 +5,16 @@ using System.Net.Mail;
 
 namespace Providers.Email
 {
+    /// <summary>
+    ///     Email Service
+    /// </summary>
     public class EmailService
     {
+        /// <summary>
+        /// Send Email
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         public static bool SendEmail(EmailModel model)
         {
                 MailMessage mailMessage = new MailMessage();
