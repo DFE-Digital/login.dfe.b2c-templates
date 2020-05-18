@@ -719,7 +719,7 @@
         <TechnicalProfile Id="AAD-UserReadUsingEmailAddress">
           <Metadata>
             <Item Key="Operation">Read</Item>
-            <Item Key="RaiseErrorIfClaimsPrincipalDoesNotExist">true</Item>
+            <Item Key="RaiseErrorIfClaimsPrincipalDoesNotExist">false</Item>
             <Item Key="UserMessageIfClaimsPrincipalDoesNotExist">An account could not be found for the provided user ID.</Item>
           </Metadata>
           <IncludeInSso>false</IncludeInSso>
@@ -735,13 +735,12 @@
             <OutputClaim ClaimTypeReferenceId="userPrincipalName" />
             <OutputClaim ClaimTypeReferenceId="displayName" />
             <OutputClaim ClaimTypeReferenceId="givenName" />
-            <OutputClaim ClaimTypeReferenceId="accountEnabled" />
             <OutputClaim ClaimTypeReferenceId="otherMails" />
             <OutputClaim ClaimTypeReferenceId="signInNames.emailAddress" />
           </OutputClaims>
-          <OutputClaimsTransformations>
+          <!-- <OutputClaimsTransformations>
             <OutputClaimsTransformation ReferenceId="AssertAccountEnabledIsTrue" />
-          </OutputClaimsTransformations>
+          </OutputClaimsTransformations> -->
           <IncludeTechnicalProfile ReferenceId="AAD-Common" />
         </TechnicalProfile>
 

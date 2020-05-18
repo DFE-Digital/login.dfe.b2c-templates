@@ -62,7 +62,8 @@ namespace B2CAzureFunc
                     EmailTemplate = htmlTemplate,
                     From = from,
                     Subject = subject,
-                    To = data.email.ToString()
+                    To = data.email.ToString(),
+                    Name = data.givenName.ToString()
                 };
 
                 var result = EmailService.SendEmail(model);
