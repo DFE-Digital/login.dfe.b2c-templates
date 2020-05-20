@@ -20,41 +20,6 @@ variables:
   applicationName: ncsauth
   environmentName: dev
   eapimProductName: 'NCS Identity'
-  b2cAuthUrl: "https://{0}.b2clogin.com/{0}.onmicrosoft.com/{1}/oauth2/v2.0/authorize?client_id={2}&nonce={4}&redirect_uri={3}&scope=openid&response_type=id_token"
-  armVariables: '
-  -applicationName "$(applicationName)"
-  -publisherEmail "test@test.com"
-  -publisherName "deploymentTest"
-  -apimSku "Developer"
-  -apimSkuCount "1"
-  -servicePlanSkuName "B1"
-  -servicePlanSkuTier "Basic"
-  -servicePlanSkuCount "1"
-  -secondaryStorageLocation "$(deploymentSecondaryLocation)"
-  -alertWebHookUrl "http://www.test.com"
-  -B2CTenant "B2Cdemotenant"
-  -B2CSignUpPolicy "B2C_1A_signup_invitation"
-  -B2CSignupConfirmPolicy "B2C_1A_signup_confirmation"
-  -B2CPasswordResetConfirmPolicy "B2C_1A_passwordResetConformation"
-  -B2CClientId "$(b2cClientId)"
-  -B2CRedirectUri "https://jwt.ms"
-  -B2CAuthorizationUrl "https://{0}.b2clogin.com/{0}.onmicrosoft.com/{1}/oauth2/v2.0/authorize?client_id={2}&nonce={4}&redirect_uri={3}&scope=openid&response_type=id_token"
-  -ClientSigningKey "$(clientSigningKey)"
-  -SMTPServer "$(smtpServer)"
-  -SMTPUsername "$(smtpUsername)"
-  -SMTPPassword "$(smtpPassword)"
-  -SMTPFromAddress "$(smtpFromAddress)"
-  -SMTPSubject "Sign-in to NCS"
-  -SignupEmailSubject "Create your account"
-  -SignupConfirmationEmailSubject "Verify your account"
-  -PasswordResetConfirmationEmailSubject "Verify your account"
-  -AccountActivationEmailExpiryInSeconds "86400"
-  -NCSApimSubscriptionKey "$(ncsApimSubscriptionKey)"
-  -NCSDSSApiKey "$(ncsDssApiKey)"
-  -NCSDSSSearchApiUrl "$(ncsDssSearchApiUrl)"
-  -NCSDSSSearchApiVersion "$(ncsDssSearchApiVersion)"'
-
-
 
 stages:
 - stage: Build
@@ -65,43 +30,25 @@ stages:
       webPublish: false
 
 - stage: deployDev
-  displayName: Deployment - DEV
-  variables:
-    extendedArmVariables: [ variables.armVariables, '-environmentName "dev"' ]
-    armParameters: ${{ join(variables.extendedArmVariables, ' ')}}
-  jobs:
-  - template: /Application/dotnet/jobs/deploy-function.yml@devopsTemplates
-    parameters:
-      applicationName: $(applicationName)
-      environmentName: 'dev'
-      serviceConnection: $(devServiceConnection)
-      subscriptionId: $(devSubscriptionId)
-      resourceGroupName: $(projectId)d01-$(applicationName)
-      location: $(deploymentPrimaryLocation)
-      templatePath: '$(Build.SourcesDirectory)/arm/template.json'
-      overrideParameters: $(armParameters)
-      eapimRegister: true
-      eapimServiceConnection: $(eapimServiceConnection)
-      eapimProductName: 'NCS Identity'
-      eapimProductContactEmail: paul.sheridan@digital.education.gov.uk
-      eapimApiPublishedName: 'NCS Identity'
-      eapimApiOpenApiSchemaPath: '/api/swagger'
-      eapimApiPublishedPath: ncsauth
-      eapimApiXmlPolicyPath: '$(Build.SourcesDirectory)/eapim/api/policy.xml'
+- template: yaml/stages/deploy.yml
+  parameters:
+    environmentName: 'dev'
+    environmentId: 'd01'
+    applicationName: $(applicationName)
+    serviceConnection: $(devServiceConnection)
+    subscriptionId: $(devSubscriptionId)
+    deploymentPrimaryLocation: $(deploymentPrimaryLocation)
+    deploymentSecondaryLocation: $(deploymentSecondaryLocation)
+    deployApim: true
 
 - stage: deployTest
-  displayName: Deployment - TEST
-  variables:
-    extendedArmVariables: [ variables.armVariables, '-environmentName "test"' ]
-    armParameters: ${{ join(variables.extendedArmVariables, ' ')}}
-  jobs:
-  - template: /Application/dotnet/jobs/deploy-function.yml@devopsTemplates
-    parameters:
-      applicationName: $(applicationName)
-      environmentName: 'test'
-      serviceConnection: $(testServiceConnection)
-      subscriptionId: $(testSubscriptionId)
-      resourceGroupName: $(projectId)t01-$(applicationName)
-      location: $(deploymentPrimaryLocation)
-      templatePath: '$(Build.SourcesDirectory)/arm/template.json'
-      overrideParameters: $(armParameters)
+- template: yaml/stages/deploy.yml
+  parameters:
+    environmentName: 'test'
+    environmentId: 't01'
+    applicationName: $(applicationName)
+    serviceConnection: $(testServiceConnection)
+    subscriptionId: $(testSubscriptionId)
+    deploymentPrimaryLocation: $(deploymentPrimaryLocation)
+    deploymentSecondaryLocation: $(deploymentSecondaryLocation)
+    deployApim: false
