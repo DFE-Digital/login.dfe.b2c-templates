@@ -21,7 +21,8 @@ variables:
   eapimProductName: 'NCS Identity'
 
 stages:
-- stage: Build
+- stage: build
+  displayName: Build
   jobs:
   - template: /Application/dotnet/jobs/build-application.yml@devopsTemplates
     parameters:
@@ -30,6 +31,7 @@ stages:
 
 - stage: deployDev
   displayName: Deploy - DEV
+  dependsOn: build
   jobs:
   - template: yaml/jobs/deploy.yml
     parameters:
@@ -43,6 +45,7 @@ stages:
 
 - stage: deployTest
   displayName: Deploy - TEST
+  dependsOn: build
   jobs:
   - template: yaml/jobs/deploy.yml
     parameters:
