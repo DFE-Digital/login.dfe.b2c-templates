@@ -29,7 +29,6 @@ variables:
   -servicePlanSkuTier Basic,
   -servicePlanSkuCount 1,
   -secondaryStorageLocation $(deploymentSecondaryLocation),
-  -alertWebHookUrl http://www.test.com,
   -B2CTenant B2Cdemotenant,
   -B2CSignUpPolicy B2C_1A_signup_invitation,
   -B2CSignupConfirmPolicy B2C_1A_signup_confirmation,

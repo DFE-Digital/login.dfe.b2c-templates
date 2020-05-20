@@ -186,7 +186,8 @@
             "type": "string",
             "metadata": {
                 "description": "Web hook for Autoscaling Alerts"
-            }
+            },
+            "defaultValue": "https://www.test.com"
         },
         "B2CTenant": {
             "type": "string"
