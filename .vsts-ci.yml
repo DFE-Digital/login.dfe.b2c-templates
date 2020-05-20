@@ -30,25 +30,27 @@ stages:
       webPublish: false
 
 - stage: deployDev
-- template: yaml/jobs/deploy.yml
-  parameters:
-    environmentName: 'dev'
-    environmentId: 'd01'
-    applicationName: $(applicationName)
-    serviceConnection: $(devServiceConnection)
-    subscriptionId: $(devSubscriptionId)
-    deploymentPrimaryLocation: $(deploymentPrimaryLocation)
-    deploymentSecondaryLocation: $(deploymentSecondaryLocation)
-    deployApim: true
+  jobs:
+  - template: yaml/jobs/deploy.yml
+    parameters:
+      environmentName: 'dev'
+      environmentId: 'd01'
+      applicationName: $(applicationName)
+      serviceConnection: $(devServiceConnection)
+      subscriptionId: $(devSubscriptionId)
+      deploymentPrimaryLocation: $(deploymentPrimaryLocation)
+      deploymentSecondaryLocation: $(deploymentSecondaryLocation)
+      deployApim: true
 
 - stage: deployTest
-- template: yaml/jobs/deploy.yml
-  parameters:
-    environmentName: 'test'
-    environmentId: 't01'
-    applicationName: $(applicationName)
-    serviceConnection: $(testServiceConnection)
-    subscriptionId: $(testSubscriptionId)
-    deploymentPrimaryLocation: $(deploymentPrimaryLocation)
-    deploymentSecondaryLocation: $(deploymentSecondaryLocation)
-    deployApim: false
+  jobs:
+  - template: yaml/jobs/deploy.yml
+    parameters:
+      environmentName: 'test'
+      environmentId: 't01'
+      applicationName: $(applicationName)
+      serviceConnection: $(testServiceConnection)
+      subscriptionId: $(testSubscriptionId)
+      deploymentPrimaryLocation: $(deploymentPrimaryLocation)
+      deploymentSecondaryLocation: $(deploymentSecondaryLocation)
+      deployApim: false
