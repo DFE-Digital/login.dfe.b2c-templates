@@ -18,7 +18,6 @@ trigger:
 
 variables:
   applicationName: ncsauth
-  environmentName: dev
   eapimProductName: 'NCS Identity'
 
 stages:
@@ -30,12 +29,12 @@ stages:
       webPublish: false
 
 - stage: deployDev
+  displayName: Deploy - DEV
   jobs:
   - template: yaml/jobs/deploy.yml
     parameters:
       environmentName: 'dev'
       environmentId: 'd01'
-      applicationName: $(applicationName)
       serviceConnection: $(devServiceConnection)
       subscriptionId: $(devSubscriptionId)
       deploymentPrimaryLocation: $(deploymentPrimaryLocation)
@@ -43,12 +42,12 @@ stages:
       deployApim: true
 
 - stage: deployTest
+  displayName: Deploy - TEST
   jobs:
   - template: yaml/jobs/deploy.yml
     parameters:
       environmentName: 'test'
       environmentId: 't01'
-      applicationName: $(applicationName)
       serviceConnection: $(testServiceConnection)
       subscriptionId: $(testSubscriptionId)
       deploymentPrimaryLocation: $(deploymentPrimaryLocation)

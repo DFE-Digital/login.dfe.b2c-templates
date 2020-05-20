@@ -20,15 +20,15 @@ parameters:
 jobs:
 - template: /Application/dotnet/jobs/deploy-function.yml@devopsTemplates
   parameters:
-      applicationName: ${{parameters.applicationName}}
+      applicationName: $(applicationName)
       environmentName: ${{parameters.environmentName}}
       serviceConnection: ${{parameters.serviceConnection}}
       subscriptionId: ${{parameters.subscriptionId}}
-      resourceGroupName: s141${{parameters.environmentId}}-${{parameters.applicationName}}
+      resourceGroupName: s141${{parameters.environmentId}}-$(applicationName)
       location: ${{parameters.deploymentPrimaryLocation}}
       templatePath: '$(Build.SourcesDirectory)/arm/template.json'
       overrideParameters: '
-      -applicationName "${{parameters.applicationName}}"
+      -applicationName "$(applicationName)"
       -environmentName "${{parameters.environmentName}}"
       -publisherEmail "test@test.com"
       -publisherName "deploymentTest"
