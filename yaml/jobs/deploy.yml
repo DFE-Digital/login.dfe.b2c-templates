@@ -17,9 +17,6 @@ parameters:
   type: boolean
   default: false
 
-
-stage: deploy
-displayName: deployment - ${{parameters.environmentName}}
 jobs:
 - template: /Application/dotnet/jobs/deploy-function.yml@devopsTemplates
   parameters:

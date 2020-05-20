@@ -30,7 +30,7 @@ stages:
       webPublish: false
 
 - stage: deployDev
-- template: yaml/stages/deploy.yml
+- template: yaml/jobs/deploy.yml
   parameters:
     environmentName: 'dev'
     environmentId: 'd01'
@@ -42,7 +42,7 @@ stages:
     deployApim: true
 
 - stage: deployTest
-- template: yaml/stages/deploy.yml
+- template: yaml/jobs/deploy.yml
   parameters:
     environmentName: 'test'
     environmentId: 't01'
