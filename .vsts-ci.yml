@@ -20,7 +20,7 @@ variables:
   applicationName: ncsauth
   environmentName: dev
   eapimProductName: 'NCS Identity'
-  b2cAuthUrl: https://{0}.b2clogin.com/{0}.onmicrosoft.com/{1}/oauth2/v2.0/authorize?client_id={2}&nonce={4}&redirect_uri={3}&scope=openid&response_type=id_token
+  b2cAuthUrl: "https://{0}.b2clogin.com/{0}.onmicrosoft.com/{1}/oauth2/v2.0/authorize?client_id={2}&nonce={4}&redirect_uri={3}&scope=openid&response_type=id_token"
   armVariables: [
   -applicationName $(applicationName),
   -publisherEmail test@test.com,
@@ -29,12 +29,13 @@ variables:
   -servicePlanSkuTier Basic,
   -servicePlanSkuCount 1,
   -secondaryStorageLocation $(deploymentSecondaryLocation),
+  -alertWebHookUrl "http://www.test.com",
   -B2CTenant B2Cdemotenant,
   -B2CSignUpPolicy B2C_1A_signup_invitation,
   -B2CSignupConfirmPolicy B2C_1A_signup_confirmation,
   -B2CPasswordResetConfirmPolicy B2C_1A_passwordResetConformation,
   -B2CClientId $(b2cClientId),
-  -B2CRedirectUri https://jwt.ms,
+  -B2CRedirectUri "https://jwt.ms",
   -B2CAuthorizationUrl $(b2cAuthUrl),
   -ClientSigningKey $(clientSigningKey),
   -SMTPServer $(smtpServer),
