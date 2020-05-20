@@ -12,11 +12,43 @@ trigger:
     exclude:
     - develop/*
 
-
 variables:
   applicationName: ncsauth
   environmentName: dev
   eapimProductName: 'NCS Identity'
+  armOverrides: '
+  -applicationName "$(applicationName)"
+  -environmentName "dev"
+  -publisherEmail "test@test.com"
+  -publisherName "deploymentTest"
+  -apimSku "Developer"
+  -apimSkuCount "1"
+  -servicePlanSkuName "B1"
+  -servicePlanSkuTier "Basic"
+  -servicePlanSkuCount "1"
+  -secondaryStorageLocation "$(deploymentSecondaryLocation)"
+  -alertWebHookUrl "http://www.test.com"
+  -B2CTenant "B2Cdemotenant"
+  -B2CSignUpPolicy "B2C_1A_signup_invitation"
+  -B2CSignupConfirmPolicy "B2C_1A_signup_confirmation"
+  -B2CPasswordResetConfirmPolicy "B2C_1A_passwordResetConformation"
+  -B2CClientId "$(b2cClientId)"
+  -B2CRedirectUri "https://jwt.ms"
+  -B2CAuthorizationUrl "https://{0}.b2clogin.com/{0}.onmicrosoft.com/{1}/oauth2/v2.0/authorize?client_id={2}&nonce={4}&redirect_uri={3}&scope=openid&response_type=id_token"
+  -ClientSigningKey "$(clientSigningKey)"
+  -SMTPServer "$(smtpServer)"
+  -SMTPUsername "$(smtpUsername)"
+  -SMTPPassword "$(smtpPassword)"
+  -SMTPFromAddress "$(smtpFromAddress)"
+  -SMTPSubject "Sign-in to NCS"
+  -SignupEmailSubject "Create your account"
+  -SignupConfirmationEmailSubject "Verify your account"
+  -PasswordResetConfirmationEmailSubject "Verify your account"
+  -AccountActivationEmailExpiryInSeconds "86400"
+  -NCSApimSubscriptionKey "$(ncsApimSubscriptionKey)"
+  -NCSDSSApiKey "$(ncsDssApiKey)"
+  -NCSDSSSearchApiUrl "$(ncsDssSearchApiUrl)"
+  -NCSDSSSearchApiVersion "$(ncsDssSearchApiVersion)"'
 
 stages:
 - stage: Build
@@ -26,49 +58,19 @@ stages:
       applicationName: $(applicationName)
       webPublish: false
 
-- stage: Deploy
+- stage: deployDev`
+  displayName: Deployment - DEV
   jobs:
   - template: /Application/dotnet/jobs/deploy-function.yml@devopsTemplates
     parameters:
       applicationName: $(applicationName)
-      environmentName: $(environmentName)
+      environmentName: 'dev'
       serviceConnection: $(serviceConnection)
       subscriptionId: $(devSubscriptionId)
       resourceGroupName: $(projectId)d01-$(applicationName)
       location: $(deploymentPrimaryLocation)
       templatePath: '$(Build.SourcesDirectory)/arm/template.json'
-      overrideParameters: '-applicationName "$(applicationName)"
-        -environmentName "dev"
-        -publisherEmail "test@test.com"
-        -publisherName "deploymentTest"
-        -apimSku "Developer"
-        -apimSkuCount "1"
-        -servicePlanSkuName "B1"
-        -servicePlanSkuTier "Basic"
-        -servicePlanSkuCount "1"
-        -secondaryStorageLocation "$(deploymentSecondaryLocation)"
-        -alertWebHookUrl "http://www.test.com"
-        -B2CTenant "B2Cdemotenant"
-        -B2CSignUpPolicy "B2C_1A_signup_invitation"
-        -B2CSignupConfirmPolicy "B2C_1A_signup_confirmation"
-        -B2CPasswordResetConfirmPolicy "B2C_1A_passwordResetConformation"
-        -B2CClientId "$(b2cClientId)"
-        -B2CRedirectUri "https://jwt.ms"
-        -B2CAuthorizationUrl "https://{0}.b2clogin.com/{0}.onmicrosoft.com/{1}/oauth2/v2.0/authorize?client_id={2}&nonce={4}&redirect_uri={3}&scope=openid&response_type=id_token"
-        -ClientSigningKey "$(clientSigningKey)"
-        -SMTPServer "$(smtpServer)"
-        -SMTPUsername "$(smtpUsername)"
-        -SMTPPassword "$(smtpPassword)"
-        -SMTPFromAddress "$(smtpFromAddress)"
-        -SMTPSubject "Sign-in to NCS"
-        -SignupEmailSubject "Create your account"
-        -SignupConfirmationEmailSubject "Verify your account"
-        -PasswordResetConfirmationEmailSubject "Verify your account"
-        -AccountActivationEmailExpiryInSeconds "86400"
-        -NCSApimSubscriptionKey "$(ncsApimSubscriptionKey)"
-        -NCSDSSApiKey "$(ncsDssApiKey)"
-        -NCSDSSSearchApiUrl "$(ncsDssSearchApiUrl)"
-        -NCSDSSSearchApiVersion "$(ncsDssSearchApiVersion)"'
+      overrideParameters: $(armOverrides)
       eapimRegister: true
       eapimServiceConnection: $(eapimServiceConnection)
       eapimProductName: 'NCS Identity'
@@ -78,3 +80,16 @@ stages:
       eapimApiPublishedPath: ncsauth
       eapimApiXmlPolicyPath: '$(Build.SourcesDirectory)/eapim/api/policy.xml'
 
+- stage: deployDev`
+  displayName: Deployment - TEST
+  jobs:
+  - template: /Application/dotnet/jobs/deploy-function.yml@devopsTemplates
+    parameters:
+      applicationName: $(applicationName)
+      environmentName: 'test'
+      serviceConnection: $(serviceConnection)
+      subscriptionId: $(testSubscriptionId)
+      resourceGroupName: $(projectId)t01-$(applicationName)
+      location: $(deploymentPrimaryLocation)
+      templatePath: '$(Build.SourcesDirectory)/arm/template.json'
+      overrideParameters: $(armOverrides)
