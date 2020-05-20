@@ -18,7 +18,6 @@ trigger:
 
 variables:
   applicationName: ncsauth
-  eapimProductName: 'NCS Identity'
 
 stages:
 - stage: build
