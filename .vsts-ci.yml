@@ -1,5 +1,9 @@
+name: $(BuildDefinitionName)_tag-$(BuildID)_at-$(Date:yyyyMMdd)$(Rev:.r)
 resources:
   repositories:
+    - repository: self
+      persistCredentials: true
+      clean: true
     - repository: devopsTemplates
       type: github
       endpoint: DfE-Digital
