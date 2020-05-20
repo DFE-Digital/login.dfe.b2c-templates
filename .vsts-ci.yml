@@ -62,7 +62,7 @@ stages:
       applicationName: $(applicationName)
       webPublish: false
 
-- stage: deployDev`
+- stage: deployDev
   displayName: Deployment - DEV
   jobs:
   - template: /Application/dotnet/jobs/deploy-function.yml@devopsTemplates
@@ -84,7 +84,7 @@ stages:
       eapimApiPublishedPath: ncsauth
       eapimApiXmlPolicyPath: '$(Build.SourcesDirectory)/eapim/api/policy.xml'
 
-- stage: deployDev`
+- stage: deployTest
   displayName: Deployment - TEST
   jobs:
   - template: /Application/dotnet/jobs/deploy-function.yml@devopsTemplates
