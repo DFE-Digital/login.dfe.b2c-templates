@@ -491,11 +491,20 @@
       </ContentDefinition>
 
       <ContentDefinition Id="api.localaccountpasswordreset">
-        <LoadUri>~/tenant/templates/AzureBlue/selfAsserted.cshtml</LoadUri>
+        <LoadUri>https://s141d01-signin-int.azurewebsites.net/b2c/resetpassword</LoadUri>
         <RecoveryUri>~/common/default_page_error.html</RecoveryUri>
         <DataUri>urn:com:microsoft:aad:b2c:elements:contract:selfasserted:1.2.0</DataUri>
         <Metadata>
           <Item Key="DisplayName">Local account change password page</Item>
+        </Metadata>
+      </ContentDefinition>
+
+      <ContentDefinition Id="api.localaccountforgotemail">
+        <LoadUri>https://s141d01-signin-int.azurewebsites.net/b2c/forgottenemail</LoadUri>
+        <RecoveryUri>~/common/default_page_error.html</RecoveryUri>
+        <DataUri>urn:com:microsoft:aad:b2c:elements:contract:selfasserted:1.2.0</DataUri>
+        <Metadata>
+          <Item Key="DisplayName">Local account forgotten email</Item>
         </Metadata>
       </ContentDefinition>
 
@@ -554,9 +563,10 @@
           <DisplayName>Local Account SignIn</DisplayName>
           <Protocol Name="OpenIdConnect" />
           <Metadata>
-            <Item Key="UserMessageIfClaimsPrincipalDoesNotExist">We can't seem to find your account</Item>
-            <Item Key="UserMessageIfInvalidPassword">Your password is incorrect</Item>
-            <Item Key="UserMessageIfOldPasswordUsed">Looks like you used an old password</Item>
+            <Item Key="UserMessageIfClaimsPrincipalDoesNotExist">Your sign in details are incorrect. Try again.</Item>
+            <Item Key="UserMessageIfInvalidPassword">Your sign in details are incorrect. Try again.</Item>
+            <Item Key="UserMessageIfOldPasswordUsed">Your sign in details are incorrect. Try again.</Item>
+            <Item Key="DefaultMessage">Your sign in details are incorrect. Try again.</Item>
 
             <Item Key="ProviderName">https://sts.windows.net/</Item>
             <Item Key="METADATA">https://login.microsoftonline.com/{tenant}/.well-known/openid-configuration</Item>

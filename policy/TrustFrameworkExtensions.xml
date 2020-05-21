@@ -105,7 +105,7 @@
         </ClaimType>
 
         <ClaimType Id="postCode">
-          <DisplayName>Postal Code</DisplayName>
+          <DisplayName>Enter your postcode</DisplayName>
           <DataType>string</DataType>
           <UserHelpText>For example, SW1A 1AA</UserHelpText>
           <UserInputType>TextBox</UserInputType>
@@ -127,6 +127,10 @@
         <ClaimType Id="foundEmailMessagelast">
           <DataType>string</DataType>
           <UserInputType>Paragraph</UserInputType>
+        </ClaimType>
+
+        <ClaimType Id="retryCounter">
+          <DataType>int</DataType>
         </ClaimType>
 
     </ClaimsSchema>
@@ -411,6 +415,7 @@
             <Item Key="language.button_continue">Activate Account</Item>
             <!-- Sample: Remove sign-up email verification -->
             <Item Key="EnforceEmailVerification">False</Item>
+            <Item Key="setting.retryLimit">5</Item>
           </Metadata>
           <InputClaimsTransformations>
             <!--Sample: Copy the email to ReadOnlyEamil claim type-->  
@@ -422,20 +427,23 @@
             <InputClaim ClaimTypeReferenceId="surname" />
           </InputClaims>
           <OutputClaims>
-            <OutputClaim ClaimTypeReferenceId="objectId" />
+            <OutputClaim ClaimTypeReferenceId="objectId" DefaultValue="123" />
             <OutputClaim ClaimTypeReferenceId="newPassword" Required="true" />
             <OutputClaim ClaimTypeReferenceId="reenterPassword" Required="true" />
             <OutputClaim ClaimTypeReferenceId="dobLabel" />
             <OutputClaim ClaimTypeReferenceId="day" Required="true" />
             <OutputClaim ClaimTypeReferenceId="month" Required="true" />
             <OutputClaim ClaimTypeReferenceId="year" Required="true" />
-            <OutputClaim ClaimTypeReferenceId="postCode" Required="true" />
             <OutputClaim ClaimTypeReferenceId="tncCheckbox" Required="true" />
+
+            <OutputClaim ClaimTypeReferenceId="retryCounter" DefaultValue="0" />
+            <OutputClaim ClaimTypeReferenceId="isFound" DefaultValue="false" />
             <OutputClaim ClaimTypeReferenceId="executed-SelfAsserted-Input" DefaultValue="true" />
-            <OutputClaim ClaimTypeReferenceId="authenticationSource" />
-            <OutputClaim ClaimTypeReferenceId="newUser" />
+            <OutputClaim ClaimTypeReferenceId="authenticationSource" DefaultValue="localAccountAuthentication"/>
+            <OutputClaim ClaimTypeReferenceId="newUser" DefaultValue="true" />
           </OutputClaims>
           <ValidationTechnicalProfiles>
+            <ValidationTechnicalProfile ReferenceId="API-AidedSignup-Validate-UserInfo" />
             <ValidationTechnicalProfile ReferenceId="AAD-Aided-UserWriteUsingLogonEmail" />
           </ValidationTechnicalProfiles>
           <UseTechnicalProfileForSessionManagement ReferenceId="SM-Noop" />
@@ -753,7 +761,7 @@
           <Protocol Name="Proprietary" Handler="Web.TPEngine.Providers.SelfAssertedAttributeProvider, Web.TPEngine, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" />
           <Metadata>
             <Item Key="IpAddressClaimReferenceId">IpAddress</Item>
-            <Item Key="ContentDefinitionReferenceId">api.localaccountpasswordreset</Item>
+            <Item Key="ContentDefinitionReferenceId">api.localaccountforgotemail</Item>
             <Item Key="UserMessageIfClaimsTransformationBooleanValueIsNotEqual">Your account has been locked. Contact your support person to unlock it, then try again.</Item>
             <Item Key="language.button_continue">Find email address</Item>
           </Metadata>
@@ -847,6 +855,33 @@
                 </OutputClaims>
                 <UseTechnicalProfileForSessionManagement ReferenceId="SM-Noop" />
             </TechnicalProfile>
+
+            <TechnicalProfile Id="API-AidedSignup-Validate-UserInfo">
+                <DisplayName>User OTP Notifications</DisplayName>    
+                <Protocol Name="Proprietary" Handler="Web.TPEngine.Providers.RestfulProvider, Web.TPEngine, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" />
+                <Metadata>
+                  <Item Key="ServiceUrl">https://dev-api-customerengagement.platform.education.gov.uk/ncsidentity/AidedRegistrationValidateUserDetails</Item>
+                  <Item Key="SendClaimsIn">Body</Item>                        
+                  <Item Key="AuthenticationType">ClientCertificate</Item>
+                </Metadata>
+                <CryptographicKeys>
+                    <Key Id="ClientCertificate" StorageReferenceId="B2C_1A_APIMClientCertificate" />
+                </CryptographicKeys>
+                <InputClaims>
+                    <InputClaim ClaimTypeReferenceId="givenName" PartnerClaimType="GivenName" />
+                    <InputClaim ClaimTypeReferenceId="surname" PartnerClaimType="SurName"/>
+                    <InputClaim ClaimTypeReferenceId="day" PartnerClaimType="Day"/>
+                    <InputClaim ClaimTypeReferenceId="month" PartnerClaimType="Month"/>
+                    <InputClaim ClaimTypeReferenceId="year" PartnerClaimType="Year"/>
+                    <InputClaim ClaimTypeReferenceId="email" PartnerClaimType="Email"/>
+                    <InputClaim ClaimTypeReferenceId="retryCounter" PartnerClaimType="RetryCounter"/>
+                </InputClaims>
+                <OutputClaims>
+                  <OutputClaim ClaimTypeReferenceId="isFound" />
+                </OutputClaims>
+                <UseTechnicalProfileForSessionManagement ReferenceId="SM-Noop" />
+            </TechnicalProfile>
+
         </TechnicalProfiles>
     </ClaimsProvider>
 

@@ -10,6 +10,7 @@ using Newtonsoft.Json;
 using B2CAzureFunc.Helpers;
 using Providers.Email.Model;
 using Providers.Email;
+using B2CAzureFunc.Models;
 
 namespace B2CAzureFunc
 {
@@ -37,12 +38,12 @@ namespace B2CAzureFunc
                 log.LogInformation("Request started");
 
                 string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
-                dynamic data = JsonConvert.DeserializeObject(requestBody);
+                var data = JsonConvert.DeserializeObject<SignupInvitationModel>(requestBody);
                 log.LogInformation(requestBody);
 
                 var accountActivationEmailExpiryInSeconds = Convert.ToInt32(Environment.GetEnvironmentVariable("AccountActivationEmailExpiryInSeconds", EnvironmentVariableTarget.Process));
 
-                string token = TokenBuilder.BuildIdToken(data.email.ToString(), data.givenName.ToString(), data.surname.ToString(), DateTime.UtcNow.AddSeconds(accountActivationEmailExpiryInSeconds), req.Scheme, req.Host.Value, req.PathBase.Value);
+                string token = TokenBuilder.BuildIdToken(data.Email.ToString(), data.GivenName.ToString(), data.LastName.ToString(), DateTime.UtcNow.AddSeconds(accountActivationEmailExpiryInSeconds), req.Scheme, req.Host.Value, req.PathBase.Value);
                 string b2cURL = Environment.GetEnvironmentVariable("B2CAuthorizationUrl", EnvironmentVariableTarget.Process);
                 string b2cTenant = Environment.GetEnvironmentVariable("B2CTenant", EnvironmentVariableTarget.Process);
                 string b2cPolicyId = Environment.GetEnvironmentVariable("B2CSignUpPolicy", EnvironmentVariableTarget.Process);
@@ -54,13 +55,15 @@ namespace B2CAzureFunc
                 string from = Environment.GetEnvironmentVariable("SMTPFromAddress", EnvironmentVariableTarget.Process);
                 string subject = Environment.GetEnvironmentVariable("SignupEmailSubject", EnvironmentVariableTarget.Process);
 
+                htmlTemplate = htmlTemplate.Replace("#name#", data.GivenName.ToString()).Replace("#link#", url);
+
                 EmailModel model = new EmailModel
                 {
                     Content = url,
                     EmailTemplate = htmlTemplate,
                     From = from,
                     Subject = subject,
-                    To = data.email.ToString()
+                    To = data.Email.ToString()
                 };
 
                 var result = EmailService.SendEmail(model);

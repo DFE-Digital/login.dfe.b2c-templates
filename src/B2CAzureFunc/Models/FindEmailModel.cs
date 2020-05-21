@@ -34,5 +34,15 @@
         /// PostalCode
         /// </summary>
         public string PostalCode { get; set; }
+
+        /// <summary>
+        /// Email
+        /// </summary>
+        public string Email { get; set; }
+
+        /// <summary>
+        /// RetryCounter
+        /// </summary>
+        public string RetryCounter { get; set; }
     }
 }
