@@ -825,6 +825,10 @@
                             "value": "[parameters('PasswordResetConfirmationEmailSubject')]"
                         },
                         {
+                            "name": "resendSignupEmail",
+                            "value": "Activate your account"
+                        },
+                        {
                             "name": "ncs-dss-api-key",
                             "value": "[parameters('NCSDSSApiKey')]"
                         },
