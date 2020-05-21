@@ -70,10 +70,19 @@ namespace B2CAzureFunc
 
                                     log.LogInformation("API: " + value.DateOfBirth);
 
-
-                                    var day = value.DateOfBirth.Day;
-                                    var month = value.DateOfBirth.Month;
-                                    var year = value.DateOfBirth.Year;
+                                    if (value.DateOfBirth == null)
+                                    {
+                                        return new BadRequestObjectResult(new ResponseContentModel
+                                        {
+                                            version = "1.0.0",
+                                            userMessage = "Your date of birth does not match your account details.",
+                                            isFound = false,
+                                            status = 409
+                                        });
+                                    }
+                                    var day = value.DateOfBirth.GetValueOrDefault().Day;
+                                    var month = value.DateOfBirth.GetValueOrDefault().Month;
+                                    var year = value.DateOfBirth.GetValueOrDefault().Year;
 
                                     var dayFromParam = Convert.ToInt32(data.Day);
                                     var monthFromParam = Convert.ToInt32(data.Month);
@@ -92,7 +101,7 @@ namespace B2CAzureFunc
                                     {
                                         return new BadRequestObjectResult(new ResponseContentModel
                                         {
-                                            version= "1.0.0",
+                                            version = "1.0.0",
                                             userMessage = "Your date of birth does not match your account details.",
                                             isFound = false,
                                             status = 409
@@ -104,7 +113,7 @@ namespace B2CAzureFunc
                                     return new BadRequestObjectResult(new ResponseContentModel
                                     {
                                         version = "1.0.0",
-                                        userMessage = "Sorry, Please provide valid information ",
+                                        userMessage = "Your date of birth does not match your account details.",
                                         status = 409,
                                     });
                                 }
