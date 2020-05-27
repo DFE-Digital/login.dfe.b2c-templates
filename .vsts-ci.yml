@@ -40,7 +40,7 @@ stages:
       subscriptionId: $(devSubscriptionId)
       deploymentPrimaryLocation: $(deploymentPrimaryLocation)
       deploymentSecondaryLocation: $(deploymentSecondaryLocation)
-      deployApim: true
+      deployApim: false
 
 - stage: deployTest
   displayName: Deploy - TEST

@@ -10,6 +10,7 @@ using Newtonsoft.Json;
 using B2CAzureFunc.Helpers;
 using Providers.Email.Model;
 using Providers.Email;
+using B2CAzureFunc.Models;
 
 namespace B2CAzureFunc
 {
@@ -38,12 +39,12 @@ namespace B2CAzureFunc
 
 
                 string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
-                dynamic data = JsonConvert.DeserializeObject(requestBody);
+                var data = JsonConvert.DeserializeObject<SignupConfirmationModel>(requestBody);
                 log.LogInformation(requestBody);
                 var accountActivationEmailExpiryInSeconds = Convert.ToInt32(Environment.GetEnvironmentVariable("AccountActivationEmailExpiryInSeconds", EnvironmentVariableTarget.Process));
 
 
-                string token = TokenBuilder.BuildIdToken(data.email.ToString(), DateTime.UtcNow.AddSeconds(accountActivationEmailExpiryInSeconds), req.Scheme, req.Host.Value, req.PathBase.Value, data.ObjectId.ToString());
+                string token = TokenBuilder.BuildIdToken(data.Email.ToString(), DateTime.UtcNow.AddSeconds(accountActivationEmailExpiryInSeconds), req.Scheme, req.Host.Value, req.PathBase.Value, data.ObjectId.ToString());
 
                 string b2cURL = Environment.GetEnvironmentVariable("B2CAuthorizationUrl", EnvironmentVariableTarget.Process);
                 string b2cTenant = Environment.GetEnvironmentVariable("B2CTenant", EnvironmentVariableTarget.Process);
@@ -52,9 +53,15 @@ namespace B2CAzureFunc
                 string b2cRedirectUri = Environment.GetEnvironmentVariable("B2CRedirectUri", EnvironmentVariableTarget.Process);
                 string url = UrlBuilder.BuildUrl(token, b2cURL, b2cTenant, b2cPolicyId, b2cClientId, b2cRedirectUri);
 
-                string htmlTemplate = System.IO.File.ReadAllText(@"D:\home\site\wwwroot\SignupEmailTemplate.html");
+                string htmlTemplate = System.IO.File.ReadAllText(@"D:\home\site\wwwroot\EmailTemplates\Signup\Signup_inlined_css.html");
                 string from = Environment.GetEnvironmentVariable("SMTPFromAddress", EnvironmentVariableTarget.Process);
-                string subject = Environment.GetEnvironmentVariable("SignupConfirmationEmailSubject", EnvironmentVariableTarget.Process);
+                string subject = "";
+                if (!data.IsResend)
+                    subject = Environment.GetEnvironmentVariable("SignupConfirmationEmailSubject", EnvironmentVariableTarget.Process);
+                else
+                    subject = Environment.GetEnvironmentVariable("resendSignupEmail", EnvironmentVariableTarget.Process);
+
+                htmlTemplate = htmlTemplate.Replace("#name#", data.GivenName.ToString()).Replace("#link#", url);
 
                 EmailModel model = new EmailModel
                 {
@@ -62,8 +69,8 @@ namespace B2CAzureFunc
                     EmailTemplate = htmlTemplate,
                     From = from,
                     Subject = subject,
-                    To = data.email.ToString(),
-                    Name = data.givenName.ToString()
+                    To = data.Email.ToString(),
+                    Name = data.GivenName.ToString()
                 };
 
                 var result = EmailService.SendEmail(model);

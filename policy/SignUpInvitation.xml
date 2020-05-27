@@ -30,6 +30,7 @@
         <InputClaim ClaimTypeReferenceId="email" PartnerClaimType="email" />
         <InputClaim ClaimTypeReferenceId="givenName" PartnerClaimType="givenName" />
         <InputClaim ClaimTypeReferenceId="surname" PartnerClaimType="surname" />
+        <InputClaim ClaimTypeReferenceId="customerId" PartnerClaimType="customerId" />
         <InputClaim ClaimTypeReferenceId="expiry" PartnerClaimType="expiry" />
       </InputClaims>
 	  

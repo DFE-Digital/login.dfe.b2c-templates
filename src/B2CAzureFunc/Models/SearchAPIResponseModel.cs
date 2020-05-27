@@ -72,7 +72,7 @@ namespace B2CAzureFunc.Models
         /// DateOfBirth
         /// </summary>
         [JsonProperty("DateofBirth")]
-        public DateTimeOffset DateOfBirth { get; set; }
+        public DateTimeOffset? DateOfBirth { get; set; }
 
         /// <summary>
         /// Gender

@@ -1,19 +1,28 @@
-﻿namespace B2CAzureFunc.Models
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace B2CAzureFunc.Models
 {
     /// <summary>
-    /// Find Email Model
+    /// User Creation Model
     /// </summary>
-    public class FindEmailModel
+    public class UserCreationModel
     {
         /// <summary>
-        /// Given Name
+        /// First name
         /// </summary>
         public string GivenName { get; set; }
 
         /// <summary>
-        /// Surname
+        /// Last name
         /// </summary>
         public string Surname { get; set; }
+
+        /// <summary>
+        /// Email
+        /// </summary>
+        public string Email { get; set; }
 
         /// <summary>
         /// Day
@@ -31,18 +40,18 @@
         public string Year { get; set; }
 
         /// <summary>
-        /// PostalCode
+        /// User id
         /// </summary>
-        public string PostalCode { get; set; }
+        public string ObjectId { get; set; }
 
         /// <summary>
-        /// Email
+        /// Customer id
         /// </summary>
-        public string Email { get; set; }
+        public string CustomerId { get; set; }
 
         /// <summary>
-        /// RetryCounter
+        /// Is aided registration
         /// </summary>
-        public string RetryCounter { get; set; }
+        public bool IsAided { get; set; }
     }
 }
