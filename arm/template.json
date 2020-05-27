@@ -259,6 +259,18 @@
         },
         "NCSDSSSearchApiVersion": {
             "type": "string"
+        },
+        "NCSDSSCreateCustomerApiUrl": {
+            "type": "string"
+        },
+        "NCSDSSCreateContactApiUrl": {
+            "type": "string"
+        },
+        "NCSDSSCreateIdentityApiUrl": {
+            "type": "string"
+        },
+        "TouchpointId": {
+            "type": "string"
         }
 
     },
@@ -851,6 +863,22 @@
                         {
                             "name": "B2COpenApiConfig:OpenApiVersion",
                             "value": "V2"
+                        },
+                        {
+                            "name": "ncs-dss-create-customer-api-url",
+                            "value": "[parameters('NCSDSSCreateCustomerApiUrl')]"
+                        },
+                        {
+                            "name": "ncs-dss-create-contact-api-url",
+                            "value": "[parameters('NCSDSSCreateContactApiUrl')]"
+                        },
+                        {
+                            "name": "ncs-dss-create-identity-api-url",
+                            "value": "[parameters('NCSDSSCreateIdentityApiUrl')]"
+                        },
+                        {
+                            "name": "TouchpointId",
+                            "value": "[parameters('TouchpointId')]"
                         }
                     ]
                 },

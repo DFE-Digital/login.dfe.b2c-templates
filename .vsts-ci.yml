@@ -68,7 +68,11 @@ stages:
         -NCSApimSubscriptionKey "$(ncsApimSubscriptionKey)"
         -NCSDSSApiKey "$(ncsDssApiKey)"
         -NCSDSSSearchApiUrl "$(ncsDssSearchApiUrl)"
-        -NCSDSSSearchApiVersion "$(ncsDssSearchApiVersion)"'
+        -NCSDSSSearchApiVersion "$(ncsDssSearchApiVersion)"
+        -NCSDSSCreateCustomerApiUrl "https://at.api.nationalcareersservice.org.uk/customers/api/Customers/"
+        -NCSDSSCreateContactApiUrl "https://at.api.nationalcareersservice.org.uk/contactdetails/api/customers/{0}/ContactDetails/"
+        -NCSDSSCreateIdentityApiUrl "https://at.api.nationalcareersservice.org.uk/digitalidentities/api/identity"
+        -TouchpointId "1000000000"'
       eapimRegister: true
       eapimServiceConnection: $(eapimServiceConnection)
       eapimProductName: 'NCS Identity'
