@@ -1,0 +1,66 @@
+parameters:
+- name: environmentName
+  type: string
+- name: environmentId
+  type: string
+- name: serviceConnection
+  type: string
+- name: subscriptionId
+  type: string
+- name: deploymentPrimaryLocation
+  type: string
+- name: deploymentSecondaryLocation
+  type: string
+- name: deployApim
+  type: boolean
+  default: false
+
+jobs:
+- template: /Application/dotnet/jobs/deploy-function.yml@devopsTemplates
+  parameters:
+      applicationName: $(applicationName)
+      environmentName: ${{parameters.environmentName}}
+      serviceConnection: ${{parameters.serviceConnection}}
+      subscriptionId: ${{parameters.subscriptionId}}
+      resourceGroupName: s141${{parameters.environmentId}}-$(applicationName)
+      location: ${{parameters.deploymentPrimaryLocation}}
+      templatePath: '$(Build.SourcesDirectory)/arm/template.json'
+      overrideParameters: '
+      -applicationName "$(applicationName)"
+      -environmentName "${{parameters.environmentName}}"
+      -publisherEmail "test@test.com"
+      -publisherName "deploymentTest"
+      -servicePlanSkuName "B1"
+      -servicePlanSkuTier "Basic"
+      -servicePlanSkuCount "1"
+      -secondaryStorageLocation "${{parameters.deploymentSecondaryLocation}}"
+      -alertWebHookUrl "http://www.test.com"
+      -B2CTenant "B2Cdemotenant"
+      -B2CSignUpPolicy "B2C_1A_signup_invitation"
+      -B2CSignupConfirmPolicy "B2C_1A_signup_confirmation"
+      -B2CPasswordResetConfirmPolicy "B2C_1A_passwordResetConformation"
+      -B2CClientId "$(b2cClientId)"
+      -B2CRedirectUri "https://jwt.ms"
+      -B2CAuthorizationUrl "https://{0}.b2clogin.com/{0}.onmicrosoft.com/{1}/oauth2/v2.0/authorize?client_id={2}&nonce={4}&redirect_uri={3}&scope=openid&response_type=id_token"
+      -ClientSigningKey "$(clientSigningKey)"
+      -SMTPServer "$(smtpServer)"
+      -SMTPUsername "$(smtpUsername)"
+      -SMTPPassword "$(smtpPassword)"
+      -SMTPFromAddress "$(smtpFromAddress)"
+      -SMTPSubject "Sign-in to NCS"
+      -SignupEmailSubject "Create your account"
+      -SignupConfirmationEmailSubject "Verify your account"
+      -PasswordResetConfirmationEmailSubject "Verify your account"
+      -AccountActivationEmailExpiryInSeconds "86400"
+      -NCSApimSubscriptionKey "$(ncsApimSubscriptionKey)"
+      -NCSDSSApiKey "$(ncsDssApiKey)"
+      -NCSDSSSearchApiUrl "$(ncsDssSearchApiUrl)"
+      -NCSDSSSearchApiVersion "$(ncsDssSearchApiVersion)"'
+      eapimRegister: ${{parameters.deployApim}}
+      eapimServiceConnection: $(eapimServiceConnection)
+      eapimProductName: 'NCS Identity'
+      eapimProductContactEmail: paul.sheridan@digital.education.gov.uk
+      eapimApiPublishedName: 'NCS Identity'
+      eapimApiOpenApiSchemaPath: '/api/swagger'
+      eapimApiPublishedPath: ncsauth
+      eapimApiXmlPolicyPath: '$(Build.SourcesDirectory)/eapim/api/policy.xml'

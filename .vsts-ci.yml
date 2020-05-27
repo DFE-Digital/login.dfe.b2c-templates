@@ -1,5 +1,9 @@
+name: $(BuildDefinitionName)_tag-$(BuildID)_at-$(Date:yyyyMMdd)$(Rev:.r)
 resources:
   repositories:
+    - repository: self
+      persistCredentials: true
+      clean: true
     - repository: devopsTemplates
       type: github
       endpoint: DfE-Digital
@@ -12,27 +16,27 @@ trigger:
     exclude:
     - develop/*
 
-
 variables:
   applicationName: ncsauth
-  environmentName: dev
-  eapimProductName: 'NCS Identity'
 
 stages:
-- stage: Build
+- stage: build
+  displayName: Build
   jobs:
   - template: /Application/dotnet/jobs/build-application.yml@devopsTemplates
     parameters:
       applicationName: $(applicationName)
       webPublish: false
 
-- stage: Deploy
+- stage: deployDev
+  displayName: Deploy - DEV
+  dependsOn: build
   jobs:
-  - template: /Application/dotnet/jobs/deploy-function.yml@devopsTemplates
+  - template: yaml/jobs/deploy.yml
     parameters:
-      applicationName: $(applicationName)
-      environmentName: $(environmentName)
-      serviceConnection: $(serviceConnection)
+      environmentName: 'dev'
+      environmentId: 'd01'
+      serviceConnection: $(devServiceConnection)
       subscriptionId: $(devSubscriptionId)
       resourceGroupName: $(projectId)d01-$(applicationName)
       location: $(deploymentPrimaryLocation)
@@ -81,4 +85,20 @@ stages:
       eapimApiOpenApiSchemaPath: '/api/swagger'
       eapimApiPublishedPath: ncsauth
       eapimApiXmlPolicyPath: '$(Build.SourcesDirectory)/eapim/api/policy.xml'
+      deploymentPrimaryLocation: $(deploymentPrimaryLocation)
+      deploymentSecondaryLocation: $(deploymentSecondaryLocation)
+      deployApim: true
 
+- stage: deployTest
+  displayName: Deploy - TEST
+  dependsOn: build
+  jobs:
+  - template: yaml/jobs/deploy.yml
+    parameters:
+      environmentName: 'test'
+      environmentId: 't01'
+      serviceConnection: $(testServiceConnection)
+      subscriptionId: $(testSubscriptionId)
+      deploymentPrimaryLocation: $(deploymentPrimaryLocation)
+      deploymentSecondaryLocation: $(deploymentSecondaryLocation)
+      deployApim: false
