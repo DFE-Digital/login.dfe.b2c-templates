@@ -286,6 +286,16 @@
      	  <DataType>boolean</DataType>
       </ClaimType>
 
+      <ClaimType Id="customerId">
+          <DisplayName>Customer id of NCS DSS user</DisplayName>
+          <DataType>string</DataType>
+      </ClaimType>
+
+      <ClaimType Id="extension_customerId">
+          <DisplayName>Customer id of NCS DSS user</DisplayName>
+          <DataType>string</DataType>
+      </ClaimType>
+
     </ClaimsSchema>
 
     <ClaimsTransformations>
@@ -369,6 +379,18 @@
         </OutputClaims>
       </ClaimsTransformation>
 
+      <ClaimsTransformation Id="CreateReadextensionCustomerId" TransformationMethod="FormatStringClaim">
+        <InputClaims>
+          <InputClaim ClaimTypeReferenceId="customerId" TransformationClaimType="inputClaim" />
+        </InputClaims>
+        <InputParameters>
+          <InputParameter Id="stringFormat" DataType="string" Value="{0}" />
+        </InputParameters>
+        <OutputClaims>
+          <OutputClaim ClaimTypeReferenceId="extension_customerId" TransformationClaimType="outputClaim" />
+        </OutputClaims>
+      </ClaimsTransformation>
+
     </ClaimsTransformations>
 
     <ClientDefinitions>
@@ -440,7 +462,16 @@
       </ContentDefinition>
       
       <ContentDefinition Id="api.passwordreset.emailsent">
-        <LoadUri>~/tenant/templates/AzureBlue/selfAsserted.cshtml</LoadUri>
+        <LoadUri>https://s141d01-signin-int.azurewebsites.net/b2c/reset-password-email-sent</LoadUri>
+        <RecoveryUri>~/common/default_page_error.html</RecoveryUri>
+        <DataUri>urn:com:microsoft:aad:b2c:elements:contract:selfasserted:1.2.0</DataUri>
+        <Metadata>
+          <Item Key="DisplayName">Collect information from user page</Item>
+        </Metadata>
+      </ContentDefinition>
+
+      <ContentDefinition Id="api.passwordreset.passwordchanged">
+        <LoadUri>https://s141d01-signin-int.azurewebsites.net/b2c/password-changed</LoadUri>
         <RecoveryUri>~/common/default_page_error.html</RecoveryUri>
         <DataUri>urn:com:microsoft:aad:b2c:elements:contract:selfasserted:1.2.0</DataUri>
         <Metadata>
@@ -492,12 +523,23 @@
 
       <ContentDefinition Id="api.localaccountpasswordreset">
         <LoadUri>https://s141d01-signin-int.azurewebsites.net/b2c/reset-password</LoadUri>
+        <!-- <LoadUri>        https://s141d01-signin-int.azurewebsites.net/b2c/</LoadUri> -->
         <RecoveryUri>~/common/default_page_error.html</RecoveryUri>
         <DataUri>urn:com:microsoft:aad:b2c:elements:contract:selfasserted:1.2.0</DataUri>
         <Metadata>
           <Item Key="DisplayName">Local account change password page</Item>
         </Metadata>
       </ContentDefinition>
+
+      <ContentDefinition Id="api.localaccountpasswordreset.newcredentials">
+        <LoadUri>https://s141d01-signin-int.azurewebsites.net/b2c/</LoadUri>
+        <RecoveryUri>~/common/default_page_error.html</RecoveryUri>
+        <DataUri>urn:com:microsoft:aad:b2c:elements:contract:selfasserted:1.2.0</DataUri>
+        <Metadata>
+          <Item Key="DisplayName">Local account change password page</Item>
+        </Metadata>
+      </ContentDefinition>
+
 
       <ContentDefinition Id="api.localaccountforgotemail">
         <LoadUri>https://s141d01-signin-int.azurewebsites.net/b2c/forgotten-email</LoadUri>
@@ -853,8 +895,8 @@
             <InputClaim ClaimTypeReferenceId="objectId" Required="true" />
           </InputClaims>
           <PersistedClaims>
-            <!-- Required claims -->
             <PersistedClaim ClaimTypeReferenceId="objectId" />
+            <PersistedClaim ClaimTypeReferenceId="extension_customerId" PartnerClaimType="extension_customerId"/>
             <PersistedClaim ClaimTypeReferenceId="extension_IsEmailVerified" DefaultValue="true" AlwaysUseDefaultValue="true" />
           </PersistedClaims>
           <IncludeTechnicalProfile ReferenceId="AAD-Common" />
@@ -961,6 +1003,20 @@
             <ValidationTechnicalProfile ReferenceId="AAD-UserWriteProfileUsingObjectId" />
           </ValidationTechnicalProfiles>
         </TechnicalProfile>
+
+        <TechnicalProfile Id="SelfAsserted-CreateExtensionCustomerId">
+          <DisplayName>Create FoundEmail Message With Email</DisplayName>                    
+          <Protocol Name="Proprietary" Handler="Web.TPEngine.Providers.ClaimsTransformationProtocolProvider, Web.TPEngine, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" />                    
+          <InputClaimsTransformations>
+              <InputClaimsTransformation ReferenceId="CreateReadextensionCustomerId" />
+          </InputClaimsTransformations>
+          <InputClaims>
+              <InputClaim ClaimTypeReferenceId="customerId" />
+          </InputClaims> 
+          <OutputClaims>
+              <OutputClaim ClaimTypeReferenceId="extension_customerId" />
+          </OutputClaims>
+        </TechnicalProfile>
       </TechnicalProfiles>
     </ClaimsProvider>
 
@@ -1039,7 +1095,7 @@
           <DisplayName>Change password (username)</DisplayName>
           <Protocol Name="Proprietary" Handler="Web.TPEngine.Providers.SelfAssertedAttributeProvider, Web.TPEngine, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" />
           <Metadata>
-            <Item Key="ContentDefinitionReferenceId">api.localaccountpasswordreset</Item>
+            <Item Key="ContentDefinitionReferenceId">api.localaccountpasswordreset.newcredentials</Item>
           </Metadata>
           <CryptographicKeys>
             <Key Id="issuer_secret" StorageReferenceId="B2C_1A_TokenSigningKeyContainer" />

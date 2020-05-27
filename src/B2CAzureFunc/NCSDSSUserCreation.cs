@@ -184,7 +184,7 @@ namespace B2CAzureFunc
 
                 if (completionStatus)
                 {
-                    return new OkObjectResult(true);
+                    return new OkObjectResult(new { customerId = data.CustomerId });
                 }
                 else
                 {

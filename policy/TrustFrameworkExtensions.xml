@@ -69,11 +69,6 @@
           <DataType>dateTime</DataType>
         </ClaimType>
 
-        <ClaimType Id="customerId">
-          <DisplayName>Customer id of NCS DSS user</DisplayName>
-          <DataType>string</DataType>
-        </ClaimType>
-
         <ClaimType Id="isAided">
           <DisplayName>Is aided registration</DisplayName>
           <DataType>boolean</DataType>
@@ -158,6 +153,15 @@
       <ClaimsTransformation Id="CreatePasswordResetConfirmationMessage" TransformationMethod="CreateStringClaim">
         <InputParameters>
           <InputParameter Id="value" DataType="string" Value="We've changed your password" />
+        </InputParameters>
+        <OutputClaims>
+          <OutputClaim ClaimTypeReferenceId="confirmationMessage" TransformationClaimType="createdClaim" />
+        </OutputClaims>
+      </ClaimsTransformation>
+
+      <ClaimsTransformation Id="CreateSelfSignupDSSCustomerCreateErrorMessage" TransformationMethod="CreateStringClaim">
+        <InputParameters>
+          <InputParameter Id="value" DataType="string" Value="Sorry, something happened unexpectedly. Please try again later" />
         </InputParameters>
         <OutputClaims>
           <OutputClaim ClaimTypeReferenceId="confirmationMessage" TransformationClaimType="createdClaim" />
@@ -508,11 +512,11 @@
             <Key Id="client_secret" StorageReferenceId="B2C_1A_ClientAssertionSigningKey" />
           </CryptographicKeys>
           <OutputClaims>
-            <!--Sample: Read the email cliam from the id_token_hint-->
             <OutputClaim ClaimTypeReferenceId="email" />
             <OutputClaim ClaimTypeReferenceId="objectId" />
             <OutputClaim ClaimTypeReferenceId="surname" />
             <OutputClaim ClaimTypeReferenceId="givenName" />
+            <OutputClaim ClaimTypeReferenceId="customerId" />
             <OutputClaim ClaimTypeReferenceId="expiry" />
           </OutputClaims>
         </TechnicalProfile>
@@ -661,12 +665,31 @@
           <DisplayName>Unsolicited error message</DisplayName>
           <Protocol Name="Proprietary" Handler="Web.TPEngine.Providers.SelfAssertedAttributeProvider, Web.TPEngine, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"/>
           <Metadata>
-            <Item Key="ContentDefinitionReferenceId">api.selfasserted</Item>
+            <Item Key="ContentDefinitionReferenceId">api.passwordreset.passwordchanged</Item>
             <Item Key="setting.showContinueButton">false</Item>
             <Item Key="setting.showCancelButton">false</Item>
          </Metadata>
           <InputClaimsTransformations>
             <InputClaimsTransformation ReferenceId="CreatePasswordResetConfirmationMessage" />
+          </InputClaimsTransformations>         
+          <InputClaims>
+            <InputClaim ClaimTypeReferenceId="confirmationMessage"/>
+          </InputClaims>
+          <OutputClaims>
+            <OutputClaim ClaimTypeReferenceId="confirmationMessage"/>
+          </OutputClaims>
+        </TechnicalProfile>
+
+        <TechnicalProfile Id="SelfAsserted-SelfSignup-DSSCustomerCreationError">
+          <DisplayName>Unsolicited error message</DisplayName>
+          <Protocol Name="Proprietary" Handler="Web.TPEngine.Providers.SelfAssertedAttributeProvider, Web.TPEngine, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"/>
+          <Metadata>
+            <Item Key="ContentDefinitionReferenceId">api.selfasserted</Item>
+            <Item Key="setting.showContinueButton">false</Item>
+            <Item Key="setting.showCancelButton">false</Item>
+         </Metadata>
+          <InputClaimsTransformations>
+            <InputClaimsTransformation ReferenceId="CreateSelfSignupDSSCustomerCreateErrorMessage" />
           </InputClaimsTransformations>         
           <InputClaims>
             <InputClaim ClaimTypeReferenceId="confirmationMessage"/>
@@ -917,6 +940,31 @@
                 <UseTechnicalProfileForSessionManagement ReferenceId="SM-Noop" />
             </TechnicalProfile>
 
+            <TechnicalProfile Id="API-SelfSignup-Create-DSSCustomer">
+                <DisplayName>User OTP Notifications</DisplayName>    
+                <Protocol Name="Proprietary" Handler="Web.TPEngine.Providers.RestfulProvider, Web.TPEngine, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" />
+                <Metadata>
+                  <Item Key="ServiceUrl">https://dev-api-customerengagement.platform.education.gov.uk/ncsidentity/NCSDSSUserCreation</Item>
+                  <Item Key="SendClaimsIn">Body</Item>                        
+                  <Item Key="AuthenticationType">ClientCertificate</Item>
+                </Metadata>
+                <CryptographicKeys>
+                    <Key Id="ClientCertificate" StorageReferenceId="B2C_1A_APIMClientCertificate" />
+                </CryptographicKeys>
+                <InputClaims>
+                    <InputClaim ClaimTypeReferenceId="objectId" PartnerClaimType="ObjectId"/>
+                    <InputClaim ClaimTypeReferenceId="customerId" PartnerClaimType="CustomerId"/>
+                    <InputClaim ClaimTypeReferenceId="givenName" PartnerClaimType="givenName"/>
+                    <InputClaim ClaimTypeReferenceId="surname" PartnerClaimType="Surname"/>
+                    <InputClaim ClaimTypeReferenceId="signInNames.emailAddress" PartnerClaimType="Email"/>
+                    <InputClaim ClaimTypeReferenceId="isAided" DefaultValue="false" PartnerClaimType="IsAided"/>
+                </InputClaims>
+                <OutputClaims>
+                  <OutputClaim ClaimTypeReferenceId="customerId" />
+                </OutputClaims>
+                <UseTechnicalProfileForSessionManagement ReferenceId="SM-Noop" />
+            </TechnicalProfile>
+
         </TechnicalProfiles>
     </ClaimsProvider>
 
@@ -1030,11 +1078,52 @@
             </Precondition>
           </Preconditions>
           <ClaimsExchanges>
-            <ClaimsExchange Id="ActivateAccount" TechnicalProfileReferenceId="AAD-UserWriteEmailVerifiedUsingObjectId"/>
+            <ClaimsExchange Id="Create-DSS-Customer" TechnicalProfileReferenceId="API-SelfSignup-Create-DSSCustomer"/>
           </ClaimsExchanges>
         </OrchestrationStep>
 
         <OrchestrationStep Order="8" Type="ClaimsExchange">
+          <Preconditions>
+            <Precondition Type="ClaimsExist" ExecuteActionsIf="true">
+              <Value>customerId</Value>
+              <Action>SkipThisOrchestrationStep</Action>
+            </Precondition>
+          </Preconditions>
+          <ClaimsExchanges>
+            <ClaimsExchange Id="DSSCustomerCreationError" TechnicalProfileReferenceId="SelfAsserted-SelfSignup-DSSCustomerCreationError"/>
+          </ClaimsExchanges>
+        </OrchestrationStep>
+
+        <OrchestrationStep Order="9" Type="ClaimsExchange">
+          <Preconditions>
+            <Precondition Type="ClaimsExist" ExecuteActionsIf="false">
+              <Value>customerId</Value>
+              <Action>SkipThisOrchestrationStep</Action>
+            </Precondition>
+          </Preconditions>
+          <ClaimsExchanges>
+            <ClaimsExchange Id="Create-CreateExtensionCustomerId" TechnicalProfileReferenceId="SelfAsserted-CreateExtensionCustomerId"/>
+          </ClaimsExchanges>
+        </OrchestrationStep>
+
+        <OrchestrationStep Order="10" Type="ClaimsExchange">
+          <Preconditions>
+            <Precondition Type="ClaimEquals" ExecuteActionsIf="false">
+              <Value>isLinkValid</Value>
+              <Value>True</Value>
+              <Action>SkipThisOrchestrationStep</Action>
+            </Precondition>
+            <Precondition Type="ClaimsExist" ExecuteActionsIf="false">
+              <Value>customerId</Value>
+              <Action>SkipThisOrchestrationStep</Action>
+            </Precondition>
+          </Preconditions>
+          <ClaimsExchanges>
+            <ClaimsExchange Id="ActivateAccount" TechnicalProfileReferenceId="AAD-UserWriteEmailVerifiedUsingObjectId"/>
+          </ClaimsExchanges>
+        </OrchestrationStep>
+
+        <OrchestrationStep Order="11" Type="ClaimsExchange">
          <Preconditions>
             <Precondition Type="ClaimEquals" ExecuteActionsIf="false">
               <Value>isLinkValid</Value>
@@ -1047,7 +1136,7 @@
           </ClaimsExchanges>
         </OrchestrationStep>
 
-        <OrchestrationStep Order="9" Type="SendClaims" CpimIssuerTechnicalProfileReferenceId="JwtIssuer"/>
+        <OrchestrationStep Order="12" Type="SendClaims" CpimIssuerTechnicalProfileReferenceId="JwtIssuer"/>
       </OrchestrationSteps>
       <ClientDefinition ReferenceId="DefaultWeb"/>
     </UserJourney>
