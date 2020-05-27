@@ -69,6 +69,16 @@
           <DataType>dateTime</DataType>
         </ClaimType>
 
+        <ClaimType Id="customerId">
+          <DisplayName>Customer id of NCS DSS user</DisplayName>
+          <DataType>string</DataType>
+        </ClaimType>
+
+        <ClaimType Id="isAided">
+          <DisplayName>Is aided registration</DisplayName>
+          <DataType>boolean</DataType>
+        </ClaimType>
+
         <ClaimType Id="currentTime">
           <DisplayName>Expiry of email link</DisplayName>
           <DataType>dateTime</DataType>
@@ -425,9 +435,10 @@
             <InputClaim ClaimTypeReferenceId="email" />
             <InputClaim ClaimTypeReferenceId="givenName" />
             <InputClaim ClaimTypeReferenceId="surname" />
+            <InputClaim ClaimTypeReferenceId="customerId" />
           </InputClaims>
           <OutputClaims>
-            <OutputClaim ClaimTypeReferenceId="objectId" DefaultValue="123" />
+            <OutputClaim ClaimTypeReferenceId="objectId" />
             <OutputClaim ClaimTypeReferenceId="newPassword" Required="true" />
             <OutputClaim ClaimTypeReferenceId="reenterPassword" Required="true" />
             <OutputClaim ClaimTypeReferenceId="dobLabel" />
@@ -441,10 +452,12 @@
             <OutputClaim ClaimTypeReferenceId="executed-SelfAsserted-Input" DefaultValue="true" />
             <OutputClaim ClaimTypeReferenceId="authenticationSource" DefaultValue="localAccountAuthentication"/>
             <OutputClaim ClaimTypeReferenceId="newUser" DefaultValue="true" />
+            <OutputClaim ClaimTypeReferenceId="isAided" DefaultValue="true" />
           </OutputClaims>
           <ValidationTechnicalProfiles>
             <ValidationTechnicalProfile ReferenceId="API-AidedSignup-Validate-UserInfo" />
             <ValidationTechnicalProfile ReferenceId="AAD-Aided-UserWriteUsingLogonEmail" />
+            <ValidationTechnicalProfile ReferenceId="API-AidedSignup-Create-DSSCustomer" />
           </ValidationTechnicalProfiles>
           <UseTechnicalProfileForSessionManagement ReferenceId="SM-Noop" />
         </TechnicalProfile>
@@ -716,19 +729,19 @@
           <DisplayName>Email Sent</DisplayName>
           <Protocol Name="Proprietary" Handler="Web.TPEngine.Providers.SelfAssertedAttributeProvider, Web.TPEngine, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"/>
           <Metadata>
-            <Item Key="ContentDefinitionReferenceId">api.selfasserted</Item>
+            <Item Key="ContentDefinitionReferenceId">api.localaccountforgotemail.emailfound</Item>
             <Item Key="setting.showContinueButton">false</Item>
             <Item Key="setting.showCancelButton">false</Item>
          </Metadata>
           <InputClaimsTransformations>
-            <InputClaimsTransformation ReferenceId="CreateEmailFoundMessage" />
+            <!-- <InputClaimsTransformation ReferenceId="CreateEmailFoundMessage" /> -->
             <InputClaimsTransformation ReferenceId="CreateFoundEmailMessageWithEmail" />
             <InputClaimsTransformation ReferenceId="CreateFoundEmailMessagelast" />
           </InputClaimsTransformations>
           <InputClaims>
-            <InputClaim ClaimTypeReferenceId="successMessage" />
+            <!-- <InputClaim ClaimTypeReferenceId="successMessage" /> -->
             <InputClaim ClaimTypeReferenceId="foundEmailMessageWithEmail" />
-            <InputClaim ClaimTypeReferenceId="foundEmailMessagelast" />            
+            <InputClaim ClaimTypeReferenceId="foundEmailMessagelast" />
           </InputClaims>
           <OutputClaims>
             <OutputClaim ClaimTypeReferenceId="successMessage"/>
@@ -741,7 +754,7 @@
           <DisplayName>Email Sent</DisplayName>
           <Protocol Name="Proprietary" Handler="Web.TPEngine.Providers.SelfAssertedAttributeProvider, Web.TPEngine, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"/>
           <Metadata>
-            <Item Key="ContentDefinitionReferenceId">api.selfasserted</Item>
+            <Item Key="ContentDefinitionReferenceId">api.localaccountforgotemail.emailnotfound</Item>
             <Item Key="setting.showContinueButton">false</Item>
             <Item Key="setting.showCancelButton">false</Item>
          </Metadata>
@@ -879,6 +892,28 @@
                 <OutputClaims>
                   <OutputClaim ClaimTypeReferenceId="isFound" />
                 </OutputClaims>
+                <UseTechnicalProfileForSessionManagement ReferenceId="SM-Noop" />
+            </TechnicalProfile>
+
+            <TechnicalProfile Id="API-AidedSignup-Create-DSSCustomer">
+                <DisplayName>User OTP Notifications</DisplayName>    
+                <Protocol Name="Proprietary" Handler="Web.TPEngine.Providers.RestfulProvider, Web.TPEngine, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" />
+                <Metadata>
+                  <Item Key="ServiceUrl">https://dev-api-customerengagement.platform.education.gov.uk/ncsidentity/NCSDSSUserCreation</Item>
+                  <Item Key="SendClaimsIn">Body</Item>                        
+                  <Item Key="AuthenticationType">ClientCertificate</Item>
+                </Metadata>
+                <CryptographicKeys>
+                    <Key Id="ClientCertificate" StorageReferenceId="B2C_1A_APIMClientCertificate" />
+                </CryptographicKeys>
+                <InputClaims>
+                    <InputClaim ClaimTypeReferenceId="objectId" PartnerClaimType="ObjectId"/>
+                    <InputClaim ClaimTypeReferenceId="customerId" PartnerClaimType="CustomerId"/>
+                    <InputClaim ClaimTypeReferenceId="isAided" DefaultValue="true" PartnerClaimType="IsAided"/>
+                </InputClaims>
+                <!-- <OutputClaims>
+                  <OutputClaim ClaimTypeReferenceId="isFound" />
+                </OutputClaims> -->
                 <UseTechnicalProfileForSessionManagement ReferenceId="SM-Noop" />
             </TechnicalProfile>
 

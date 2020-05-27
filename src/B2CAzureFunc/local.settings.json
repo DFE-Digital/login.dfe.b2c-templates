@@ -30,6 +30,11 @@
     "ncs-dss-api-key": "92f1fe387ea14bab9567403c4c1d5e72",
     "Ocp-Apim-Subscription-Key": "92f1fe387ea14bab9567403c4c1d5e72",
     "ncs-dss-search-api-version": "v2",
-    "resendSignupEmail": "Activate your account"
+    "resendSignupEmail": "Activate your account",
+    //new
+    "ncs-dss-create-customer-api-url": "https://at.api.nationalcareersservice.org.uk/customers/api/Customers/",
+    "ncs-dss-create-contact-api-url": "https://at.api.nationalcareersservice.org.uk/contactdetails/api/customers/{0}/ContactDetails/",
+    "ncs-dss-create-identity-api-url": "https://at.api.nationalcareersservice.org.uk/digitalidentities/api/identity",
+    "TouchpointId": "1000000000"
   }
 }

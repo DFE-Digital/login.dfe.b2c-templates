@@ -431,7 +431,7 @@
       </ContentDefinition>
 
       <ContentDefinition Id="api.signup.emailsent">
-        <LoadUri>https://s141d01-signin-int.azurewebsites.net/b2c/emailsent</LoadUri>
+        <LoadUri>https://s141d01-signin-int.azurewebsites.net/b2c/email-sent</LoadUri>
         <RecoveryUri>~/common/default_page_error.html</RecoveryUri>
         <DataUri>urn:com:microsoft:aad:b2c:elements:contract:selfasserted:1.2.0</DataUri>
         <Metadata>
@@ -491,7 +491,7 @@
       </ContentDefinition>
 
       <ContentDefinition Id="api.localaccountpasswordreset">
-        <LoadUri>https://s141d01-signin-int.azurewebsites.net/b2c/resetpassword</LoadUri>
+        <LoadUri>https://s141d01-signin-int.azurewebsites.net/b2c/reset-password</LoadUri>
         <RecoveryUri>~/common/default_page_error.html</RecoveryUri>
         <DataUri>urn:com:microsoft:aad:b2c:elements:contract:selfasserted:1.2.0</DataUri>
         <Metadata>
@@ -500,7 +500,25 @@
       </ContentDefinition>
 
       <ContentDefinition Id="api.localaccountforgotemail">
-        <LoadUri>https://s141d01-signin-int.azurewebsites.net/b2c/forgottenemail</LoadUri>
+        <LoadUri>https://s141d01-signin-int.azurewebsites.net/b2c/forgotten-email</LoadUri>
+        <RecoveryUri>~/common/default_page_error.html</RecoveryUri>
+        <DataUri>urn:com:microsoft:aad:b2c:elements:contract:selfasserted:1.2.0</DataUri>
+        <Metadata>
+          <Item Key="DisplayName">Local account forgotten email</Item>
+        </Metadata>
+      </ContentDefinition>
+      
+      <ContentDefinition Id="api.localaccountforgotemail.emailnotfound">
+        <LoadUri>https://s141d01-signin-int.azurewebsites.net/b2c/account-not-found</LoadUri>
+        <RecoveryUri>~/common/default_page_error.html</RecoveryUri>
+        <DataUri>urn:com:microsoft:aad:b2c:elements:contract:selfasserted:1.2.0</DataUri>
+        <Metadata>
+          <Item Key="DisplayName">Local account forgotten email</Item>
+        </Metadata>
+      </ContentDefinition>
+
+      <ContentDefinition Id="api.localaccountforgotemail.emailfound">
+        <LoadUri>https://s141d01-signin-int.azurewebsites.net/b2c/account-found</LoadUri>
         <RecoveryUri>~/common/default_page_error.html</RecoveryUri>
         <DataUri>urn:com:microsoft:aad:b2c:elements:contract:selfasserted:1.2.0</DataUri>
         <Metadata>

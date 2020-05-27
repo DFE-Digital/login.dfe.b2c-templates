@@ -21,6 +21,11 @@ namespace B2CAzureFunc.Models
         /// Last Name
         /// </summary>
         public string LastName { get; set; }
+
+        /// <summary>
+        /// Customer Id
+        /// </summary>
+        public string CustomerId { get; set; }
         /// <summary>
         /// Is Resend
         /// </summary>

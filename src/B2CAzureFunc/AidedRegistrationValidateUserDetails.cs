@@ -22,10 +22,10 @@ namespace B2CAzureFunc
         ///     AidedRegistrationValidateUserDetails
         /// </summary>
         /// <verb>POST</verb>
-        /// <url>http://localhost:7070/api/FindEmail</url>
+        /// <url>http://localhost:7070/api/AidedRegistrationValidateUserDetails</url>
         /// <param name="req"></param>
         /// <param name="log"></param>
-        /// <response code="200"><see cref="EmailFoundResponseModel"/>Email Found Response</response>
+        /// <response code="200"><see cref="ResponseContentModel"/>User Found Response</response>
         /// <response code="404"><see cref="Object"/>Not Found</response>
         [FunctionName("AidedRegistrationValidateUserDetails")]
         public static async Task<IActionResult> Run(

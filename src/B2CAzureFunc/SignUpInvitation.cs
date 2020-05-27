@@ -66,13 +66,26 @@ namespace B2CAzureFunc
                                     version = "1.0.0",
                                     userMessage = "We have not been able to find your account",
                                     status = 409,
+                                    developerMessage = "Value null, "+ await response.Content.ReadAsStringAsync()
                                 });
                             }
                             else
                             {
+                                if (!String.IsNullOrEmpty(data.CustomerId) && data.CustomerId.ToLower() == value.CustomerId.ToString().ToLower()
+                                    && data.GivenName.ToLower() == value.GivenName.ToLower() && data.LastName.ToLower() == value.FamilyName.ToLower())
+                                    data.CustomerId = value.CustomerId.ToString();
+                                else
+                                    return new BadRequestObjectResult(new ResponseContentModel
+                                    {
+                                        version = "1.0.0",
+                                        userMessage = "We have not been able to find your account",
+                                        status = 409,
+                                        developerMessage = "data not matched, " + await response.Content.ReadAsStringAsync()
+                                    });
+
                                 var accountActivationEmailExpiryInSeconds = Convert.ToInt32(Environment.GetEnvironmentVariable("AccountActivationEmailExpiryInSeconds", EnvironmentVariableTarget.Process));
 
-                                string token = TokenBuilder.BuildIdToken(data.Email.ToString(), data.GivenName.ToString(), data.LastName.ToString(), DateTime.UtcNow.AddSeconds(accountActivationEmailExpiryInSeconds), req.Scheme, req.Host.Value, req.PathBase.Value);
+                                string token = TokenBuilder.BuildIdToken(data.Email.ToString(), data.GivenName.ToString(), data.LastName.ToString(), data.CustomerId.ToString(), DateTime.UtcNow.AddSeconds(accountActivationEmailExpiryInSeconds), req.Scheme, req.Host.Value, req.PathBase.Value);
                                 string b2cURL = Environment.GetEnvironmentVariable("B2CAuthorizationUrl", EnvironmentVariableTarget.Process);
                                 string b2cTenant = Environment.GetEnvironmentVariable("B2CTenant", EnvironmentVariableTarget.Process);
                                 string b2cPolicyId = Environment.GetEnvironmentVariable("B2CSignUpPolicy", EnvironmentVariableTarget.Process);
@@ -117,6 +130,7 @@ namespace B2CAzureFunc
                                 version = "1.0.0",
                                 userMessage = "Sorry, Something happened unexpectedly. Please try after sometime.",
                                 status = 409,
+                                developerMessage = "API call failed, " + await response.Content.ReadAsStringAsync()
                             });
                         }
                     }
