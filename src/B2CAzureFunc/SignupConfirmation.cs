@@ -29,13 +29,13 @@ namespace B2CAzureFunc
         /// <response code="409"><see cref="Object"/>Error</response>
         [FunctionName("SignupConfirmation")]
         public static async Task<IActionResult> Run(
-            [HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] HttpRequest req,
+            [HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] 
+            HttpRequest req,
             ILogger log)
         {
             try
             {
                 log.LogInformation("Request started");
-
 
                 string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
                 dynamic data = JsonConvert.DeserializeObject(requestBody);

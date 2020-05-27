@@ -23,7 +23,6 @@ namespace B2CAzureFunc
                 {
                     config.GetSection("B2COpenApiConfig").Bind(openApiConfig);
                 });
-
         }
     }
 }
