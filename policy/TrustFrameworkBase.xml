@@ -896,8 +896,25 @@
           </InputClaims>
           <PersistedClaims>
             <PersistedClaim ClaimTypeReferenceId="objectId" />
-            <PersistedClaim ClaimTypeReferenceId="extension_customerId" PartnerClaimType="extension_customerId"/>
+            <PersistedClaim ClaimTypeReferenceId="customerId" PartnerClaimType="extension_customerId"/>
             <PersistedClaim ClaimTypeReferenceId="extension_IsEmailVerified" DefaultValue="true" AlwaysUseDefaultValue="true" />
+          </PersistedClaims>
+          <IncludeTechnicalProfile ReferenceId="AAD-Common" />
+        </TechnicalProfile>
+
+        <TechnicalProfile Id="AAD-UserWriteCustomerUsingObjectId">
+          <Metadata>
+            <Item Key="Operation">Write</Item>
+            <Item Key="RaiseErrorIfClaimsPrincipalAlreadyExists">false</Item>
+            <Item Key="RaiseErrorIfClaimsPrincipalDoesNotExist">true</Item>
+          </Metadata>
+          <IncludeInSso>false</IncludeInSso>
+          <InputClaims>
+            <InputClaim ClaimTypeReferenceId="objectId" Required="true" />
+          </InputClaims>
+          <PersistedClaims>
+            <PersistedClaim ClaimTypeReferenceId="objectId" />
+            <PersistedClaim ClaimTypeReferenceId="customerId" PartnerClaimType="extension_customerId"/>
           </PersistedClaims>
           <IncludeTechnicalProfile ReferenceId="AAD-Common" />
         </TechnicalProfile>
@@ -921,6 +938,7 @@
             <OutputClaim ClaimTypeReferenceId="givenName" />
             <OutputClaim ClaimTypeReferenceId="surname" />
             <OutputClaim ClaimTypeReferenceId="extension_IsEmailVerified" />
+            <OutputClaim ClaimTypeReferenceId="extension_customerId" />
           </OutputClaims>
           <IncludeTechnicalProfile ReferenceId="AAD-Common" />
         </TechnicalProfile>
