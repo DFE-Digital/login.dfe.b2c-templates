@@ -510,7 +510,7 @@
       </ContentDefinition>
 
       <ContentDefinition Id="api.localaccountaidedsignup">
-        <LoadUri>~/tenant/templates/AzureBlue/selfAsserted.cshtml</LoadUri>
+        <LoadUri>https://s141d01-signin-int.azurewebsites.net/b2c/</LoadUri>
         <RecoveryUri>~/common/default_page_error.html</RecoveryUri>
         <DataUri>urn:com:microsoft:aad:b2c:elements:contract:selfasserted:1.2.0</DataUri>
         <Metadata>
@@ -523,7 +523,6 @@
 
       <ContentDefinition Id="api.localaccountpasswordreset">
         <LoadUri>https://s141d01-signin-int.azurewebsites.net/b2c/reset-password</LoadUri>
-        <!-- <LoadUri>        https://s141d01-signin-int.azurewebsites.net/b2c/</LoadUri> -->
         <RecoveryUri>~/common/default_page_error.html</RecoveryUri>
         <DataUri>urn:com:microsoft:aad:b2c:elements:contract:selfasserted:1.2.0</DataUri>
         <Metadata>
@@ -532,7 +531,7 @@
       </ContentDefinition>
 
       <ContentDefinition Id="api.localaccountpasswordreset.newcredentials">
-        <LoadUri>https://s141d01-signin-int.azurewebsites.net/b2c/</LoadUri>
+        <LoadUri>https://s141d01-signin-int.azurewebsites.net/b2c/enter-new-password</LoadUri>
         <RecoveryUri>~/common/default_page_error.html</RecoveryUri>
         <DataUri>urn:com:microsoft:aad:b2c:elements:contract:selfasserted:1.2.0</DataUri>
         <Metadata>
