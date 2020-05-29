@@ -55,7 +55,6 @@
         </ClaimType>
 
         <ClaimType Id="confirmationMessage">
-          <DisplayName>Confirm</DisplayName>
           <DataType>string</DataType>
           <UserInputType>Paragraph</UserInputType>
         </ClaimType> 
@@ -68,6 +67,11 @@
         <ClaimType Id="expiry">
           <DisplayName>Expiry of email link</DisplayName>
           <DataType>dateTime</DataType>
+        </ClaimType>
+
+        <ClaimType Id="isAided">
+          <DisplayName>Is aided registration</DisplayName>
+          <DataType>boolean</DataType>
         </ClaimType>
 
         <ClaimType Id="currentTime">
@@ -106,7 +110,7 @@
         </ClaimType>
 
         <ClaimType Id="postCode">
-          <DisplayName>Postal Code</DisplayName>
+          <DisplayName>Enter your postcode</DisplayName>
           <DataType>string</DataType>
           <UserHelpText>For example, SW1A 1AA</UserHelpText>
           <UserInputType>TextBox</UserInputType>
@@ -130,12 +134,16 @@
           <UserInputType>Paragraph</UserInputType>
         </ClaimType>
 
+        <ClaimType Id="retryCounter">
+          <DataType>int</DataType>
+        </ClaimType>
+
     </ClaimsSchema>
 
     <ClaimsTransformations>
-      <ClaimsTransformation Id="CreateConfirmationMessage" TransformationMethod="CreateStringClaim">
+      <ClaimsTransformation Id="SignupAccountActivatedConfirmationMessage" TransformationMethod="CreateStringClaim">
         <InputParameters>
-          <InputParameter Id="value" DataType="string" Value="Successfully activated your account" />
+          <InputParameter Id="value" DataType="string" Value="You can start using your account to access your information." />
         </InputParameters>
         <OutputClaims>
           <OutputClaim ClaimTypeReferenceId="confirmationMessage" TransformationClaimType="createdClaim" />
@@ -145,6 +153,15 @@
       <ClaimsTransformation Id="CreatePasswordResetConfirmationMessage" TransformationMethod="CreateStringClaim">
         <InputParameters>
           <InputParameter Id="value" DataType="string" Value="We've changed your password" />
+        </InputParameters>
+        <OutputClaims>
+          <OutputClaim ClaimTypeReferenceId="confirmationMessage" TransformationClaimType="createdClaim" />
+        </OutputClaims>
+      </ClaimsTransformation>
+
+      <ClaimsTransformation Id="CreateSelfSignupDSSCustomerCreateErrorMessage" TransformationMethod="CreateStringClaim">
+        <InputParameters>
+          <InputParameter Id="value" DataType="string" Value="Sorry, something happened unexpectedly. Please try again later" />
         </InputParameters>
         <OutputClaims>
           <OutputClaim ClaimTypeReferenceId="confirmationMessage" TransformationClaimType="createdClaim" />
@@ -181,12 +198,54 @@
         </OutputClaims>
       </ClaimsTransformation>
 
+      <ClaimsTransformation Id="CreateSignupConfirmationLinkEpiredErrorMessage" TransformationMethod="CreateStringClaim">
+        <InputParameters>
+          <InputParameter Id="value" DataType="string" Value="The link in your account activation email has expired" />
+        </InputParameters>
+        <OutputClaims>
+          <OutputClaim ClaimTypeReferenceId="errorMessage" TransformationClaimType="createdClaim" />
+        </OutputClaims>
+      </ClaimsTransformation>
+
+      <ClaimsTransformation Id="CreatePasswordResetLinkEpiredErrorMessage" TransformationMethod="CreateStringClaim">
+        <InputParameters>
+          <InputParameter Id="value" DataType="string" Value="The link in your password reset email has expired" />
+        </InputParameters>
+        <OutputClaims>
+          <OutputClaim ClaimTypeReferenceId="errorMessage" TransformationClaimType="createdClaim" />
+        </OutputClaims>
+      </ClaimsTransformation>
+
       <ClaimsTransformation Id="CreateEmailSentMessage" TransformationMethod="CreateStringClaim">
         <InputParameters>
           <InputParameter Id="value" DataType="string" Value="We have sent email to your email" />
         </InputParameters>
         <OutputClaims>
           <OutputClaim ClaimTypeReferenceId="successMessage" TransformationClaimType="createdClaim" />
+        </OutputClaims>
+      </ClaimsTransformation>
+
+      <ClaimsTransformation Id="CreateSignupEmailSentMessage" TransformationMethod="FormatStringClaim">
+        <InputClaims>
+          <InputClaim ClaimTypeReferenceId="email" TransformationClaimType="inputClaim" />
+        </InputClaims>
+        <InputParameters>
+          <InputParameter Id="stringFormat" DataType="string" Value="We've sent an email to {0}" />
+        </InputParameters>
+        <OutputClaims>
+          <OutputClaim ClaimTypeReferenceId="successMessage" TransformationClaimType="outputClaim" />
+        </OutputClaims>
+      </ClaimsTransformation>
+
+      <ClaimsTransformation Id="CreatePasswordResetEmailSentMessage" TransformationMethod="FormatStringClaim">
+        <InputClaims>
+          <InputClaim ClaimTypeReferenceId="email" TransformationClaimType="inputClaim" />
+        </InputClaims>
+        <InputParameters>
+          <InputParameter Id="stringFormat" DataType="string" Value="We've sent an email to {0}" />
+        </InputParameters>
+        <OutputClaims>
+          <OutputClaim ClaimTypeReferenceId="successMessage" TransformationClaimType="outputClaim" />
         </OutputClaims>
       </ClaimsTransformation>
 
@@ -266,7 +325,7 @@
 
       <ClaimsTransformation Id="CreateFoundEmailMessagelast" TransformationMethod="CreateStringClaim">
         <InputParameters>
-          <InputParameter Id="value" DataType="string" Value="You'll need to use this email address to sign in to your account" />
+          <InputParameter Id="value" DataType="string" Value="You'll need to use this email address to sign in to your account." />
         </InputParameters>
         <OutputClaims>
           <OutputClaim ClaimTypeReferenceId="foundEmailMessagelast" TransformationClaimType="createdClaim" />
@@ -370,6 +429,7 @@
             <Item Key="language.button_continue">Activate Account</Item>
             <!-- Sample: Remove sign-up email verification -->
             <Item Key="EnforceEmailVerification">False</Item>
+            <Item Key="setting.retryLimit">5</Item>
           </Metadata>
           <InputClaimsTransformations>
             <!--Sample: Copy the email to ReadOnlyEamil claim type-->  
@@ -379,6 +439,7 @@
             <InputClaim ClaimTypeReferenceId="email" />
             <InputClaim ClaimTypeReferenceId="givenName" />
             <InputClaim ClaimTypeReferenceId="surname" />
+            <InputClaim ClaimTypeReferenceId="customerId" />
           </InputClaims>
           <OutputClaims>
             <OutputClaim ClaimTypeReferenceId="objectId" />
@@ -388,14 +449,20 @@
             <OutputClaim ClaimTypeReferenceId="day" Required="true" />
             <OutputClaim ClaimTypeReferenceId="month" Required="true" />
             <OutputClaim ClaimTypeReferenceId="year" Required="true" />
-            <OutputClaim ClaimTypeReferenceId="postCode" Required="true" />
             <OutputClaim ClaimTypeReferenceId="tncCheckbox" Required="true" />
+
+            <OutputClaim ClaimTypeReferenceId="retryCounter" DefaultValue="0" />
+            <OutputClaim ClaimTypeReferenceId="isFound" DefaultValue="false" />
             <OutputClaim ClaimTypeReferenceId="executed-SelfAsserted-Input" DefaultValue="true" />
-            <OutputClaim ClaimTypeReferenceId="authenticationSource" />
-            <OutputClaim ClaimTypeReferenceId="newUser" />
+            <OutputClaim ClaimTypeReferenceId="authenticationSource" DefaultValue="localAccountAuthentication"/>
+            <OutputClaim ClaimTypeReferenceId="newUser" DefaultValue="true" />
+            <OutputClaim ClaimTypeReferenceId="isAided" DefaultValue="true" />
           </OutputClaims>
           <ValidationTechnicalProfiles>
+            <ValidationTechnicalProfile ReferenceId="API-AidedSignup-Validate-UserInfo" />
             <ValidationTechnicalProfile ReferenceId="AAD-Aided-UserWriteUsingLogonEmail" />
+            <ValidationTechnicalProfile ReferenceId="API-AidedSignup-Create-DSSCustomer" />
+            <ValidationTechnicalProfile ReferenceId="AAD-UserWriteCustomerUsingObjectId" />
           </ValidationTechnicalProfiles>
           <UseTechnicalProfileForSessionManagement ReferenceId="SM-Noop" />
         </TechnicalProfile>
@@ -421,7 +488,14 @@
           </OutputClaims>
           <ValidationTechnicalProfiles>
             <ValidationTechnicalProfile ReferenceId="AAD-UserReadUsingEmailAddress" />
-            <ValidationTechnicalProfile ReferenceId="API-Send-PasswordReset-Confirmation-Email" />
+            <ValidationTechnicalProfile ReferenceId="API-Send-PasswordReset-Confirmation-Email">
+              <Preconditions>
+                <Precondition Type="ClaimsExist" ExecuteActionsIf="false">
+                  <Value>objectId</Value>
+                  <Action>SkipThisValidationTechnicalProfile</Action>
+                </Precondition>
+              </Preconditions>
+            </ValidationTechnicalProfile>
           </ValidationTechnicalProfiles>
         </TechnicalProfile>
 
@@ -439,11 +513,11 @@
             <Key Id="client_secret" StorageReferenceId="B2C_1A_ClientAssertionSigningKey" />
           </CryptographicKeys>
           <OutputClaims>
-            <!--Sample: Read the email cliam from the id_token_hint-->
             <OutputClaim ClaimTypeReferenceId="email" />
             <OutputClaim ClaimTypeReferenceId="objectId" />
             <OutputClaim ClaimTypeReferenceId="surname" />
             <OutputClaim ClaimTypeReferenceId="givenName" />
+            <OutputClaim ClaimTypeReferenceId="customerId" />
             <OutputClaim ClaimTypeReferenceId="expiry" />
           </OutputClaims>
         </TechnicalProfile>
@@ -491,7 +565,45 @@
           </OutputClaims>
         </TechnicalProfile>
 
-        <TechnicalProfile Id="SelfAsserted-EmailSentConfirmation">
+        <TechnicalProfile Id="SelfAsserted-SignUpConfirmation-LinkExpired">
+          <DisplayName>Unsolicited error message</DisplayName>
+          <Protocol Name="Proprietary" Handler="Web.TPEngine.Providers.SelfAssertedAttributeProvider, Web.TPEngine, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"/>
+          <Metadata>
+            <Item Key="ContentDefinitionReferenceId">api.selfasserted</Item>
+            <Item Key="setting.showContinueButton">false</Item>
+            <Item Key="setting.showCancelButton">false</Item>
+         </Metadata>
+          <InputClaimsTransformations>
+            <InputClaimsTransformation ReferenceId="CreateSignupConfirmationLinkEpiredErrorMessage" />
+          </InputClaimsTransformations>         
+          <InputClaims>
+            <InputClaim ClaimTypeReferenceId="errorMessage"/>
+          </InputClaims>
+          <OutputClaims>
+            <OutputClaim ClaimTypeReferenceId="errorMessage"/>
+          </OutputClaims>
+        </TechnicalProfile>
+        
+        <TechnicalProfile Id="SelfAsserted-PasswordReset-LinkExpired">
+          <DisplayName>PasswordReset-LinkExpired</DisplayName>
+          <Protocol Name="Proprietary" Handler="Web.TPEngine.Providers.SelfAssertedAttributeProvider, Web.TPEngine, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"/>
+          <Metadata>
+            <Item Key="ContentDefinitionReferenceId">api.selfasserted</Item>
+            <Item Key="setting.showContinueButton">false</Item>
+            <Item Key="setting.showCancelButton">false</Item>
+         </Metadata>
+          <InputClaimsTransformations>
+            <InputClaimsTransformation ReferenceId="CreatePasswordResetLinkEpiredErrorMessage" />
+          </InputClaimsTransformations>         
+          <InputClaims>
+            <InputClaim ClaimTypeReferenceId="errorMessage"/>
+          </InputClaims>
+          <OutputClaims>
+            <OutputClaim ClaimTypeReferenceId="errorMessage"/>
+          </OutputClaims>
+        </TechnicalProfile>
+
+        <TechnicalProfile Id="SelfAsserted-Signup-EmailSentConfirmation">
           <DisplayName>Email Sent</DisplayName>
           <Protocol Name="Proprietary" Handler="Web.TPEngine.Providers.SelfAssertedAttributeProvider, Web.TPEngine, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"/>
           <Metadata>
@@ -500,10 +612,11 @@
             <Item Key="setting.showCancelButton">false</Item>
          </Metadata>
           <InputClaimsTransformations>
-            <InputClaimsTransformation ReferenceId="CreateEmailSentMessage" />
+            <InputClaimsTransformation ReferenceId="CreateSignupEmailSentMessage" />
           </InputClaimsTransformations>
           <InputClaims>
-            <InputClaim ClaimTypeReferenceId="successMessage"/>
+            <InputClaim ClaimTypeReferenceId="email" />
+            <InputClaim ClaimTypeReferenceId="successMessage" />
           </InputClaims>
           <OutputClaims>
             <OutputClaim ClaimTypeReferenceId="successMessage"/>
@@ -519,9 +632,10 @@
             <Item Key="setting.showCancelButton">false</Item>
          </Metadata>
           <InputClaimsTransformations>
-            <InputClaimsTransformation ReferenceId="CreateEmailSentMessage" />
+            <InputClaimsTransformation ReferenceId="CreatePasswordResetEmailSentMessage" />
           </InputClaimsTransformations>
           <InputClaims>
+            <InputClaim ClaimTypeReferenceId="email" />
             <InputClaim ClaimTypeReferenceId="successMessage"/>
           </InputClaims>
           <OutputClaims>
@@ -538,7 +652,7 @@
             <Item Key="setting.showCancelButton">false</Item>
          </Metadata>
           <InputClaimsTransformations>
-            <InputClaimsTransformation ReferenceId="CreateConfirmationMessage" />
+            <InputClaimsTransformation ReferenceId="SignupAccountActivatedConfirmationMessage" />
           </InputClaimsTransformations>         
           <InputClaims>
             <InputClaim ClaimTypeReferenceId="confirmationMessage"/>
@@ -552,12 +666,31 @@
           <DisplayName>Unsolicited error message</DisplayName>
           <Protocol Name="Proprietary" Handler="Web.TPEngine.Providers.SelfAssertedAttributeProvider, Web.TPEngine, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"/>
           <Metadata>
-            <Item Key="ContentDefinitionReferenceId">api.selfasserted</Item>
+            <Item Key="ContentDefinitionReferenceId">api.passwordreset.passwordchanged</Item>
             <Item Key="setting.showContinueButton">false</Item>
             <Item Key="setting.showCancelButton">false</Item>
          </Metadata>
           <InputClaimsTransformations>
             <InputClaimsTransformation ReferenceId="CreatePasswordResetConfirmationMessage" />
+          </InputClaimsTransformations>         
+          <InputClaims>
+            <InputClaim ClaimTypeReferenceId="confirmationMessage"/>
+          </InputClaims>
+          <OutputClaims>
+            <OutputClaim ClaimTypeReferenceId="confirmationMessage"/>
+          </OutputClaims>
+        </TechnicalProfile>
+
+        <TechnicalProfile Id="SelfAsserted-SelfSignup-DSSCustomerCreationError">
+          <DisplayName>Unsolicited error message</DisplayName>
+          <Protocol Name="Proprietary" Handler="Web.TPEngine.Providers.SelfAssertedAttributeProvider, Web.TPEngine, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"/>
+          <Metadata>
+            <Item Key="ContentDefinitionReferenceId">api.selfasserted</Item>
+            <Item Key="setting.showContinueButton">false</Item>
+            <Item Key="setting.showCancelButton">false</Item>
+         </Metadata>
+          <InputClaimsTransformations>
+            <InputClaimsTransformation ReferenceId="CreateSelfSignupDSSCustomerCreateErrorMessage" />
           </InputClaimsTransformations>         
           <InputClaims>
             <InputClaim ClaimTypeReferenceId="confirmationMessage"/>
@@ -620,19 +753,19 @@
           <DisplayName>Email Sent</DisplayName>
           <Protocol Name="Proprietary" Handler="Web.TPEngine.Providers.SelfAssertedAttributeProvider, Web.TPEngine, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"/>
           <Metadata>
-            <Item Key="ContentDefinitionReferenceId">api.selfasserted</Item>
+            <Item Key="ContentDefinitionReferenceId">api.localaccountforgotemail.emailfound</Item>
             <Item Key="setting.showContinueButton">false</Item>
             <Item Key="setting.showCancelButton">false</Item>
          </Metadata>
           <InputClaimsTransformations>
-            <InputClaimsTransformation ReferenceId="CreateEmailFoundMessage" />
+            <!-- <InputClaimsTransformation ReferenceId="CreateEmailFoundMessage" /> -->
             <InputClaimsTransformation ReferenceId="CreateFoundEmailMessageWithEmail" />
             <InputClaimsTransformation ReferenceId="CreateFoundEmailMessagelast" />
           </InputClaimsTransformations>
           <InputClaims>
-            <InputClaim ClaimTypeReferenceId="successMessage" />
+            <!-- <InputClaim ClaimTypeReferenceId="successMessage" /> -->
             <InputClaim ClaimTypeReferenceId="foundEmailMessageWithEmail" />
-            <InputClaim ClaimTypeReferenceId="foundEmailMessagelast" />            
+            <InputClaim ClaimTypeReferenceId="foundEmailMessagelast" />
           </InputClaims>
           <OutputClaims>
             <OutputClaim ClaimTypeReferenceId="successMessage"/>
@@ -645,7 +778,7 @@
           <DisplayName>Email Sent</DisplayName>
           <Protocol Name="Proprietary" Handler="Web.TPEngine.Providers.SelfAssertedAttributeProvider, Web.TPEngine, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"/>
           <Metadata>
-            <Item Key="ContentDefinitionReferenceId">api.selfasserted</Item>
+            <Item Key="ContentDefinitionReferenceId">api.localaccountforgotemail.emailnotfound</Item>
             <Item Key="setting.showContinueButton">false</Item>
             <Item Key="setting.showCancelButton">false</Item>
          </Metadata>
@@ -665,7 +798,7 @@
           <Protocol Name="Proprietary" Handler="Web.TPEngine.Providers.SelfAssertedAttributeProvider, Web.TPEngine, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" />
           <Metadata>
             <Item Key="IpAddressClaimReferenceId">IpAddress</Item>
-            <Item Key="ContentDefinitionReferenceId">api.localaccountpasswordreset</Item>
+            <Item Key="ContentDefinitionReferenceId">api.localaccountforgotemail</Item>
             <Item Key="UserMessageIfClaimsTransformationBooleanValueIsNotEqual">Your account has been locked. Contact your support person to unlock it, then try again.</Item>
             <Item Key="language.button_continue">Find email address</Item>
           </Metadata>
@@ -708,6 +841,7 @@
                         <Key Id="ClientCertificate" StorageReferenceId="B2C_1A_APIMClientCertificate" />
                     </CryptographicKeys>
                 <InputClaims>
+                    <InputClaim ClaimTypeReferenceId="givenName" PartnerClaimType="givenName" />
                     <InputClaim ClaimTypeReferenceId="email" PartnerClaimType="email" />
                     <InputClaim ClaimTypeReferenceId="ObjectId" PartnerClaimType="ObjectId"/>
                 </InputClaims>
@@ -758,6 +892,80 @@
                 </OutputClaims>
                 <UseTechnicalProfileForSessionManagement ReferenceId="SM-Noop" />
             </TechnicalProfile>
+
+            <TechnicalProfile Id="API-AidedSignup-Validate-UserInfo">
+                <DisplayName>User OTP Notifications</DisplayName>    
+                <Protocol Name="Proprietary" Handler="Web.TPEngine.Providers.RestfulProvider, Web.TPEngine, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" />
+                <Metadata>
+                  <Item Key="ServiceUrl">https://dev-api-customerengagement.platform.education.gov.uk/ncsidentity/AidedRegistrationValidateUserDetails</Item>
+                  <Item Key="SendClaimsIn">Body</Item>                        
+                  <Item Key="AuthenticationType">ClientCertificate</Item>
+                </Metadata>
+                <CryptographicKeys>
+                    <Key Id="ClientCertificate" StorageReferenceId="B2C_1A_APIMClientCertificate" />
+                </CryptographicKeys>
+                <InputClaims>
+                    <InputClaim ClaimTypeReferenceId="givenName" PartnerClaimType="GivenName" />
+                    <InputClaim ClaimTypeReferenceId="surname" PartnerClaimType="SurName"/>
+                    <InputClaim ClaimTypeReferenceId="day" PartnerClaimType="Day"/>
+                    <InputClaim ClaimTypeReferenceId="month" PartnerClaimType="Month"/>
+                    <InputClaim ClaimTypeReferenceId="year" PartnerClaimType="Year"/>
+                    <InputClaim ClaimTypeReferenceId="email" PartnerClaimType="Email"/>
+                    <InputClaim ClaimTypeReferenceId="retryCounter" PartnerClaimType="RetryCounter"/>
+                </InputClaims>
+                <OutputClaims>
+                  <OutputClaim ClaimTypeReferenceId="isFound" />
+                </OutputClaims>
+                <UseTechnicalProfileForSessionManagement ReferenceId="SM-Noop" />
+            </TechnicalProfile>
+
+            <TechnicalProfile Id="API-AidedSignup-Create-DSSCustomer">
+                <DisplayName>User OTP Notifications</DisplayName>    
+                <Protocol Name="Proprietary" Handler="Web.TPEngine.Providers.RestfulProvider, Web.TPEngine, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" />
+                <Metadata>
+                  <Item Key="ServiceUrl">https://dev-api-customerengagement.platform.education.gov.uk/ncsidentity/NCSDSSUserCreation</Item>
+                  <Item Key="SendClaimsIn">Body</Item>                        
+                  <Item Key="AuthenticationType">ClientCertificate</Item>
+                </Metadata>
+                <CryptographicKeys>
+                    <Key Id="ClientCertificate" StorageReferenceId="B2C_1A_APIMClientCertificate" />
+                </CryptographicKeys>
+                <InputClaims>
+                    <InputClaim ClaimTypeReferenceId="objectId" PartnerClaimType="ObjectId"/>
+                    <InputClaim ClaimTypeReferenceId="customerId" PartnerClaimType="CustomerId"/>
+                    <InputClaim ClaimTypeReferenceId="isAided" DefaultValue="true" PartnerClaimType="IsAided"/>
+                </InputClaims>
+                <OutputClaims>
+                  <OutputClaim ClaimTypeReferenceId="customerId" />
+                </OutputClaims>
+                <UseTechnicalProfileForSessionManagement ReferenceId="SM-Noop" />
+            </TechnicalProfile>
+
+            <TechnicalProfile Id="API-SelfSignup-Create-DSSCustomer">
+                <DisplayName>User OTP Notifications</DisplayName>    
+                <Protocol Name="Proprietary" Handler="Web.TPEngine.Providers.RestfulProvider, Web.TPEngine, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" />
+                <Metadata>
+                  <Item Key="ServiceUrl">https://dev-api-customerengagement.platform.education.gov.uk/ncsidentity/NCSDSSUserCreation</Item>
+                  <Item Key="SendClaimsIn">Body</Item>                        
+                  <Item Key="AuthenticationType">ClientCertificate</Item>
+                </Metadata>
+                <CryptographicKeys>
+                    <Key Id="ClientCertificate" StorageReferenceId="B2C_1A_APIMClientCertificate" />
+                </CryptographicKeys>
+                <InputClaims>
+                    <InputClaim ClaimTypeReferenceId="objectId" PartnerClaimType="ObjectId"/>
+                    <InputClaim ClaimTypeReferenceId="customerId" PartnerClaimType="CustomerId"/>
+                    <InputClaim ClaimTypeReferenceId="givenName" PartnerClaimType="givenName"/>
+                    <InputClaim ClaimTypeReferenceId="surname" PartnerClaimType="Surname"/>
+                    <InputClaim ClaimTypeReferenceId="signInNames.emailAddress" PartnerClaimType="Email"/>
+                    <InputClaim ClaimTypeReferenceId="isAided" DefaultValue="false" PartnerClaimType="IsAided"/>
+                </InputClaims>
+                <OutputClaims>
+                  <OutputClaim ClaimTypeReferenceId="customerId" />
+                </OutputClaims>
+                <UseTechnicalProfileForSessionManagement ReferenceId="SM-Noop" />
+            </TechnicalProfile>
+
         </TechnicalProfiles>
     </ClaimsProvider>
 
@@ -774,7 +982,7 @@
         </OrchestrationStep>
         <OrchestrationStep Order="2" Type="ClaimsExchange">
           <ClaimsExchanges>
-            <ClaimsExchange Id="LocalAccountSignUpEmailSentConfirmation" TechnicalProfileReferenceId="SelfAsserted-EmailSentConfirmation"/>
+            <ClaimsExchange Id="LocalAccountSignUpEmailSentConfirmation" TechnicalProfileReferenceId="SelfAsserted-Signup-EmailSentConfirmation"/>
           </ClaimsExchanges>
         </OrchestrationStep>  
         <OrchestrationStep Order="3" Type="SendClaims" CpimIssuerTechnicalProfileReferenceId="JwtIssuer"/>
@@ -833,7 +1041,7 @@
             </Precondition>
           </Preconditions>        
           <ClaimsExchanges>
-            <ClaimsExchange Id="SelfAsserted-LinkExpired" TechnicalProfileReferenceId="SelfAsserted-LinkExpired"/>
+            <ClaimsExchange Id="SelfAsserted-SignUpConfirmation-LinkExpired" TechnicalProfileReferenceId="SelfAsserted-SignUpConfirmation-LinkExpired"/>
           </ClaimsExchanges>
         </OrchestrationStep>
 
@@ -871,11 +1079,52 @@
             </Precondition>
           </Preconditions>
           <ClaimsExchanges>
-            <ClaimsExchange Id="ActivateAccount" TechnicalProfileReferenceId="AAD-UserWriteEmailVerifiedUsingObjectId"/>
+            <ClaimsExchange Id="Create-DSS-Customer" TechnicalProfileReferenceId="API-SelfSignup-Create-DSSCustomer"/>
           </ClaimsExchanges>
         </OrchestrationStep>
 
         <OrchestrationStep Order="8" Type="ClaimsExchange">
+          <Preconditions>
+            <Precondition Type="ClaimsExist" ExecuteActionsIf="true">
+              <Value>customerId</Value>
+              <Action>SkipThisOrchestrationStep</Action>
+            </Precondition>
+          </Preconditions>
+          <ClaimsExchanges>
+            <ClaimsExchange Id="DSSCustomerCreationError" TechnicalProfileReferenceId="SelfAsserted-SelfSignup-DSSCustomerCreationError"/>
+          </ClaimsExchanges>
+        </OrchestrationStep>
+
+        <!-- <OrchestrationStep Order="9" Type="ClaimsExchange">
+          <Preconditions>
+            <Precondition Type="ClaimsExist" ExecuteActionsIf="false">
+              <Value>customerId</Value>
+              <Action>SkipThisOrchestrationStep</Action>
+            </Precondition>
+          </Preconditions>
+          <ClaimsExchanges>
+            <ClaimsExchange Id="Create-CreateExtensionCustomerId" TechnicalProfileReferenceId="SelfAsserted-CreateExtensionCustomerId"/>
+          </ClaimsExchanges>
+        </OrchestrationStep> -->
+
+        <OrchestrationStep Order="9" Type="ClaimsExchange">
+          <Preconditions>
+            <Precondition Type="ClaimEquals" ExecuteActionsIf="false">
+              <Value>isLinkValid</Value>
+              <Value>True</Value>
+              <Action>SkipThisOrchestrationStep</Action>
+            </Precondition>
+            <Precondition Type="ClaimsExist" ExecuteActionsIf="false">
+              <Value>customerId</Value>
+              <Action>SkipThisOrchestrationStep</Action>
+            </Precondition>
+          </Preconditions>
+          <ClaimsExchanges>
+            <ClaimsExchange Id="ActivateAccount" TechnicalProfileReferenceId="AAD-UserWriteEmailVerifiedUsingObjectId"/>
+          </ClaimsExchanges>
+        </OrchestrationStep>
+
+        <OrchestrationStep Order="10" Type="ClaimsExchange">
          <Preconditions>
             <Precondition Type="ClaimEquals" ExecuteActionsIf="false">
               <Value>isLinkValid</Value>
@@ -888,7 +1137,7 @@
           </ClaimsExchanges>
         </OrchestrationStep>
 
-        <OrchestrationStep Order="9" Type="SendClaims" CpimIssuerTechnicalProfileReferenceId="JwtIssuer"/>
+        <OrchestrationStep Order="11" Type="SendClaims" CpimIssuerTechnicalProfileReferenceId="JwtIssuer"/>
       </OrchestrationSteps>
       <ClientDefinition ReferenceId="DefaultWeb"/>
     </UserJourney>
@@ -968,12 +1217,7 @@
             <ClaimsExchange Id="LocalAccountPasswordResetEmailSentConfirmation" TechnicalProfileReferenceId="SelfAsserted-PasswordReset-EmailSentConfirmation"/>
           </ClaimsExchanges>
         </OrchestrationStep>
-
-        <!-- <OrchestrationStep Order="3" Type="ClaimsExchange">
-          <ClaimsExchanges>
-            <ClaimsExchange Id="NewCredentials" TechnicalProfileReferenceId="LocalAccountWritePasswordUsingObjectId" />
-          </ClaimsExchanges>
-        </OrchestrationStep> -->
+        
         <OrchestrationStep Order="3" Type="SendClaims" CpimIssuerTechnicalProfileReferenceId="JwtIssuer" />
       </OrchestrationSteps>
       <ClientDefinition ReferenceId="DefaultWeb" />
@@ -998,7 +1242,7 @@
             </Precondition>
           </Preconditions>        
           <ClaimsExchanges>
-            <ClaimsExchange Id="SelfAsserted-LinkExpired" TechnicalProfileReferenceId="SelfAsserted-LinkExpired"/>
+            <ClaimsExchange Id="SelfAsserted-PasswordReset-LinkExpired" TechnicalProfileReferenceId="SelfAsserted-PasswordReset-LinkExpired"/>
           </ClaimsExchanges>
         </OrchestrationStep>
 

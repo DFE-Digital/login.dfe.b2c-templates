@@ -1,0 +1,40 @@
+{
+  "Logging": {
+    "LogLevel": {
+      "Default": "Warning"
+    }
+  },
+  "AllowedHosts": "*",
+  "AppSettings": {
+    "B2CTenant": "devauthncs",
+    "B2CSignUpPolicy": "B2C_1A_signup_invitation",
+    "B2CSignupConirmPolicy": "B2C_1A_signup_confirmation",
+    "B2CPasswordResetConirmPolicy": "B2C_1A_passwordResetConformation",
+    "B2CClientId": "488c321f-10e4-48f2-b9c2-261e2add2f8d",
+    "B2CRedirectUri": "https://jwt.ms",
+    "B2CAuthorizationUrl": "https://{0}.b2clogin.com/{0}.onmicrosoft.com/{1}/oauth2/v2.0/authorize?client_id={2}&nonce={4}&redirect_uri={3}&scope=openid&response_type=id_token",
+    "ClientSigningKey": "4/Mx7i5ba9uK0byx9tAgZgUkNh2+hW18+GMPmdzEWuY=",
+    "LinkExpiresAfterMinutes": 5,
+    "SMTPServer": "smtp.sendgrid.net",
+    "SMTPPort": 587,
+    "SMTPUsername": "apikey",
+    "SMTPPassword": "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",
+    "SMTPUseSSL": true,
+    "SMTPFromAddress": "admin@contoso.com",
+    "SMTPSubject": "Sign-in to Contoso.com",
+    "SignupEmailSubject": "Complete your SFA registration",
+    "SignupConfirmationEmailSubject": "Complete your SFA registration",
+    "PasswordResetConfirmationEmailSubject": "Reset your password",
+    "AccountActivationEmailExpiryInSeconds": "1",
+    "ncs-dss-search-api-url": "https://at.api.nationalcareersservice.org.uk/search/api/",
+    "ncs-dss-api-key": "92f1fe387ea14bab9567403c4c1d5e72",
+    "Ocp-Apim-Subscription-Key": "92f1fe387ea14bab9567403c4c1d5e72",
+    "ncs-dss-search-api-version": "v2",
+    "resendSignupEmail": "Activate your account",
+    //new
+    "ncs-dss-create-customer-api-url": "https://at.api.nationalcareersservice.org.uk/customers/api/Customers/",
+    "ncs-dss-create-contact-api-url": "https://at.api.nationalcareersservice.org.uk/contactdetails/api/customers/{0}/ContactDetails/",
+    "ncs-dss-create-identity-api-url": "https://at.api.nationalcareersservice.org.uk/digitalidentities/api/identity",
+    "TouchpointId": "1000000000"
+  }
+}

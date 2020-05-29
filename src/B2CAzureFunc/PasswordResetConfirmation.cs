@@ -52,9 +52,10 @@ namespace B2CAzureFunc
                 string b2cRedirectUri = Environment.GetEnvironmentVariable("B2CRedirectUri", EnvironmentVariableTarget.Process);
                 string url = UrlBuilder.BuildUrl(token, b2cURL, b2cTenant, b2cPolicyId, b2cClientId, b2cRedirectUri);
 
-                string htmlTemplate = System.IO.File.ReadAllText(@"D:\home\site\wwwroot\ForgotPasswordEmailTemplate.html");
+                string htmlTemplate = System.IO.File.ReadAllText(@"D:\home\site\wwwroot\EmailTemplates\ResetPassword\ResetPassword_inlined_css.html");
                 string from = Environment.GetEnvironmentVariable("SMTPFromAddress", EnvironmentVariableTarget.Process);
                 string subject = Environment.GetEnvironmentVariable("PasswordResetConfirmationEmailSubject", EnvironmentVariableTarget.Process);
+                htmlTemplate = htmlTemplate.Replace("#name#", data.givenName.ToString()).Replace("#link#", url);
 
                 EmailModel model = new EmailModel
                 {

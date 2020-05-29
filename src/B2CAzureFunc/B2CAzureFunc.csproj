@@ -25,12 +25,18 @@
     <ProjectReference Include="..\Providers.Email\Providers.Email.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <None Update="EmailTemplates\ResetPassword\ResetPassword_inlined_css.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="EmailTemplates\Signup\Signup_inlined_css.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="host.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="local.settings.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <CopyToPublishDirectory>Never</CopyToPublishDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="AidedRegistrationEmailTemplate.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

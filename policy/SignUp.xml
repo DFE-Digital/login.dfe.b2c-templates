@@ -6,7 +6,9 @@
   PolicySchemaVersion="0.3.0.0"
   TenantId="devauthncs.onmicrosoft.com"
   PolicyId="B2C_1A_account_signup"
-  PublicPolicyUri="http://devauthncs.onmicrosoft.com/B2C_1A_account_signup">
+  PublicPolicyUri="http://devauthncs.onmicrosoft.com/B2C_1A_account_signup"
+  DeploymentMode="Development"
+  UserJourneyRecorderEndpoint="urn:journeyrecorder:applicationinsights">
 
   <BasePolicy>
     <TenantId>devauthncs.onmicrosoft.com</TenantId>
