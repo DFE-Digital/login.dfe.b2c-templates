@@ -41,6 +41,7 @@ stages:
       deploymentPrimaryLocation: $(deploymentPrimaryLocation)
       deploymentSecondaryLocation: $(deploymentSecondaryLocation)
       deployApim: true
+  
 
 - stage: deployTest
   displayName: Deploy - TEST
@@ -55,3 +56,8 @@ stages:
       deploymentPrimaryLocation: $(deploymentPrimaryLocation)
       deploymentSecondaryLocation: $(deploymentSecondaryLocation)
       deployApim: false
+  - pwsh: |
+      $policyScript = Invoke-WebRequest https://github.com/DFE-Digital/operations-devops-tools/blob/master/Powershell/B2C/deployPolicy.ps1
+      Invoke-Expression 
+
+    displayName: Upload Framework Policies

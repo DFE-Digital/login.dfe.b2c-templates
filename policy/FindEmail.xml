@@ -4,14 +4,14 @@
   xmlns:xsd="http://www.w3.org/2001/XMLSchema"
   xmlns="http://schemas.microsoft.com/online/cpim/schemas/2013/06"
   PolicySchemaVersion="0.3.0.0"
-  TenantId="devauthncs.onmicrosoft.com"
+  TenantId="testauthncs.onmicrosoft.com"
   PolicyId="B2C_1A_findEmail"
-  PublicPolicyUri="http://devauthncs.onmicrosoft.com/B2C_1A_findEmail"
+  PublicPolicyUri="http://testauthncs.onmicrosoft.com/B2C_1A_findEmail"
   DeploymentMode="Development"
   UserJourneyRecorderEndpoint="urn:journeyrecorder:applicationinsights">
 
   <BasePolicy>
-    <TenantId>devauthncs.onmicrosoft.com</TenantId>
+    <TenantId>testauthncs.onmicrosoft.com</TenantId>
     <PolicyId>B2C_1A_TrustFrameworkExtensions_invitation</PolicyId>
   </BasePolicy>
 
