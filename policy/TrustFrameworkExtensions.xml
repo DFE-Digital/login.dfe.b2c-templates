@@ -462,6 +462,7 @@
             <ValidationTechnicalProfile ReferenceId="API-AidedSignup-Validate-UserInfo" />
             <ValidationTechnicalProfile ReferenceId="AAD-Aided-UserWriteUsingLogonEmail" />
             <ValidationTechnicalProfile ReferenceId="API-AidedSignup-Create-DSSCustomer" />
+            <ValidationTechnicalProfile ReferenceId="AAD-UserWriteCustomerUsingObjectId" />
           </ValidationTechnicalProfiles>
           <UseTechnicalProfileForSessionManagement ReferenceId="SM-Noop" />
         </TechnicalProfile>
@@ -934,9 +935,9 @@
                     <InputClaim ClaimTypeReferenceId="customerId" PartnerClaimType="CustomerId"/>
                     <InputClaim ClaimTypeReferenceId="isAided" DefaultValue="true" PartnerClaimType="IsAided"/>
                 </InputClaims>
-                <!-- <OutputClaims>
-                  <OutputClaim ClaimTypeReferenceId="isFound" />
-                </OutputClaims> -->
+                <OutputClaims>
+                  <OutputClaim ClaimTypeReferenceId="customerId" />
+                </OutputClaims>
                 <UseTechnicalProfileForSessionManagement ReferenceId="SM-Noop" />
             </TechnicalProfile>
 
@@ -1094,7 +1095,7 @@
           </ClaimsExchanges>
         </OrchestrationStep>
 
-        <OrchestrationStep Order="9" Type="ClaimsExchange">
+        <!-- <OrchestrationStep Order="9" Type="ClaimsExchange">
           <Preconditions>
             <Precondition Type="ClaimsExist" ExecuteActionsIf="false">
               <Value>customerId</Value>
@@ -1104,9 +1105,9 @@
           <ClaimsExchanges>
             <ClaimsExchange Id="Create-CreateExtensionCustomerId" TechnicalProfileReferenceId="SelfAsserted-CreateExtensionCustomerId"/>
           </ClaimsExchanges>
-        </OrchestrationStep>
+        </OrchestrationStep> -->
 
-        <OrchestrationStep Order="10" Type="ClaimsExchange">
+        <OrchestrationStep Order="9" Type="ClaimsExchange">
           <Preconditions>
             <Precondition Type="ClaimEquals" ExecuteActionsIf="false">
               <Value>isLinkValid</Value>
@@ -1123,7 +1124,7 @@
           </ClaimsExchanges>
         </OrchestrationStep>
 
-        <OrchestrationStep Order="11" Type="ClaimsExchange">
+        <OrchestrationStep Order="10" Type="ClaimsExchange">
          <Preconditions>
             <Precondition Type="ClaimEquals" ExecuteActionsIf="false">
               <Value>isLinkValid</Value>
@@ -1136,7 +1137,7 @@
           </ClaimsExchanges>
         </OrchestrationStep>
 
-        <OrchestrationStep Order="12" Type="SendClaims" CpimIssuerTechnicalProfileReferenceId="JwtIssuer"/>
+        <OrchestrationStep Order="11" Type="SendClaims" CpimIssuerTechnicalProfileReferenceId="JwtIssuer"/>
       </OrchestrationSteps>
       <ClientDefinition ReferenceId="DefaultWeb"/>
     </UserJourney>
