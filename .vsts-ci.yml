@@ -41,7 +41,23 @@ stages:
       deploymentPrimaryLocation: $(deploymentPrimaryLocation)
       deploymentSecondaryLocation: $(deploymentSecondaryLocation)
       deployApim: true
-  
+
+- stage: postDeployDev
+  displayName: Post Deploy - DEV
+  dependsOn: deployDev
+  jobs:
+  - job: azCli
+    displayName: Add App Registrations
+    pool:
+      vmImage: ubuntu-latest
+    steps:
+    - template: yaml/steps/add-service-principals.yml
+      parameters:
+        serviceConnection: $(devB2cConnection)
+        environmentName: 'dev'
+        identityFrameworkSecret: $(identityFrameworkSecret)
+        proxyIdentityFrameworkSecret: $(proxyIdentityFrameworkSecret)
+        graphAccessSecret: $(graphAccessSecret)
 
 - stage: deployTest
   displayName: Deploy - TEST
@@ -56,8 +72,20 @@ stages:
       deploymentPrimaryLocation: $(deploymentPrimaryLocation)
       deploymentSecondaryLocation: $(deploymentSecondaryLocation)
       deployApim: false
-  - pwsh: |
-      $policyScript = Invoke-WebRequest https://github.com/DFE-Digital/operations-devops-tools/blob/master/Powershell/B2C/deployPolicy.ps1
-      Invoke-Expression 
 
-    displayName: Upload Framework Policies
+- stage: postDeployDev
+  displayName: Post Deploy - DEV
+  dependsOn: deployTest
+  jobs:
+  - job: azCli
+    displayName: Add App Registrations
+    pool:
+      vmImage: ubuntu-latest
+    steps:
+    - template: yaml/steps/add-service-principals.yml
+      parameters:
+        serviceConnection: $(testB2cConnection)
+        environmentName: 'test'
+        identityFrameworkSecret: $(identityFrameworkSecret)
+        proxyIdentityFrameworkSecret: $(proxyIdentityFrameworkSecret)
+        graphAccessSecret: $(graphAccessSecret)

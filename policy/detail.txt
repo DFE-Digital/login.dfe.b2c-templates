@@ -1,0 +1,20 @@
+Tenant : 55ba10c3-309d-4512-979c-e359a86019ad
+
+Applications:
+
+
+App Registrations : 
+IdentityExperienceFramework : 5a075520-7016-4bc8-872c-daa5a6a7b15b
+permissions : 
+Graph
+    offline_access (Delegated)
+    openid (Delegated)
+
+ProxyIdentityExperienceFramework : 9509a3af-9e67-4a7d-9443-a094c02c8e69
+permissions :
+IdentifyExperienceFramework
+    user_impersonation (Delegated)
+Graph
+    offline_access (Delegated)
+    openid (Delegated)
+
