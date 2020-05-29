@@ -25,6 +25,9 @@
     <ProjectReference Include="..\Providers.Email\Providers.Email.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <None Update="EmailTemplates\AdviserCreatedAccount\AdviserCreatedAccount_inlined_css.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="EmailTemplates\ResetPassword\ResetPassword_inlined_css.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
