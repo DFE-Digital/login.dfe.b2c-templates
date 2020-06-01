@@ -37,12 +37,8 @@ jobs:
         RequireVariable: true
         TokenStart: '__'
         TokenEnd: '__'
-
-    - pwsh:
-        $policyScript = Invoke-WebRequest $Env:policyDeployScriptUrl
-        $scriptBlock = [Scriptblock]::Create($policyScript.Content)
-        $params = @('$Env:uploaderPrincipalClientId', '$Env:uploaderPrincipalSecret', '$Env:tenantId', 'B2C_1A_TrustFrameworkBase_invitation', '$(Build.SourcesDirectory)\policy\TrustFrameworkBase.xml')
-      
-        Write-Hose $params
-        Invoke-Command -ScriptBlock $scriptBlock -ArgumentList ($args + $params)
-      displayName: Policy Upload
+    - task: PowerShell@2
+      inputs:
+        filePath: '$(Build.SourcesDirectory)scripts\UploadFrameworkPolicy.ps1'
+        arguments: '-clientId ${{parameters.uploaderPrincipalClientId}} -clientSecret ${{parameters.uploaderPrincipalSecret}} -tenantId ${{parameters.tenantId}} -policyId B2C_1A_TrustFrameworkBase_invitation -pathToFile $(Build.SourcesDirectory)\policy\TrustFrameworkBase.xml'
+        displayName: Policy Upload
