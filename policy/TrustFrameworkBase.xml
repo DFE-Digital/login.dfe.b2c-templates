@@ -510,7 +510,7 @@
       </ContentDefinition>
 
       <ContentDefinition Id="api.localaccountaidedsignup">
-        <LoadUri>https://s141d01-signin-int.azurewebsites.net/b2c/</LoadUri>
+        <LoadUri>https://s141d01-signin-int.azurewebsites.net/b2c/aided-registration-activate-account</LoadUri>
         <RecoveryUri>~/common/default_page_error.html</RecoveryUri>
         <DataUri>urn:com:microsoft:aad:b2c:elements:contract:selfasserted:1.2.0</DataUri>
         <Metadata>
