@@ -14,7 +14,7 @@ parameters:
 - name: eapimRootUrl
   
 jobs:
-  job: tenantSetup
+- job: tenantSetup
   displayName: B2C Tenant Setup ${{parameters.environmentName}}
   pool:
     vmImage: ubuntu-latest
