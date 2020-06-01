@@ -15,9 +15,9 @@ parameters:
   
 jobs:
 - job: tenantSetup
-  displayName: B2C Tenant Setup ${{parameters.environmentName}}
+  displayName: B2C Tenant Setup 
   pool:
-    vmImage: ubuntu-latest
+    vmImage: windows-latest
   variables:
     environmentName: ${{parameters.environmentName}}
     tenantId: ${{parameters.tenantId}}
@@ -32,7 +32,7 @@ jobs:
     - task: Tokenization@2
       displayName: Tokenise Policy
       inputs:
-        SourcePath: '$(Build.SourcesDirectory)/policy/'
+        SourcePath: '$(Build.SourcesDirectory)\policy\'
         TargetFileNames: '*.xml'
         RequireVariable: true
         TokenStart: '__'
@@ -41,5 +41,5 @@ jobs:
     - pwsh: |
         $policyScript = Invoke-WebRequest $(env:POLICYDEPLOYSCRIPTURL)
         $scriptBlock = [Scriptblock]::Create($policyScript.Content)
-        Invoke-Command -ScriptBlock $scriptBlock -ArgumentList ($args + @('$($env:UPLOADERPRINCIPALCLIENTID)', '$($env:UPLOADERPRINCIPALSECRET)', '$($env:TENANTID)', 'B2C_1A_TrustFrameworkBase_invitation', '$(Build.SourcesDirectory)/policy/TrustFrameworkBase.xml'))
+        Invoke-Command -ScriptBlock $scriptBlock -ArgumentList ($args + @('$($env:UPLOADERPRINCIPALCLIENTID)', '$($env:UPLOADERPRINCIPALSECRET)', '$($env:TENANTID)', 'B2C_1A_TrustFrameworkBase_invitation', '$(Build.SourcesDirectory)\policy\TrustFrameworkBase.xml'))
       displayName: Policy Upload
