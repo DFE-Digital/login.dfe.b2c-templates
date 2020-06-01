@@ -4,8 +4,8 @@
   xmlns="http://schemas.microsoft.com/online/cpim/schemas/2013/06"
   PolicySchemaVersion="0.3.0.0"
   TenantId="__environmentName__authncs.onmicrosoft.com"
-  PolicyId="B2C_1A_TrustFrameworkBase_invitation"
-  PublicPolicyUri="http://__environmentName__authncs.onmicrosoft.com/B2C_1A_TrustFrameworkBase_invitation">
+  PolicyId="B2C_1A_TrustFrameworkBase_Invitation"
+  PublicPolicyUri="http://__environmentName__authncs.onmicrosoft.com/B2C_1A_TrustFrameworkBase_Invitation">
 
   <BuildingBlocks>
     <ClaimsSchema>
