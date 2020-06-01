@@ -18,6 +18,15 @@ jobs:
   displayName: B2C Tenant Setup 
   pool:
     vmImage: windows-latest
+  variables:
+    environmentName: ${{parameters.environmentName}}
+    tenantId: ${{parameters.tenantId}}
+    uploaderPrincipalClientId: ${{parameters.uploaderPrincipalClientId}}
+    uploaderPrincipalSecret:  ${{parameters.uploaderPrincipalSecret}}
+    policyDeployScriptUrl: 'https://raw.githubusercontent.com/DFE-Digital/operations-devops-tools/master/Powershell/B2C/deployPolicy.ps1'
+    proxyAppRegistrationClientId: ${{parameters.proxyAppRegistrationClientId}}
+    proxyAppRegistrationObjectId: ${{parameters.proxyAppRegistrationObjectId}}
+    eapimRootUrl: ${{parameters.eapimRootUrl}}
   steps:
     - task: Tokenization@2
       displayName: Tokenise Policy Files
@@ -30,15 +39,6 @@ jobs:
     - pwsh: 
         Write-Host "(uc) environmentName" $Env:ENVIRONMENTNAME 
         Write-Host "(lc) environmentName" $Env:environmentName 
-      env:
-        environmentName: ${{parameters.environmentName}}
-        tenantId: ${{parameters.tenantId}}
-        uploaderPrincipalClientId: ${{parameters.uploaderPrincipalClientId}}
-        uploaderPrincipalSecret:  ${{parameters.uploaderPrincipalSecret}}
-        policyDeployScriptUrl: 'https://raw.githubusercontent.com/DFE-Digital/operations-devops-tools/master/Powershell/B2C/deployPolicy.ps1'
-        proxyAppRegistrationClientId: ${{parameters.proxyAppRegistrationClientId}}
-        proxyAppRegistrationObjectId: ${{parameters.proxyAppRegistrationObjectId}}
-        eapimRootUrl: ${{parameters.eapimRootUrl}}
 
     # - task: PowerShell@2
     #   inputs:
