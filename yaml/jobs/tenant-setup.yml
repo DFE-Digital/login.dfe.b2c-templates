@@ -36,7 +36,7 @@ jobs:
         RequireVariable: true
         TokenStart: '__'
         TokenEnd: '__'
-    - pwsh: 
+    - pwsh: |
         Write-Host "(uc) environmentName $Env:ENVIRONMENTNAME"
         Write-Host "(lc) environmentName $Env:environmentName"
 
