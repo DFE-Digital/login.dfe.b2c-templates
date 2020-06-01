@@ -39,6 +39,6 @@ jobs:
         TokenEnd: '__'
     - task: PowerShell@2
       inputs:
-        filePath: '$(Build.SourcesDirectory)scripts\UploadFrameworkPolicy.ps1'
+        filePath: '$(Build.SourcesDirectory)\scripts\UploadFrameworkPolicy.ps1'
         arguments: '-clientId ${{parameters.uploaderPrincipalClientId}} -clientSecret ${{parameters.uploaderPrincipalSecret}} -tenantId ${{parameters.tenantId}} -policyId B2C_1A_TrustFrameworkBase_invitation -pathToFile $(Build.SourcesDirectory)\policy\TrustFrameworkBase.xml'
         displayName: Policy Upload
