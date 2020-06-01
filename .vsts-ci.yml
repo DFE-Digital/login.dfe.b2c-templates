@@ -17,7 +17,9 @@ trigger:
     - develop/*
 
 variables:
-  applicationName: ncsauth
+- name: applicationName
+  value: ncsauth
+- group: ncs-b2c-global
 
 
 stages:
