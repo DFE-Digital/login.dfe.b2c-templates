@@ -28,17 +28,21 @@ jobs:
     proxyAppRegistrationObjectId: ${{parameters.proxyAppRegistrationObjectId}}
     eapimRootUrl: ${{parameters.eapimRootUrl}}
   steps:
-    # - task: Tokenization@2
-    #   displayName: Tokenise Policy Files
-    #   inputs:
-    #     SourcePath: '$(Build.SourcesDirectory)\policy\'
-    #     TargetFileNames: '*.xml'
-    #     RequireVariable: true
-    #     TokenStart: '__'
-    #     TokenEnd: '__'
+    - task: Tokenization@2
+      displayName: Tokenise Policy Files
+      inputs:
+        SourcePath: '$(Build.SourcesDirectory)\policy\'
+        TargetFileNames: '*.xml'
+        RequireVariable: true
+        TokenStart: '__'
+        TokenEnd: '__'
     - pwsh: |
-        Write-Host "(uc) environmentName $Env:ENVIRONMENTNAME"
-        Write-Host "(lc) environmentName $Env:environmentName"
+        $policyScript = Invoke-WebRequest $Env:policyDeployScriptUrl
+        $scriptBlock = [Scriptblock]::Create($policyScript.Content)
+        Write-Host 'Uploading B2C_1A_TrustFrameworkBase_invitation'
+        Invoke-Command -ScriptBlock $scriptBlock -ArgumentList ($args + @('$Env:uploaderPrincipalClientId', '$Env:uploaderPrincipalSecret', '$Env:tenantId', 'B2C_1A_TrustFrameworkBase_invitation', '$(Build.SourcesDirectory)\policy\TrustFrameworkBase.xml' ))
+        Write-Host 'Upload Complete'
+
 
     # - task: PowerShell@2
     #   inputs:
