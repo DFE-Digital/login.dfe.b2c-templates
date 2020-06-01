@@ -17,12 +17,13 @@ namespace B2CAzureFunc.Helpers
         /// <param name="email"></param>
         /// <param name="givenName"></param>
         /// <param name="surname"></param>
+        /// <param name="customerId"></param>
         /// <param name="expiry"></param>
         /// <param name="requestScheme"></param>
         /// <param name="host"></param>
         /// <param name="path"></param>
         /// <returns></returns>
-        public static string BuildIdToken(string email, string givenName, string surname, DateTime expiry, string requestScheme, string host, string path)
+        public static string BuildIdToken(string email, string givenName, string surname,string customerId, DateTime expiry, string requestScheme, string host, string path)
         {
             string issuer = $"{requestScheme}://{host}{path}/";
 
@@ -32,7 +33,8 @@ namespace B2CAzureFunc.Helpers
             claims.Add(new System.Security.Claims.Claim("expiry", expiry.ToString(), System.Security.Claims.ClaimValueTypes.DateTime, issuer));
             claims.Add(new System.Security.Claims.Claim("givenName", givenName.ToString(), System.Security.Claims.ClaimValueTypes.String, issuer));
             claims.Add(new System.Security.Claims.Claim("surname", surname.ToString(), System.Security.Claims.ClaimValueTypes.String, issuer));
-
+            claims.Add(new System.Security.Claims.Claim("customerId", customerId.ToString(), System.Security.Claims.ClaimValueTypes.String, issuer));
+            
             // Note: This key phrase needs to be stored also in Azure B2C Keys for token validation
             var securityKey = Encoding.UTF8.GetBytes(Environment.GetEnvironmentVariable("ClientSigningKey", EnvironmentVariableTarget.Process));
 

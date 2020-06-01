@@ -34,7 +34,7 @@ namespace B2CAzureFunc
         /// <param name="options"></param>
         public FunctionDefault(IOptions<B2COpenApiConfig> options)
         {
-            _options = options.Value;
+            _options = options?.Value;
         }
 
         /// <summary>
@@ -68,7 +68,7 @@ namespace B2CAzureFunc
                     openApiDocumentVersion: "V1",
                     filterSetVersion: FilterSetVersion.V1
                 );
-                input.OpenApiInfoDescription = _options.ServiceDescription ?? "B2CAzureFunc";
+                input.OpenApiInfoDescription = _options.ServiceDescription ?? FunctionConstants.FunctionName;
 
                 var generator = new OpenApiGenerator();
                 var openApiDocuments = generator.GenerateDocuments(
@@ -90,7 +90,7 @@ namespace B2CAzureFunc
 
                 //switch the hostname for current known
                 var definition = openApiDocuments.First().Value;
-                definition.Info.Title = _options.ServiceTitle;
+                definition.Info.Title = _options.ServiceTitle ?? FunctionConstants.FunctionName;
 
 
                 if (definition.Servers.Any())

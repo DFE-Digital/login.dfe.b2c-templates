@@ -33,6 +33,7 @@
         <OutputClaim ClaimTypeReferenceId="tenantId" AlwaysUseDefaultValue="true" DefaultValue="{Policy:TenantObjectId}" />
 		    <OutputClaim ClaimTypeReferenceId="objectId" PartnerClaimType="sub"/>
 		    <OutputClaim ClaimTypeReferenceId="extension_IsEmailVerified" PartnerClaimType="isEmailVerified"/>
+        <OutputClaim ClaimTypeReferenceId="extension_customerId" PartnerClaimType="customerId" />
       </OutputClaims>
       <SubjectNamingInfo ClaimType="sub" />
     </TechnicalProfile>
