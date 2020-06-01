@@ -14,6 +14,7 @@ steps:
 - task: AzureCLI@2
   inputs:
     azureSubscription: ${{parameters.serviceConnection}}
+    scriptType: 'pscore'
     scriptLocation: '/scripts/CreateAppRegistrations.ps1'
     arguments: '
     -environment ${{parameters.environmentName}} 
