@@ -86,6 +86,23 @@ stages:
       parameters:
         serviceConnection: $(testB2cConnection)
         environmentName: 'test'
-        identityFrameworkSecret: $(identityFrameworkSecret)
-        proxyIdentityFrameworkSecret: $(proxyIdentityFrameworkSecret)
-        graphAccessSecret: $(graphAccessSecret)
+        identityFrameworkSecret: $(devIdentPrincipalSecret)
+        proxyIdentityFrameworkSecret: $(devIdentProxyPrincipalSecret)
+        graphAccessSecret: $(devGraphPrincipalSecret)
+
+- stage: postDeployTest
+  displayName: Post Deploy - TEST
+  dependsOn: deployTest
+  jobs:
+  - job: azCli
+    displayName: Add App Registrations
+    pool:
+      vmImage: ubuntu-latest
+    steps:
+    - template: yaml/steps/add-service-principals.yml
+      parameters:
+        serviceConnection: $(testB2cConnection)
+        environmentName: 'test'
+        identityFrameworkSecret: $(testIdentPrincipalSecret)
+        proxyIdentityFrameworkSecret: $(testIdentProxyPrincipalSecret)
+        graphAccessSecret: $(testGraphPrincipalSecret)
