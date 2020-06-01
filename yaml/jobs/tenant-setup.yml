@@ -45,7 +45,7 @@ jobs:
         Write-Host "T : $Env:tenantId"
 
         Write-Host 'Uploading B2C_1A_TrustFrameworkBase_Invitation'
-        Invoke-Command -ScriptBlock $scriptBlock -ArgumentList ($args + @('$Env:uploaderPrincipalClientId', '$Env:uploaderPrincipalSecret', '$Env:tenantId', 'B2C_1A_TrustFrameworkBase_invitation', '$(Build.SourcesDirectory)\policy\TrustFrameworkBase.xml' ))
+        Invoke-Command -ScriptBlock $scriptBlock -ArgumentList ($args + @('$Env:uploaderPrincipalClientId', '$Env:uploaderPrincipalSecret', '$Env:tenantId', 'B2C_1A_TrustFrameworkBase_Invitation', '$(Build.SourcesDirectory)\policy\TrustFrameworkBase_Invitation.xml' ))
         Write-Host 'Upload Complete'
 
 
