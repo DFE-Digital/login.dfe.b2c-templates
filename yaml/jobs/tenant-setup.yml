@@ -38,16 +38,19 @@ jobs:
         TokenEnd: '__'
     - pwsh: |
         Write-Host 'Uploading B2C_1A_TrustFrameworkBase_Invitation'
+        $scriptPath = "$($Env:Build_SourcesDirectory)\scripts\"
+
+
         Get-ChildItem -Path $scriptPath
-        "$($Env:Build_SourcesDirectory)\scripts\UploadFrameworkPolicy.ps1" -clientId $Env:uploaderPrincipalClientId -clientSecret $Env:uploaderPrincipalSecret -tenantId $Env:tenantId -policyId B2C_1A_TrustFrameworkBase_Invitation -policyFile $Env:Build_SourcesDirectory\policy\TrustFrameworkBase_Invitation.xml
-        # $Env:Build_SourcesDirectory\scripts\UploadFrameworkPolicy.ps1 -clientId $Env:uploaderPrincipalClientId -clientSecret $Env:uploaderPrincipalSecret -tenantId $Env:tenantId -policyId B2C_1A_TrustFrameworkBase_Invitation -policyFile $Env:Build_SourcesDirectory\policy\TrustFrameworkExtensions_Invitation.xml
-        # $Env:Build_SourcesDirectory\scripts\UploadFrameworkPolicy.ps1 -clientId $Env:uploaderPrincipalClientId -clientSecret $Env:uploaderPrincipalSecret -tenantId $Env:tenantId -policyId B2C_1A_TrustFrameworkBase_Invitation -policyFile $Env:Build_SourcesDirectory\policy\TrustFrameworkBase_Invitation.xml
-        # $Env:Build_SourcesDirectory\scripts\UploadFrameworkPolicy.ps1 -clientId $Env:uploaderPrincipalClientId -clientSecret $Env:uploaderPrincipalSecret -tenantId $Env:tenantId -policyId B2C_1A_TrustFrameworkBase_Invitation -policyFile $Env:Build_SourcesDirectory\policy\TrustFrameworkBase_Invitation.xml
-        # $Env:Build_SourcesDirectory\scripts\UploadFrameworkPolicy.ps1 -clientId $Env:uploaderPrincipalClientId -clientSecret $Env:uploaderPrincipalSecret -tenantId $Env:tenantId -policyId B2C_1A_TrustFrameworkBase_Invitation -policyFile $Env:Build_SourcesDirectory\policy\TrustFrameworkBase_Invitation.xml
-        # $Env:Build_SourcesDirectory\scripts\UploadFrameworkPolicy.ps1 -clientId $Env:uploaderPrincipalClientId -clientSecret $Env:uploaderPrincipalSecret -tenantId $Env:tenantId -policyId B2C_1A_TrustFrameworkBase_Invitation -policyFile $Env:Build_SourcesDirectory\policy\TrustFrameworkBase_Invitation.xml
-        # $Env:Build_SourcesDirectory\scripts\UploadFrameworkPolicy.ps1 -clientId $Env:uploaderPrincipalClientId -clientSecret $Env:uploaderPrincipalSecret -tenantId $Env:tenantId -policyId B2C_1A_TrustFrameworkBase_Invitation -policyFile $Env:Build_SourcesDirectory\policy\TrustFrameworkBase_Invitation.xml
-        # $Env:Build_SourcesDirectory\scripts\UploadFrameworkPolicy.ps1 -clientId $Env:uploaderPrincipalClientId -clientSecret $Env:uploaderPrincipalSecret -tenantId $Env:tenantId -policyId B2C_1A_TrustFrameworkBase_Invitation -policyFile $Env:Build_SourcesDirectory\policy\TrustFrameworkBase_Invitation.xml
-        # $Env:Build_SourcesDirectory\scripts\UploadFrameworkPolicy.ps1 -clientId $Env:uploaderPrincipalClientId -clientSecret $Env:uploaderPrincipalSecret -tenantId $Env:tenantId -policyId B2C_1A_TrustFrameworkBase_Invitation -policyFile $Env:Build_SourcesDirectory\policy\TrustFrameworkBase_Invitation.xml
+        $scriptPath\UploadFrameworkPolicy.ps1 -clientId $Env:uploaderPrincipalClientId -clientSecret $Env:uploaderPrincipalSecret -tenantId $Env:tenantId -policyId B2C_1A_TrustFrameworkBase_Invitation -policyFile $Env:Build_SourcesDirectory\policy\TrustFrameworkBase_Invitation.xml
+        # scriptPath\UploadFrameworkPolicy.ps1-clientId $Env:uploaderPrincipalClientId -clientSecret $Env:uploaderPrincipalSecret -tenantId $Env:tenantId -policyId B2C_1A_TrustFrameworkBase_Invitation -policyFile $Env:Build_SourcesDirectory\policy\TrustFrameworkExtensions_Invitation.xml
+        # scriptPath\UploadFrameworkPolicy.ps1-clientId $Env:uploaderPrincipalClientId -clientSecret $Env:uploaderPrincipalSecret -tenantId $Env:tenantId -policyId B2C_1A_TrustFrameworkBase_Invitation -policyFile $Env:Build_SourcesDirectory\policy\TrustFrameworkBase_Invitation.xml
+        # scriptPath\UploadFrameworkPolicy.ps1-clientId $Env:uploaderPrincipalClientId -clientSecret $Env:uploaderPrincipalSecret -tenantId $Env:tenantId -policyId B2C_1A_TrustFrameworkBase_Invitation -policyFile $Env:Build_SourcesDirectory\policy\TrustFrameworkBase_Invitation.xml
+        # scriptPath\UploadFrameworkPolicy.ps1-clientId $Env:uploaderPrincipalClientId -clientSecret $Env:uploaderPrincipalSecret -tenantId $Env:tenantId -policyId B2C_1A_TrustFrameworkBase_Invitation -policyFile $Env:Build_SourcesDirectory\policy\TrustFrameworkBase_Invitation.xml
+        # scriptPath\UploadFrameworkPolicy.ps1-clientId $Env:uploaderPrincipalClientId -clientSecret $Env:uploaderPrincipalSecret -tenantId $Env:tenantId -policyId B2C_1A_TrustFrameworkBase_Invitation -policyFile $Env:Build_SourcesDirectory\policy\TrustFrameworkBase_Invitation.xml
+        # scriptPath\UploadFrameworkPolicy.ps1-clientId $Env:uploaderPrincipalClientId -clientSecret $Env:uploaderPrincipalSecret -tenantId $Env:tenantId -policyId B2C_1A_TrustFrameworkBase_Invitation -policyFile $Env:Build_SourcesDirectory\policy\TrustFrameworkBase_Invitation.xml
+        # scriptPath\UploadFrameworkPolicy.ps1-clientId $Env:uploaderPrincipalClientId -clientSecret $Env:uploaderPrincipalSecret -tenantId $Env:tenantId -policyId B2C_1A_TrustFrameworkBase_Invitation -policyFile $Env:Build_SourcesDirectory\policy\TrustFrameworkBase_Invitation.xml
+        # scriptPath\UploadFrameworkPolicy.ps1-clientId $Env:uploaderPrincipalClientId -clientSecret $Env:uploaderPrincipalSecret -tenantId $Env:tenantId -policyId B2C_1A_TrustFrameworkBase_Invitation -policyFile $Env:Build_SourcesDirectory\policy\TrustFrameworkBase_Invitation.xml
         # Write-Host 'Upload Complete'
       displayName: Policy Upload
 
