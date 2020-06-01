@@ -18,16 +18,6 @@ jobs:
   displayName: B2C Tenant Setup 
   pool:
     vmImage: windows-latest
-  variables:
-    environmentName: ${{parameters.environmentName}}
-    tenantId: ${{parameters.tenantId}}
-    uploaderPrincipalClientId: ${{parameters.uploaderPrincipalClientId}}
-    uploaderPrincipalSecret:  ${{parameters.uploaderPrincipalSecret}}
-    policyDeployScriptUrl: 'https://raw.githubusercontent.com/DFE-Digital/operations-devops-tools/master/Powershell/B2C/deployPolicy.ps1'
-    proxyAppRegistrationClientId: ${{parameters.proxyAppRegistrationClientId}}
-    proxyAppRegistrationObjectId: ${{parameters.proxyAppRegistrationObjectId}}
-    eapimRootUrl: ${{parameters.eapimRootUrl}}
-
   steps:
     - task: Tokenization@2
       displayName: Tokenise Policy Files
@@ -37,8 +27,21 @@ jobs:
         RequireVariable: true
         TokenStart: '__'
         TokenEnd: '__'
-    - task: PowerShell@2
-      inputs:
-        filePath: '$(Build.SourcesDirectory)\scripts\UploadFrameworkPolicy.ps1'
-        arguments: '-clientId ${{parameters.uploaderPrincipalClientId}} -clientSecret ${{parameters.uploaderPrincipalSecret}} -tenantId ${{parameters.tenantId}} -policyId B2C_1A_TrustFrameworkBase_invitation -pathToFile $(Build.SourcesDirectory)\policy\TrustFrameworkBase.xml'
-        displayName: Policy Upload
+    - pwsh: 
+        Write-Host "(uc) environmentName" $Env:ENVIRONMENTNAME 
+        Write-Host "(lc) environmentName" $Env:environmentName 
+      env:
+        environmentName: ${{parameters.environmentName}}
+        tenantId: ${{parameters.tenantId}}
+        uploaderPrincipalClientId: ${{parameters.uploaderPrincipalClientId}}
+        uploaderPrincipalSecret:  ${{parameters.uploaderPrincipalSecret}}
+        policyDeployScriptUrl: 'https://raw.githubusercontent.com/DFE-Digital/operations-devops-tools/master/Powershell/B2C/deployPolicy.ps1'
+        proxyAppRegistrationClientId: ${{parameters.proxyAppRegistrationClientId}}
+        proxyAppRegistrationObjectId: ${{parameters.proxyAppRegistrationObjectId}}
+        eapimRootUrl: ${{parameters.eapimRootUrl}}
+
+    # - task: PowerShell@2
+    #   inputs:
+    #     filePath: '$(Build.SourcesDirectory)\scripts\UploadFrameworkPolicy.ps1'
+    #     arguments: '-clientId ${{parameters.uploaderPrincipalClientId}} -clientSecret ${{parameters.uploaderPrincipalSecret}} -tenantId ${{parameters.tenantId}} -policyId B2C_1A_TrustFrameworkBase_invitation -pathToFile $(Build.SourcesDirectory)\policy\TrustFrameworkBase.xml'
+    #     displayName: Policy Upload

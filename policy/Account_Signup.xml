@@ -4,19 +4,19 @@
   xmlns:xsd="http://www.w3.org/2001/XMLSchema"
   xmlns="http://schemas.microsoft.com/online/cpim/schemas/2013/06"
   PolicySchemaVersion="0.3.0.0"
-  TenantId="devauthncs.onmicrosoft.com"
-  PolicyId="B2C_1A_signup_confirmation"
-  PublicPolicyUri="http://devauthncs.onmicrosoft.com/B2C_1A_signup_confirmation"
+  TenantId="__environmentName__authncs.onmicrosoft.com"
+  PolicyId="B2C_1A_Account_Signup"
+  PublicPolicyUri="http://__environmentName__authncs.onmicrosoft.com/B2C_1A_Account_Signup"
   DeploymentMode="Development"
   UserJourneyRecorderEndpoint="urn:journeyrecorder:applicationinsights">
 
   <BasePolicy>
-    <TenantId>devauthncs.onmicrosoft.com</TenantId>
+    <TenantId>__environmentName__authncs.onmicrosoft.com</TenantId>
     <PolicyId>B2C_1A_TrustFrameworkExtensions_invitation</PolicyId>
   </BasePolicy>
 
   <RelyingParty>
-    <DefaultUserJourney ReferenceId="SignUpConfirmation" />
+    <DefaultUserJourney ReferenceId="SelfSignUp" />
     <UserJourneyBehaviors>
         <JourneyInsights TelemetryEngine="ApplicationInsights" InstrumentationKey="1804da14-6a11-4b44-a6ff-2000f360bd87" DeveloperMode="true" ClientEnabled="false" ServerEnabled="true" TelemetryVersion="1.0.0" />
         <ScriptExecution>Allow</ScriptExecution>
@@ -24,14 +24,7 @@
     <TechnicalProfile Id="PolicyProfile">
       <DisplayName>PolicyProfile</DisplayName>
       <Protocol Name="OpenIdConnect" />
-      <InputClaims>
-        <InputClaim ClaimTypeReferenceId="email" PartnerClaimType="email" />
-        <InputClaim ClaimTypeReferenceId="objectId" PartnerClaimType="objectId" />
-        <InputClaim ClaimTypeReferenceId="expiry" PartnerClaimType="expiry" />
-      </InputClaims>
-	  
       <OutputClaims>
-        <OutputClaim ClaimTypeReferenceId="displayName" />
         <OutputClaim ClaimTypeReferenceId="givenName" />
         <OutputClaim ClaimTypeReferenceId="surname" />
         <OutputClaim ClaimTypeReferenceId="email" />
