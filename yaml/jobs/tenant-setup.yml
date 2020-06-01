@@ -39,7 +39,7 @@ jobs:
         TokenEnd: '__'
 
     - pwsh: |
-        $policyScript = Invoke-WebRequest $(env:POLICYDEPLOYSCRIPTURL)
+        $policyScript = Invoke-WebRequest $env:POLICYDEPLOYSCRIPTURL
         $scriptBlock = [Scriptblock]::Create($policyScript.Content)
         Invoke-Command -ScriptBlock $scriptBlock -ArgumentList ($args + @('$($env:UPLOADERPRINCIPALCLIENTID)', '$($env:UPLOADERPRINCIPALSECRET)', '$($env:TENANTID)', 'B2C_1A_TrustFrameworkBase_invitation', '$(Build.SourcesDirectory)\policy\TrustFrameworkBase.xml'))
       displayName: Policy Upload
