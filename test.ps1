@@ -1,7 +1,7 @@
 $policyScript = Invoke-WebRequest https://raw.githubusercontent.com/DFE-Digital/operations-devops-tools/master/Powershell/B2C/deployPolicy.ps1
 $scriptBlock = [Scriptblock]::Create($policyScript.Content)
 $policyPath = $PSScriptRoot + "\policy\TrustFrameworkBase.xml"
-Invoke-Command -ScriptBlock $scriptBlock -ArgumentList ($args + @('0b0e3a7d-84b2-4c12-ae97-b40db4120a49', '-Xm~Te3xtHi_AGZ~k4sMdP66HJ-9jKUeUa', 'ce495425-4863-4e46-aa86-4a4e5a5bac0d', 'B2C_1A_TrustFrameworkBase_invitation', $policyPath))
+Invoke-Command -ScriptBlock $scriptBlock -ArgumentList ($args + @('456313e4-5edf-499b-b3a4-ab54e79c22d4', '8_bDl1v-6b6N1IpaY.YCdCOSctltpWz~Ph ', 'ce495425-4863-4e46-aa86-4a4e5a5bac0d', 'B2C_1A_TrustFrameworkBase_invitation', $policyPath))
 
 
 ##ADO-PipelineManagement

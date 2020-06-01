@@ -1,0 +1,47 @@
+parameters:
+- name: environmentName
+  type: string
+- name: tenantId
+  type: string
+- name: uploaderPrincipalClientId
+  type: string
+- name: uploaderPrincipalSecret
+  type: string
+- name: proxyAppRegistrationClientId
+  type: string
+- name: proxyAppRegistrationObjectId
+  type: string
+- name: eapimRootUrl
+  
+jobs:
+  job: tenantSetup
+  displayName: B2C Tenant tenantSetup
+  pool:
+    vmImage: ubuntu-latest
+  variables:
+    environmentName: ${{parameters.environmentName}}
+    tenantId: ${{parameters.tenantId}}
+    uploaderPrincipalClientId: ${{parameters.uploaderPrincipalClientId}}
+    uploaderPrincipalSecret:  ${{parameters.uploaderPrincipalSecret}}
+    policyDeployScriptUrl: 'https://raw.githubusercontent.com/DFE-Digital/operations-devops-tools/master/Powershell/B2C/deployPolicy.ps1'
+    proxyAppRegistrationClientId: ${{parameters.proxyAppRegistrationClientId}}
+    proxyAppRegistrationObjectId: ${{parameters.proxyAppRegistrationObjectId}}
+    eapimRootUrl: ${{parameters.eapimRootUrl}}
+
+  steps:
+    - task: Tokenization@2
+      displayName: Tokenise Policy
+      inputs:
+        SourcePath: '$(Build.SourcesDirectory)/policy/'
+        TargetFileNames: '*.xml'
+        RequireVariable: true
+        TokenStart: '__'
+        TokenEnd: '__'
+    - pwsh |
+        $policyScript = Invoke-WebRequest $(env:POLICYDEPLOYSCRIPTURL)
+        $scriptBlock = [Scriptblock]::Create($policyScript.Content)
+        Invoke-Command -ScriptBlock $scriptBlock -ArgumentList ($args + @('$($env:UPLOADERPRINCIPALCLIENTID)', '$($env:UPLOADERPRINCIPALSECRET)', '$($env:TENANTID)', 'B2C_1A_TrustFrameworkBase_invitation', '$(Build.SourcesDirectory)/policy/TrustFrameworkBase.xml'))
+      
+      displayName: Upsert B2C Policies
+
+

@@ -833,7 +833,7 @@
                 <DisplayName>User OTP Notifications</DisplayName>    
                 <Protocol Name="Proprietary" Handler="Web.TPEngine.Providers.RestfulProvider, Web.TPEngine, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" />
                 <Metadata>
-                    <Item Key="ServiceUrl">https://dev-api-customerengagement.platform.education.gov.uk/ncsidentity/SignupConfirmation</Item>
+                    <Item Key="ServiceUrl">https://__eapimRootUrl__/ncsidentity/SignupConfirmation</Item>
                         <Item Key="SendClaimsIn">Body</Item>                        
                         <Item Key="AuthenticationType">ClientCertificate</Item>
                     </Metadata>
@@ -852,7 +852,7 @@
                 <DisplayName>User OTP Notifications</DisplayName>    
                 <Protocol Name="Proprietary" Handler="Web.TPEngine.Providers.RestfulProvider, Web.TPEngine, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" />
                 <Metadata>
-                    <Item Key="ServiceUrl">https://dev-api-customerengagement.platform.education.gov.uk/ncsidentity/PasswordResetConfirmation</Item>
+                    <Item Key="ServiceUrl">https://__eapimRootUrl__/ncsidentity/PasswordResetConfirmation</Item>
                         <Item Key="SendClaimsIn">Body</Item>                        
                         <Item Key="AuthenticationType">ClientCertificate</Item>
                     </Metadata>
@@ -871,7 +871,7 @@
                 <DisplayName>User OTP Notifications</DisplayName>    
                 <Protocol Name="Proprietary" Handler="Web.TPEngine.Providers.RestfulProvider, Web.TPEngine, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" />
                 <Metadata>
-                  <Item Key="ServiceUrl">https://dev-api-customerengagement.platform.education.gov.uk/ncsidentity/FindEmail</Item>
+                  <Item Key="ServiceUrl">https://__eapimRootUrl__/ncsidentity/FindEmail</Item>
                   <Item Key="SendClaimsIn">Body</Item>                        
                   <Item Key="AuthenticationType">ClientCertificate</Item>
                 </Metadata>
@@ -897,7 +897,7 @@
                 <DisplayName>User OTP Notifications</DisplayName>    
                 <Protocol Name="Proprietary" Handler="Web.TPEngine.Providers.RestfulProvider, Web.TPEngine, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" />
                 <Metadata>
-                  <Item Key="ServiceUrl">https://dev-api-customerengagement.platform.education.gov.uk/ncsidentity/AidedRegistrationValidateUserDetails</Item>
+                  <Item Key="ServiceUrl">https://__eapimRootUrl__/ncsidentity/AidedRegistrationValidateUserDetails</Item>
                   <Item Key="SendClaimsIn">Body</Item>                        
                   <Item Key="AuthenticationType">ClientCertificate</Item>
                 </Metadata>
@@ -923,7 +923,7 @@
                 <DisplayName>User OTP Notifications</DisplayName>    
                 <Protocol Name="Proprietary" Handler="Web.TPEngine.Providers.RestfulProvider, Web.TPEngine, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" />
                 <Metadata>
-                  <Item Key="ServiceUrl">https://dev-api-customerengagement.platform.education.gov.uk/ncsidentity/NCSDSSUserCreation</Item>
+                  <Item Key="ServiceUrl">https://__eapimRootUrl__/ncsidentity/NCSDSSUserCreation</Item>
                   <Item Key="SendClaimsIn">Body</Item>                        
                   <Item Key="AuthenticationType">ClientCertificate</Item>
                 </Metadata>
@@ -945,7 +945,7 @@
                 <DisplayName>User OTP Notifications</DisplayName>    
                 <Protocol Name="Proprietary" Handler="Web.TPEngine.Providers.RestfulProvider, Web.TPEngine, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" />
                 <Metadata>
-                  <Item Key="ServiceUrl">https://dev-api-customerengagement.platform.education.gov.uk/ncsidentity/NCSDSSUserCreation</Item>
+                  <Item Key="ServiceUrl">https://__eapimRootUrl__/ncsidentity/NCSDSSUserCreation</Item>
                   <Item Key="SendClaimsIn">Body</Item>                        
                   <Item Key="AuthenticationType">ClientCertificate</Item>
                 </Metadata>
