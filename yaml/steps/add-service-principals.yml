@@ -15,7 +15,8 @@ steps:
   inputs:
     azureSubscription: ${{parameters.serviceConnection}}
     scriptType: 'pscore'
-    scriptLocation: scripts/CreateAppRegistrations.ps1
+    scriptLocation: 'scriptPath'
+    scriptPath: scripts/CreateAppRegistrations.ps1
     arguments: '
     -environment ${{parameters.environmentName}} 
     -identAppSecret ${{parameters.identityFrameworkSecret}} 
