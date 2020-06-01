@@ -15,7 +15,7 @@ parameters:
   
 jobs:
   job: tenantSetup
-  displayName: B2C Tenant tenantSetup
+  displayName: B2C Tenant Setup ${{parameters.environmentName}}
   pool:
     vmImage: ubuntu-latest
   variables:
@@ -41,7 +41,3 @@ jobs:
         $policyScript = Invoke-WebRequest $(env:POLICYDEPLOYSCRIPTURL)
         $scriptBlock = [Scriptblock]::Create($policyScript.Content)
         Invoke-Command -ScriptBlock $scriptBlock -ArgumentList ($args + @('$($env:UPLOADERPRINCIPALCLIENTID)', '$($env:UPLOADERPRINCIPALSECRET)', '$($env:TENANTID)', 'B2C_1A_TrustFrameworkBase_invitation', '$(Build.SourcesDirectory)/policy/TrustFrameworkBase.xml'))
-      
-      displayName: Upsert B2C Policies
-
-
