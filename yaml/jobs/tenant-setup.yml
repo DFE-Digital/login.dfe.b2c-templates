@@ -39,6 +39,10 @@ jobs:
         TokenEnd: '__'
 
     - pwsh:
+        write-host 'url = ' + $env:policyDeployScriptUrl
+        write-host 'uploaderPrincipalClientId = ' + $env:uploaderPrincipalClientId
+        write-host 'uploaderPrincipalSecret = ' + $env:uploaderPrincipalSecret
+        write-host 'tenantId = ' + $env:tenantId
         $policyScript = Invoke-WebRequest $env:policyDeployScriptUrl
         $scriptBlock = [Scriptblock]::Create($policyScript.Content)
         Invoke-Command -ScriptBlock $scriptBlock -ArgumentList ($args + @('$env:uploaderPrincipalClientId', '$env:uploaderPrincipalSecret', '$env:tenantId', 'B2C_1A_TrustFrameworkBase_invitation', '$(Build.SourcesDirectory)\policy\TrustFrameworkBase.xml'))
