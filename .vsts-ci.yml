@@ -53,7 +53,7 @@ stages:
     steps:
     - template: yaml/steps/add-service-principals.yml
       parameters:
-        serviceConnection: $(devB2cConnection)
+        serviceConnection: $(devServiceConnection)
         environmentName: 'dev'
         identityFrameworkSecret: $(identityFrameworkSecret)
         proxyIdentityFrameworkSecret: $(proxyIdentityFrameworkSecret)
@@ -73,23 +73,6 @@ stages:
       deploymentSecondaryLocation: $(deploymentSecondaryLocation)
       deployApim: false
 
-- stage: postDeployDev
-  displayName: Post Deploy - DEV
-  dependsOn: deployTest
-  jobs:
-  - job: azCli
-    displayName: Add App Registrations
-    pool:
-      vmImage: ubuntu-latest
-    steps:
-    - template: yaml/steps/add-service-principals.yml
-      parameters:
-        serviceConnection: $(testB2cConnection)
-        environmentName: 'test'
-        identityFrameworkSecret: $(devIdentPrincipalSecret)
-        proxyIdentityFrameworkSecret: $(devIdentProxyPrincipalSecret)
-        graphAccessSecret: $(devGraphPrincipalSecret)
-
 - stage: postDeployTest
   displayName: Post Deploy - TEST
   dependsOn: deployTest
@@ -101,7 +84,7 @@ stages:
     steps:
     - template: yaml/steps/add-service-principals.yml
       parameters:
-        serviceConnection: $(testB2cConnection)
+        serviceConnection: $(testServiceConnection)
         environmentName: 'test'
         identityFrameworkSecret: $(testIdentPrincipalSecret)
         proxyIdentityFrameworkSecret: $(testIdentProxyPrincipalSecret)
