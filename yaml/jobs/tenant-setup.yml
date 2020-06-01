@@ -37,8 +37,8 @@ jobs:
         TokenStart: '__'
         TokenEnd: '__'
     - pwsh: 
-        Write-Host "(uc) environmentName" $Env:ENVIRONMENTNAME 
-        Write-Host "(lc) environmentName" $Env:environmentName 
+        Write-Host "(uc) environmentName $Env:ENVIRONMENTNAME"
+        Write-Host "(lc) environmentName $Env:environmentName"
 
     # - task: PowerShell@2
     #   inputs:
