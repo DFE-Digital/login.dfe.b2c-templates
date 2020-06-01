@@ -41,6 +41,7 @@ stages:
       deploymentPrimaryLocation: $(deploymentPrimaryLocation)
       deploymentSecondaryLocation: $(deploymentSecondaryLocation)
       deployApim: true
+      eapimEnvironmentName: 'Development'
 
 - stage: postDeployDev
   displayName: Post Deploy - DEV
@@ -71,7 +72,8 @@ stages:
       subscriptionId: $(testSubscriptionId)
       deploymentPrimaryLocation: $(deploymentPrimaryLocation)
       deploymentSecondaryLocation: $(deploymentSecondaryLocation)
-      deployApim: false
+      deployApim: true
+      eapimEnvironmentName: 'Test'
 
 - stage: postDeployTest
   displayName: Post Deploy - TEST

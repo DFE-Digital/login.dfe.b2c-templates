@@ -14,6 +14,13 @@ parameters:
 - name: deployApim
   type: boolean
   default: false
+- name: eapimEnvironmentName
+  type: string
+  values:
+  - Development
+  - Test
+  - Oat
+  - Production
 
 jobs:
 - template: /Application/dotnet/jobs/deploy-function.yml@devopsTemplates
@@ -58,6 +65,7 @@ jobs:
       -NCSDSSSearchApiVersion "$(ncsDssSearchApiVersion)"'
       eapimRegister: ${{parameters.deployApim}}
       eapimServiceConnection: $(eapimServiceConnection)
+      eapimEnvironment: ${{parameters.eapimEnvironmentName}}
       eapimProductName: 'NCS Identity'
       eapimProductContactEmail: paul.sheridan@digital.education.gov.uk
       eapimApiPublishedName: 'NCS Identity'
