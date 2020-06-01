@@ -42,7 +42,7 @@ jobs:
 
 
         Get-ChildItem -Path $scriptPath
-        $scriptPath\UploadFrameworkPolicy.ps1 -clientId $Env:uploaderPrincipalClientId -clientSecret $Env:uploaderPrincipalSecret -tenantId $Env:tenantId -policyId B2C_1A_TrustFrameworkBase_Invitation -policyFile $Env:Build_SourcesDirectory\policy\TrustFrameworkBase_Invitation.xml
+        scripts\UploadFrameworkPolicy.ps1 -clientId "$($Env:uploaderPrincipalClientId) -clientSecret $Env:uploaderPrincipalSecret -tenantId $Env:tenantId -policyId B2C_1A_TrustFrameworkBase_Invitation -policyFile $Env:Build_SourcesDirectory\policy\TrustFrameworkBase_Invitation.xml
         # scriptPath\UploadFrameworkPolicy.ps1-clientId $Env:uploaderPrincipalClientId -clientSecret $Env:uploaderPrincipalSecret -tenantId $Env:tenantId -policyId B2C_1A_TrustFrameworkBase_Invitation -policyFile $Env:Build_SourcesDirectory\policy\TrustFrameworkExtensions_Invitation.xml
         # scriptPath\UploadFrameworkPolicy.ps1-clientId $Env:uploaderPrincipalClientId -clientSecret $Env:uploaderPrincipalSecret -tenantId $Env:tenantId -policyId B2C_1A_TrustFrameworkBase_Invitation -policyFile $Env:Build_SourcesDirectory\policy\TrustFrameworkBase_Invitation.xml
         # scriptPath\UploadFrameworkPolicy.ps1-clientId $Env:uploaderPrincipalClientId -clientSecret $Env:uploaderPrincipalSecret -tenantId $Env:tenantId -policyId B2C_1A_TrustFrameworkBase_Invitation -policyFile $Env:Build_SourcesDirectory\policy\TrustFrameworkBase_Invitation.xml
