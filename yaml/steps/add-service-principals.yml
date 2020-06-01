@@ -18,15 +18,15 @@ steps:
     scriptLocation: 'inlineScript'
     inlineScript: |
       $identAppName = "IdentityExperienceFramework"
-      $identAppSecret = ${{parameters.identityFrameworkSecret}}
+      $identAppSecret = "${{parameters.identityFrameworkSecret}}"
       $identAppReplyUrl = "https://${{parameters.environmentName}}authncs.b2clogin.com/${{parameters.environmentName}}authncs.onmicrosoft.com"
 
       $proxyAppName = "ProxyIdentityExperienceFramework"
-      $proxyAppSecret = ${{parameters.proxyIdentityFrameworkSecret}}
+      $proxyAppSecret = "${{parameters.proxyIdentityFrameworkSecret}}"
       $proxyAppReplyUrl = "https://${{parameters.environmentName}}authncs.b2clogin.com/oauth2/nativeclient"
 
       $graphAccessAppName = "GraphAccess"
-      $graphAccessAppSecret = ${{parameters.graphAccessSecret}}
+      $graphAccessAppSecret = "${{parameters.graphAccessSecret}}"
 
       write-host getting graphId
       $graphId = az ad sp list --query "[?appDisplayName=='Microsoft Graph'].appId | [0]" --all 

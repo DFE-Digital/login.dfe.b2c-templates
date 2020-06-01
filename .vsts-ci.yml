@@ -56,9 +56,9 @@ stages:
       parameters:
         serviceConnection: $(devServiceConnection)
         environmentName: 'dev'
-        identityFrameworkSecret: $(identityFrameworkSecret)
-        proxyIdentityFrameworkSecret: $(proxyIdentityFrameworkSecret)
-        graphAccessSecret: $(graphAccessSecret)
+        identityFrameworkSecret: $(devIdentPrincipalSecret)
+        proxyIdentityFrameworkSecret: $(devProxyIdentProxyPrincipalSecret)
+        graphAccessSecret: $(devGraphPrincipalSecret))
 
 - stage: deployTest
   displayName: Deploy - TEST
