@@ -39,7 +39,7 @@ jobs:
         TokenEnd: '__'
 
     - pwsh:
-        write-host 'url = ($env:policyDeployScriptUrl)'
+        write-host 'url = $($env:policyDeployScriptUrl)'
         write-host 'uploaderPrincipalClientId = $($env:uploaderPrincipalClientId)'
         write-host 'uploaderPrincipalSecret = $($env:uploaderPrincipalSecret)'
         write-host 'tenantId = $($env:tenantId)'
