@@ -49,31 +49,31 @@ jobs:
         Invoke-Expression "$scriptPath $env:UPLOADERPRINCIPALCLIENTID $env:UPLOADERPRINCIPALSECRET $env:TENANTID $policyId $policyFile"
 
         $policyId = "B2C_1A_Account_Signup"
-        $policyFile = "$($env:BUILD_SOURCESDIRECTORY)\policy\Account_Signup.xml
+        $policyFile = "$($env:BUILD_SOURCESDIRECTORY)\policy\Account_Signup.xml"
         Invoke-Expression "$scriptPath $env:UPLOADERPRINCIPALCLIENTID $env:UPLOADERPRINCIPALSECRET $env:TENANTID $policyId $policyFile"
 
         $policyId = "B2C_1A_Find_Email"
-        $policyFile = "$($env:BUILD_SOURCESDIRECTORY)\policy\Find_Email.xml
+        $policyFile = "$($env:BUILD_SOURCESDIRECTORY)\policy\Find_Email.xml"
         Invoke-Expression "$scriptPath $env:UPLOADERPRINCIPALCLIENTID $env:UPLOADERPRINCIPALSECRET $env:TENANTID $policyId $policyFile"
 
         $policyId = "B2C_1A_Password_Reset_Conformation"
-        $policyFile = "$($env:BUILD_SOURCESDIRECTORY)\policy\Password_Reset_Confirmation.xml
+        $policyFile = "$($env:BUILD_SOURCESDIRECTORY)\policy\Password_Reset_Confirmation.xml"
         Invoke-Expression "$scriptPath $env:UPLOADERPRINCIPALCLIENTID $env:UPLOADERPRINCIPALSECRET $env:TENANTID $policyId $policyFile"
 
         $policyId = "B2C_1A_Password_Reset"
-        $policyFile = "$($env:BUILD_SOURCESDIRECTORY)\policy\Password_Reset.xml
+        $policyFile = "$($env:BUILD_SOURCESDIRECTORY)\policy\Password_Reset.xml"
         Invoke-Expression "$scriptPath $env:UPLOADERPRINCIPALCLIENTID $env:UPLOADERPRINCIPALSECRET $env:TENANTID $policyId $policyFile"
 
         $policyId = "B2C_1A_Signin_Invitation"
-        $policyFile = "$($env:BUILD_SOURCESDIRECTORY)\policy\Signin_Invitation.xml
+        $policyFile = "$($env:BUILD_SOURCESDIRECTORY)\policy\Signin_Invitation.xml"
         Invoke-Expression "$scriptPath $env:UPLOADERPRINCIPALCLIENTID $env:UPLOADERPRINCIPALSECRET $env:TENANTID $policyId $policyFile"
 
         $policyId = "B2C_1A_Signup_Confirmation"
-        $policyFile = "$($env:BUILD_SOURCESDIRECTORY)\policy\Signup_Confirmation.xml
+        $policyFile = "$($env:BUILD_SOURCESDIRECTORY)\policy\Signup_Confirmation.xml"
         Invoke-Expression "$scriptPath $env:UPLOADERPRINCIPALCLIENTID $env:UPLOADERPRINCIPALSECRET $env:TENANTID $policyId $policyFile"
 
         $policyId = "B2C_1A_Signup_Invitation"
-        $policyFile = "$($env:BUILD_SOURCESDIRECTORY)\policy\Signup_Invitation.xml
+        $policyFile = "$($env:BUILD_SOURCESDIRECTORY)\policy\Signup_Invitation.xml"
         Invoke-Expression "$scriptPath $env:UPLOADERPRINCIPALCLIENTID $env:UPLOADERPRINCIPALSECRET $env:TENANTID $policyId $policyFile"
 
         Write-Host 'Upload Complete'
