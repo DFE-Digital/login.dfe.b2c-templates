@@ -33,20 +33,7 @@ stages:
       webPublish: false
 
 
-# - stage: devtenantSetup
-#   displayName: Tenant Setup - DEV
-#   jobs:
-#   - template: yaml/jobs/tenant-setup.yml
-#     parameters:
-#       environmentName: dev
-#       tenantId: $(devAzureB2cTenantId)
-#       uploaderPrincipalClientId: ''
-#       uploaderPrincipalSecret: ''
-#       proxyAppRegistrationClientId: $(devProxyIdentityFrameworkClientId)
-#       proxyAppRegistrationObjectId: $(devProxyIdentityFrameworkObjectId)
-#       eapimRootUrl: dev-api-customerengagement.platform.education.gov.uk
-
-- stage: devtenantSetup
+- stage: testTenantSetup
   displayName: Tenant Setup - TEST
   jobs:
   - template: yaml/jobs/tenant-setup.yml
@@ -59,53 +46,22 @@ stages:
       proxyAppRegistrationObjectId: $(testProxyIdentityFrameworkObjectId)
       eapimRootUrl: oat-api-customerengagement.platform.education.gov.uk
 
-
-# - stage: deployDev
-#   displayName: Deploy - DEV
-#   dependsOn: build
-#   jobs:
-#   - template: yaml/jobs/deploy.yml
-#     parameters:
-#       environmentName: 'dev'
-#       environmentId: 'd01'
-#       serviceConnection: $(devServiceConnection)
-#       subscriptionId: $(devSubscriptionId)
-#       deploymentPrimaryLocation: $(deploymentPrimaryLocation)
-#       deploymentSecondaryLocation: $(deploymentSecondaryLocation)
-#       deployApim: true
-#       eapimEnvironmentName: 'Development'
-
-# - stage: postDeployDev
-#   displayName: Post Deploy - DEV
-#   dependsOn: deployDev
-#   jobs:
-#   - job: azCli
-#     displayName: Add App Registrations
-#     pool:
-#       vmImage: ubuntu-latest
-#     steps:
-#     - template: yaml/steps/add-service-principals.yml
-#       parameters:
-#         serviceConnection: $(devServiceConnection)
-#         environmentName: 'dev'
-#         identityFrameworkSecret: $(devIdentPrincipalSecret)
-#         proxyIdentityFrameworkSecret: $(devProxyIdentProxyPrincipalSecret)
-#         graphAccessSecret: $(devGraphPrincipalSecret))
-
-# - stage: deployTest
-#   displayName: Deploy - TEST
-#   dependsOn: build
-#   jobs:
-#   - template: yaml/jobs/deploy.yml
-#     parameters:
-#       environmentName: 'test'
-#       environmentId: 't01'
-#       serviceConnection: $(testServiceConnection)
-#       subscriptionId: $(testSubscriptionId)
-#       deploymentPrimaryLocation: $(deploymentPrimaryLocation)
-#       deploymentSecondaryLocation: $(deploymentSecondaryLocation)
-#       deployApim: true
-#       eapimEnvironmentName: 'Test'
+- stage: deployTest
+  displayName: Deploy - TEST
+  dependsOn: 
+  - build
+  - testTenantSetup
+  jobs:
+  - template: yaml/jobs/deploy.yml
+    parameters:
+      environmentName: 'test'
+      environmentId: 't01'
+      serviceConnection: $(testServiceConnection)
+      subscriptionId: $(testSubscriptionId)
+      deploymentPrimaryLocation: $(deploymentPrimaryLocation)
+      deploymentSecondaryLocation: $(deploymentSecondaryLocation)
+      deployApim: true
+      eapimEnvironmentName: 'Test'
 
 # - stage: postDeployTest
 #   displayName: Post Deploy - TEST
