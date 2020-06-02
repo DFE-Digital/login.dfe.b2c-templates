@@ -62,8 +62,8 @@ jobs:
       -NCSDSSSearchApiUrl "$(ncsDssSearchApiUrl)"
       -NCSDSSSearchApiVersion "$(ncsDssSearchApiVersion)"
       -NCSDSSCreateCustomerApiUrl "$(ncsDssCreateCustomerApiUrl)"
-      -NCSDSSCreateContactApiUrl "$(ncsDssCreateContactApiUrl)
-      -NCSDSSCreateIdentityApiUrl "https://at.api.nationalcareersservice.org.uk/digitalidentities/api/identity/"
+      -NCSDSSCreateContactApiUrl "$(ncsDssCreateContactApiUrl)"
+      -NCSDSSCreateIdentityApiUrl "$(NCSDSSCreateIdentityApiUrl)"
       -TouchpointId "1000000000"'
       eapimRegister: ${{parameters.deployApim}}
       eapimServiceConnection: $(eapimServiceConnection)
