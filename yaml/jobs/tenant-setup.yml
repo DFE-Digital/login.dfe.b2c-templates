@@ -39,11 +39,11 @@ jobs:
     - pwsh: |
         Write-Host 'Uploading B2C_1A_TrustFrameworkBase_Invitation'
 
-        $scriptPath = ".\$($env:BUILD_SOURCESDIRECTORY)\scripts\UploadFrameworkPolicy.ps1"
+        $scriptPath = "$($env:BUILD_SOURCESDIRECTORY)\scripts\UploadFrameworkPolicy.ps1"
         $policyId = "B2C_1A_TrustFrameworkBase_Invitation"
         $policyFile = "$($env:BUILD_SOURCESDIRECTORY)\policy\TrustFrameworkBase_Invitation.xml"
 
-        Invoke-Expression "$scriptPath $env:UPLOADERPRINCIPALCLIENTID $env:UPLOADERPRINCIPALSECRET $env:TENANTID $policyId $policyFile"
+        Invoke-Expression "$scriptPath $env:UPLOADERPRINCIPALCLIENTID $env:UPLOADERPRINCIPALSECRET $env:TENANTID $policyFile"
 
         Write-Host 'Upload Complete'
       displayName: Policy Upload
