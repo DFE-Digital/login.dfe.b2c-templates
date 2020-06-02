@@ -23,7 +23,6 @@ jobs:
     tenantId: ${{parameters.tenantId}}
     uploaderPrincipalClientId: ${{parameters.uploaderPrincipalClientId}}
     uploaderPrincipalSecret:  ${{parameters.uploaderPrincipalSecret}}
-    policyDeployScriptUrl: 'https://raw.githubusercontent.com/DFE-Digital/operations-devops-tools/master/Powershell/B2C/deployPolicy.ps1'
     proxyAppRegistrationClientId: ${{parameters.proxyAppRegistrationClientId}}
     proxyAppRegistrationObjectId: ${{parameters.proxyAppRegistrationObjectId}}
     eapimRootUrl: ${{parameters.eapimRootUrl}}
@@ -31,7 +30,7 @@ jobs:
     - task: Tokenization@2
       displayName: Tokenise Policy Files
       inputs:
-        SourcePath: '$(Build.SourcesDirectory)\policy\'
+        SourcePath: '$(Build.SourcesDirectory)\policy\test\'
         TargetFileNames: '*.xml'
         RequireVariable: true
         TokenStart: '__'
@@ -45,39 +44,39 @@ jobs:
         Write-Host "TENANTID : $($env:TENANTID)"
 
         $policyId = "B2C_1A_TrustFrameworkBase_Invitation"
-        $policyFile = "$($env:BUILD_SOURCESDIRECTORY)\policy\TrustFrameworkBase_Invitation.xml"
+        $policyFile = "$($env:BUILD_SOURCESDIRECTORY)\policy\test\TrustFrameworkBase_Invitation.xml"
         Invoke-Expression "$scriptPath $env:UPLOADERPRINCIPALCLIENTID $env:UPLOADERPRINCIPALSECRET $env:TENANTID $policyId $policyFile"
 
         $policyId = "B2C_1A_TrustFrameworkExtensions_Invitation"
-        $policyFile = "$($env:BUILD_SOURCESDIRECTORY)\policy\TrustFrameworkBase_Invitation.xml"
+        $policyFile = "$($env:BUILD_SOURCESDIRECTORY)\policy\test\TrustFrameworkBase_Invitation.xml"
         Invoke-Expression "$scriptPath $env:UPLOADERPRINCIPALCLIENTID $env:UPLOADERPRINCIPALSECRET $env:TENANTID $policyId $policyFile"
 
         $policyId = "B2C_1A_Account_Signup"
-        $policyFile = "$($env:BUILD_SOURCESDIRECTORY)\policy\Account_Signup.xml"
+        $policyFile = "$($env:BUILD_SOURCESDIRECTORY)\policy\test\Account_Signup.xml"
         Invoke-Expression "$scriptPath $env:UPLOADERPRINCIPALCLIENTID $env:UPLOADERPRINCIPALSECRET $env:TENANTID $policyId $policyFile"
 
         $policyId = "B2C_1A_Find_Email"
-        $policyFile = "$($env:BUILD_SOURCESDIRECTORY)\policy\Find_Email.xml"
+        $policyFile = "$($env:BUILD_SOURCESDIRECTORY)\policy\test\Find_Email.xml"
         Invoke-Expression "$scriptPath $env:UPLOADERPRINCIPALCLIENTID $env:UPLOADERPRINCIPALSECRET $env:TENANTID $policyId $policyFile"
 
         $policyId = "B2C_1A_Password_Reset_Conformation"
-        $policyFile = "$($env:BUILD_SOURCESDIRECTORY)\policy\Password_Reset_Confirmation.xml"
+        $policyFile = "$($env:BUILD_SOURCESDIRECTORY)\policy\test\Password_Reset_Confirmation.xml"
         Invoke-Expression "$scriptPath $env:UPLOADERPRINCIPALCLIENTID $env:UPLOADERPRINCIPALSECRET $env:TENANTID $policyId $policyFile"
 
         $policyId = "B2C_1A_Password_Reset"
-        $policyFile = "$($env:BUILD_SOURCESDIRECTORY)\policy\Password_Reset.xml"
+        $policyFile = "$($env:BUILD_SOURCESDIRECTORY)\policy\test\Password_Reset.xml"
         Invoke-Expression "$scriptPath $env:UPLOADERPRINCIPALCLIENTID $env:UPLOADERPRINCIPALSECRET $env:TENANTID $policyId $policyFile"
 
         $policyId = "B2C_1A_Signin_Invitation"
-        $policyFile = "$($env:BUILD_SOURCESDIRECTORY)\policy\Signin_Invitation.xml"
+        $policyFile = "$($env:BUILD_SOURCESDIRECTORY)\policy\test\Signin_Invitation.xml"
         Invoke-Expression "$scriptPath $env:UPLOADERPRINCIPALCLIENTID $env:UPLOADERPRINCIPALSECRET $env:TENANTID $policyId $policyFile"
 
         $policyId = "B2C_1A_Signup_Confirmation"
-        $policyFile = "$($env:BUILD_SOURCESDIRECTORY)\policy\Signup_Confirmation.xml"
+        $policyFile = "$($env:BUILD_SOURCESDIRECTORY)\policy\test\Signup_Confirmation.xml"
         Invoke-Expression "$scriptPath $env:UPLOADERPRINCIPALCLIENTID $env:UPLOADERPRINCIPALSECRET $env:TENANTID $policyId $policyFile"
 
         $policyId = "B2C_1A_Signup_Invitation"
-        $policyFile = "$($env:BUILD_SOURCESDIRECTORY)\policy\Signup_Invitation.xml"
+        $policyFile = "$($env:BUILD_SOURCESDIRECTORY)\policy\test\Signup_Invitation.xml"
         Invoke-Expression "$scriptPath $env:UPLOADERPRINCIPALCLIENTID $env:UPLOADERPRINCIPALSECRET $env:TENANTID $policyId $policyFile"
 
         Write-Host 'Upload Complete'
