@@ -40,6 +40,10 @@ jobs:
         $scriptPath = "$($env:BUILD_SOURCESDIRECTORY)\scripts\UploadFrameworkPolicy.ps1"
         Write-Host "Using Path : $($scriptPath)"
 
+        Write-Host "UPLOADERPRINCIPALCLIENTID : $($env:UPLOADERPRINCIPALCLIENTID)"
+        Write-Host "UPLOADERPRINCIPALSECRET : $($env:UPLOADERPRINCIPALSECRET)"
+        Write-Host "TENANTID : $($env:TENANTID)"
+
         $policyId = "B2C_1A_TrustFrameworkBase_Invitation"
         $policyFile = "$($env:BUILD_SOURCESDIRECTORY)\policy\TrustFrameworkBase_Invitation.xml"
         Invoke-Expression "$scriptPath $env:UPLOADERPRINCIPALCLIENTID $env:UPLOADERPRINCIPALSECRET $env:TENANTID $policyId $policyFile"
