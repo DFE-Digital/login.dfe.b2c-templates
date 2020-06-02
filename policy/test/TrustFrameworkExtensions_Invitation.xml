@@ -871,7 +871,7 @@
                 <DisplayName>User OTP Notifications</DisplayName>    
                 <Protocol Name="Proprietary" Handler="Web.TPEngine.Providers.RestfulProvider, Web.TPEngine, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" />
                 <Metadata>
-                  <Item Key="ServiceUrl">https://__eapimRootUrl__/ncsidentity/FindEmail</Item>
+                  <Item Key="ServiceUrl">https://__eapimRootUrl__/ncsidentity/Find_Email</Item>
                   <Item Key="SendClaimsIn">Body</Item>                        
                   <Item Key="AuthenticationType">ClientCertificate</Item>
                 </Metadata>
@@ -1142,7 +1142,7 @@
       <ClientDefinition ReferenceId="DefaultWeb"/>
     </UserJourney>
 
-    <UserJourney Id="SignUpInvitation">
+    <UserJourney Id="SignUp_Invitation">
       <OrchestrationSteps>
 
         <OrchestrationStep Order="1" Type="GetClaims" CpimIssuerTechnicalProfileReferenceId="IdTokenHint_ExtractClaims" />
@@ -1303,7 +1303,7 @@
     </UserJourney>
 
 
-    <UserJourney Id="FindEmail">
+    <UserJourney Id="Find_Email">
       <OrchestrationSteps>
 
         <OrchestrationStep Order="1" Type="ClaimsExchange">

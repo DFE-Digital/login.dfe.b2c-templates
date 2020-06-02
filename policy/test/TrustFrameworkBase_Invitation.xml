@@ -666,8 +666,8 @@
           <DisplayName>Azure Active Directory</DisplayName>
           <Protocol Name="Proprietary" Handler="Web.TPEngine.Providers.AzureActiveDirectoryProvider, Web.TPEngine, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" />
           <Metadata>
-              <Item Key="ApplicationObjectId">__proxyAppRegistrationObjectId__</Item>
-              <Item Key="ClientId">__proxyAppRegistrationClientId__</Item>
+              <Item Key="ApplicationObjectId">51f8177b-9484-4b45-8354-8dd20c6d1383</Item>
+              <Item Key="ClientId">bde13869-fb86-41f3-a89a-232ebfab5177</Item>
           </Metadata>
           <CryptographicKeys>
             <Key Id="issuer_secret" StorageReferenceId="B2C_1A_TokenSigningKeyContainer" />

@@ -33,18 +33,18 @@ stages:
       webPublish: false
 
 
-- stage: testTenantSetup
-  displayName: Tenant Setup - TEST
-  jobs:
-  - template: yaml/jobs/tenant-setup.yml
-    parameters:
-      environmentName: test
-      tenantId: $(testAzureB2cTenantId)
-      uploaderPrincipalClientId: $(testAdoPrincipalClientId)
-      uploaderPrincipalSecret: $(testAdoPrincipalSecret)
-      proxyAppRegistrationClientId: $(testProxyIdentityFrameworkClientId)
-      proxyAppRegistrationObjectId: $(testProxyIdentityFrameworkObjectId)
-      eapimRootUrl: oat-api-customerengagement.platform.education.gov.uk
+# - stage: testTenantSetup
+#   displayName: Tenant Setup - TEST
+#   jobs:
+#   - template: yaml/jobs/tenant-setup.yml
+#     parameters:
+#       environmentName: test
+#       tenantId: $(testAzureB2cTenantId)
+#       uploaderPrincipalClientId: $(testAdoPrincipalClientId)
+#       uploaderPrincipalSecret: $(testAdoPrincipalSecret)
+#       proxyAppRegistrationClientId: $(testProxyIdentityFrameworkClientId)
+#       proxyAppRegistrationObjectId: $(testProxyIdentityFrameworkObjectId)
+#       eapimRootUrl: oat-api-customerengagement.platform.education.gov.uk
 
 - stage: deployTest
   displayName: Deploy - TEST
