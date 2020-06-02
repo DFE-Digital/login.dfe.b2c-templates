@@ -48,8 +48,6 @@ stages:
 
 - stage: deployTest
   displayName: Deploy - TEST
-  dependsOn: 
-  - testTenantSetup
   jobs:
   - template: yaml/jobs/deploy.yml
     parameters:
