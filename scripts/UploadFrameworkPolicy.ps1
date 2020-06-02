@@ -14,8 +14,8 @@ Param(
     [Parameter(Mandatory = $true)][string]$ClientID,
     [Parameter(Mandatory = $true)][string]$ClientSecret,
     [Parameter(Mandatory = $true)][string]$TenantId,
-    [Parameter(Mandatory = $true)][string[]]$PolicyNames,
-    [Parameter(Mandatory = $true)][string[]]$FilePaths
+    [Parameter(Mandatory = $true)][string]$PolicyName,
+    [Parameter(Mandatory = $true)][string]$FilePath
 )
 
 try {
@@ -28,12 +28,9 @@ try {
     $headers.Add("Content-Type", 'application/xml')
     $headers.Add("Authorization", 'Bearer ' + $token)
 
-
-    for ($i=0; $i -eq $PolicyNames.Length; $i++) {
-        $graphuri = 'https://graph.microsoft.com/beta/trustframework/policies/' + $PolicyNames[$i] + '/$value'
-        $policycontent = Get-Content $FilePaths[$i]
-        $response = Invoke-RestMethod -Uri $graphuri -Method Put -Body $policycontent -Headers $headers
-    }
+    $graphuri = 'https://graph.microsoft.com/beta/trustframework/policies/' + $PolicyName + '/$value'
+    $policycontent = Get-Content $FilePath
+    $response = Invoke-RestMethod -Uri $graphuri -Method Put -Body $policycontent -Headers $headers
 
     Write-Host "Policy" $PolicyId "uploaded successfully."
 }
