@@ -21,7 +21,6 @@ variables:
   value: ncsauth
 - group: ncs-b2c-global
 
-
 stages:
 
 - stage: build
@@ -31,7 +30,6 @@ stages:
     parameters:
       applicationName: $(applicationName)
       webPublish: false
-
 
 # - stage: testTenantSetup
 #   displayName: Tenant Setup - TEST
