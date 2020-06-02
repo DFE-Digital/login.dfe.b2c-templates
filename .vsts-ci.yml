@@ -24,13 +24,13 @@ variables:
 
 stages:
 
-- stage: build
-  displayName: Build
-  jobs:
-  - template: /Application/dotnet/jobs/build-application.yml@devopsTemplates
-    parameters:
-      applicationName: $(applicationName)
-      webPublish: false
+# - stage: build
+#   displayName: Build
+#   jobs:
+#   - template: /Application/dotnet/jobs/build-application.yml@devopsTemplates
+#     parameters:
+#       applicationName: $(applicationName)
+#       webPublish: false
 
 
 - stage: testTenantSetup
