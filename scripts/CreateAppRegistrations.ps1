@@ -4,7 +4,6 @@ Param(
     [Parameter(Mandatory = $true)][string]$identAppSecret,
     [Parameter(Mandatory = $true)][string]$proxyAppSecret,
     [Parameter(Mandatory = $true)][string]$graphAccessAppSecret
-
 )
 
 
@@ -20,12 +19,25 @@ write-host getting graphId
 $graphId = az ad sp list --query "[?appDisplayName=='Microsoft Graph'].appId | [0]" --all 
 Write-Host found $graphId
 
+
+write-host getting aadGraphId
+$aadGraphId = az ad sp list --query "[?appDisplayName=='Windows Azure Active Directory'].appId | [0]" --all 
+Write-Host found $aadGraphId
+
+
 Write-Host Getting openIdPermission
 $openid = az ad sp show --id $graphId --query "oauth2Permissions[?value=='openid'].id | [0]"
 write-host found $openid
+
 Write-Host getting offlineAccessPermission
 $offlineAccess = az ad sp show --id $graphId --query "oauth2Permissions[?value=='offline_access'].id | [0]"
 write-host found $offlineAccess
+
+
+Write-Host Getting openIdPermission
+$openid = az ad sp show --id $graphId --query "oauth2Permissions[?value=='openid'].id | [0]"
+write-host found $openid
+
 
 $identAppResources = @"
 [{ "resourceAppId": $graphId, "resourceAccess": [{"id": $openid,"type": "Scope"},{"id": $offlineAccess,"type": "Scope"}]}]
@@ -72,6 +84,7 @@ az ad app permission admin-consent --id $graphAccessApp.objectId
 write-host adding application permissions
 az ad app permission add --id $graphAccessApp.objectId  --api $graphId --api-permissions "$($auditLogReadAll)=Role"
 az ad app permission add --id $graphAccessApp.objectId  --api $graphId --api-permissions "$($directoryReadWriteAll)=Role"
+az ad app permission add --id $graphAccessApp.objectId  --api $aadGraphId --api-permissions "$($directoryReadWriteAll)=Role"
 az ad app permission add --id $graphAccessApp.objectId  --api $graphId --api-permissions "$($readWriteTrustFramework)=Role"
 az ad app permission admin-consent --id $graphAccessApp.objectId 
 

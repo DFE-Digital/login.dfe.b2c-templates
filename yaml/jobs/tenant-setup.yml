@@ -38,7 +38,13 @@ jobs:
         TokenEnd: '__'
     - pwsh: |
         Write-Host 'Uploading B2C_1A_TrustFrameworkBase_Invitation'
-        .\scripts\UploadFrameworkPolicy.ps1 -clientId "$($Env:uploaderPrincipalClientId)" -clientSecret "$($Env:uploaderPrincipalSecret)" -tenantId  "$($Env:tenantId)" -policyId "B2C_1A_TrustFrameworkBase_Invitation" -policyFile "$($Env:Build_SourcesDirectory)\policy\TrustFrameworkBase_Invitation.xml"
+
+        $scriptPath = ".\$($env:BUILD_SOURCESDIRECTORY)\scripts\UploadFrameworkPolicy.ps1"
+        $policyId = "B2C_1A_TrustFrameworkBase_Invitation"
+        $policyFile = "$($env:BUILD_SOURCESDIRECTORY)\policy\TrustFrameworkBase_Invitation.xml"
+
+        Invoke-Expression "$scriptPath $env:UPLOADERPRINCIPALCLIENTID $env:UPLOADERPRINCIPALSECRET $env:TENANTID $policyId $policyFile"
+
         Write-Host 'Upload Complete'
       displayName: Policy Upload
 
