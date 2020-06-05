@@ -296,6 +296,22 @@
           <DataType>string</DataType>
       </ClaimType>
 
+      <ClaimType Id="newEmail">
+          <DataType>string</DataType>
+      </ClaimType>
+
+      <ClaimType Id="extension_IsEmailChangeRequested">
+          <DataType>boolean</DataType>
+      </ClaimType>
+
+      <ClaimType Id="extension_NewEmail">
+          <DataType>string</DataType>
+      </ClaimType>
+
+      <ClaimType Id="emailChangeCheck">
+          <DataType>string</DataType>
+      </ClaimType>
+
     </ClaimsSchema>
 
     <ClaimsTransformations>
@@ -389,6 +405,16 @@
         <OutputClaims>
           <OutputClaim ClaimTypeReferenceId="extension_customerId" TransformationClaimType="outputClaim" />
         </OutputClaims>
+      </ClaimsTransformation>
+
+      <ClaimsTransformation Id="Assertextension_NewEmailIsNone" TransformationMethod="AssertStringClaimsAreEqual">
+        <InputClaims>
+          <InputClaim ClaimTypeReferenceId="extension_NewEmail" TransformationClaimType="inputClaim1" />
+          <InputClaim ClaimTypeReferenceId="emailChangeCheck" TransformationClaimType="inputClaim2" />
+        </InputClaims>
+        <InputParameters>
+          <InputParameter Id="stringComparison" DataType="string" Value="ordinalIgnoreCase" />
+        </InputParameters>
       </ClaimsTransformation>
 
     </ClaimsTransformations>
@@ -510,7 +536,7 @@
       </ContentDefinition>
 
       <ContentDefinition Id="api.localaccountaidedsignup">
-        <LoadUri>~/tenant/templates/AzureBlue/selfAsserted.cshtml</LoadUri>
+        <LoadUri>https://s141d01-signin-int.azurewebsites.net/b2c/B2C_1A_signup_invitation</LoadUri>
         <RecoveryUri>~/common/default_page_error.html</RecoveryUri>
         <DataUri>urn:com:microsoft:aad:b2c:elements:contract:selfasserted:1.2.0</DataUri>
         <Metadata>
@@ -523,7 +549,6 @@
 
       <ContentDefinition Id="api.localaccountpasswordreset">
         <LoadUri>https://s141d01-signin-int.azurewebsites.net/b2c/reset-password</LoadUri>
-        <!-- <LoadUri>        https://s141d01-signin-int.azurewebsites.net/b2c/</LoadUri> -->
         <RecoveryUri>~/common/default_page_error.html</RecoveryUri>
         <DataUri>urn:com:microsoft:aad:b2c:elements:contract:selfasserted:1.2.0</DataUri>
         <Metadata>
@@ -532,7 +557,7 @@
       </ContentDefinition>
 
       <ContentDefinition Id="api.localaccountpasswordreset.newcredentials">
-        <LoadUri>https://s141d01-signin-int.azurewebsites.net/b2c/</LoadUri>
+        <LoadUri>https://s141d01-signin-int.azurewebsites.net/b2c/enter-new-password</LoadUri>
         <RecoveryUri>~/common/default_page_error.html</RecoveryUri>
         <DataUri>urn:com:microsoft:aad:b2c:elements:contract:selfasserted:1.2.0</DataUri>
         <Metadata>
@@ -614,6 +639,19 @@
             <OutputClaimsTransformation ReferenceId="AssertEmailVerified" />
           </OutputClaimsTransformations>
         </TechnicalProfile>
+
+        <TechnicalProfile Id="ClaimsTransformation-AssertNewEmailIsNone">
+          <DisplayName>Assert Email Verified Claims Transformation</DisplayName>
+          <Protocol Name="Proprietary" Handler="Web.TPEngine.Providers.ClaimsTransformationProtocolProvider, Web.TPEngine, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" />
+          <OutputClaims>
+            <OutputClaim ClaimTypeReferenceId="extension_NewEmail" />
+            <OutputClaim ClaimTypeReferenceId="emailChangeCheck" DefaultValue="none" />
+          </OutputClaims>
+          <OutputClaimsTransformations>
+            <OutputClaimsTransformation ReferenceId="Assertextension_NewEmailIsNone" />
+          </OutputClaimsTransformations>
+        </TechnicalProfile>
+
       </TechnicalProfiles>
     </ClaimsProvider>
     <ClaimsProvider>
@@ -773,6 +811,8 @@
             <PersistedClaim ClaimTypeReferenceId="givenName" />
             <PersistedClaim ClaimTypeReferenceId="surname" />
             <PersistedClaim ClaimTypeReferenceId="extension_IsEmailVerified" DefaultValue="false" AlwaysUseDefaultValue="true" />
+            <PersistedClaim ClaimTypeReferenceId="extension_IsEmailChangeRequested" DefaultValue="false" AlwaysUseDefaultValue="true" />
+            <PersistedClaim ClaimTypeReferenceId="extension_NewEmail" DefaultValue="none" AlwaysUseDefaultValue="true" />
           </PersistedClaims>
           <OutputClaims>
             <OutputClaim ClaimTypeReferenceId="objectId" />
@@ -898,6 +938,8 @@
             <PersistedClaim ClaimTypeReferenceId="objectId" />
             <PersistedClaim ClaimTypeReferenceId="customerId" PartnerClaimType="extension_customerId"/>
             <PersistedClaim ClaimTypeReferenceId="extension_IsEmailVerified" DefaultValue="true" AlwaysUseDefaultValue="true" />
+            <PersistedClaim ClaimTypeReferenceId="extension_IsEmailChangeRequested" DefaultValue="false" />
+            <PersistedClaim ClaimTypeReferenceId="extension_NewEmail" DefaultValue="none" />
           </PersistedClaims>
           <IncludeTechnicalProfile ReferenceId="AAD-Common" />
         </TechnicalProfile>
@@ -939,7 +981,28 @@
             <OutputClaim ClaimTypeReferenceId="surname" />
             <OutputClaim ClaimTypeReferenceId="extension_IsEmailVerified" />
             <OutputClaim ClaimTypeReferenceId="extension_customerId" />
+            <OutputClaim ClaimTypeReferenceId="extension_IsEmailChangeRequested" DefaultValue="false" />
+            <OutputClaim ClaimTypeReferenceId="extension_NewEmail" />
           </OutputClaims>
+          <IncludeTechnicalProfile ReferenceId="AAD-Common" />
+        </TechnicalProfile>
+
+        <TechnicalProfile Id="AAD-UserWriteEmailUsingObjectId">
+          <Metadata>
+            <Item Key="Operation">Write</Item>
+            <Item Key="RaiseErrorIfClaimsPrincipalAlreadyExists">false</Item>
+            <Item Key="RaiseErrorIfClaimsPrincipalDoesNotExist">true</Item>
+          </Metadata>
+          <IncludeInSso>false</IncludeInSso>
+          <InputClaims>
+            <InputClaim ClaimTypeReferenceId="objectId" Required="true" />
+          </InputClaims>
+          <PersistedClaims>
+            <PersistedClaim ClaimTypeReferenceId="objectId" />
+            <PersistedClaim ClaimTypeReferenceId="newEmail" PartnerClaimType="signInNames.emailAddress"/>
+            <PersistedClaim ClaimTypeReferenceId="extension_IsEmailChangeRequested" DefaultValue="false" AlwaysUseDefaultValue="true"/>
+            <PersistedClaim ClaimTypeReferenceId="extension_NewEmail" DefaultValue="none" AlwaysUseDefaultValue="true"/>
+          </PersistedClaims>
           <IncludeTechnicalProfile ReferenceId="AAD-Common" />
         </TechnicalProfile>
 
@@ -1085,6 +1148,7 @@
             <!-- <Item Key="setting.operatingMode">Username</Item> -->
             <Item Key="ContentDefinitionReferenceId">api.selfasserted</Item>
             <Item Key="UserMessageIfClaimsTransformationBooleanValueIsNotEqual">Oops, your email hasn't been verified.</Item>
+            <Item Key="UserMessageIfClaimsTransformationStringsAreNotEqual">You must activate your updated email address.</Item>
             <Item Key="setting.showSignupLink">false</Item>
             <Item Key="setting.forgotPasswordLinkLocation">AfterInput</Item>
           </Metadata>
@@ -1097,11 +1161,21 @@
             <OutputClaim ClaimTypeReferenceId="password" Required="true" />
             <OutputClaim ClaimTypeReferenceId="objectId" />
             <OutputClaim ClaimTypeReferenceId="authenticationSource" />
+            <OutputClaim ClaimTypeReferenceId="emailChangeCheck" DefaultValue="none" AlwaysUseDefaultValue="true" />
           </OutputClaims>
           <ValidationTechnicalProfiles>
             <ValidationTechnicalProfile ReferenceId="login-NonInteractive" />
             <ValidationTechnicalProfile ReferenceId="AAD-UserReadUsingObjectId" />
             <ValidationTechnicalProfile ReferenceId="ClaimsTransformation-AssertEmailVerified" />
+            <ValidationTechnicalProfile ReferenceId="ClaimsTransformation-AssertNewEmailIsNone">
+              <Preconditions>
+                <Precondition Type="ClaimEquals" ExecuteActionsIf="true">
+                  <Value>extension_IsEmailChangeRequested</Value>
+                  <Value>False</Value>
+                  <Action>SkipThisValidationTechnicalProfile</Action>
+                </Precondition>
+              </Preconditions>
+            </ValidationTechnicalProfile>
           </ValidationTechnicalProfiles>
           <UseTechnicalProfileForSessionManagement ReferenceId="SM-AAD" />
         </TechnicalProfile>

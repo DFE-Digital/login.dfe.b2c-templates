@@ -271,6 +271,27 @@
         },
         "TouchpointId": {
             "type": "string"
+        },
+        "B2CTenantId": {
+            "type": "string"
+        },
+        "B2CGraphAccessClientId": {
+            "type": "string"
+        },
+        "B2CGraphAccessClientSecret": {
+            "type": "string"
+        },
+        "EmailChangeConfirmationEmailSubjectNewEmail": {
+            "type": "string"
+        },
+        "EmailChangeConfirmationEmailSubjectOldEmail": {
+            "type": "string"
+        },
+        "B2CChangeEmailPolicy": {
+            "type": "string"
+        },
+        "ExtensionAppId": {
+            "type": "string"
         }
     },
     "variables": {
@@ -878,6 +899,34 @@
                         {
                             "name": "TouchpointId",
                             "value": "[parameters('TouchpointId')]"
+                        },
+                        {
+                            "name": "b2c:Tenant",
+                            "value": "[parameters('B2CTenantId')]"
+                        },
+                        {
+                            "name": "b2c:GraphAccessClientId",
+                            "value": "[parameters('B2CGraphAccessClientId')]"
+                        },
+                        {
+                            "name": "b2c:GraphAccessClientSecret",
+                            "value": "[parameters('B2CGraphAccessClientSecret')]"
+                        },
+                        {
+                            "name": "EmailChangeConfirmationEmailSubjectNewEmail",
+                            "value": "[parameters('EmailChangeConfirmationEmailSubjectNewEmail')]"
+                        },
+                        {
+                            "name": "EmailChangeConfirmationEmailSubjectOldEmail",
+                            "value": "[parameters('EmailChangeConfirmationEmailSubjectOldEmail')]"
+                        },
+                        {
+                            "name": "B2CChangeEmailPolicy",
+                            "value": "[parameters('B2CChangeEmailPolicy')]"
+                        },
+                        {
+                            "name": "ExtensionAppId",
+                            "value": "[parameters('ExtensionAppId')]"
                         }
                     ]
                 },
