@@ -35,7 +35,7 @@ jobs:
       -servicePlanSkuCount "1"
       -secondaryStorageLocation "${{parameters.deploymentSecondaryLocation}}"
       -alertWebHookUrl "http://www.test.com"
-      -B2CTenant "B2Cdemotenant"
+      -B2CTenant  $(b2cTenant)
       -B2CSignUpPolicy "B2C_1A_signup_invitation"
       -B2CSignupConfirmPolicy "B2C_1A_signup_confirmation"
       -B2CPasswordResetConfirmPolicy "B2C_1A_passwordResetConformation"
@@ -60,13 +60,13 @@ jobs:
       -NCSDSSCreateContactApiUrl "https://at.api.nationalcareersservice.org.uk/contactdetails/api/customers/{0}/ContactDetails/"
       -NCSDSSCreateIdentityApiUrl "https://at.api.nationalcareersservice.org.uk/digitalidentities/api/identity"
       -TouchpointId "1000000000"
-      -B2CTenantId "devauthncs.onmicrosoft.com"
-      -B2CGraphAccessClientId "9e28727a-9abe-4d3b-80e8-367889846e1c"
-      -B2CGraphAccessClientSecret "S5EUqH6PyEI.2qqztYlC4Pqx.1B.~8GTe7"
+      -B2CTenantId $(b2cTenantId)
+      -B2CGraphAccessClientId $(b2cGraphAccessClientId)
+      -B2CGraphAccessClientSecret $(b2cGraphAccessSecret)
       -EmailChangeConfirmationEmailSubjectNewEmail "Activate your new email address"
       -EmailChangeConfirmationEmailSubjectOldEmail "Changed email address"
       -B2CChangeEmailPolicy "B2C_1A_changeemail"
-      -ExtensionAppId "9509a3af9e674a7d9443a094c02c8e69"'
+      -ExtensionAppId $(extensionAppId)'
       eapimRegister: ${{parameters.deployApim}}
       eapimServiceConnection: $(eapimServiceConnection)
       eapimProductName: 'NCS Identity'
