@@ -59,7 +59,14 @@ jobs:
       -NCSDSSCreateCustomerApiUrl "https://at.api.nationalcareersservice.org.uk/customers/api/Customers/"
       -NCSDSSCreateContactApiUrl "https://at.api.nationalcareersservice.org.uk/contactdetails/api/customers/{0}/ContactDetails/"
       -NCSDSSCreateIdentityApiUrl "https://at.api.nationalcareersservice.org.uk/digitalidentities/api/identity"
-      -TouchpointId "1000000000"'
+      -TouchpointId "1000000000"
+      -B2CTenantId "devauthncs.onmicrosoft.com"
+      -B2CGraphAccessClientId "9e28727a-9abe-4d3b-80e8-367889846e1c"
+      -B2CGraphAccessClientSecret "S5EUqH6PyEI.2qqztYlC4Pqx.1B.~8GTe7"
+      -EmailChangeConfirmationEmailSubjectNewEmail "Activate your new email address"
+      -EmailChangeConfirmationEmailSubjectOldEmail "Changed email address"
+      -B2CChangeEmailPolicy "B2C_1A_changeemail"
+      -ExtensionAppId "9509a3af9e674a7d9443a094c02c8e69"'
       eapimRegister: ${{parameters.deployApim}}
       eapimServiceConnection: $(eapimServiceConnection)
       eapimProductName: 'NCS Identity'

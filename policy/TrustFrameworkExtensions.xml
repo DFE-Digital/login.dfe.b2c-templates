@@ -34,9 +34,7 @@
       
         <!--Sample: Stores the error message for unsolicited request (a request without id_token_hint) and user not found-->
         <ClaimType Id="errorMessage">
-          <DisplayName>Error</DisplayName>
           <DataType>string</DataType>
-          <UserHelpText>Add help text here</UserHelpText>
           <UserInputType>Paragraph</UserInputType>
         </ClaimType> 
         <ClaimType Id="tncCheckbox">
@@ -136,6 +134,10 @@
 
         <ClaimType Id="retryCounter">
           <DataType>int</DataType>
+        </ClaimType>
+
+        <ClaimType Id="isResend">
+          <DataType>boolean</DataType>
         </ClaimType>
 
     </ClaimsSchema>
@@ -332,6 +334,46 @@
         </OutputClaims>
       </ClaimsTransformation>
 
+      <ClaimsTransformation Id="CreateEmailChangeLinkEpiredErrorMessage" TransformationMethod="CreateStringClaim">
+        <InputParameters>
+          <InputParameter Id="value" DataType="string" Value="The activation link has expired" />
+        </InputParameters>
+        <OutputClaims>
+          <OutputClaim ClaimTypeReferenceId="errorMessage" TransformationClaimType="createdClaim" />
+        </OutputClaims>
+      </ClaimsTransformation>
+
+
+      <ClaimsTransformation Id="CreateChangeEmailEmailNotMatchedErrorMessage" TransformationMethod="CreateStringClaim">
+        <InputParameters>
+          <InputParameter Id="value" DataType="string" Value="Sorry, can't proceed with provided information" />
+        </InputParameters>
+        <OutputClaims>
+          <OutputClaim ClaimTypeReferenceId="errorMessage" TransformationClaimType="createdClaim" />
+        </OutputClaims>
+      </ClaimsTransformation>
+
+      <ClaimsTransformation Id="CreateEmailChangeConfirmationMessage" TransformationMethod="CreateStringClaim">
+        <InputParameters>
+          <InputParameter Id="value" DataType="string" Value="You can start using your account to access your information." />
+        </InputParameters>
+        <OutputClaims>
+          <OutputClaim ClaimTypeReferenceId="confirmationMessage" TransformationClaimType="createdClaim" />
+        </OutputClaims>
+      </ClaimsTransformation>
+
+      <ClaimsTransformation Id="CreateEmailChangeEmailResentMessage" TransformationMethod="FormatStringClaim">
+        <InputClaims>
+          <InputClaim ClaimTypeReferenceId="newEmail" TransformationClaimType="inputClaim" />
+        </InputClaims>
+        <InputParameters>
+          <InputParameter Id="stringFormat" DataType="string" Value="We've sent an activation email to {0}." />
+        </InputParameters>
+        <OutputClaims>
+          <OutputClaim ClaimTypeReferenceId="confirmationMessage" TransformationClaimType="outputClaim" />
+        </OutputClaims>
+      </ClaimsTransformation>
+
 
     </ClaimsTransformations>
 
@@ -407,6 +449,8 @@
             <PersistedClaim ClaimTypeReferenceId="givenName" />
             <PersistedClaim ClaimTypeReferenceId="surname" />
             <PersistedClaim ClaimTypeReferenceId="extension_IsEmailVerified" DefaultValue="true" AlwaysUseDefaultValue="true" />
+            <PersistedClaim ClaimTypeReferenceId="extension_IsEmailChangeRequested" DefaultValue="false" AlwaysUseDefaultValue="true" />
+            <PersistedClaim ClaimTypeReferenceId="extension_NewEmail" DefaultValue="none" AlwaysUseDefaultValue="true" />
           </PersistedClaims>
           <OutputClaims>
             <OutputClaim ClaimTypeReferenceId="objectId" />
@@ -519,6 +563,7 @@
             <OutputClaim ClaimTypeReferenceId="givenName" />
             <OutputClaim ClaimTypeReferenceId="customerId" />
             <OutputClaim ClaimTypeReferenceId="expiry" />
+            <OutputClaim ClaimTypeReferenceId="newEmail" />
           </OutputClaims>
         </TechnicalProfile>
       </TechnicalProfiles>
@@ -823,6 +868,86 @@
           </ValidationTechnicalProfiles>
         </TechnicalProfile>
 
+        <TechnicalProfile Id="SelfAsserted-ChangeEmail-LinkExpired">
+          <DisplayName>ChangeEmail-LinkExpired</DisplayName>
+          <Protocol Name="Proprietary" Handler="Web.TPEngine.Providers.SelfAssertedAttributeProvider, Web.TPEngine, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"/>
+          <Metadata>
+            <Item Key="ContentDefinitionReferenceId">api.selfasserted</Item>
+            <Item Key="language.button_continue">Request new activation link</Item>
+            <Item Key="setting.showCancelButton">false</Item>
+         </Metadata>
+          <InputClaimsTransformations>
+            <InputClaimsTransformation ReferenceId="CreateEmailChangeLinkEpiredErrorMessage" />
+          </InputClaimsTransformations>         
+          <InputClaims>
+            <InputClaim ClaimTypeReferenceId="errorMessage"/>
+          </InputClaims>
+          <OutputClaims>
+            <OutputClaim ClaimTypeReferenceId="errorMessage"/>
+          </OutputClaims>
+          <ValidationTechnicalProfiles>
+            <ValidationTechnicalProfile ReferenceId="API-Send-ChagngeEmail-Activation-Email" />
+          </ValidationTechnicalProfiles>
+        </TechnicalProfile>
+
+        <TechnicalProfile Id="SelfAsserted-EmailChange-EmailNotMatched">
+          <DisplayName>Unsolicited error message</DisplayName>
+          <Protocol Name="Proprietary" Handler="Web.TPEngine.Providers.SelfAssertedAttributeProvider, Web.TPEngine, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"/>
+          <Metadata>
+            <Item Key="ContentDefinitionReferenceId">api.selfasserted</Item>
+            <Item Key="setting.showContinueButton">false</Item>
+            <Item Key="setting.showCancelButton">false</Item>
+         </Metadata>
+          <InputClaimsTransformations>
+            <InputClaimsTransformation ReferenceId="CreateChangeEmailEmailNotMatchedErrorMessage" />
+          </InputClaimsTransformations>         
+          <InputClaims>
+            <InputClaim ClaimTypeReferenceId="errorMessage"/>
+          </InputClaims>
+          <OutputClaims>
+            <OutputClaim ClaimTypeReferenceId="errorMessage"/>
+          </OutputClaims>
+        </TechnicalProfile>
+
+        <TechnicalProfile Id="SelfAsserted-EmailChange-ConfirmScreen">
+          <DisplayName>EmailChange ConfirmScreen</DisplayName>
+          <Protocol Name="Proprietary" Handler="Web.TPEngine.Providers.SelfAssertedAttributeProvider, Web.TPEngine, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"/>
+          <Metadata>
+            <Item Key="ContentDefinitionReferenceId">api.selfasserted</Item>
+            <Item Key="setting.showContinueButton">false</Item>
+            <Item Key="setting.showCancelButton">false</Item>
+         </Metadata>
+          <InputClaimsTransformations>
+            <InputClaimsTransformation ReferenceId="CreateEmailChangeConfirmationMessage" />
+          </InputClaimsTransformations>         
+          <InputClaims>
+            <InputClaim ClaimTypeReferenceId="confirmationMessage"/>
+          </InputClaims>
+          <OutputClaims>
+            <OutputClaim ClaimTypeReferenceId="confirmationMessage"/>
+          </OutputClaims>
+        </TechnicalProfile>
+
+        <TechnicalProfile Id="SelfAsserted-ChangeEmail-ResentEmail">
+          <DisplayName>Email Sent</DisplayName>
+          <Protocol Name="Proprietary" Handler="Web.TPEngine.Providers.SelfAssertedAttributeProvider, Web.TPEngine, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"/>
+          <Metadata>
+            <Item Key="ContentDefinitionReferenceId">api.selfasserted</Item>
+            <Item Key="setting.showContinueButton">false</Item>
+            <Item Key="setting.showCancelButton">false</Item>
+         </Metadata>
+          <InputClaimsTransformations>
+            <InputClaimsTransformation ReferenceId="CreateEmailChangeEmailResentMessage" />
+          </InputClaimsTransformations>
+          <InputClaims>
+            <InputClaim ClaimTypeReferenceId="confirmationMessage"/>
+            <InputClaim ClaimTypeReferenceId="newEmail"/>
+          </InputClaims>
+          <OutputClaims>
+            <OutputClaim ClaimTypeReferenceId="confirmationMessage"/>
+          </OutputClaims>
+        </TechnicalProfile>
+
       </TechnicalProfiles>
     </ClaimsProvider>
 
@@ -963,6 +1088,25 @@
                 <OutputClaims>
                   <OutputClaim ClaimTypeReferenceId="customerId" />
                 </OutputClaims>
+                <UseTechnicalProfileForSessionManagement ReferenceId="SM-Noop" />
+            </TechnicalProfile>
+
+            <TechnicalProfile Id="API-Send-ChagngeEmail-Activation-Email">
+                <DisplayName>User OTP Notifications</DisplayName>    
+                <Protocol Name="Proprietary" Handler="Web.TPEngine.Providers.RestfulProvider, Web.TPEngine, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" />
+                <Metadata>
+                  <Item Key="ServiceUrl">https://dev-api-customerengagement.platform.education.gov.uk/ncsidentity/ChangeEmail</Item>
+                  <Item Key="SendClaimsIn">Body</Item>                        
+                  <Item Key="AuthenticationType">ClientCertificate</Item>
+                </Metadata>
+                <CryptographicKeys>
+                    <Key Id="ClientCertificate" StorageReferenceId="B2C_1A_APIMClientCertificate" />
+                </CryptographicKeys>
+                <InputClaims>
+                    <InputClaim ClaimTypeReferenceId="email" PartnerClaimType="CurrentEmail"/>
+                    <InputClaim ClaimTypeReferenceId="newEmail" PartnerClaimType="NewEmail"/>
+                    <InputClaim ClaimTypeReferenceId="isResend" DefaultValue="true" PartnerClaimType="IsResend"/>
+                </InputClaims>
                 <UseTechnicalProfileForSessionManagement ReferenceId="SM-Noop" />
             </TechnicalProfile>
 
@@ -1302,7 +1446,6 @@
       <ClientDefinition ReferenceId="DefaultWeb"/>
     </UserJourney>
 
-
     <UserJourney Id="FindEmail">
       <OrchestrationSteps>
 
@@ -1340,6 +1483,98 @@
 
         <OrchestrationStep Order="4" Type="SendClaims" CpimIssuerTechnicalProfileReferenceId="JwtIssuer"/>
 
+      </OrchestrationSteps>
+      <ClientDefinition ReferenceId="DefaultWeb"/>
+    </UserJourney>
+
+    <UserJourney Id="ChangeEmail">
+      <OrchestrationSteps>
+        <OrchestrationStep Order="1" Type="GetClaims" CpimIssuerTechnicalProfileReferenceId="IdTokenHint_ExtractClaims" />
+
+        <OrchestrationStep Order="2" Type="ClaimsExchange">
+          <ClaimsExchanges>
+            <ClaimsExchange Id="CheckLinkValidity" TechnicalProfileReferenceId="SelfAsserted-ValidateEmailLink"/>
+          </ClaimsExchanges>
+        </OrchestrationStep>
+
+        <OrchestrationStep Order="3" Type="ClaimsExchange">
+         <Preconditions>
+            <Precondition Type="ClaimEquals" ExecuteActionsIf="true">
+              <Value>isLinkValid</Value>
+              <Value>True</Value>
+              <Action>SkipThisOrchestrationStep</Action>
+            </Precondition>
+          </Preconditions>        
+          <ClaimsExchanges>
+            <ClaimsExchange Id="SelfAsserted-ChangeEmail-LinkExpired" TechnicalProfileReferenceId="SelfAsserted-ChangeEmail-LinkExpired"/>
+          </ClaimsExchanges>
+        </OrchestrationStep>
+
+        <OrchestrationStep Order="4" Type="ClaimsExchange">
+         <Preconditions>
+            <Precondition Type="ClaimEquals" ExecuteActionsIf="true">
+              <Value>isLinkValid</Value>
+              <Value>True</Value>
+              <Action>SkipThisOrchestrationStep</Action>
+            </Precondition>
+          </Preconditions>        
+          <ClaimsExchanges>
+            <ClaimsExchange Id="SelfAsserted-ChangeEmail-ResentEmail" TechnicalProfileReferenceId="SelfAsserted-ChangeEmail-ResentEmail"/>
+          </ClaimsExchanges>
+        </OrchestrationStep>
+
+        <OrchestrationStep Order="5" Type="ClaimsExchange">
+          <ClaimsExchanges>
+            <ClaimsExchange Id="AADUserReadWithObjectId" TechnicalProfileReferenceId="AAD-UserReadUsingObjectId"/>
+          </ClaimsExchanges>
+        </OrchestrationStep>
+
+        <OrchestrationStep Order="6" Type="ClaimsExchange">
+          <ClaimsExchanges>
+            <ClaimsExchange Id="IsEmailEqual" TechnicalProfileReferenceId="SelfAsserted-ValidateEmail"/>
+          </ClaimsExchanges>
+        </OrchestrationStep>
+
+        <OrchestrationStep Order="7" Type="ClaimsExchange">
+         <Preconditions>
+            <Precondition Type="ClaimEquals" ExecuteActionsIf="false">
+              <Value>emailIsNotEqual</Value>
+              <Value>True</Value>
+              <Action>SkipThisOrchestrationStep</Action>
+            </Precondition>
+          </Preconditions>        
+          <ClaimsExchanges>
+            <ClaimsExchange Id="SelfAsserted-Unsolicited" TechnicalProfileReferenceId="SelfAsserted-EmailChange-EmailNotMatched"/>
+          </ClaimsExchanges>
+        </OrchestrationStep>
+
+        <OrchestrationStep Order="8" Type="ClaimsExchange">
+          <Preconditions>
+            <Precondition Type="ClaimEquals" ExecuteActionsIf="false">
+              <Value>isLinkValid</Value>
+              <Value>True</Value>
+              <Action>SkipThisOrchestrationStep</Action>
+            </Precondition>
+          </Preconditions>
+          <ClaimsExchanges>
+            <ClaimsExchange Id="AAD-ChangeEmail" TechnicalProfileReferenceId="AAD-UserWriteEmailUsingObjectId" />
+          </ClaimsExchanges>
+        </OrchestrationStep>
+
+        <OrchestrationStep Order="9" Type="ClaimsExchange">
+         <Preconditions>
+            <Precondition Type="ClaimEquals" ExecuteActionsIf="false">
+              <Value>isLinkValid</Value>
+              <Value>True</Value>
+              <Action>SkipThisOrchestrationStep</Action>
+            </Precondition>
+          </Preconditions>        
+          <ClaimsExchanges>
+            <ClaimsExchange Id="EmailChange-ConfirmScreen" TechnicalProfileReferenceId="SelfAsserted-EmailChange-ConfirmScreen"/>
+          </ClaimsExchanges>
+        </OrchestrationStep>
+
+        <OrchestrationStep Order="10" Type="SendClaims" CpimIssuerTechnicalProfileReferenceId="JwtIssuer"/>
       </OrchestrationSteps>
       <ClientDefinition ReferenceId="DefaultWeb"/>
     </UserJourney>
