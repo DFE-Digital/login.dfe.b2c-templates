@@ -53,6 +53,10 @@
                 "description": "Instance Size"
             }
         },
+        "configStoreSku": {
+            "type": "string",
+            "defaultValue": "Free"
+        },
         "tags": {
             "type": "object",
             "defaultValue": {
@@ -262,7 +266,8 @@
             "functionName": "[concat(variables('baseName'), '-function')]",
             "autoScaleRuleName": "[concat(variables('baseName'), '-function-asp-autoscale-setting')]",
             "actionGroupName": "[concat(variables('baseName'),'-action-group')]",
-            "actionGroupShortName": "[concat(parameters('applicationName'),'-ag')]"
+            "actionGroupShortName": "[concat(parameters('applicationName'),'-ag')]",
+            "configStoreName": "[concat(variables('baseName'), '-cfg')]"
         },
         "resourceIds": {
             "appInsightsId": "[resourceId('Microsoft.Insights/components/', variables('resourceNames').applicationInsightsName)]",
@@ -271,7 +276,8 @@
             "servicePlanId": "[resourceId('Microsoft.Web/serverfarms', variables('resourceNames').servicePlanName)]",
             "functionId": "[resourceId('Microsoft.Web/sites', variables('resourceNames').functionName )]",
             "actionGroupId": "[resourceId('microsoft.insights/actionGroups', variables('resourceNames').actionGroupName)]",
-            "storageAccountDefaultBlobContainerId": "[resourceId('Microsoft.Storage/storageAccounts/blobServices', variables('resourceNames').secondaryStorageAccountName, 'default')]"
+            "storageAccountDefaultBlobContainerId": "[resourceId('Microsoft.Storage/storageAccounts/blobServices', variables('resourceNames').secondaryStorageAccountName, 'default')]",
+            "configStoreId": "[resourceId('Microsoft.AppConfiguration/configurationStores/', variables('resourceNames').configStoreName)]"
         },
         "alertRules": [
             {
@@ -337,6 +343,22 @@
         ]
     },
     "resources": [
+        {
+            "name": "[variables('resourceNames').configStoreName]",
+            "type": "Microsoft.AppConfiguration/configurationStores",
+            "apiVersion": "2019-10-01",
+            "location": "[resourceGroup().location]",
+            "tags": {
+            },
+            "identity": {
+                "type": "SystemAssigned"
+            },
+            "properties": {
+            },
+            "sku": {
+                "name": "[parameters('configStoreSku')]"
+            }
+        },
         {
             "apiVersion": "2019-06-01",
             "kind": "StorageV2",
