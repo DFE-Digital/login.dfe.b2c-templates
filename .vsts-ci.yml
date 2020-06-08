@@ -53,6 +53,7 @@ stages:
       environmentId: 't01'
       serviceConnection: $(testServiceConnection)
       subscriptionId: $(testSubscriptionId)
+      clientId: $(testAzureB2cTenantId)
       deploymentPrimaryLocation: $(deploymentPrimaryLocation)
       deploymentSecondaryLocation: $(deploymentSecondaryLocation)
       deployApim: true

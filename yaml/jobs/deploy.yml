@@ -7,6 +7,12 @@ parameters:
   type: string
 - name: subscriptionId
   type: string
+- name: clientId
+  type: string
+- name: graphAccessClientId
+  type: string
+- name: graphAccessClientSecret
+  type: string
 - name: deploymentPrimaryLocation
   type: string
 - name: deploymentSecondaryLocation
@@ -40,11 +46,11 @@ jobs:
       -servicePlanSkuCount "$(functionServicePlanSkuCount)"
       -secondaryStorageLocation "${{parameters.deploymentSecondaryLocation}}"
       -alertWebHookUrl "http://www.test.com"
-      -B2CTenant "B2Cdemotenant"
+      -B2CTenant "${{parameters.environmentName}}authncs.onmicrosoft.com"
       -B2CSignUpPolicy "$(b2cSignUpPolicy)"
       -B2CSignupConfirmPolicy "$(b2cSignupConfirmPolicy)"
       -B2CPasswordResetConfirmPolicy "$(b2cPasswordResetConfirmPoicy)"
-      -B2CClientId "$(b2cClientId)"
+      -B2CClientId "${{parameters.clientId}}"
       -B2CRedirectUri "https://jwt.ms"
       -B2CAuthorizationUrl "$(b2cAuthorizationUrl)"
       -ClientSigningKey "$(clientSigningKey)"

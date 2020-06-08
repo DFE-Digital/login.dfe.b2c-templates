@@ -362,3 +362,4 @@ MigrationBackup/
 FodyWeavers.xsd
 .vs/b2c/v16/.suo
 .env
+scripts/.secrets
