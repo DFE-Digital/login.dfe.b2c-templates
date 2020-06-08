@@ -479,7 +479,7 @@
                 "emailReceivers": [
                     {
                         "name": "Email",
-                        "emailAddress": "[parameters('publisherEmail')]",
+                        "emailAddress": "publisher@test.com",
                         "useCommonAlertSchema": true
                     }
                 ]
