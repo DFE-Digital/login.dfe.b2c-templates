@@ -37,7 +37,7 @@ jobs:
       environmentName: ${{parameters.environmentName}}
       serviceConnection: ${{parameters.serviceConnection}}
       subscriptionId: ${{parameters.subscriptionId}}
-      resourceGroupName: s141${{parameters.environmentId}}-$(applicationName)
+      resourceGroupName: s141${{parameters.environmentId}}-${{parameters.environmentName}}$(applicationName)
       location: ${{parameters.deploymentPrimaryLocation}}
       templatePath: '$(Build.SourcesDirectory)/arm/template.json'
       overrideParameters: '
