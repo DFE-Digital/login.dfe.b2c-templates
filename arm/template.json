@@ -189,7 +189,7 @@
                 "description": "Web hook for Autoscaling Alerts"
             }
         },
-        "B2CTenant": {
+        "B2CTenantFullName": {
             "type": "string"
         },
         "B2CSignUpPolicy": {
@@ -271,9 +271,6 @@
             "type": "string"
         },
         "TouchpointId": {
-            "type": "string"
-        },
-        "B2CTenantId": {
             "type": "string"
         },
         "B2CGraphAccessClientId": {
@@ -783,7 +780,7 @@
                         },
                         {
                             "name": "B2CTenant",
-                            "value": "[parameters('B2CTenant')]"
+                            "value": "[parameters('B2CTenantFullName')]"
                         },
                         {
                             "name": "B2CSignUpPolicy",
@@ -907,7 +904,7 @@
                         },
                         {
                             "name": "b2c:Tenant",
-                            "value": "[parameters('B2CTenantId')]"
+                            "value": "[parameters('B2CTenantFullName')]"
                         },
                         {
                             "name": "b2c:GraphAccessClientId",
