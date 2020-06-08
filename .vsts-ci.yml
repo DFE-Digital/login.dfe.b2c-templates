@@ -52,6 +52,7 @@ stages:
   jobs:
   - template: yaml/jobs/deploy.yml
     parameters:
+      applicationName: $(applicationName)
       environmentName: 'test'
       environmentId: 't01'
       serviceConnection: $(testServiceConnection)

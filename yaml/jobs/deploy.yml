@@ -1,4 +1,6 @@
 parameters:
+- name: applicationName
+  type: string
 - name: environmentName
   type: string
 - name: environmentId
@@ -33,7 +35,7 @@ parameters:
 jobs:
 - template: /Application/dotnet/jobs/deploy-function.yml@devopsTemplates
   parameters:
-      applicationName: $(applicationName)
+      applicationName: ${{parameters.applicationName}}
       environmentName: ${{parameters.environmentName}}
       serviceConnection: ${{parameters.serviceConnection}}
       subscriptionId: ${{parameters.subscriptionId}}

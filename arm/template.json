@@ -300,8 +300,8 @@
         "resourceNames": {
             "applicationInsightsName": "[concat(variables('baseName'), '-ai')]",
             "apiManagementName": "[concat(variables('baseName'), '-apim')]",
-            "defaultStorageAccountName": "[replace(concat(variables('baseName'), 'default'), '-', '')]",
-            "secondaryStorageAccountName": "[replace(concat(variables('baseName'), 'storage'), '-', '')]",
+            "defaultStorageAccountName": "[replace(concat(variables('baseName'), 'store'), '-', '')]",
+            "secondaryStorageAccountName": "[replace(concat(variables('baseName'), 'store'), '-', '')]",
             "servicePlanName": "[concat(variables('baseName'), '-function-asp')]",
             "functionName": "[concat(variables('baseName'), '-function')]",
             "autoScaleRuleName": "[concat(variables('baseName'), '-function-asp-autoscale-setting')]",
