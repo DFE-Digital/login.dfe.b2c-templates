@@ -9,6 +9,8 @@ parameters:
   type: string
 - name: clientId
   type: string
+- name: clientSigningKey
+  type: string
 - name: graphAccessClientId
   type: string
 - name: graphAccessClientSecret
