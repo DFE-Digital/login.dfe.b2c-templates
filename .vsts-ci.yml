@@ -13,8 +13,6 @@ trigger:
   branches:
     include:
     - master
-    exclude:
-    - develop/*
 
 variables:
 - name: applicationName
@@ -31,23 +29,23 @@ stages:
       applicationName: $(applicationName)
       webPublish: false
 
-- stage: deployDev
-  displayName: Deploy - DEV
-  jobs:
-  - template: yaml/jobs/deploy.yml
-    parameters:
-      environmentName: 'test'
-      environmentId: 't01'
-      serviceConnection: $(devServiceConnection)
-      subscriptionId: $(devSubscriptionId)
-      clientId: $(devAzureB2cTenantId)
-      clientSigningKey: $(devClientSigningKey)
-      graphAccessClientId: $(devGraphAccessClientId)
-      graphAccessClientSecret: $(devGraphAccessClientSecret)
-      deploymentPrimaryLocation: $(deploymentPrimaryLocation)
-      deploymentSecondaryLocation: $(deploymentSecondaryLocation)
-      deployApim: true
-      eapimEnvironmentName: 'Test'
+# - stage: deployDev
+#   displayName: Deploy - DEV
+#   jobs:
+#   - template: yaml/jobs/deploy.yml
+#     parameters:
+#       environmentName: 'test'
+#       environmentId: 'd01'
+#       serviceConnection: $(devServiceConnection)
+#       subscriptionId: $(devSubscriptionId)
+#       clientId: $(devAzureB2cTenantId)
+#       clientSigningKey: $(devClientSigningKey)
+#       graphAccessClientId: $(devGraphAccessClientId)
+#       graphAccessClientSecret: $(devGraphAccessClientSecret)
+#       deploymentPrimaryLocation: $(deploymentPrimaryLocation)
+#       deploymentSecondaryLocation: $(deploymentSecondaryLocation)
+#       deployApim: true
+#       eapimEnvironmentName: 'Test'
 
 - stage: deployTest
   dependsOn:
