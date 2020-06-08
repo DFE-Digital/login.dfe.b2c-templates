@@ -1,22 +1,22 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+﻿<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <TrustFrameworkPolicy
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xmlns:xsd="http://www.w3.org/2001/XMLSchema"
   xmlns="http://schemas.microsoft.com/online/cpim/schemas/2013/06"
   PolicySchemaVersion="0.3.0.0"
-  TenantId="devauthncs.onmicrosoft.com"
-  PolicyId="B2C_1A_account_signup"
-  PublicPolicyUri="http://devauthncs.onmicrosoft.com/B2C_1A_account_signup"
+  TenantId="testauthncs.onmicrosoft.com"
+  PolicyId="B2C_1A_SignUp_Invitation"
+  PublicPolicyUri="http://testauthncs.onmicrosoft.com/B2C_1A_SignUp_Invitation"
   DeploymentMode="Development"
   UserJourneyRecorderEndpoint="urn:journeyrecorder:applicationinsights">
 
   <BasePolicy>
-    <TenantId>devauthncs.onmicrosoft.com</TenantId>
-    <PolicyId>B2C_1A_TrustFrameworkExtensions_invitation</PolicyId>
+    <TenantId>testauthncs.onmicrosoft.com</TenantId>
+    <PolicyId>B2C_1A_TrustFrameworkExtensions_Invitation</PolicyId>
   </BasePolicy>
 
   <RelyingParty>
-    <DefaultUserJourney ReferenceId="SelfSignUp" />
+    <DefaultUserJourney ReferenceId="SignUp_Invitation" />
     <UserJourneyBehaviors>
         <JourneyInsights TelemetryEngine="ApplicationInsights" InstrumentationKey="1804da14-6a11-4b44-a6ff-2000f360bd87" DeveloperMode="true" ClientEnabled="false" ServerEnabled="true" TelemetryVersion="1.0.0" />
         <ScriptExecution>Allow</ScriptExecution>
@@ -24,6 +24,16 @@
     <TechnicalProfile Id="PolicyProfile">
       <DisplayName>PolicyProfile</DisplayName>
       <Protocol Name="OpenIdConnect" />
+
+	    <!--Sample: Set the input claims to be read from the id_token_hint-->
+      <InputClaims>
+        <InputClaim ClaimTypeReferenceId="email" PartnerClaimType="email" />
+        <InputClaim ClaimTypeReferenceId="givenName" PartnerClaimType="givenName" />
+        <InputClaim ClaimTypeReferenceId="surname" PartnerClaimType="surname" />
+        <InputClaim ClaimTypeReferenceId="customerId" PartnerClaimType="customerId" />
+        <InputClaim ClaimTypeReferenceId="expiry" PartnerClaimType="expiry" />
+      </InputClaims>
+	  
       <OutputClaims>
         <OutputClaim ClaimTypeReferenceId="givenName" />
         <OutputClaim ClaimTypeReferenceId="surname" />

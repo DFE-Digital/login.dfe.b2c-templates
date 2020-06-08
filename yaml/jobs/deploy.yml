@@ -7,6 +7,12 @@ parameters:
   type: string
 - name: subscriptionId
   type: string
+- name: clientId
+  type: string
+- name: graphAccessClientId
+  type: string
+- name: graphAccessClientSecret
+  type: string
 - name: deploymentPrimaryLocation
   type: string
 - name: deploymentSecondaryLocation
@@ -14,6 +20,13 @@ parameters:
 - name: deployApim
   type: boolean
   default: false
+- name: eapimEnvironmentName
+  type: string
+  values:
+  - Development
+  - Test
+  - Oat
+  - Production
 
 jobs:
 - template: /Application/dotnet/jobs/deploy-function.yml@devopsTemplates
@@ -28,20 +41,18 @@ jobs:
       overrideParameters: '
       -applicationName "$(applicationName)"
       -environmentName "${{parameters.environmentName}}"
-      -publisherEmail "test@test.com"
-      -publisherName "deploymentTest"
-      -servicePlanSkuName "B1"
-      -servicePlanSkuTier "Basic"
-      -servicePlanSkuCount "1"
+      -servicePlanSkuName "$(functionServicePlanSkuName)"
+      -servicePlanSkuTier "$(functionServicePlanSkuTier)"
+      -servicePlanSkuCount "$(functionServicePlanSkuCount)"
       -secondaryStorageLocation "${{parameters.deploymentSecondaryLocation}}"
       -alertWebHookUrl "http://www.test.com"
-      -B2CTenant  $(b2cTenant)
-      -B2CSignUpPolicy "B2C_1A_signup_invitation"
-      -B2CSignupConfirmPolicy "B2C_1A_signup_confirmation"
-      -B2CPasswordResetConfirmPolicy "B2C_1A_passwordResetConformation"
-      -B2CClientId "$(b2cClientId)"
+      -B2CTenant "${{parameters.environmentName}}authncs"
+      -B2CSignUpPolicy "$(b2cSignUpPolicy)"
+      -B2CSignupConfirmPolicy "$(b2cSignupConfirmPolicy)"
+      -B2CPasswordResetConfirmPolicy "$(b2cPasswordResetConfirmPoicy)"
+      -B2CClientId "${{parameters.clientId}}"
       -B2CRedirectUri "https://jwt.ms"
-      -B2CAuthorizationUrl "https://{0}.b2clogin.com/{0}.onmicrosoft.com/{1}/oauth2/v2.0/authorize?client_id={2}&nonce={4}&redirect_uri={3}&scope=openid&response_type=id_token"
+      -B2CAuthorizationUrl "$(b2cAuthorizationUrl)"
       -ClientSigningKey "$(clientSigningKey)"
       -SMTPServer "$(smtpServer)"
       -SMTPUsername "$(smtpUsername)"
@@ -60,15 +71,16 @@ jobs:
       -NCSDSSCreateContactApiUrl "https://at.api.nationalcareersservice.org.uk/contactdetails/api/customers/{0}/ContactDetails/"
       -NCSDSSCreateIdentityApiUrl "https://at.api.nationalcareersservice.org.uk/digitalidentities/api/identity"
       -TouchpointId "1000000000"
-      -B2CTenantId $(b2cTenantId)
-      -B2CGraphAccessClientId $(b2cGraphAccessClientId)
-      -B2CGraphAccessClientSecret $(b2cGraphAccessSecret)
-      -EmailChangeConfirmationEmailSubjectNewEmail "Activate your new email address"
-      -EmailChangeConfirmationEmailSubjectOldEmail "Changed email address"
+      -B2CGraphAccessClientId "${{parameters.graphAccessClientId}}"
+      -B2CGraphAccessClientSecret "${{parameters.graphAccessClientSecret}}"
+      -EmailChangeConfirmationEmailSubjectNewEmail "Email change request"
+      -EmailChangeConfirmationEmailSubjectOldEmail "Email change request"
       -B2CChangeEmailPolicy "B2C_1A_changeemail"
-      -ExtensionAppId $(extensionAppId)'
+      -ExtensionAppId "9509a3af9e674a7d9443a094c02c8e69"
+      '
       eapimRegister: ${{parameters.deployApim}}
       eapimServiceConnection: $(eapimServiceConnection)
+      eapimEnvironment: ${{parameters.eapimEnvironmentName}}
       eapimProductName: 'NCS Identity'
       eapimProductContactEmail: paul.sheridan@digital.education.gov.uk
       eapimApiPublishedName: 'NCS Identity'

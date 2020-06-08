@@ -17,9 +17,12 @@ trigger:
     - develop/*
 
 variables:
-  applicationName: ncsauth
+- name: applicationName
+  value: ncsauth
+- group: ncs-b2c-global
 
 stages:
+
 - stage: build
   displayName: Build
   jobs:
@@ -30,21 +33,25 @@ stages:
 
 - stage: deployDev
   displayName: Deploy - DEV
-  dependsOn: build
   jobs:
   - template: yaml/jobs/deploy.yml
     parameters:
-      environmentName: 'dev'
-      environmentId: 'd01'
+      environmentName: 'test'
+      environmentId: 't01'
       serviceConnection: $(devServiceConnection)
       subscriptionId: $(devSubscriptionId)
+      clientId: $(devAzureB2cTenantId)
+      graphAccessClientId: $(devGraphAccessClientId)
+      graphAccessClientSecret: $(devGraphAccessClientSecret)
       deploymentPrimaryLocation: $(deploymentPrimaryLocation)
       deploymentSecondaryLocation: $(deploymentSecondaryLocation)
-      deployApim: false
+      deployApim: true
+      eapimEnvironmentName: 'Test'
 
 - stage: deployTest
+  dependsOn:
+  - deployDev
   displayName: Deploy - TEST
-  dependsOn: build
   jobs:
   - template: yaml/jobs/deploy.yml
     parameters:
@@ -52,6 +59,10 @@ stages:
       environmentId: 't01'
       serviceConnection: $(testServiceConnection)
       subscriptionId: $(testSubscriptionId)
+      clientId: $(testAzureB2cTenantId)
+      graphAccessClientId: $(testGraphAccessClientId)
+      graphAccessClientSecret: $(testGraphAccessClientSecret)
       deploymentPrimaryLocation: $(deploymentPrimaryLocation)
       deploymentSecondaryLocation: $(deploymentSecondaryLocation)
-      deployApim: false
+      deployApim: true
+      eapimEnvironmentName: 'Test'

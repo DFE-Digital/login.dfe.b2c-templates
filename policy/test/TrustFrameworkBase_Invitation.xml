@@ -1,12 +1,11 @@
-﻿<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<TrustFrameworkPolicy
+﻿<TrustFrameworkPolicy
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xmlns:xsd="http://www.w3.org/2001/XMLSchema"
   xmlns="http://schemas.microsoft.com/online/cpim/schemas/2013/06"
   PolicySchemaVersion="0.3.0.0"
-  TenantId="devauthncs.onmicrosoft.com"
-  PolicyId="B2C_1A_TrustFrameworkBase_invitation"
-  PublicPolicyUri="http://devauthncs.onmicrosoft.com/B2C_1A_TrustFrameworkBase_invitation">
+  TenantId="testauthncs.onmicrosoft.com"
+  PolicyId="B2C_1A_TrustFrameworkBase_Invitation"
+  PublicPolicyUri="http://testauthncs.onmicrosoft.com/B2C_1A_TrustFrameworkBase_Invitation">
 
   <BuildingBlocks>
     <ClaimsSchema>
@@ -705,8 +704,8 @@
           <DisplayName>Azure Active Directory</DisplayName>
           <Protocol Name="Proprietary" Handler="Web.TPEngine.Providers.AzureActiveDirectoryProvider, Web.TPEngine, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" />
           <Metadata>
-              <Item Key="ApplicationObjectId">f499d643-9a13-480a-9d90-a9263d9a19ce</Item>
-              <Item Key="ClientId">9509a3af-9e67-4a7d-9443-a094c02c8e69</Item>
+              <Item Key="ApplicationObjectId">1bf71233-e827-47ff-88e5-1068d423d68b</Item>
+              <Item Key="ClientId">1bf71233-e827-47ff-88e5-1068d423d68b</Item>
           </Metadata>
           <CryptographicKeys>
             <Key Id="issuer_secret" StorageReferenceId="B2C_1A_TokenSigningKeyContainer" />
