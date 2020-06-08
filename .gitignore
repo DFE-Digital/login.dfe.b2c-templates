@@ -363,3 +363,4 @@ FodyWeavers.xsd
 .vs/b2c/v16/.suo
 .env
 scripts/.secrets
+scripts/_CertGeneration.ps1
