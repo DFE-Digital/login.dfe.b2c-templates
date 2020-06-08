@@ -11,49 +11,6 @@
             "type": "string",
             "defaultValue": "dev"
         },
-        "deployApim": {
-            "type": "bool",
-            "defaultValue": false,
-            "allowedValues": [
-                true,
-                false
-            ],
-            "metadata": {
-                "description": "Deploy Apim Layer6edd5a57-4efa-4c5e-93c4-a26a13591694"
-            }
-        },
-        "publisherEmail": {
-            "type": "string",
-            "minLength": 1,
-            "metadata": {
-                "description": "The email address of the owner of the service"
-            },
-            "defaultValue": "publisher@internet.com"
-        },
-        "publisherName": {
-            "type": "string",
-            "minLength": 1,
-            "metadata": {
-                "description": "The name of the owner of the service"
-            },
-            "defaultValue": "default publisher"
-        },
-        "apimSku": {
-            "type": "string",
-            "allowedValues": [
-                "Developer",
-                "Standard",
-                "Premium"
-            ],
-            "defaultValue": "Developer"
-        },
-        "apimSkuCount": {
-            "type": "int",
-            "defaultValue": 1,
-            "metadata": {
-                "description": "The instance size of this API Management service."
-            }
-        },
         "servicePlanSkuName": {
             "defaultValue": "F1",
             "type": "string",
@@ -299,7 +256,6 @@
         "baseName": "[concat(parameters('applicationName'), '-', parameters('environmentName'))]",
         "resourceNames": {
             "applicationInsightsName": "[concat(variables('baseName'), '-ai')]",
-            "apiManagementName": "[concat(variables('baseName'), '-apim')]",
             "defaultStorageAccountName": "[replace(concat(variables('baseName'), 'store'), '-', '')]",
             "secondaryStorageAccountName": "[replace(concat(variables('baseName'), 'store'), '-', '')]",
             "servicePlanName": "[concat(variables('baseName'), '-function-asp')]",
@@ -309,7 +265,6 @@
             "actionGroupShortName": "[concat(parameters('applicationName'),'-ag')]"
         },
         "resourceIds": {
-            "apimId": "[resourceId('Microsoft.ApiManagement/service', variables('resourceNames').apiManagementName)]",
             "appInsightsId": "[resourceId('Microsoft.Insights/components/', variables('resourceNames').applicationInsightsName)]",
             "defaultStorageAccountId": "[resourceId('Microsoft.Storage/storageAccounts', variables('resourceNames').defaultStorageAccountName)]",
             "secondaryStorageAccountId": "[resourceId('Microsoft.Storage/storageAccounts', variables('resourceNames').secondaryStorageAccountName)]",
@@ -657,44 +612,6 @@
                         ]
                     }
                 ]
-            }
-        },
-        {
-            "condition": "[parameters('deployApim')]",
-            "apiVersion": "2019-01-01",
-            "name": "[variables('resourceNames').apiManagementName]",
-            "type": "Microsoft.ApiManagement/service",
-            "tags": "[parameters('tags')]",
-            "sku": {
-                "name": "[parameters('apimSku')]",
-                "capacity": "[parameters('apimSkuCount')]"
-            },
-            "location": "[resourceGroup().location]",
-            "properties": {
-                "publisherEmail": "[parameters('publisherEmail')]",
-                "publisherName": "[parameters('publisherName')]",
-                "notificationSenderEmail": "noreply@mail.windowsazure.com"
-            },
-            "identity": {
-                "type": "SystemAssigned"
-            }
-        },
-        {
-            "condition": "[parameters('deployApim')]",
-            "type": "Microsoft.ApiManagement/service/loggers",
-            "apiVersion": "2019-01-01",
-            "name": "[concat(variables('resourceNames').apiManagementName, '/', variables('resourceNames').applicationInsightsName)]",
-            "dependsOn": [
-                "[variables('resourceIds').apimId]",
-                "[variables('resourceIds').appInsightsId]"
-            ],
-            "tags": "[parameters('tags')]",
-            "properties": {
-                "loggerType": "applicationInsights",
-                "credentials": {
-                    "instrumentationKey": "[reference(variables('resourceIds').appInsightsId, '2015-05-01').InstrumentationKey]"
-                },
-                "isBuffered": true
             }
         },
         {
