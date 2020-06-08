@@ -17,6 +17,9 @@ parameters:
   type: string
 - name: graphAccessClientSecret
   type: string
+- name: extensionAppId
+  type: string
+  default: '9509a3af9e674a7d9443a094c02c8e69'
 - name: deploymentPrimaryLocation
   type: string
 - name: deploymentSecondaryLocation
@@ -58,7 +61,7 @@ jobs:
       -B2CClientId "${{parameters.clientId}}"
       -B2CRedirectUri "https://jwt.ms"
       -B2CAuthorizationUrl "$(b2cAuthorizationUrl)"
-      -ClientSigningKey "$(clientSigningKey)"
+      -ClientSigningKey "${{parameters.clientSigningKey}}"
       -SMTPServer "$(smtpServer)"
       -SMTPUsername "$(smtpUsername)"
       -SMTPPassword "$(smtpPassword)"
@@ -81,7 +84,7 @@ jobs:
       -EmailChangeConfirmationEmailSubjectNewEmail "Email change request"
       -EmailChangeConfirmationEmailSubjectOldEmail "Email change request"
       -B2CChangeEmailPolicy "B2C_1A_changeemail"
-      -ExtensionAppId "9509a3af9e674a7d9443a094c02c8e69"
+      -ExtensionAppId "${{parameters.extensionAppId}}"
       '
       eapimRegister: ${{parameters.deployApim}}
       eapimServiceConnection: $(eapimServiceConnection)
