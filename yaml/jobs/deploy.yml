@@ -48,7 +48,7 @@ jobs:
       -servicePlanSkuCount "$(functionServicePlanSkuCount)"
       -secondaryStorageLocation "${{parameters.deploymentSecondaryLocation}}"
       -alertWebHookUrl "http://www.test.com"
-      -B2CTenant "${{parameters.environmentName}}authncs"
+      -B2CTenantShortName "${{parameters.environmentName}}authncs"
       -B2CTenantFullName "${{parameters.environmentName}}authncs.onmicrosoft.com"
       -B2CSignUpPolicy "$(b2cSignUpPolicy)"
       -B2CSignupConfirmPolicy "$(b2cSignupConfirmPolicy)"

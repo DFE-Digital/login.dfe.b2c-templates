@@ -189,6 +189,9 @@
                 "description": "Web hook for Autoscaling Alerts"
             }
         },
+        "B2CTenantShortName": {
+            "type": "string"
+        },
         "B2CTenantFullName": {
             "type": "string"
         },
@@ -780,7 +783,7 @@
                         },
                         {
                             "name": "B2CTenant",
-                            "value": "[parameters('B2CTenantFullName')]"
+                            "value": "[parameters('B2CTenantShortName')]"
                         },
                         {
                             "name": "B2CSignUpPolicy",
