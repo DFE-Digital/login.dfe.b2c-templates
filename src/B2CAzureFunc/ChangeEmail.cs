@@ -87,8 +87,8 @@ namespace B2CAzureFunc
                     string b2cRedirectUri = Environment.GetEnvironmentVariable("B2CRedirectUri", EnvironmentVariableTarget.Process);
                     string url = UrlBuilder.BuildUrl(token, b2cURL, b2cTenant, b2cPolicyId, b2cClientId, b2cRedirectUri);
 
-                    string htmlTemplateOldEmail = System.IO.File.ReadAllText(@"D:\home\site\wwwroot\EmailChnage_OldEmail.html");
-                    string htmlTemplateNewEmail = System.IO.File.ReadAllText(@"D:\home\site\wwwroot\EmailChnage_NewEmail.html");
+                    string htmlTemplateOldEmail = System.IO.File.ReadAllText(@"D:\home\site\wwwroot\EmailTemplates\ChangeEmail\PreviousEmailDisabled_inlined_css.html");
+                    string htmlTemplateNewEmail = System.IO.File.ReadAllText(@"D:\home\site\wwwroot\EmailTemplates\ChangeEmail\ActivateNewEmail_inlined_css.html");
 
                     string from = Environment.GetEnvironmentVariable("SMTPFromAddress", EnvironmentVariableTarget.Process);
                     string emailChangeSubjectToNewEmail = Environment.GetEnvironmentVariable("EmailChangeConfirmationEmailSubjectNewEmail", EnvironmentVariableTarget.Process);
