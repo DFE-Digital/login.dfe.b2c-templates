@@ -16,7 +16,7 @@ trigger:
 
 variables:
 - name: applicationName
-  value: ncsauth
+  value: authncs
 - group: ncs-b2c-global
 
 stages:
