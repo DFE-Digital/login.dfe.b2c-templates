@@ -814,6 +814,10 @@
                             "value": "[parameters('ClientSigningKey')]"
                         },
                         {
+                            "name": "LinkExpiresAfterMinutes",
+                            "value": "5"
+                        },
+                        {
                             "name": "AccountActivationEmailExpiryInSeconds",
                             "value": "[parameters('AccountActivationEmailExpiryInSeconds')]"
                         },

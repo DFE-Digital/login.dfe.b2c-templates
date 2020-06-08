@@ -46,7 +46,7 @@ jobs:
       -servicePlanSkuCount "$(functionServicePlanSkuCount)"
       -secondaryStorageLocation "${{parameters.deploymentSecondaryLocation}}"
       -alertWebHookUrl "http://www.test.com"
-      -B2CTenant "${{parameters.environmentName}}authncs.onmicrosoft.com"
+      -B2CTenant "${{parameters.environmentName}}authncs"
       -B2CSignUpPolicy "$(b2cSignUpPolicy)"
       -B2CSignupConfirmPolicy "$(b2cSignupConfirmPolicy)"
       -B2CPasswordResetConfirmPolicy "$(b2cPasswordResetConfirmPoicy)"
@@ -70,7 +70,14 @@ jobs:
       -NCSDSSCreateCustomerApiUrl "https://at.api.nationalcareersservice.org.uk/customers/api/Customers/"
       -NCSDSSCreateContactApiUrl "https://at.api.nationalcareersservice.org.uk/contactdetails/api/customers/{0}/ContactDetails/"
       -NCSDSSCreateIdentityApiUrl "https://at.api.nationalcareersservice.org.uk/digitalidentities/api/identity"
-      -TouchpointId "1000000000"'
+      -TouchpointId "1000000000"
+      -B2CGraphAccessClientId "${{parameters.graphAccessClientId}}"
+      -B2CGraphAccessClientSecret "${{parameters.graphAccessClientSecret}}"
+      -EmailChangeConfirmationEmailSubjectNewEmail "Email change request"
+      -EmailChangeConfirmationEmailSubjectOldEmail "Email change request"
+      -B2CChangeEmailPolicy "B2C_1A_changeemail"
+      -ExtensionAppId "9509a3af9e674a7d9443a094c02c8e69"
+      '
       eapimRegister: ${{parameters.deployApim}}
       eapimServiceConnection: $(eapimServiceConnection)
       eapimEnvironment: ${{parameters.eapimEnvironmentName}}

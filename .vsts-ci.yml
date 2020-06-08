@@ -31,20 +31,26 @@ stages:
       applicationName: $(applicationName)
       webPublish: false
 
-# - stage: testTenantSetup
-#   displayName: Tenant Setup - TEST
-#   jobs:
-#   - template: yaml/jobs/tenant-setup.yml
-#     parameters:
-#       environmentName: test
-#       tenantId: $(testAzureB2cTenantId)
-#       uploaderPrincipalClientId: $(testAdoPrincipalClientId)
-#       uploaderPrincipalSecret: $(testAdoPrincipalSecret)
-#       proxyAppRegistrationClientId: $(testProxyIdentityFrameworkClientId)
-#       proxyAppRegistrationObjectId: $(testProxyIdentityFrameworkObjectId)
-#       eapimRootUrl: oat-api-customerengagement.platform.education.gov.uk
+- stage: deployDev
+  displayName: Deploy - DEV
+  jobs:
+  - template: yaml/jobs/deploy.yml
+    parameters:
+      environmentName: 'test'
+      environmentId: 't01'
+      serviceConnection: $(devServiceConnection)
+      subscriptionId: $(devSubscriptionId)
+      clientId: $(devAzureB2cTenantId)
+      graphAccessClientId: $(devGraphAccessClientId)
+      graphAccessClientSecret: $(devGraphAccessClientSecret)
+      deploymentPrimaryLocation: $(deploymentPrimaryLocation)
+      deploymentSecondaryLocation: $(deploymentSecondaryLocation)
+      deployApim: true
+      eapimEnvironmentName: 'Test'
 
 - stage: deployTest
+  dependsOn:
+  - deployDev
   displayName: Deploy - TEST
   jobs:
   - template: yaml/jobs/deploy.yml
@@ -54,24 +60,9 @@ stages:
       serviceConnection: $(testServiceConnection)
       subscriptionId: $(testSubscriptionId)
       clientId: $(testAzureB2cTenantId)
+      graphAccessClientId: $(testGraphAccessClientId)
+      graphAccessClientSecret: $(testGraphAccessClientSecret)
       deploymentPrimaryLocation: $(deploymentPrimaryLocation)
       deploymentSecondaryLocation: $(deploymentSecondaryLocation)
       deployApim: true
       eapimEnvironmentName: 'Test'
-
-# - stage: postDeployTest
-#   displayName: Post Deploy - TEST
-#   dependsOn: deployTest
-#   jobs:
-#   - job: azCli
-#     displayName: Add App Registrations
-#     pool:
-#       vmImage: ubuntu-latest
-#     steps:
-#     - template: yaml/steps/add-service-principals.yml
-#       parameters:
-#         serviceConnection: $(testServiceConnection)
-#         environmentName: 'test'
-#         identityFrameworkSecret: $(testIdentPrincipalSecret)
-#         proxyIdentityFrameworkSecret: $(testIdentProxyPrincipalSecret)
-#         graphAccessSecret: $(testGraphPrincipalSecret)
