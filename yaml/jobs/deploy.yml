@@ -67,9 +67,9 @@ jobs:
       -NCSDSSApiKey "$(ncsDssApiKey)"
       -NCSDSSSearchApiUrl "$(ncsDssSearchApiUrl)"
       -NCSDSSSearchApiVersion "$(ncsDssSearchApiVersion)"
-      -NCSDSSCreateCustomerApiUrl "$(ncsDssCreateCustomerApiUrl)"
-      -NCSDSSCreateContactApiUrl "$(ncsDssCreateContactApiUrl)"
-      -NCSDSSCreateIdentityApiUrl "$(NCSDSSCreateIdentityApiUrl)"
+      -NCSDSSCreateCustomerApiUrl "https://at.api.nationalcareersservice.org.uk/customers/api/Customers/"
+      -NCSDSSCreateContactApiUrl "https://at.api.nationalcareersservice.org.uk/contactdetails/api/customers/{0}/ContactDetails/"
+      -NCSDSSCreateIdentityApiUrl "https://at.api.nationalcareersservice.org.uk/digitalidentities/api/identity"
       -TouchpointId "1000000000"'
       eapimRegister: ${{parameters.deployApim}}
       eapimServiceConnection: $(eapimServiceConnection)
