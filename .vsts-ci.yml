@@ -48,8 +48,6 @@ stages:
 #       eapimEnvironmentName: 'Test'
 
 - stage: deployTest
-  dependsOn:
-  - deployDev
   displayName: Deploy - TEST
   jobs:
   - template: yaml/jobs/deploy.yml
