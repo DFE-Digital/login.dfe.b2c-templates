@@ -46,7 +46,7 @@ jobs:
         TokenStart: '__'
         TokenEnd: '__'
     - pwsh: |
-        $scriptPath = $env:BUILD_SOURCESDIRECTORY\scripts\UploadFrameworkPolicy.ps1
+        $scriptPath = "$($env:BUILD_SOURCESDIRECTORY)\scripts\UploadFrameworkPolicy.ps1"
         Write-Host Using Path : $scriptPath
 
         Write-Host UPLOADERPRINCIPALCLIENTID : $env:UPLOADERPRINCIPALCLIENTID
@@ -56,7 +56,7 @@ jobs:
         //Ex
         $policyId = "B2C_1A_TrustFrameworkBase_Invitation"
 
-        Write-Host EXAMPLE POLICY FILE PATH $env:BUILD_SOURCESDIRECTORY\policy\TrustFrameworkBase_Invitation.xml
+        Write-Host EXAMPLE POLICY FILE PATH "$($env:BUILD_SOURCESDIRECTORY)\policy\TrustFrameworkBase_Invitation.xml"
         Write-Host EXAMPLE POLICY ID : $policyId
 
         Write-Host EXAMPLE INVOCKATION $scriptPath $env:UPLOADERPRINCIPALCLIENTID $env:UPLOADERPRINCIPALSECRET $env:TENANTID $policyId $policyFile
