@@ -3,9 +3,9 @@
   xmlns:xsd="http://www.w3.org/2001/XMLSchema"
   xmlns="http://schemas.microsoft.com/online/cpim/schemas/2013/06"
   PolicySchemaVersion="0.3.0.0"
-  TenantId="testauthncs.onmicrosoft.com"
+  TenantId="__environmentName__authncs.onmicrosoft.com"
   PolicyId="B2C_1A_TrustFrameworkBase_Invitation"
-  PublicPolicyUri="http://testauthncs.onmicrosoft.com/B2C_1A_TrustFrameworkBase_Invitation">
+  PublicPolicyUri="http://__environmentName__authncs.onmicrosoft.com/B2C_1A_TrustFrameworkBase_Invitation">
 
   <BuildingBlocks>
     <ClaimsSchema>
@@ -79,20 +79,6 @@
           <Pattern RegularExpression="^((?=.*[a-z])(?=.*[A-Z])(?=.*\d)|(?=.*[a-z])(?=.*[A-Z])(?=.*[^A-Za-z0-9])|(?=.*[a-z])(?=.*\d)(?=.*[^A-Za-z0-9])|(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]))([A-Za-z\d@#$%^&amp;*\-_+=[\]{}|\\:',?/`~&quot;();!]|\.(?!@)){8,16}$" HelpText="This password is very weak" />
         </Restriction>
       </ClaimType>
-      <!-- The password regular expression above is constructed for AAD passwords based on restrictions at https://msdn.microsoft.com/en-us/library/azure/jj943764.aspx
-
-        ^( # one of the following four combinations must appear in the password
-         (?=.*[a-z])(?=.*[A-Z])(?=.*\d) |            # matches lower case, upper case or digit
-         (?=.*[a-z])(?=.*[A-Z])(?=.*[^A-Za-z0-9]) |  # matches lower case, upper case or special character (i.e. non-alpha or digit)
-         (?=.*[a-z])(?=.*\d)(?=.*[^A-Za-z0-9]) |     # matches lower case, digit, or special character
-         (?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9])       # matches upper case, digit, or special character
-        )
-        ( # The password must match the following restrictions
-         [A-Za-z\d@#$%^&*\-_+=[\]{}|\\:',?/`~"();!] |   # The list of all acceptable characters (without .)
-         \.(?!@)                                        # or . can appear as long as not followed by @
-        ) {8,16}$                                       # the length must be between 8 and 16 chars inclusive
-
-      -->
 
       <ClaimType Id="reenterPassword">
         <DisplayName>Re-type password</DisplayName>
@@ -177,7 +163,6 @@
         <UserHelpText>You'll need this to sign in to your account.</UserHelpText>
         <UserInputType>TextBox</UserInputType>
         <Restriction>
-          <!-- <Pattern RegularExpression="^[a-zA-Z0-9.!#$%&amp;'^_`{}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$" HelpText="Please enter a valid email address." /> -->
           <Pattern RegularExpression="^[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}$" HelpText="Enter a valid email address." />
         </Restriction>
       </ClaimType>
@@ -456,7 +441,7 @@
       </ContentDefinition>
 
       <ContentDefinition Id="api.signuporsignin">
-        <LoadUri>https://s141d01-signin-int.azurewebsites.net/b2c/login</LoadUri>
+        <LoadUri>https://__signinRedirectRoot__/b2c/login</LoadUri>
         <RecoveryUri>~/common/default_page_error.html</RecoveryUri>
         <!-- <DataUri>urn:com:microsoft:aad:b2c:elements:contract:unifiedssd:1.2.0</DataUri> -->
         <DataUri>urn:com:microsoft:aad:b2c:elements:contract:unifiedssp:1.2.0</DataUri>
@@ -478,7 +463,7 @@
       </ContentDefinition>
 
       <ContentDefinition Id="api.signup.emailsent">
-        <LoadUri>https://s141d01-signin-int.azurewebsites.net/b2c/email-sent</LoadUri>
+        <LoadUri>https://__signinRedirectRoot__/b2c/email-sent</LoadUri>
         <RecoveryUri>~/common/default_page_error.html</RecoveryUri>
         <DataUri>urn:com:microsoft:aad:b2c:elements:contract:selfasserted:1.2.0</DataUri>
         <Metadata>
@@ -487,7 +472,7 @@
       </ContentDefinition>
       
       <ContentDefinition Id="api.passwordreset.emailsent">
-        <LoadUri>https://s141d01-signin-int.azurewebsites.net/b2c/reset-password-email-sent</LoadUri>
+        <LoadUri>https://__signinRedirectRoot__/b2c/reset-password-email-sent</LoadUri>
         <RecoveryUri>~/common/default_page_error.html</RecoveryUri>
         <DataUri>urn:com:microsoft:aad:b2c:elements:contract:selfasserted:1.2.0</DataUri>
         <Metadata>
@@ -496,7 +481,7 @@
       </ContentDefinition>
 
       <ContentDefinition Id="api.passwordreset.passwordchanged">
-        <LoadUri>https://s141d01-signin-int.azurewebsites.net/b2c/password-changed</LoadUri>
+        <LoadUri>https://__signinRedirectRoot__/b2c/password-changed</LoadUri>
         <RecoveryUri>~/common/default_page_error.html</RecoveryUri>
         <DataUri>urn:com:microsoft:aad:b2c:elements:contract:selfasserted:1.2.0</DataUri>
         <Metadata>
@@ -505,7 +490,7 @@
       </ContentDefinition>
 
       <ContentDefinition Id="api.activated.account">
-        <LoadUri>https://s141d01-signin-int.azurewebsites.net/b2c/activated</LoadUri>
+        <LoadUri>https://__signinRedirectRoot__/b2c/activated</LoadUri>
         <RecoveryUri>~/common/default_page_error.html</RecoveryUri>
         <DataUri>urn:com:microsoft:aad:b2c:elements:contract:selfasserted:1.2.0</DataUri>
         <Metadata>
@@ -523,7 +508,7 @@
       </ContentDefinition>
 
       <ContentDefinition Id="api.localaccountsignup">
-        <LoadUri>https://s141d01-signin-int.azurewebsites.net/b2c/signup</LoadUri>
+        <LoadUri>https://__signinRedirectRoot__/b2c/signup</LoadUri>
         <RecoveryUri>~/common/default_page_error.html</RecoveryUri>
         <DataUri>urn:com:microsoft:aad:b2c:elements:contract:selfasserted:1.2.0</DataUri>
         <Metadata>
@@ -535,7 +520,7 @@
       </ContentDefinition>
 
       <ContentDefinition Id="api.localaccountaidedsignup">
-        <LoadUri>https://s141d01-signin-int.azurewebsites.net/b2c/B2C_1A_signup_invitation</LoadUri>
+        <LoadUri>https://__signinRedirectRoot__/b2c/B2C_1A_signup_invitation</LoadUri>
         <RecoveryUri>~/common/default_page_error.html</RecoveryUri>
         <DataUri>urn:com:microsoft:aad:b2c:elements:contract:selfasserted:1.2.0</DataUri>
         <Metadata>
@@ -547,7 +532,7 @@
       </ContentDefinition>
 
       <ContentDefinition Id="api.localaccountpasswordreset">
-        <LoadUri>https://s141d01-signin-int.azurewebsites.net/b2c/reset-password</LoadUri>
+        <LoadUri>https://__signinRedirectRoot__/b2c/reset-password</LoadUri>
         <RecoveryUri>~/common/default_page_error.html</RecoveryUri>
         <DataUri>urn:com:microsoft:aad:b2c:elements:contract:selfasserted:1.2.0</DataUri>
         <Metadata>
@@ -556,7 +541,7 @@
       </ContentDefinition>
 
       <ContentDefinition Id="api.localaccountpasswordreset.newcredentials">
-        <LoadUri>https://s141d01-signin-int.azurewebsites.net/b2c/enter-new-password</LoadUri>
+        <LoadUri>https://__signinRedirectRoot__/b2c/enter-new-password</LoadUri>
         <RecoveryUri>~/common/default_page_error.html</RecoveryUri>
         <DataUri>urn:com:microsoft:aad:b2c:elements:contract:selfasserted:1.2.0</DataUri>
         <Metadata>
@@ -566,7 +551,7 @@
 
 
       <ContentDefinition Id="api.localaccountforgotemail">
-        <LoadUri>https://s141d01-signin-int.azurewebsites.net/b2c/forgotten-email</LoadUri>
+        <LoadUri>https://__signinRedirectRoot__/b2c/forgotten-email</LoadUri>
         <RecoveryUri>~/common/default_page_error.html</RecoveryUri>
         <DataUri>urn:com:microsoft:aad:b2c:elements:contract:selfasserted:1.2.0</DataUri>
         <Metadata>
@@ -575,7 +560,7 @@
       </ContentDefinition>
       
       <ContentDefinition Id="api.localaccountforgotemail.emailnotfound">
-        <LoadUri>https://s141d01-signin-int.azurewebsites.net/b2c/account-not-found</LoadUri>
+        <LoadUri>https://__signinRedirectRoot__/b2c/account-not-found</LoadUri>
         <RecoveryUri>~/common/default_page_error.html</RecoveryUri>
         <DataUri>urn:com:microsoft:aad:b2c:elements:contract:selfasserted:1.2.0</DataUri>
         <Metadata>
@@ -584,7 +569,7 @@
       </ContentDefinition>
 
       <ContentDefinition Id="api.localaccountforgotemail.emailfound">
-        <LoadUri>https://s141d01-signin-int.azurewebsites.net/b2c/account-found</LoadUri>
+        <LoadUri>https://__signinRedirectRoot__/b2c/account-found</LoadUri>
         <RecoveryUri>~/common/default_page_error.html</RecoveryUri>
         <DataUri>urn:com:microsoft:aad:b2c:elements:contract:selfasserted:1.2.0</DataUri>
         <Metadata>
@@ -704,8 +689,8 @@
           <DisplayName>Azure Active Directory</DisplayName>
           <Protocol Name="Proprietary" Handler="Web.TPEngine.Providers.AzureActiveDirectoryProvider, Web.TPEngine, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" />
           <Metadata>
-              <Item Key="ApplicationObjectId">1bf71233-e827-47ff-88e5-1068d423d68b</Item>
-              <Item Key="ClientId">1bf71233-e827-47ff-88e5-1068d423d68b</Item>
+              <Item Key="ApplicationObjectId">__proxyIdentAppRegistrationObjectId__</Item>
+              <Item Key="ClientId">__proxyIdentAppRegistrationClientId__</Item>
           </Metadata>
           <CryptographicKeys>
             <Key Id="issuer_secret" StorageReferenceId="B2C_1A_TokenSigningKeyContainer" />

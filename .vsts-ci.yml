@@ -29,6 +29,21 @@ stages:
       applicationName: $(applicationName)
       webPublish: false
 
+- stage: testTenantSetup
+  displayName: Tenant Setup - TEST
+  jobs:
+  - template: yaml/jobs/tenant-setup.yml
+    parameters:
+      environmentName: test
+      tenantId: $(testAzureB2cTenantId)
+      uploaderPrincipalClientId: $(testPipelineMangementClientId)
+      uploaderPrincipalSecret: $(testPipelineManagementClientSecret)
+      proxyAppRegistrationClientId: $(testProxyIdentityFrameworkClientId)
+      proxyAppRegistrationObjectId: $(testProxyIdentityFrameworkObjectId)
+      identAppRegistrationClientId: 
+      signinRedirectRoot: s141d01-signin-int.azurewebsites.net
+      eapimRootUrl: oat-api-customerengagement.platform.education.gov.uk
+
 # - stage: deployDev
 #   displayName: Deploy - DEV
 #   jobs:
@@ -47,21 +62,21 @@ stages:
 #       deployApim: true
 #       eapimEnvironmentName: 'Test'
 
-- stage: deployTest
-  displayName: Deploy - TEST
-  jobs:
-  - template: yaml/jobs/deploy.yml
-    parameters:
-      applicationName: $(applicationName)
-      environmentName: 'test'
-      environmentId: 't01'
-      serviceConnection: $(testServiceConnection)
-      subscriptionId: $(testSubscriptionId)
-      clientId: $(testAzureB2cTenantId)
-      clientSigningKey: $(testClientSigningKey)
-      graphAccessClientId: $(testGraphAccessClientId)
-      graphAccessClientSecret: $(testGraphAccessClientSecret)
-      deploymentPrimaryLocation: $(deploymentPrimaryLocation)
-      deploymentSecondaryLocation: $(deploymentSecondaryLocation)
-      deployApim: true
-      eapimEnvironmentName: 'Test'
+# - stage: deployTest
+#   displayName: Deploy - TEST
+#   jobs:
+#   - template: yaml/jobs/deploy.yml
+#     parameters:
+#       applicationName: $(applicationName)
+#       environmentName: 'test'
+#       environmentId: 't01'
+#       serviceConnection: $(testServiceConnection)
+#       subscriptionId: $(testSubscriptionId)
+#       clientId: $(testAzureB2cTenantId)
+#       clientSigningKey: $(testClientSigningKey)
+#       graphAccessClientId: $(testGraphAccessClientId)
+#       graphAccessClientSecret: $(testGraphAccessClientSecret)
+#       deploymentPrimaryLocation: $(deploymentPrimaryLocation)
+#       deploymentSecondaryLocation: $(deploymentSecondaryLocation)
+#       deployApim: true
+#       eapimEnvironmentName: 'Test'

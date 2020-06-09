@@ -4,20 +4,19 @@
   xmlns:xsd="http://www.w3.org/2001/XMLSchema"
   xmlns="http://schemas.microsoft.com/online/cpim/schemas/2013/06"
   PolicySchemaVersion="0.3.0.0"
-  TenantId="testauthncs.onmicrosoft.com"
-  PolicyId="B2C_1A_Find_Email"
-  PublicPolicyUri="http://testauthncs.onmicrosoft.com/B2C_1A_Find_Email"
+  TenantId="__environmentName__authncs.onmicrosoft.com"
+  PolicyId="B2C_1A_SignUp_Invitation"
+  PublicPolicyUri="http://__environmentName__authncs.onmicrosoft.com/B2C_1A_SignUp_Invitation"
   DeploymentMode="Development"
   UserJourneyRecorderEndpoint="urn:journeyrecorder:applicationinsights">
 
   <BasePolicy>
-    <TenantId>testauthncs.onmicrosoft.com</TenantId>
+    <TenantId>__environmentName__authncs.onmicrosoft.com</TenantId>
     <PolicyId>B2C_1A_TrustFrameworkExtensions_Invitation</PolicyId>
   </BasePolicy>
 
-
   <RelyingParty>
-    <DefaultUserJourney ReferenceId="Find_Email" />
+    <DefaultUserJourney ReferenceId="SignUp_Invitation" />
     <UserJourneyBehaviors>
         <JourneyInsights TelemetryEngine="ApplicationInsights" InstrumentationKey="1804da14-6a11-4b44-a6ff-2000f360bd87" DeveloperMode="true" ClientEnabled="false" ServerEnabled="true" TelemetryVersion="1.0.0" />
         <ScriptExecution>Allow</ScriptExecution>
@@ -25,11 +24,25 @@
     <TechnicalProfile Id="PolicyProfile">
       <DisplayName>PolicyProfile</DisplayName>
       <Protocol Name="OpenIdConnect" />
+
+	    <!--Sample: Set the input claims to be read from the id_token_hint-->
+      <InputClaims>
+        <InputClaim ClaimTypeReferenceId="email" PartnerClaimType="email" />
+        <InputClaim ClaimTypeReferenceId="givenName" PartnerClaimType="givenName" />
+        <InputClaim ClaimTypeReferenceId="surname" PartnerClaimType="surname" />
+        <InputClaim ClaimTypeReferenceId="customerId" PartnerClaimType="customerId" />
+        <InputClaim ClaimTypeReferenceId="expiry" PartnerClaimType="expiry" />
+      </InputClaims>
+	  
       <OutputClaims>
+        <OutputClaim ClaimTypeReferenceId="givenName" />
+        <OutputClaim ClaimTypeReferenceId="surname" />
+        <OutputClaim ClaimTypeReferenceId="email" />
+        <OutputClaim ClaimTypeReferenceId="objectId" PartnerClaimType="sub"/>
         <OutputClaim ClaimTypeReferenceId="tenantId" AlwaysUseDefaultValue="true" DefaultValue="{Policy:TenantObjectId}" />
-		    <OutputClaim ClaimTypeReferenceId="objectId" PartnerClaimType="sub"/>
       </OutputClaims>
       <SubjectNamingInfo ClaimType="sub" />
     </TechnicalProfile>
   </RelyingParty>
+
 </TrustFrameworkPolicy>

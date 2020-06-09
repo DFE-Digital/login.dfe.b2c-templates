@@ -1,0 +1,14 @@
+environmentName : env
+signinRedirectRoot : s141d01-signin-int.azurewebsites.net
+proxyIdentAppRegistrationObjectId
+proxyIdentAppRegistrationClientId
+identAppRegistrationClientId
+eapimRootUrl : dev-api-customerengagement.platform.education.gov.uk
+
+
+test:
+
+PipelineManagement
+
+clientId : e52178b9-0d77-4121-a59f-d92e0b8b7fd2
+secret : Ppe0~4HQmK4mKg56I~g4GI_sUEWnS..vL5

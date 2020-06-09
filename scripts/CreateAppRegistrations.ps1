@@ -8,7 +8,7 @@ Param(
 )
 
 $identAppName = "IdentityExperienceFramework"
-$identAppReplyUrl = "https://$($environment)authncs.b2clogin.com/devauthncs.onmicrosoft.com"
+$identAppReplyUrl = "https://$($environment)authncs.b2clogin.com/$($environment)authncs.onmicrosoft.com"
 $proxyAppName = "ProxyIdentityExperienceFramework"
 $proxyAppReplyUrl = "https://$($environment)authncs.b2clogin.com/oauth2/nativeclient"
 $graphAccessAppName = "GraphAccess"
