@@ -44,19 +44,13 @@ jobs:
     - pwsh: |
         $scriptPath = "$($env:BUILD_SOURCESDIRECTORY)\scripts\UploadFrameworkPolicy.ps1"
         Write-Host Using Path : $scriptPath
-
         Write-Host UPLOADER_PRINCIPAL_CLIENTID : $env:UPLOADER_PRINCIPAL_CLIENTID
         Write-Host UPLOADER_PRINCIPAL_SECRET : $env:UPLOADER_PRINCIPAL_SECRET
         Write-Host TENANT_ID : $env:TENANT_ID
 
         $policyId = "B2C_1A_TrustFrameworkBase_Invitation"
-
-        Write-Host EXAMPLE POLICY FILE PATH "$($env:BUILD_SOURCESDIRECTORY)\policy\TrustFrameworkBase_Invitation.xml"
-        Write-Host EXAMPLE POLICY ID : $policyId
-
-        # $policyId = "B2C_1A_TrustFrameworkBase_Invitation"
-        # $policyFile = $env:BUILD_SOURCESDIRECTORY\policy\TrustFrameworkBase_Invitation.xml
-        # Invoke-Expression "$scriptPath $env:UPLOADERPRINCIPALCLIENTID $env:UPLOADER_PRINCIPAL_SECRET $env:TENANT_ID $policyId $policyFile"
+        $policyFile = "$($env:BUILD_SOURCESDIRECTORY)\policy\TrustFrameworkBase_Invitation.xml"
+        Invoke-Expression "$($scriptPath) $($env:UPLOADER_PRINCIPAL_CLIENTID) $($env:UPLOADER_PRINCIPAL_SECRET) $($env:TENANT_ID) $($policyId) $($policyFile)"
 
         # $policyId = "B2C_1A_TrustFrameworkExtensions_Invitation"
         # $policyFile = $env:BUILD_SOURCESDIRECTORY\policy\TrustFrameworkBase_Invitation.xml
