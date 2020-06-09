@@ -38,9 +38,9 @@ stages:
       tenantId: $(testAzureB2cTenantId)
       uploaderPrincipalClientId: $(testPipelineMangementClientId)
       uploaderPrincipalSecret: $(testPipelineManagementClientSecret)
-      proxyAppRegistrationClientId: $(testProxyIdentityFrameworkClientId)
-      proxyAppRegistrationObjectId: $(testProxyIdentityFrameworkObjectId)
-      identAppRegistrationClientId: 
+      proxyAppRegistrationClientId: $(testProxyIdentityAppClientId)
+      proxyAppRegistrationObjectId: $(testProxyIdentityAppObjectId)
+      identAppRegistrationClientId: $(testIdentityAppClientId)
       signinRedirectRoot: s141d01-signin-int.azurewebsites.net
       eapimRootUrl: oat-api-customerengagement.platform.education.gov.uk
 
