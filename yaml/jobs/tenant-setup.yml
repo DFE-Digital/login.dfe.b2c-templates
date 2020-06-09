@@ -40,7 +40,7 @@ jobs:
     - task: Tokenization@2
       displayName: Tokenise Policy Files
       inputs:
-        SourcePath: '$(Build.SourcesDirectory)\policy\test\'
+        SourcePath: '$(Build.SourcesDirectory)\policy\'
         TargetFileNames: '*.xml'
         RequireVariable: true
         TokenStart: '__'
