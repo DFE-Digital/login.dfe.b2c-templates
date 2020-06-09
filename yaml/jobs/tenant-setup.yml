@@ -31,8 +31,8 @@ jobs:
     uploaderPrincipalSecret:  ${{parameters.uploaderPrincipalSecret}}
     #interpolation - these are used by the interpolation step to customise the policies per environment
     environmentName: ${{parameters.environmentName}}
-    proxyAppRegistrationClientId: ${{parameters.proxyAppRegistrationClientId}}
-    proxyAppRegistrationObjectId: ${{parameters.proxyAppRegistrationObjectId}}
+    proxyIdentAppRegistrationClientId: ${{parameters.proxyAppRegistrationClientId}}
+    proxyIdentAppRegistrationObjectId: ${{parameters.proxyAppRegistrationObjectId}}
     identAppRegistrationClientId: ${{parameters.identAppRegistrationClientId}}
     signinRedirectRoot: ${{parameters.signinRedirectRoot}}
     eapimRootUrl: ${{parameters.eapimRootUrl}}
