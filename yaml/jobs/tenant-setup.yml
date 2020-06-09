@@ -5,7 +5,7 @@ parameters:
   type: string
 - name: uploaderPrincipalClientId
   type: string
-- name: uploaderPrincipalSecret
+- name: uploaderPrincipalClientSecret
   type: string
   secret: true
 - name: proxyAppRegistrationClientId
@@ -18,7 +18,6 @@ parameters:
   type: string
 - name: eapimRootUrl
   type: string
-
   
 jobs:
 - job: tenantSetup
@@ -27,9 +26,6 @@ jobs:
     vmImage: windows-latest
   variables:
     #Uploader identity
-    tenantId: ${{parameters.tenantId}}
-    uploaderPrincipalClientId: ${{parameters.uploaderPrincipalClientId}}
-    uploaderPrincipalSecret:  ${{parameters.uploaderPrincipalSecret}}
     #interpolation - these are used by the interpolation step to customise the policies per environment
     environmentName: ${{parameters.environmentName}}
     proxyIdentAppRegistrationClientId: ${{parameters.proxyAppRegistrationClientId}}
@@ -51,8 +47,8 @@ jobs:
         Write-Host Using Path : $scriptPath
 
         Write-Host UPLOADERPRINCIPALCLIENTID : $env:UPLOADERPRINCIPALCLIENTID
-        Write-Host UPLOADERPRINCIPALSECRET : $env:UPLOADERPRINCIPALSECRET
-        Write-Host TENANTID : $env:TENANTID
+        Write-Host UPLOADER_PRINCIPAL_SECRET : $env:UPLOADER_PRINCIPAL_SECRET
+        Write-Host TENANT_ID : $env:TENANT_ID
 
         $policyId = "B2C_1A_TrustFrameworkBase_Invitation"
 
@@ -61,41 +57,44 @@ jobs:
 
         # $policyId = "B2C_1A_TrustFrameworkBase_Invitation"
         # $policyFile = $env:BUILD_SOURCESDIRECTORY\policy\TrustFrameworkBase_Invitation.xml
-        # Invoke-Expression "$scriptPath $env:UPLOADERPRINCIPALCLIENTID $env:UPLOADERPRINCIPALSECRET $env:TENANTID $policyId $policyFile"
+        # Invoke-Expression "$scriptPath $env:UPLOADERPRINCIPALCLIENTID $env:UPLOADER_PRINCIPAL_SECRET $env:TENANT_ID $policyId $policyFile"
 
         # $policyId = "B2C_1A_TrustFrameworkExtensions_Invitation"
         # $policyFile = $env:BUILD_SOURCESDIRECTORY\policy\TrustFrameworkBase_Invitation.xml
-        # Invoke-Expression "$scriptPath $env:UPLOADERPRINCIPALCLIENTID $env:UPLOADERPRINCIPALSECRET $env:TENANTID $policyId $policyFile"
+        # Invoke-Expression "$scriptPath $env:UPLOADERPRINCIPALCLIENTID $env:UPLOADER_PRINCIPAL_SECRET $env:TENANT_ID $policyId $policyFile"
 
         # $policyId = "B2C_1A_Account_Signup"
         # $policyFile = $env:BUILD_SOURCESDIRECTORY\policy\Account_Signup.xml
-        # Invoke-Expression "$scriptPath $env:UPLOADERPRINCIPALCLIENTID $env:UPLOADERPRINCIPALSECRET $env:TENANTID $policyId $policyFile"
+        # Invoke-Expression "$scriptPath $env:UPLOADERPRINCIPALCLIENTID $env:UPLOADER_PRINCIPAL_SECRET $env:TENANT_ID $policyId $policyFile"
 
         # $policyId = "B2C_1A_Find_Email"
         # $policyFile = $env:BUILD_SOURCESDIRECTORY\policy\Find_Email.xml
-        # Invoke-Expression "$scriptPath $env:UPLOADERPRINCIPALCLIENTID $env:UPLOADERPRINCIPALSECRET $env:TENANTID $policyId $policyFile"
+        # Invoke-Expression "$scriptPath $env:UPLOADERPRINCIPALCLIENTID $env:UPLOADER_PRINCIPAL_SECRET $env:TENANT_ID $policyId $policyFile"
 
         # $policyId = "B2C_1A_Password_Reset_Conformation"
         # $policyFile = $env:BUILD_SOURCESDIRECTORY\policy\Password_Reset_Confirmation.xml
-        # Invoke-Expression "$scriptPath $env:UPLOADERPRINCIPALCLIENTID $env:UPLOADERPRINCIPALSECRET $env:TENANTID $policyId $policyFile"
+        # Invoke-Expression "$scriptPath $env:UPLOADERPRINCIPALCLIENTID $env:UPLOADER_PRINCIPAL_SECRET $env:TENANT_ID $policyId $policyFile"
 
         # $policyId = "B2C_1A_Password_Reset"
         # $policyFile = $env:BUILD_SOURCESDIRECTORY\policy\Password_Reset.xml
-        # Invoke-Expression "$scriptPath $env:UPLOADERPRINCIPALCLIENTID $env:UPLOADERPRINCIPALSECRET $env:TENANTID $policyId $policyFile"
+        # Invoke-Expression "$scriptPath $env:UPLOADERPRINCIPALCLIENTID $env:UPLOADER_PRINCIPAL_SECRET $env:TENANT_ID $policyId $policyFile"
 
         # $policyId = "B2C_1A_Signin_Invitation"
         # $policyFile = $env:BUILD_SOURCESDIRECTORY\policy\Signin_Invitation.xml
-        # Invoke-Expression "$scriptPath $env:UPLOADERPRINCIPALCLIENTID $env:UPLOADERPRINCIPALSECRET $env:TENANTID $policyId $policyFile"
+        # Invoke-Expression "$scriptPath $env:UPLOADERPRINCIPALCLIENTID $env:UPLOADER_PRINCIPAL_SECRET $env:TENANT_ID $policyId $policyFile"
 
         # $policyId = "B2C_1A_Signup_Confirmation"
         # $policyFile = $env:BUILD_SOURCESDIRECTORY\policy\Signup_Confirmation.xml
-        # Invoke-Expression "$scriptPath $env:UPLOADERPRINCIPALCLIENTID $env:UPLOADERPRINCIPALSECRET $env:TENANTID $policyId $policyFile"
+        # Invoke-Expression "$scriptPath $env:UPLOADERPRINCIPALCLIENTID $env:UPLOADER_PRINCIPAL_SECRET $env:TENANT_ID $policyId $policyFile"
 
         # $policyId = "B2C_1A_Signup_Invitation"
         # $policyFile = $env:BUILD_SOURCESDIRECTORY\policy\Signup_Invitation.xml
-        # Invoke-Expression "$scriptPath $env:UPLOADERPRINCIPALCLIENTID $env:UPLOADERPRINCIPALSECRET $env:TENANTID $policyId $policyFile"
+        # Invoke-Expression "$scriptPath $env:UPLOADERPRINCIPALCLIENTID $env:UPLOADER_PRINCIPAL_SECRET $env:TENANT_ID $policyId $policyFile"
 
         Write-Host 'Upload Complete'
-
+      env:
+        TENANT_ID: ${{parameters.tenantId}}
+        UPLOADER_PRINCIPAL_SECRET: ${{parameters.uploaderPrincipalClientSecret}}
+        UPLOADER_PRINCIPAL_CLIENTID : ${{parameters.uploaderPrincipalClientId}}
       displayName: Policy Upload
 
