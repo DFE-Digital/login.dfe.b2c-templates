@@ -38,7 +38,7 @@ stages:
       environmentName: test
       tenantId: $(testAzureB2cTenantId)
       uploaderPrincipalClientId: $(testPipelineMangementClientId)
-      uploaderPrincipalSecret: $(testPipelineManagementClientSecret)
+      uploaderPrincipalClientSecret: $(testPipelineManagementClientSecret)
       proxyAppRegistrationClientId: $(testProxyIdentityAppClientId)
       proxyAppRegistrationObjectId: $(testProxyIdentityAppObjectId)
       identAppRegistrationClientId: $(testIdentityAppClientId)
