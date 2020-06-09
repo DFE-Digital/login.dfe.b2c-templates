@@ -7,7 +7,6 @@ parameters:
   type: string
 - name: uploaderPrincipalClientSecret
   type: string
-  secret: true
 - name: proxyAppRegistrationClientId
   type: string
 - name: proxyAppRegistrationObjectId
