@@ -53,13 +53,12 @@ jobs:
         Write-Host UPLOADERPRINCIPALSECRET : $env:UPLOADERPRINCIPALSECRET
         Write-Host TENANTID : $env:TENANTID
 
-        //Ex
         $policyId = "B2C_1A_TrustFrameworkBase_Invitation"
 
         Write-Host EXAMPLE POLICY FILE PATH "$($env:BUILD_SOURCESDIRECTORY)\policy\TrustFrameworkBase_Invitation.xml"
         Write-Host EXAMPLE POLICY ID : $policyId
 
-        Write-Host EXAMPLE INVOCKATION $scriptPath $env:UPLOADERPRINCIPALCLIENTID $env:UPLOADERPRINCIPALSECRET $env:TENANTID $policyId $policyFile
+        Write-Host EXAMPLE INVOCKATION  $scriptPath | $env:UPLOADERPRINCIPALCLIENTID | $env:UPLOADERPRINCIPALSECRET | $env:TENANTID | $policyId | $policyFile
 
         # $policyId = "B2C_1A_TrustFrameworkBase_Invitation"
         # $policyFile = $env:BUILD_SOURCESDIRECTORY\policy\TrustFrameworkBase_Invitation.xml
