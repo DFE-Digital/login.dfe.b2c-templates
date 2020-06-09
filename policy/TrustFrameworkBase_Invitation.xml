@@ -3,9 +3,9 @@
   xmlns:xsd="http://www.w3.org/2001/XMLSchema"
   xmlns="http://schemas.microsoft.com/online/cpim/schemas/2013/06"
   PolicySchemaVersion="0.3.0.0"
-  TenantId="__environmentName__authncs.onmicrosoft.com"
+  TenantId="{{environmentName}}authncs.onmicrosoft.com"
   PolicyId="B2C_1A_TrustFrameworkBase_Invitation"
-  PublicPolicyUri="http://__environmentName__authncs.onmicrosoft.com/B2C_1A_TrustFrameworkBase_Invitation">
+  PublicPolicyUri="http://{{environmentName}}authncs.onmicrosoft.com/B2C_1A_TrustFrameworkBase_Invitation">
 
   <BuildingBlocks>
     <ClaimsSchema>
@@ -441,7 +441,7 @@
       </ContentDefinition>
 
       <ContentDefinition Id="api.signuporsignin">
-        <LoadUri>https://__signinRedirectRoot__/b2c/login</LoadUri>
+        <LoadUri>https://{{signinRedirectRoot}}/b2c/login</LoadUri>
         <RecoveryUri>~/common/default_page_error.html</RecoveryUri>
         <!-- <DataUri>urn:com:microsoft:aad:b2c:elements:contract:unifiedssd:1.2.0</DataUri> -->
         <DataUri>urn:com:microsoft:aad:b2c:elements:contract:unifiedssp:1.2.0</DataUri>
@@ -463,7 +463,7 @@
       </ContentDefinition>
 
       <ContentDefinition Id="api.signup.emailsent">
-        <LoadUri>https://__signinRedirectRoot__/b2c/email-sent</LoadUri>
+        <LoadUri>https://{{signinRedirectRoot}}/b2c/email-sent</LoadUri>
         <RecoveryUri>~/common/default_page_error.html</RecoveryUri>
         <DataUri>urn:com:microsoft:aad:b2c:elements:contract:selfasserted:1.2.0</DataUri>
         <Metadata>
@@ -472,7 +472,7 @@
       </ContentDefinition>
       
       <ContentDefinition Id="api.passwordreset.emailsent">
-        <LoadUri>https://__signinRedirectRoot__/b2c/reset-password-email-sent</LoadUri>
+        <LoadUri>https://{{signinRedirectRoot}}/b2c/reset-password-email-sent</LoadUri>
         <RecoveryUri>~/common/default_page_error.html</RecoveryUri>
         <DataUri>urn:com:microsoft:aad:b2c:elements:contract:selfasserted:1.2.0</DataUri>
         <Metadata>
@@ -481,7 +481,7 @@
       </ContentDefinition>
 
       <ContentDefinition Id="api.passwordreset.passwordchanged">
-        <LoadUri>https://__signinRedirectRoot__/b2c/password-changed</LoadUri>
+        <LoadUri>https://{{signinRedirectRoot}}/b2c/password-changed</LoadUri>
         <RecoveryUri>~/common/default_page_error.html</RecoveryUri>
         <DataUri>urn:com:microsoft:aad:b2c:elements:contract:selfasserted:1.2.0</DataUri>
         <Metadata>
@@ -490,7 +490,7 @@
       </ContentDefinition>
 
       <ContentDefinition Id="api.activated.account">
-        <LoadUri>https://__signinRedirectRoot__/b2c/activated</LoadUri>
+        <LoadUri>https://{{signinRedirectRoot}}/b2c/activated</LoadUri>
         <RecoveryUri>~/common/default_page_error.html</RecoveryUri>
         <DataUri>urn:com:microsoft:aad:b2c:elements:contract:selfasserted:1.2.0</DataUri>
         <Metadata>
@@ -508,7 +508,7 @@
       </ContentDefinition>
 
       <ContentDefinition Id="api.localaccountsignup">
-        <LoadUri>https://__signinRedirectRoot__/b2c/signup</LoadUri>
+        <LoadUri>https://{{signinRedirectRoot}}/b2c/signup</LoadUri>
         <RecoveryUri>~/common/default_page_error.html</RecoveryUri>
         <DataUri>urn:com:microsoft:aad:b2c:elements:contract:selfasserted:1.2.0</DataUri>
         <Metadata>
@@ -520,7 +520,7 @@
       </ContentDefinition>
 
       <ContentDefinition Id="api.localaccountaidedsignup">
-        <LoadUri>https://__signinRedirectRoot__/b2c/B2C_1A_signup_invitation</LoadUri>
+        <LoadUri>https://{{signinRedirectRoot}}/b2c/B2C_1A_signup_invitation</LoadUri>
         <RecoveryUri>~/common/default_page_error.html</RecoveryUri>
         <DataUri>urn:com:microsoft:aad:b2c:elements:contract:selfasserted:1.2.0</DataUri>
         <Metadata>
@@ -532,7 +532,7 @@
       </ContentDefinition>
 
       <ContentDefinition Id="api.localaccountpasswordreset">
-        <LoadUri>https://__signinRedirectRoot__/b2c/reset-password</LoadUri>
+        <LoadUri>https://{{signinRedirectRoot}}/b2c/reset-password</LoadUri>
         <RecoveryUri>~/common/default_page_error.html</RecoveryUri>
         <DataUri>urn:com:microsoft:aad:b2c:elements:contract:selfasserted:1.2.0</DataUri>
         <Metadata>
@@ -541,7 +541,7 @@
       </ContentDefinition>
 
       <ContentDefinition Id="api.localaccountpasswordreset.newcredentials">
-        <LoadUri>https://__signinRedirectRoot__/b2c/enter-new-password</LoadUri>
+        <LoadUri>https://{{signinRedirectRoot}}/b2c/enter-new-password</LoadUri>
         <RecoveryUri>~/common/default_page_error.html</RecoveryUri>
         <DataUri>urn:com:microsoft:aad:b2c:elements:contract:selfasserted:1.2.0</DataUri>
         <Metadata>
@@ -551,7 +551,7 @@
 
 
       <ContentDefinition Id="api.localaccountforgotemail">
-        <LoadUri>https://__signinRedirectRoot__/b2c/forgotten-email</LoadUri>
+        <LoadUri>https://{{signinRedirectRoot}}/b2c/forgotten-email</LoadUri>
         <RecoveryUri>~/common/default_page_error.html</RecoveryUri>
         <DataUri>urn:com:microsoft:aad:b2c:elements:contract:selfasserted:1.2.0</DataUri>
         <Metadata>
@@ -560,7 +560,7 @@
       </ContentDefinition>
       
       <ContentDefinition Id="api.localaccountforgotemail.emailnotfound">
-        <LoadUri>https://__signinRedirectRoot__/b2c/account-not-found</LoadUri>
+        <LoadUri>https://{{signinRedirectRoot}}/b2c/account-not-found</LoadUri>
         <RecoveryUri>~/common/default_page_error.html</RecoveryUri>
         <DataUri>urn:com:microsoft:aad:b2c:elements:contract:selfasserted:1.2.0</DataUri>
         <Metadata>
@@ -569,7 +569,7 @@
       </ContentDefinition>
 
       <ContentDefinition Id="api.localaccountforgotemail.emailfound">
-        <LoadUri>https://__signinRedirectRoot__/b2c/account-found</LoadUri>
+        <LoadUri>https://{{signinRedirectRoot}}/b2c/account-found</LoadUri>
         <RecoveryUri>~/common/default_page_error.html</RecoveryUri>
         <DataUri>urn:com:microsoft:aad:b2c:elements:contract:selfasserted:1.2.0</DataUri>
         <Metadata>
@@ -689,8 +689,8 @@
           <DisplayName>Azure Active Directory</DisplayName>
           <Protocol Name="Proprietary" Handler="Web.TPEngine.Providers.AzureActiveDirectoryProvider, Web.TPEngine, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" />
           <Metadata>
-              <Item Key="ApplicationObjectId">__proxyIdentAppRegistrationObjectId__</Item>
-              <Item Key="ClientId">__proxyIdentAppRegistrationClientId__</Item>
+              <Item Key="ApplicationObjectId">{{proxyIdentAppRegistrationObjectId}}</Item>
+              <Item Key="ClientId">{{proxyIdentAppRegistrationClientId}}</Item>
           </Metadata>
           <CryptographicKeys>
             <Key Id="issuer_secret" StorageReferenceId="B2C_1A_TokenSigningKeyContainer" />

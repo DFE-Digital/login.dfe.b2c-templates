@@ -39,8 +39,8 @@ jobs:
         SourcePath: '$(Build.SourcesDirectory)\policy\'
         TargetFileNames: '*.xml'
         RequireVariable: true
-        TokenStart: '__'
-        TokenEnd: '__'
+        TokenStart: '{{'
+        TokenEnd: '}}'
     - pwsh: |
         $scriptPath = "$($env:BUILD_SOURCESDIRECTORY)\scripts\UploadFrameworkPolicy.ps1"
         Write-Host Using Path : $scriptPath
@@ -58,7 +58,7 @@ jobs:
 
         # $policyId = "B2C_1A_Account_Signup"
         # $policyFile = "$($env:BUILD_SOURCESDIRECTORY)\policy\Account_Signup.xml"
-        # Invoke-Expression "$($scriptPath) $($env:UPLOADER_PRINCIPAL_CLIENTID) $($env:UPLOADER_PRINCIPAL_SECRET) $($env:TENANT_ID) $($policyId) $($policyFile)"e"
+        # Invoke-Expression "$($scriptPath) $($env:UPLOADER_PRINCIPAL_CLIENTID) $($env:UPLOADER_PRINCIPAL_SECRET) $($env:TENANT_ID) $($policyId) $($policyFile)"
 
         # $policyId = "B2C_1A_Find_Email"
         # policyFile = "$($env:BUILD_SOURCESDIRECTORY)policy\Find_Email.xml"
