@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 <TrustFrameworkPolicy 
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
   xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
@@ -34,6 +34,7 @@
       
         <!--Sample: Stores the error message for unsolicited request (a request without id_token_hint) and user not found-->
         <ClaimType Id="errorMessage">
+          <DisplayName>Error</DisplayName>
           <DisplayName>Error</DisplayName>
           <DataType>string</DataType>
           <UserHelpText>Add help text here</UserHelpText>
