@@ -80,13 +80,13 @@ jobs:
         $policyFile = "$($env:BUILD_SOURCESDIRECTORY)\policy\Signin_Invitation.xml"
         Invoke-Expression "$($scriptPath) $($env:UPLOADER_PRINCIPAL_CLIENTID) $($env:UPLOADER_PRINCIPAL_SECRET) $($env:TENANT_ID) $($policyId) $($policyFile)"
 
-        # $policyId = "B2C_1A_Signup_Confirmation"
-        # $policyFile = "$($env:BUILD_SOURCESDIRECTORY)\policy\Signup_Confirmation.xml"
-        # Invoke-Expression "$($scriptPath) $($env:UPLOADER_PRINCIPAL_CLIENTID) $($env:UPLOADER_PRINCIPAL_SECRET) $($env:TENANT_ID) $($policyId) $($policyFile)"
+        $policyId = "B2C_1A_Signup_Confirmation"
+        $policyFile = "$($env:BUILD_SOURCESDIRECTORY)\policy\Signup_Confirmation.xml"
+        Invoke-Expression "$($scriptPath) $($env:UPLOADER_PRINCIPAL_CLIENTID) $($env:UPLOADER_PRINCIPAL_SECRET) $($env:TENANT_ID) $($policyId) $($policyFile)"
 
-        # $policyId = "B2C_1A_Signup_Invitation"
-        # $policyFile = "$($env:BUILD_SOURCESDIRECTORY)\policy\Signup_Invitation.xml"
-        # Invoke-Expression "$($scriptPath) $($env:UPLOADER_PRINCIPAL_CLIENTID) $($env:UPLOADER_PRINCIPAL_SECRET) $($env:TENANT_ID) $($policyId) $($policyFile)"
+        $policyId = "B2C_1A_Signup_Invitation"
+        $policyFile = "$($env:BUILD_SOURCESDIRECTORY)\policy\Signup_Invitation.xml"
+        Invoke-Expression "$($scriptPath) $($env:UPLOADER_PRINCIPAL_CLIENTID) $($env:UPLOADER_PRINCIPAL_SECRET) $($env:TENANT_ID) $($policyId) $($policyFile)"
 
         Write-Host 'Upload Complete'
       env:
