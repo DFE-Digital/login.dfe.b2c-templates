@@ -1,6 +1,8 @@
 parameters:
 - name: environmentName
   type: string
+- name: applicationName
+  type: string
 - name: tenantId
   type: string
 - name: uploaderPrincipalClientId
@@ -26,6 +28,7 @@ jobs:
   variables:
     #Uploader identity
     #interpolation - these are used by the interpolation step to customise the policies per environment
+    apimAppName: ${{parameters.applicationName}}
     environmentName: ${{parameters.environmentName}}
     proxyIdentAppRegistrationClientId: ${{parameters.proxyAppRegistrationClientId}}
     proxyIdentAppRegistrationObjectId: ${{parameters.proxyAppRegistrationObjectId}}
