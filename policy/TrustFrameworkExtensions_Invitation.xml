@@ -960,7 +960,7 @@
                 <DisplayName>User OTP Notifications</DisplayName>    
                 <Protocol Name="Proprietary" Handler="Web.TPEngine.Providers.RestfulProvider, Web.TPEngine, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" />
                 <Metadata>
-                    <Item Key="ServiceUrl">https://{{eapimRootUrl}}/ncsidentity/SignupConfirmation</Item>
+                    <Item Key="ServiceUrl">https://{{eapimRootUrl}}/{{applicationName}}/SignupConfirmation</Item>
                         <Item Key="SendClaimsIn">Body</Item>                        
                         <Item Key="AuthenticationType">ClientCertificate</Item>
                     </Metadata>
@@ -979,7 +979,7 @@
                 <DisplayName>User OTP Notifications</DisplayName>    
                 <Protocol Name="Proprietary" Handler="Web.TPEngine.Providers.RestfulProvider, Web.TPEngine, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" />
                 <Metadata>
-                    <Item Key="ServiceUrl">https://{{eapimRootUrl}}/ncsidentity/PasswordResetConfirmation</Item>
+                    <Item Key="ServiceUrl">https://{{eapimRootUrl}}/{{applicationName}}/PasswordResetConfirmation</Item>
                         <Item Key="SendClaimsIn">Body</Item>                        
                         <Item Key="AuthenticationType">ClientCertificate</Item>
                     </Metadata>
@@ -998,7 +998,7 @@
                 <DisplayName>User OTP Notifications</DisplayName>    
                 <Protocol Name="Proprietary" Handler="Web.TPEngine.Providers.RestfulProvider, Web.TPEngine, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" />
                 <Metadata>
-                  <Item Key="ServiceUrl">https://{{eapimRootUrl}}/ncsidentity/FindEmail</Item>
+                  <Item Key="ServiceUrl">https://{{eapimRootUrl}}/{{applicationName}}/FindEmail</Item>
                   <Item Key="SendClaimsIn">Body</Item>                        
                   <Item Key="AuthenticationType">ClientCertificate</Item>
                 </Metadata>
@@ -1024,7 +1024,7 @@
                 <DisplayName>User OTP Notifications</DisplayName>    
                 <Protocol Name="Proprietary" Handler="Web.TPEngine.Providers.RestfulProvider, Web.TPEngine, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" />
                 <Metadata>
-                  <Item Key="ServiceUrl">https://{{eapimRootUrl}}/ncsidentity/AidedRegistrationValidateUserDetails</Item>
+                  <Item Key="ServiceUrl">https://{{eapimRootUrl}}/{{applicationName}}/AidedRegistrationValidateUserDetails</Item>
                   <Item Key="SendClaimsIn">Body</Item>                        
                   <Item Key="AuthenticationType">ClientCertificate</Item>
                 </Metadata>
@@ -1050,7 +1050,7 @@
                 <DisplayName>User OTP Notifications</DisplayName>    
                 <Protocol Name="Proprietary" Handler="Web.TPEngine.Providers.RestfulProvider, Web.TPEngine, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" />
                 <Metadata>
-                  <Item Key="ServiceUrl">https://{{eapimRootUrl}}/ncsidentity/NCSDSSUserCreation</Item>
+                  <Item Key="ServiceUrl">https://{{eapimRootUrl}}/{{applicationName}}/NCSDSSUserCreation</Item>
                   <Item Key="SendClaimsIn">Body</Item>                        
                   <Item Key="AuthenticationType">ClientCertificate</Item>
                 </Metadata>
@@ -1072,7 +1072,7 @@
                 <DisplayName>User OTP Notifications</DisplayName>    
                 <Protocol Name="Proprietary" Handler="Web.TPEngine.Providers.RestfulProvider, Web.TPEngine, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" />
                 <Metadata>
-                  <Item Key="ServiceUrl">https://{{eapimRootUrl}}/ncsidentity/NCSDSSUserCreation</Item>
+                  <Item Key="ServiceUrl">https://{{eapimRootUrl}}/{{applicationName}}/NCSDSSUserCreation</Item>
                   <Item Key="SendClaimsIn">Body</Item>                        
                   <Item Key="AuthenticationType">ClientCertificate</Item>
                 </Metadata>
@@ -1097,7 +1097,7 @@
                 <DisplayName>User OTP Notifications</DisplayName>    
                 <Protocol Name="Proprietary" Handler="Web.TPEngine.Providers.RestfulProvider, Web.TPEngine, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" />
                 <Metadata>
-                  <Item Key="ServiceUrl">https://{{eapimRootUrl}}/ncsidentity/ChangeEmail</Item>
+                  <Item Key="ServiceUrl">https://{{eapimRootUrl}}/{{applicationName}}/ChangeEmail</Item>
                   <Item Key="SendClaimsIn">Body</Item>                        
                   <Item Key="AuthenticationType">ClientCertificate</Item>
                 </Metadata>

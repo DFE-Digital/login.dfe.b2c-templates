@@ -1,4 +1,6 @@
 parameters:
+- name: applicationName
+  type: string
 - name: environmentName
   type: string
 - name: tenantId
@@ -26,6 +28,7 @@ jobs:
   variables:
     #Uploader identity
     #interpolation - these are used by the interpolation step to customise the policies per environment
+    applicationName: ${{parameters.applicationName}}
     environmentName: ${{parameters.environmentName}}
     proxyIdentAppRegistrationClientId: ${{parameters.proxyAppRegistrationClientId}}
     proxyIdentAppRegistrationObjectId: ${{parameters.proxyAppRegistrationObjectId}}
