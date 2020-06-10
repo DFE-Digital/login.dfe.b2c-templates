@@ -16,7 +16,7 @@
   </BasePolicy>
 
   <RelyingParty>
-    <DefaultUserJourney ReferenceId="SignUp_Invitation" />
+    <DefaultUserJourney ReferenceId="SignUpInvitation" />
     <UserJourneyBehaviors>
         <JourneyInsights TelemetryEngine="ApplicationInsights" InstrumentationKey="1804da14-6a11-4b44-a6ff-2000f360bd87" DeveloperMode="true" ClientEnabled="false" ServerEnabled="true" TelemetryVersion="1.0.0" />
         <ScriptExecution>Allow</ScriptExecution>
