@@ -20,6 +20,15 @@ namespace B2CAzureFunc
     /// </summary>
     public static class ChangeEmail
     {
+        /// <summary>
+        ///     ChangeEmail
+        /// </summary>
+        /// <verb>POST</verb>
+        /// <url>http://localhost:7070/api/ChangeEmail</url>
+        /// <param name="req"></param>
+        /// <param name="log"></param>
+        /// <response code="200"><see cref="bool"/>User Found Response</response>
+        /// <response code="400"><see cref="ResponseContentModel"/>Not Found</response>
         [FunctionName("ChangeEmail")]
         public static async Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] HttpRequest req,
