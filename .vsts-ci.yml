@@ -43,7 +43,7 @@ stages:
       proxyAppRegistrationObjectId: $(testProxyIdentityAppObjectId)
       identAppRegistrationClientId: $(testIdentityAppClientId)
       signinRedirectRoot: s141d01-signin-int.azurewebsites.net
-      eapimRootUrl: oat-api-customerengagement.platform.education.gov.uk
+      eapimRootUrl: test-api-customerengagement.platform.education.gov.uk
 
 # - stage: deployDev
 #   displayName: Deploy - DEV
