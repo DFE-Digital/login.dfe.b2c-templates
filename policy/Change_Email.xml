@@ -6,7 +6,7 @@
   PolicySchemaVersion="0.3.0.0"
   TenantId="{{environmentName}}authncs.onmicrosoft.com"
   PolicyId="B2C_1A_ChangeEmail"
-  PublicPolicyUri="http://{{environmentName}}authncs.onmicrosoft.com/B2C_1A_ChangeEmail"
+  PublicPolicyUri="http://{{environmentName}}authncs.onmicrosoft.com/B2C_1A_Change_Email"
   DeploymentMode="Development"
   UserJourneyRecorderEndpoint="urn:journeyrecorder:applicationinsights">
 
