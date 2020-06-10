@@ -92,6 +92,6 @@ jobs:
       eapimProductName: 'NCS Identity'
       eapimProductContactEmail: paul.sheridan@digital.education.gov.uk
       eapimApiPublishedName: 'NCS Identity'
-      eapimApiOpenApiSchemaPath: '/api/swagger'
+      eapimApiOpenApiSchemaPath: '/swagger'
       eapimApiPublishedPath: ncsauth
       eapimApiXmlPolicyPath: '$(Build.SourcesDirectory)/eapim/api/policy.xml'

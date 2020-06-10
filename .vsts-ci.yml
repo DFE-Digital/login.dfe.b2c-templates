@@ -45,24 +45,6 @@ stages:
       signinRedirectRoot: s141d01-signin-int.azurewebsites.net
       eapimRootUrl: test-api-customerengagement.platform.education.gov.uk
 
-# - stage: deployDev
-#   displayName: Deploy - DEV
-#   jobs:
-#   - template: yaml/jobs/deploy.yml
-#     parameters:
-#       environmentName: 'test'
-#       environmentId: 'd01'
-#       serviceConnection: $(devServiceConnection)
-#       subscriptionId: $(devSubscriptionId)
-#       clientId: $(devAzureB2cTenantId)
-#       clientSigningKey: $(devClientSigningKey)
-#       graphAccessClientId: $(devGraphAccessClientId)
-#       graphAccessClientSecret: $(devGraphAccessClientSecret)
-#       deploymentPrimaryLocation: $(deploymentPrimaryLocation)
-#       deploymentSecondaryLocation: $(deploymentSecondaryLocation)
-#       deployApim: true
-#       eapimEnvironmentName: 'Test'
-
 - stage: deployTest
   displayName: Deploy - TEST
   dependsOn:
@@ -84,3 +66,23 @@ stages:
       deploymentSecondaryLocation: $(deploymentSecondaryLocation)
       deployApim: true
       eapimEnvironmentName: 'Test'
+
+# - stage: deployDev
+#   displayName: Deploy - DEV
+#   jobs:
+#   - template: yaml/jobs/deploy.yml
+#     parameters:
+#       environmentName: 'test'
+#       environmentId: 'd01'
+#       serviceConnection: $(devServiceConnection)
+#       subscriptionId: $(devSubscriptionId)
+#       clientId: $(devAzureB2cTenantId)
+#       clientSigningKey: $(devClientSigningKey)
+#       graphAccessClientId: $(devGraphAccessClientId)
+#       graphAccessClientSecret: $(devGraphAccessClientSecret)
+#       deploymentPrimaryLocation: $(deploymentPrimaryLocation)
+#       deploymentSecondaryLocation: $(deploymentSecondaryLocation)
+#       deployApim: true
+#       eapimEnvironmentName: 'Test'
+
+
