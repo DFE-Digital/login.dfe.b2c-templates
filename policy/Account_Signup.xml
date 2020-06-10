@@ -6,12 +6,12 @@
   PolicySchemaVersion="0.3.0.0"
   TenantId="testauthncs.onmicrosoft.com"
   PolicyId="B2C_1A_Account_Signup"
-  PublicPolicyUri="http://__environmentName__authncs.onmicrosoft.com/B2C_1A_Account_Signup"
+  PublicPolicyUri="http://{{environmentName}}authncs.onmicrosoft.com/B2C_1A_Account_Signup"
   DeploymentMode="Development"
   UserJourneyRecorderEndpoint="urn:journeyrecorder:applicationinsights">
 
   <BasePolicy>
-    <TenantId>__environmentName__authncs.onmicrosoft.com</TenantId>
+    <TenantId>{{environmentName}}authncs.onmicrosoft.com</TenantId>
     <PolicyId>B2C_1A_TrustFrameworkExtensions_Invitation</PolicyId>
   </BasePolicy>
 
