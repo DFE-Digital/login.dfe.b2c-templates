@@ -35,7 +35,6 @@ stages:
   jobs:
   - template: yaml/jobs/tenant-setup.yml
     parameters:
-      applicationName: $(applicationName)
       environmentName: test
       tenantId: $(testAzureB2cTenantId)
       uploaderPrincipalClientId: $(testPipelineMangementClientId)
