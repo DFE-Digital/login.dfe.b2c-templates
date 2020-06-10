@@ -65,7 +65,7 @@ jobs:
         Invoke-Expression "$($scriptPath) $($env:UPLOADER_PRINCIPAL_CLIENTID) $($env:UPLOADER_PRINCIPAL_SECRET) $($env:TENANT_ID) $($policyId) $($policyFile)"
 
         $policyId = "B2C_1A_Find_Email"
-        $policyFile = "$($env:BUILD_SOURCESDIRECTORY)policy\Find_Email.xml"
+        $policyFile = "$($env:BUILD_SOURCESDIRECTORY)\policy\Find_Email.xml"
         Invoke-Expression "$($scriptPath) $($env:UPLOADER_PRINCIPAL_CLIENTID) $($env:UPLOADER_PRINCIPAL_SECRET) $($env:TENANT_ID) $($policyId) $($policyFile)"
 
         $policyId = "B2C_1A_Password_Reset_Conformation"
