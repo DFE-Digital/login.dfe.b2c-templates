@@ -26,9 +26,9 @@ stages:
   displayName: Pre Deploy
   jobs:
   - job: tokeniseNamedValues
-    displayName: Tokenise Eapim tokeniseNamedValues
+    displayName: Tokenise Eapim Named Values
     pool:
-      vmImage: ubuntu-latest
+      vmImage: windows-latest
     variables:
       dsiB2cDevCertThumbprint: DEVCERTTHUMBPRINT
       dsiB2cDevFuncionKey: DEVFUNCTIONKEY
@@ -38,7 +38,7 @@ stages:
     - task: Tokenization@2
       displayName: Tokenise CSV Files
       inputs:
-        SourcePath: '$(Build.SourcesDirectory)/eapim/namedValues'
+        SourcePath: '$(Build.SourcesDirectory)\eapim\namedValues'
         TargetFileNames: '*.csv'
         RequireVariable: true
         TokenStart: '{{'
