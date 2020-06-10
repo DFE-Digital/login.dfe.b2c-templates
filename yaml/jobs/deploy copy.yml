@@ -92,9 +92,9 @@ jobs:
         - template: /Application/dotnet/steps/import-function-eapim.yml@devopsTemplates
           parameters:
             serviceConnection: ${{parameters.serviceConnection}}
-            eapimServiceConnection: ${{parameters.eapimServiceConnection}}
+            eapimServiceConnection: $(eapimServiceConnection)
             functionName: $(armOutput.functionName)
-            functionKey: $(armOutput.functionKey)
+            functionKey: $(armOutput.functionDefaultKey)
             functionUrl: $(armOutput.functionUrl)
             productName: ${{parameters.eapimProductName}}
             publishContactEmail: ${{parameters.eapimProductContactEmail}}
@@ -102,6 +102,6 @@ jobs:
             publishApiOpenApiSchemaPath: '$(Build.SourcesDirectory)\definition.json'
             publishApiPath: ${{parameters.eapimApiPublishedPath}}
             publishApiXmlPolicyPath: ${{parameters.eapimApiXmlPolicyPath}}
-            eapimEnvironment: ${{parameters.eapimEnvironment}}
+            eapimEnvironment: ${{parameters.eapimEnvironmentName}}
             namedValuesIncluded: ${{parameters.eapimNamedValuesIncluded}} 
             namedValuesFileName: ${{parameters.eapimNamedValuesFileName}}
