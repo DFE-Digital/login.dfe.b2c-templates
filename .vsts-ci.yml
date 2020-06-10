@@ -42,7 +42,7 @@ stages:
       proxyAppRegistrationClientId: $(testProxyIdentityAppClientId)
       proxyAppRegistrationObjectId: $(testProxyIdentityAppObjectId)
       identAppRegistrationClientId: $(testIdentityAppClientId)
-      signinRedirectRoot: s141d01-signin-int.azurewebsites.net
+      signinRedirectRoot: test-interactions.signin.education.gov.uk
       eapimRootUrl: test-api-customerengagement.platform.education.gov.uk
 
 - stage: deployTest
