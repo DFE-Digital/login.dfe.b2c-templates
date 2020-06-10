@@ -53,7 +53,7 @@ jobs:
         Invoke-Expression "$($scriptPath) $($env:UPLOADER_PRINCIPAL_CLIENTID) $($env:UPLOADER_PRINCIPAL_SECRET) $($env:TENANT_ID) $($policyId) $($policyFile)"
 
         $policyId = "B2C_1A_TrustFrameworkExtensions_Invitation"
-        $policyFile = "$($env:BUILD_SOURCESDIRECTORY)\policy\TrustFrameworkBase_Invitation.xml"
+        $policyFile = "$($env:BUILD_SOURCESDIRECTORY)\policy\TrustFrameworkExtensions_Invitation.xml"
         Invoke-Expression "$($scriptPath) $($env:UPLOADER_PRINCIPAL_CLIENTID) $($env:UPLOADER_PRINCIPAL_SECRET) $($env:TENANT_ID) $($policyId) $($policyFile)"
 
         # $policyId = "B2C_1A_Account_Signup"
