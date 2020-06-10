@@ -13,6 +13,7 @@
     <PolicyId>B2C_1A_TrustFrameworkBase_Invitation</PolicyId>
   </BasePolicy>
   <BuildingBlocks>
+
     <ClaimsSchema>
         <ClaimType Id="newUserEmail">
           <DisplayName>Verified Email Address</DisplayName>
@@ -25,19 +26,18 @@
           <DataType>string</DataType>
           <UserInputType>Readonly</UserInputType>
         </ClaimType>
-        </ClaimType>
-        <!-- Sample: Read only email address to present to the user-->
+
         <ClaimType Id="ReadOnlyEmail">
           <DisplayName>Verified Email Address</DisplayName>
           <DataType>string</DataType>
           <UserInputType>Readonly</UserInputType>
         </ClaimType>
       
-        <!--Sample: Stores the error message for unsolicited request (a request without id_token_hint) and user not found-->
         <ClaimType Id="errorMessage">
           <DataType>string</DataType>
           <UserInputType>Paragraph</UserInputType>
         </ClaimType> 
+
         <ClaimType Id="tncCheckbox">
           <DisplayName>Terms and conditions</DisplayName>
           <DataType>boolean</DataType>
@@ -47,6 +47,7 @@
             <Enumeration Text="I accept the terms and conditions and I am 13 or over" Value="true" SelectByDefault="false" />
           </Restriction>
         </ClaimType>
+        
         <ClaimType Id="successMessage">
           <DataType>string</DataType>
           <UserHelpText>Add help text here</UserHelpText>
