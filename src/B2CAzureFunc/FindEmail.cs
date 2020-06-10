@@ -21,7 +21,7 @@ namespace B2CAzureFunc
         ///     FindEmail
         /// </summary>
         /// <verb>POST</verb>
-        /// <url>http://localhost:7070/api/FindEmail</url>
+        /// <url>http://localhost:7070/FindEmail</url>
         /// <param name="req"></param>
         /// <param name="log"></param>
         /// <response code="200"><see cref="EmailFoundResponseModel"/>Email Found Response</response>

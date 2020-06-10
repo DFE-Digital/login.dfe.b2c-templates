@@ -22,7 +22,7 @@ namespace B2CAzureFunc
         ///     PasswordResetConfirmation
         /// </summary>
         /// <verb>POST</verb>
-        /// <url>http://localhost:7070/api/PasswordResetConfirmation</url>
+        /// <url>http://localhost:7070/PasswordResetConfirmation</url>
         /// <param name="req"></param>
         /// <param name="log"></param>
         /// <response code="200"><see cref="bool"/>Password Reset Sent</response>

@@ -25,7 +25,7 @@ namespace B2CAzureFunc
         ///     SignUpInvitation
         /// </summary>
         /// <verb>POST</verb>
-        /// <url>http://localhost:7070/api/SignUpInvitation</url>
+        /// <url>http://localhost:7070/SignUpInvitation</url>
         /// <param name="req"></param>
         /// <param name="log"></param>
         /// <response code="200"><see cref="bool"/>Invitation Sent</response>

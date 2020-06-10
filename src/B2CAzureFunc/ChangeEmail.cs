@@ -24,7 +24,7 @@ namespace B2CAzureFunc
         ///     ChangeEmail
         /// </summary>
         /// <verb>POST</verb>
-        /// <url>http://localhost:7070/api/ChangeEmail</url>
+        /// <url>http://localhost:7070/ChangeEmail</url>
         /// <param name="req"></param>
         /// <param name="log"></param>
         /// <response code="200"><see cref="bool"/>User Found Response</response>

@@ -22,7 +22,7 @@ namespace B2CAzureFunc
         ///     NCSDSSUserCreation
         /// </summary>
         /// <verb>POST</verb>
-        /// <url>http://localhost:7070/api/NCSDSSUserCreation</url>
+        /// <url>http://localhost:7070/NCSDSSUserCreation</url>
         /// <param name="req"></param>
         /// <param name="log"></param>
         /// <response code="200"><see cref="UserCreationModel"/>User Created Response</response>

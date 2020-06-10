@@ -22,7 +22,7 @@ namespace B2CAzureFunc
         ///     AidedRegistrationValidateUserDetails
         /// </summary>
         /// <verb>POST</verb>
-        /// <url>http://localhost:7070/api/AidedRegistrationValidateUserDetails</url>
+        /// <url>http://localhost:7070/AidedRegistrationValidateUserDetails</url>
         /// <param name="req"></param>
         /// <param name="log"></param>
         /// <response code="200"><see cref="ResponseContentModel"/>User Found Response</response>

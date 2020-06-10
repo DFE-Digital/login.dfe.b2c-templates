@@ -23,7 +23,7 @@ namespace B2CAzureFunc
         ///     SignupConfirmation
         /// </summary>
         /// <verb>POST</verb>
-        /// <url>http://localhost:7070/api/SignupConfirmation</url>
+        /// <url>http://localhost:7070/SignupConfirmation</url>
         /// <param name="req"></param>
         /// <param name="log"></param>
         /// <response code="200"><see cref="bool"/>Signup Confirmed</response>
