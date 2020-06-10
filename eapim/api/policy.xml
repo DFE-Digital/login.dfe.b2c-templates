@@ -5,6 +5,16 @@
       <vary-by-header>Accept-Charset</vary-by-header>
       <vary-by-header>Authorization</vary-by-header>
     </cache-lookup>
+    <choose>
+      <when condition="@(context.Request.Certificate == null ||  context.Request.Certificate.Thumbprint != "{{Dsi-B2c-CertThumbprint}}")">
+        <return-response>
+          <set-status code="403" reason="Invalid client certificate" />
+        </return-response>
+      </when>
+    </choose>
+    <set-query-parameter name="code" exists-action="override">
+      <value>{{Dsi-B2c-FunctionKey}}</value>
+    </set-query-parameter>
     <base />
   </inbound>
   <backend>

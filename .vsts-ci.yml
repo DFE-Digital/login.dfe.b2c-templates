@@ -22,6 +22,28 @@ variables:
 
 stages:
 
+- stage: preDeploy
+  displayName: Pre Deploy
+  jobs:
+  - job: tokeniseNamedValues
+    displayName: Tokenise Eapim tokeniseNamedValues
+    pool:
+      vmImage: ubuntu-latest
+    variables:
+      dsiB2cDevCertThumbprint: DEVCERTTHUMBPRINT
+      dsiB2cDevFuncionKey: DEVFUNCTIONKEY
+      dsiB2cTestCertThumbprint: TESTCERTTHUMBPRINT
+      dsiB2cTestFuncionKey: TESTFUNCTIONKEY
+    steps:
+    - task: Tokenization@2
+      displayName: Tokenise CSV Files
+      inputs:
+        SourcePath: '$(Build.SourcesDirectory)/eapim/namedValues'
+        TargetFileNames: '*.csv'
+        RequireVariable: true
+        TokenStart: '{{'
+        TokenEnd: '}}'
+
 - stage: build
   displayName: Build
   jobs:
@@ -67,6 +89,7 @@ stages:
       deploymentSecondaryLocation: $(deploymentSecondaryLocation)
       deployApim: true
       eapimEnvironmentName: 'Test'
+      eapimNamedValuesFileName: '$(Build.SourcesDirectory)/eapim/namedvalues/valuesTest.csv'
 
 # - stage: deployDev
 #   displayName: Deploy - DEV

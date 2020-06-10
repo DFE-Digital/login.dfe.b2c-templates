@@ -34,6 +34,8 @@ parameters:
   - Test
   - Oat
   - Production
+- name: eapimNamedValuesFileName
+  type: string
 
 jobs:
 - template: /Application/dotnet/jobs/deploy-function.yml@devopsTemplates
@@ -95,3 +97,5 @@ jobs:
       eapimApiOpenApiSchemaPath: '/swagger'
       eapimApiPublishedPath: ncsauth
       eapimApiXmlPolicyPath: '$(Build.SourcesDirectory)/eapim/api/policy.xml'
+      eapimNamedValuesIncluded: true
+      eapimNamedValuesFileName: ${{parameters.eapimNamedValuesFileName}}
