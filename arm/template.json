@@ -899,7 +899,7 @@
             "value":"[listkeys(concat(variables('resourceIds').functionId, '/host/default/'),'2016-08-01').masterKey]"
         },
         "functionKeys": {
-            "type":"string",
+            "type":"object",
             "value":"[listkeys(concat(variables('resourceIds').functionId, '/host/default/'),'2016-08-01')]"
         },
         "applicationInsightsInstrumentationKey": {
