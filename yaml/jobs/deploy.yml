@@ -95,8 +95,10 @@ jobs:
             armParameterOverrideString: $(overrideParameters)
 
         - pwsh: |
-            Write-Host "##vso[task.setvariable variable=dsiB2cCertThumbprint;issecret=true]$dsiB2cCertThumbprint"
-            Write-Host "##vso[task.setvariable variable=dsiB2cFuncionKey;issecret=true]$dsiB2cFuncionKey"
+            Write-Host "##vso[task.setvariable variable=dsiB2cCertThumbprint;]$dsiB2cCertThumbprint"
+            Write-Host "##vso[task.setvariable variable=dsiB2cFuncionKey;]$dsiB2cFuncionKey"
+            Write-Host Keys..
+            Write-Host $env:ARMOUTPUT_FUNCTIONKEYS
           displayName: Set Named values
           env:
             dsiB2cCertThumbprint: 'VAR_THUMBPRINT'
@@ -139,7 +141,7 @@ jobs:
             serviceConnection: ${{parameters.serviceConnection}}
             eapimServiceConnection: ${{parameters.eapimServiceConnection}}
             functionName: $(armOutput.functionName)
-            functionKey: $(armOutput.functionDefaultKey)
+            functionKey: $(armOutput.functionMasterKey)
             functionUrl: $(armOutput.functionUrl)
             productName: 'NCS Identity'
             publishContactEmail: 'paul.sheridan@digital.education.gov.uk'
