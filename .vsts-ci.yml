@@ -22,27 +22,27 @@ variables:
 
 stages:
 
-- stage: preDeploy
-  displayName: Pre Deploy
-  jobs:
-  - job: tokeniseNamedValues
-    displayName: Tokenise Eapim Named Values
-    pool:
-      vmImage: windows-latest
-    variables:
-      dsiB2cDevCertThumbprint: DEVCERTTHUMBPRINT
-      dsiB2cDevFuncionKey: DEVFUNCTIONKEY
-      dsiB2cTestCertThumbprint: TESTCERTTHUMBPRINT
-      dsiB2cTestFuncionKey: TESTFUNCTIONKEY
-    steps:
-    - task: Tokenization@2
-      displayName: Tokenise CSV Files
-      inputs:
-        SourcePath: '$(Build.SourcesDirectory)\eapim\namedValues'
-        TargetFileNames: '*.csv'
-        RequireVariable: true
-        TokenStart: '{{'
-        TokenEnd: '}}'
+# - stage: preDeploy
+#   displayName: Pre Deploy
+#   jobs:
+#   - job: tokeniseNamedValues
+#     displayName: Tokenise Eapim Named Values
+#     pool:
+#       vmImage: windows-latest
+#     variables:
+#       dsiB2cDevCertThumbprint: DEVCERTTHUMBPRINT
+#       dsiB2cDevFuncionKey: DEVFUNCTIONKEY
+#       dsiB2cTestCertThumbprint: TESTCERTTHUMBPRINT
+#       dsiB2cTestFuncionKey: TESTFUNCTIONKEY
+#     steps:
+#     - task: Tokenization@2
+#       displayName: Tokenise CSV Files
+#       inputs:
+#         SourcePath: '$(Build.SourcesDirectory)\eapim\namedValues'
+#         TargetFileNames: '*.csv'
+#         RequireVariable: true
+#         TokenStart: '{{'
+#         TokenEnd: '}}'
 
 - stage: build
   displayName: Build
@@ -80,6 +80,7 @@ stages:
       environmentName: 'test'
       environmentId: 't01'
       serviceConnection: $(testServiceConnection)
+      eapimServiceConnection: $(eapimServiceConnection)
       subscriptionId: $(testSubscriptionId)
       clientId: $(testAzureB2cTenantId)
       clientSigningKey: $(testClientSigningKey)
@@ -87,9 +88,8 @@ stages:
       graphAccessClientSecret: $(testGraphAccessClientSecret)
       deploymentPrimaryLocation: $(deploymentPrimaryLocation)
       deploymentSecondaryLocation: $(deploymentSecondaryLocation)
-      deployApim: true
       eapimEnvironmentName: 'Test'
-      eapimNamedValuesFileName: '$(Build.SourcesDirectory)/eapim/namedvalues/valuesTest.csv'
+      
 
 # - stage: deployDev
 #   displayName: Deploy - DEV
