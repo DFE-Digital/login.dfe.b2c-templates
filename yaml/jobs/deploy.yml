@@ -98,9 +98,6 @@ jobs:
         - pwsh: |
             Write-Host "##vso[task.setvariable variable=dsiB2cCertThumbprint]XXXXXX"
             Write-Host "##vso[task.setvariable variable=dsiB2cFunctionKey]$($env:ARMOUTPUT_FUNCTIONDEFAULTKEY)"
-
-            Write-Host 1: $dsiB2cCertThumbprint
-            Write-Host 2: $dsiB2cFunctionKey
           displayName: Set Named values
 
         - task: Tokenization@2
