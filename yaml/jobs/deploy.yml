@@ -96,13 +96,13 @@ jobs:
 
         - pwsh: |
             Write-Host "##vso[task.setvariable variable=dsiB2cCertThumbprint;]$dsiB2cCertThumbprint"
-            Write-Host "##vso[task.setvariable variable=dsiB2cFuncionKey;]$dsiB2cFuncionKey"
+            Write-Host "##vso[task.setvariable variable=dsiB2cFunctionKey;]$dsiB2cFunctionKey"
             Write-Host Keys..
             Write-Host $env:ARMOUTPUT_FUNCTIONKEYS
           displayName: Set Named values
           env:
             dsiB2cCertThumbprint: 'VAR_THUMBPRINT'
-            dsiB2cFuncionKey: 'VAR_FUCTIONKEY'
+            dsiB2cFunctionKey: $(armOutput.functionDefaultKey)
 
         - task: Tokenization@2
           displayName: Tokenise CSV Files
