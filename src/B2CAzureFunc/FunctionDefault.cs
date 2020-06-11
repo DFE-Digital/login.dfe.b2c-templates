@@ -92,18 +92,19 @@ namespace B2CAzureFunc
                 var definition = openApiDocuments.First().Value;
                 definition.Info.Title = _options.ServiceTitle ?? FunctionConstants.FunctionName;
 
-
                 if (definition.Servers.Any())
                 {
-                    string hostname = "";
-                    bool.TryParse(Environment.GetEnvironmentVariable("HTTPS"), out bool sslOn);
+                    var hostname = $"http://{Environment.GetEnvironmentVariable("WEBSITE_HOSTNAME")}";
 
-                    if (sslOn)
-                    {
-                        hostname = $"https://{Environment.GetEnvironmentVariable("WEBSITE_HOSTNAME")}";
-                    }
-                    else
-                        hostname = $"http://{Environment.GetEnvironmentVariable("WEBSITE_HOSTNAME")}";
+                    //string hostname = "";
+                    //bool.TryParse(Environment.GetEnvironmentVariable("HTTPS"), out bool sslOn);
+
+                    //if (sslOn)
+                    //{
+                    //    hostname = $"https://{Environment.GetEnvironmentVariable("WEBSITE_HOSTNAME")}";
+                    //}
+                    //else
+                    //    hostname = $"http://{Environment.GetEnvironmentVariable("WEBSITE_HOSTNAME")}";
 
                     log.LogInformation($"Server Name Switch : Swapping [{definition.Servers.First().Url}] for [{hostname}]");
                     definition.Servers.First().Url = hostname;
