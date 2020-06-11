@@ -39,7 +39,7 @@ jobs:
   displayName: Deploy Azure Function
   environment: ${{parameters.environmentName}}
   pool:
-    vmImage: ${{parameters.agentImage}}
+    vmImage: windows-latest
   variables:
     overrideParameters: '
       -applicationName "$(applicationName)"
@@ -126,7 +126,7 @@ jobs:
             environmentName: ${{parameters.environmentName}}
 
         - pwsh : |
-            $url = "$($env:ARMOUTPUT_FUNCTIONURL)${{parameters.eapimApiOpenApiSchemaPath}}"
+            $url = "$($env:ARMOUTPUT_FUNCTIONURL)/swagger"
             $filePath = "$($env:BUILD_SOURCESDIRECTORY)\definition.json"
             Write-Host "url: $($url)"
             Write-Host "filePath: $($filePath)"
