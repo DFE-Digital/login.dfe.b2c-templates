@@ -81,6 +81,7 @@ jobs:
       -EmailChangeConfirmationEmailSubjectOldEmail "Email change request"
       -B2CChangeEmailPolicy "B2C_1A_changeemail"
       -ExtensionAppId "${{parameters.extensionAppId}}"'
+
   strategy:
     runOnce:
       deploy:
@@ -95,14 +96,12 @@ jobs:
             armParameterOverrideString: $(overrideParameters)
 
         - pwsh: |
-            Write-Host "##vso[task.setvariable variable=dsiB2cCertThumbprint;]$dsiB2cCertThumbprint"
-            Write-Host "##vso[task.setvariable variable=dsiB2cFunctionKey;]$dsiB2cFunctionKey"
-            Write-Host Keys..
-            Write-Host $env:ARMOUTPUT_FUNCTIONKEYS
+            Write-Host "##vso[task.setvariable variable=dsiB2cCertThumbprint]XXXXXX"
+            Write-Host "##vso[task.setvariable variable=dsiB2cFunctionKey]$($env:ARMOUTPUT_FUNCTIONDEFAULTKEY)"
+
+            Write-Host 1: $dsiB2cCertThumbprint
+            Write-Host 2: $dsiB2cFunctionKey
           displayName: Set Named values
-          env:
-            dsiB2cCertThumbprint: 'VAR_THUMBPRINT'
-            dsiB2cFunctionKey: $(armOutput.functionDefaultKey)
 
         - task: Tokenization@2
           displayName: Tokenise CSV Files
