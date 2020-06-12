@@ -101,7 +101,7 @@ parameters:
 - name: policyCertThumbprint
   type: string
   default: 'EC634E6E424711C4060CA3821C3A4F457BC6D244'
-  
+
 - name: eapimEnvironmentName
   type: string
   values:
@@ -156,7 +156,7 @@ jobs:
       -B2CGraphAccessClientId "${{parameters.graphAccessClientId}}"
       -B2CGraphAccessClientSecret "${{parameters.graphAccessClientSecret}}"
       -EmailChangeConfirmationEmailSubjectNewEmail "${{parameters.emailChangeConfirmationEmailSubjectNewEmail}}"
-      -EmailChangeConfirmationEmailSubjectOldEmail "${{parameters.emailChangeConfirmationEmailSubjectOldEmail}}""
+      -EmailChangeConfirmationEmailSubjectOldEmail "${{parameters.emailChangeConfirmationEmailSubjectOldEmail}}"
       -ExtensionAppId "${{parameters.extensionAppId}}"'
 
   strategy:
