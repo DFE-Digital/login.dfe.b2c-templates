@@ -19,7 +19,7 @@ namespace B2CAzureFunc
     /// <summary>
     ///     SignUpInvitation
     /// </summary>
-    public static class SignUpInvitation
+    public static class SignupInvitation
     {
         /// <summary>
         ///     SignUpInvitation
@@ -30,7 +30,7 @@ namespace B2CAzureFunc
         /// <param name="log"></param>
         /// <response code="200"><see cref="bool"/>Invitation Sent</response>
         /// <response code="404"><see cref="Object"/>Error</response>
-        [FunctionName("SignUpInvitation")]
+        [FunctionName("SignupInvitation")]
         public static async Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] HttpRequest req,
             ILogger log)
