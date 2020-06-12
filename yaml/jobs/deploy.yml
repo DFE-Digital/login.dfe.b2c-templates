@@ -1,34 +1,107 @@
 parameters:
-- name: applicationName
-  type: string
-- name: environmentName
-  type: string
-- name: environmentId
-  type: string
 - name: serviceConnection
   type: string
+
 - name: eapimServiceConnection
   type: string
+
 - name: subscriptionId
   type: string
-- name: clientId
+
+- name: applicationName
   type: string
+
+- name: environmentName
+  type: string
+
+- name: functionServicePlanSkuName
+  type: string
+
+- name: functionServicePlanSkuTier
+  type: string
+
+- name: functionServicePlanSkuCount
+  type: string
+
+- name: b2cSignUpPolicy
+  type: string
+
+- name: b2cSignupConfirmPolicy
+  type: string
+
+- name: b2cPasswordResetConfirmPoicy
+  type: string
+
+- name: b2cChangeEmailPolicy
+  type: string
+
+- name: b2cAuthorizationUrl
+  type: string
+
+- name: ncsApimSubscriptionKey
+  type: string
+
+- name: ncsDssApiKey
+  type: string
+
+- name: ncsDssSearchApiUrl
+  type: string
+
+- name: ncsDssSearchApiVersion
+  type: string
+
+- name: ncsDssCreateCustomerApiUrl
+  type: string
+  default: "https://at.api.nationalcareersservice.org.uk/customers/api/Customers/"
+
+- name: ncsDssCreateContactApiUrl 
+  type: string
+  default: "https://at.api.nationalcareersservice.org.uk/contactdetails/api/customers/{0}/ContactDetails/"
+
+- name: ncsDssCreateIdentityApiUrl
+  type: string
+  default: "https://at.api.nationalcareersservice.org.uk/digitalidentities/api/identity"
+
+- name: touchpointId
+  type: string
+  default: "1000000000"
+
+- name: emailChangeConfirmationEmailSubjectNewEmail
+  type: string
+  default: "Email Change Request"
+
+- name: emailChangeConfirmationEmailSubjectOldEmail 
+  type: string
+  default: "Email Change Request"
+
+- name: environmentId
+  type: string
+
+- name: relyingPartyAppClientId
+  type: string
+
 - name: clientSigningKey
   type: string
+
 - name: graphAccessClientId
   type: string
+
 - name: graphAccessClientSecret
   type: string
+
 - name: extensionAppId
   type: string
-  default: '9509a3af9e674a7d9443a094c02c8e69'
+
 - name: deploymentPrimaryLocation
   type: string
+
 - name: deploymentSecondaryLocation
   type: string
+
 - name: policyCertThumbprint
   type: string
   default: 'EC634E6E424711C4060CA3821C3A4F457BC6D244'
+  
 - name: eapimEnvironmentName
   type: string
   values:
@@ -46,21 +119,22 @@ jobs:
   variables:
     dsiB2cCertThumbprint: ${{parameters.policyCertThumbprint}}
     overrideParameters: '
-      -applicationName "$(applicationName)"
+      -applicationName "${{parameters.applicationName}}"
       -environmentName "${{parameters.environmentName}}"
-      -servicePlanSkuName "$(functionServicePlanSkuName)"
-      -servicePlanSkuTier "$(functionServicePlanSkuTier)"
-      -servicePlanSkuCount "$(functionServicePlanSkuCount)"
+      -servicePlanSkuName "${{parameters.functionServicePlanSkuName}}"
+      -servicePlanSkuTier "${{parameters.functionServicePlanSkuTier}}"
+      -servicePlanSkuCount "${{parameters.functionServicePlanSkuCount}}"
       -secondaryStorageLocation "${{parameters.deploymentSecondaryLocation}}"
       -alertWebHookUrl "http://www.test.com"
-      -B2CTenantShortName "${{parameters.environmentName}}authncs"
-      -B2CTenantFullName "${{parameters.environmentName}}authncs.onmicrosoft.com"
-      -B2CSignUpPolicy "$(b2cSignUpPolicy)"
-      -B2CSignupConfirmPolicy "$(b2cSignupConfirmPolicy)"
-      -B2CPasswordResetConfirmPolicy "$(b2cPasswordResetConfirmPoicy)"
-      -B2CClientId "${{parameters.clientId}}"
+      -B2CTenantShortName "${{parameters.environmentName}}${{parameters.applicationName}}"
+      -B2CTenantFullName "${{parameters.environmentName}}${{parameters.applicationName}}.onmicrosoft.com"
+      -B2CSignUpPolicy "${{parameters.b2cSignUpPolicy}}"
+      -B2CSignupConfirmPolicy "${{parameters.b2cSignupConfirmPolicy}}"
+      -B2CPasswordResetConfirmPolicy "${{parameters.b2cPasswordResetConfirmPoicy}}"
+      -B2CChangeEmailPolicy "${{parameters.b2cChangeEmailPolicy}}"
+      -RelyingPartyAppClientId "${{parameters.relyingPartyAppClientId}}"
       -B2CRedirectUri "https://jwt.ms"
-      -B2CAuthorizationUrl "$(b2cAuthorizationUrl)"
+      -B2CAuthorizationUrl "${{parameters.b2cAuthorizationUrl}}"
       -ClientSigningKey "${{parameters.clientSigningKey}}"
       -SMTPServer "$(smtpServer)"
       -SMTPUsername "$(smtpUsername)"
@@ -71,19 +145,18 @@ jobs:
       -SignupConfirmationEmailSubject "Verify your account"
       -PasswordResetConfirmationEmailSubject "Verify your account"
       -AccountActivationEmailExpiryInSeconds "86400"
-      -NCSApimSubscriptionKey "$(ncsApimSubscriptionKey)"
-      -NCSDSSApiKey "$(ncsDssApiKey)"
-      -NCSDSSSearchApiUrl "$(ncsDssSearchApiUrl)"
-      -NCSDSSSearchApiVersion "$(ncsDssSearchApiVersion)"
-      -NCSDSSCreateCustomerApiUrl "https://at.api.nationalcareersservice.org.uk/customers/api/Customers/"
-      -NCSDSSCreateContactApiUrl "https://at.api.nationalcareersservice.org.uk/contactdetails/api/customers/{0}/ContactDetails/"
-      -NCSDSSCreateIdentityApiUrl "https://at.api.nationalcareersservice.org.uk/digitalidentities/api/identity"
-      -TouchpointId "1000000000"
+      -NCSApimSubscriptionKey "${{parameters.ncsApimSubscriptionKey}}"
+      -NCSDSSApiKey "${{parameters.ncsDssApiKey}}"
+      -NCSDSSSearchApiUrl "${{parameters.ncsDssSearchApiUrl}}"
+      -NCSDSSSearchApiVersion "${{parameters.ncsDssSearchApiVersion}}"
+      -NCSDSSCreateCustomerApiUrl "${{parameters.ncsDssCreateCustomerApiUrl}}"
+      -NCSDSSCreateContactApiUrl "${{parameters.ncsDssCreateContactApiUrl}}"
+      -NCSDSSCreateIdentityApiUrl "${{parameters.ncsDssCreateIdentityApiUrl}}"
+      -TouchpointId "${{parameters.touchpointId}}"
       -B2CGraphAccessClientId "${{parameters.graphAccessClientId}}"
       -B2CGraphAccessClientSecret "${{parameters.graphAccessClientSecret}}"
-      -EmailChangeConfirmationEmailSubjectNewEmail "Email change request"
-      -EmailChangeConfirmationEmailSubjectOldEmail "Email change request"
-      -B2CChangeEmailPolicy "$(b2cChangeEmailPolicy)"
+      -EmailChangeConfirmationEmailSubjectNewEmail "${{parameters.emailChangeConfirmationEmailSubjectNewEmail}}"
+      -EmailChangeConfirmationEmailSubjectOldEmail "${{parameters.emailChangeConfirmationEmailSubjectOldEmail}}""
       -ExtensionAppId "${{parameters.extensionAppId}}"'
 
   strategy:

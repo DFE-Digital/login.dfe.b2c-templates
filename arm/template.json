@@ -165,7 +165,7 @@
         "B2CPasswordResetConfirmPolicy": {
             "type": "string"
         },
-        "B2CClientId": {
+        "RelyingPartyAppClientId": {
             "type": "string"
         },
         "B2CRedirectUri": {
@@ -737,8 +737,8 @@
                             "value": "[parameters('B2CPasswordResetConfirmPolicy')]"
                         },
                         {
-                            "name": "B2CClientId",
-                            "value": "[parameters('B2CClientId')]"
+                            "name": "RelyingPartyAppClientId",
+                            "value": "[parameters('RelyingPartyAppClientId')]"
                         },
                         {
                             "name": "B2CRedirectUri",
