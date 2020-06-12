@@ -22,28 +22,6 @@ variables:
 
 stages:
 
-# - stage: preDeploy
-#   displayName: Pre Deploy
-#   jobs:
-#   - job: tokeniseNamedValues
-#     displayName: Tokenise Eapim Named Values
-#     pool:
-#       vmImage: windows-latest
-#     variables:
-#       dsiB2cDevCertThumbprint: DEVCERTTHUMBPRINT
-#       dsiB2cDevFuncionKey: DEVFUNCTIONKEY
-#       dsiB2cTestCertThumbprint: TESTCERTTHUMBPRINT
-#       dsiB2cTestFuncionKey: TESTFUNCTIONKEY
-#     steps:
-#     - task: Tokenization@2
-#       displayName: Tokenise CSV Files
-#       inputs:
-#         SourcePath: '$(Build.SourcesDirectory)\eapim\namedValues'
-#         TargetFileNames: '*.csv'
-#         RequireVariable: true
-#         TokenStart: '{{'
-#         TokenEnd: '}}'
-
 - stage: build
   displayName: Build
   jobs:
@@ -101,7 +79,7 @@ stages:
       deploymentPrimaryLocation: $(deploymentPrimaryLocation)
       deploymentSecondaryLocation: $(deploymentSecondaryLocation)
       eapimEnvironmentName: 'Test'
-      extensionAppId: replace('$(testProxyIdentityAppClientId)','-','')
+      extensionAppId: $[replace('$(testProxyIdentityAppClientId)','-','')]
       
 
 # - stage: deployDev
@@ -121,5 +99,3 @@ stages:
 #       deploymentSecondaryLocation: $(deploymentSecondaryLocation)
 #       deployApim: true
 #       eapimEnvironmentName: 'Test'
-
-
