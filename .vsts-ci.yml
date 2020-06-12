@@ -82,7 +82,7 @@ stages:
       serviceConnection: $(testServiceConnection)
       eapimServiceConnection: $(eapimServiceConnection)
       subscriptionId: $(testSubscriptionId)
-      clientId: $(testAzureB2cTenantId)
+      clientId: $(testRelyAppClientId)
       clientSigningKey: $(testClientSigningKey)
       graphAccessClientId: $(testGraphAccessClientId)
       graphAccessClientSecret: $(testGraphAccessClientSecret)

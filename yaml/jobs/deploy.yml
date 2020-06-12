@@ -83,7 +83,7 @@ jobs:
       -B2CGraphAccessClientSecret "${{parameters.graphAccessClientSecret}}"
       -EmailChangeConfirmationEmailSubjectNewEmail "Email change request"
       -EmailChangeConfirmationEmailSubjectOldEmail "Email change request"
-      -B2CChangeEmailPolicy "B2C_1A_changeemail"
+      -B2CChangeEmailPolicy "$(b2cChangeEmailPolicy)"
       -ExtensionAppId "${{parameters.extensionAppId}}"'
 
   strategy:

@@ -26,8 +26,6 @@ jobs:
   pool:
     vmImage: windows-latest
   variables:
-    #Uploader identity
-    #interpolation - these are used by the interpolation step to customise the policies per environment
     apimAppName: ${{parameters.applicationName}}
     environmentName: ${{parameters.environmentName}}
     proxyIdentAppRegistrationClientId: ${{parameters.proxyAppRegistrationClientId}}
@@ -97,4 +95,3 @@ jobs:
         UPLOADER_PRINCIPAL_SECRET: ${{parameters.uploaderPrincipalClientSecret}}
         UPLOADER_PRINCIPAL_CLIENTID : ${{parameters.uploaderPrincipalClientId}}
       displayName: Policy Upload
-
