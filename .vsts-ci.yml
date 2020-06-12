@@ -19,7 +19,7 @@ variables:
 - name: applicationName
   value: authncs
 - name: parsedExtensionAppId
-  value: ${{ replace('$(testProxyIdentityAppClientId)','-','') }}
+  value: ${{ replace(variables['testProxyIdentityAppClientId'],'-','') }}
 - group: ncs-b2c-global
 
 stages:
