@@ -148,7 +148,7 @@ jobs:
             publishContactEmail: 'paul.sheridan@digital.education.gov.uk'
             publishApiName: 'NCS Identity'
             publishApiOpenApiSchemaPath: '$(Build.SourcesDirectory)\definition.json'
-            publishApiPath: ncsauth
+            publishApiPath: ${{parameters.applicationName}}
             publishApiXmlPolicyPath: '$(Build.SourcesDirectory)\eapim\api\policy.xml'
             eapimEnvironment: ${{parameters.eapimEnvironmentName}}
             namedValuesIncluded: true
