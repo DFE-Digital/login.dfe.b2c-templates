@@ -24,7 +24,7 @@ $policyId = "B2C_1A_Find_Email"
 $policyFile = "$($env:BUILD_SOURCESDIRECTORY)\policy\Find_Email.xml"
 Invoke-Expression "$scriptPath $clientId $secret $tenantId $policyId $policyFile"
 
-$policyId = "B2C_1A_Password_Reset_Conformation"
+$policyId = "B2C_1A_Password_Reset_Confirmation"
 $policyFile = "$($env:BUILD_SOURCESDIRECTORY)\policy\Password_Reset_Confirmation.xml"
 Invoke-Expression "$scriptPath $clientId $secret $tenantId $policyId $policyFile"
 
