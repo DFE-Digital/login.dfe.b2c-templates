@@ -44,7 +44,7 @@ namespace B2CAzureFunc.Helpers
             // Create the token
             JwtSecurityToken token = new JwtSecurityToken(
                     issuer,
-                    Environment.GetEnvironmentVariable("B2CClientId", EnvironmentVariableTarget.Process),
+                    Environment.GetEnvironmentVariable("RelyingPartyAppClientId", EnvironmentVariableTarget.Process),
                     claims,
                     DateTime.Now,
                     expiry.AddYears(1),
@@ -85,7 +85,7 @@ namespace B2CAzureFunc.Helpers
             // Create the token
             JwtSecurityToken token = new JwtSecurityToken(
                     issuer,
-                    Environment.GetEnvironmentVariable("B2CClientId", EnvironmentVariableTarget.Process),
+                    Environment.GetEnvironmentVariable("RelyingPartyAppClientId", EnvironmentVariableTarget.Process),
                     claims,
                     DateTime.Now,
                     expiry.AddYears(1),
@@ -128,7 +128,7 @@ namespace B2CAzureFunc.Helpers
             // Create the token
             JwtSecurityToken token = new JwtSecurityToken(
                     issuer,
-                    Environment.GetEnvironmentVariable("B2CClientId", EnvironmentVariableTarget.Process),
+                    Environment.GetEnvironmentVariable("RelyingPartyAppClientId", EnvironmentVariableTarget.Process),
                     claims,
                     DateTime.UtcNow,
                     expiry.AddYears(1),
