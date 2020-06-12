@@ -195,7 +195,7 @@
 
       <ClaimsTransformation Id="CreateLinkEpiredErrorMessage" TransformationMethod="CreateStringClaim">
         <InputParameters>
-          <InputParameter Id="value" DataType="string" Value="This link got expired" />
+          <InputParameter Id="value" DataType="string" Value="The link in your account activation email has expired" />
         </InputParameters>
         <OutputClaims>
           <OutputClaim ClaimTypeReferenceId="errorMessage" TransformationClaimType="createdClaim" />
@@ -597,7 +597,7 @@
           <DisplayName>Unsolicited error message</DisplayName>
           <Protocol Name="Proprietary" Handler="Web.TPEngine.Providers.SelfAssertedAttributeProvider, Web.TPEngine, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"/>
           <Metadata>
-            <Item Key="ContentDefinitionReferenceId">api.selfasserted</Item>
+            <Item Key="ContentDefinitionReferenceId">api.aidedsignup.linkexpired</Item>
             <Item Key="setting.showContinueButton">false</Item>
             <Item Key="setting.showCancelButton">false</Item>
          </Metadata>
@@ -616,7 +616,7 @@
           <DisplayName>Unsolicited error message</DisplayName>
           <Protocol Name="Proprietary" Handler="Web.TPEngine.Providers.SelfAssertedAttributeProvider, Web.TPEngine, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"/>
           <Metadata>
-            <Item Key="ContentDefinitionReferenceId">api.selfasserted</Item>
+            <Item Key="ContentDefinitionReferenceId">api.selfsignup.linkexpired</Item>
             <Item Key="setting.showContinueButton">false</Item>
             <Item Key="setting.showCancelButton">false</Item>
          </Metadata>
@@ -635,7 +635,7 @@
           <DisplayName>PasswordReset-LinkExpired</DisplayName>
           <Protocol Name="Proprietary" Handler="Web.TPEngine.Providers.SelfAssertedAttributeProvider, Web.TPEngine, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"/>
           <Metadata>
-            <Item Key="ContentDefinitionReferenceId">api.selfasserted</Item>
+            <Item Key="ContentDefinitionReferenceId">api.passwordreset.linkexpired</Item>
             <Item Key="setting.showContinueButton">false</Item>
             <Item Key="setting.showCancelButton">false</Item>
          </Metadata>

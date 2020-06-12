@@ -92,7 +92,7 @@ namespace B2CAzureFunc
                     string b2cURL = Environment.GetEnvironmentVariable("B2CAuthorizationUrl", EnvironmentVariableTarget.Process);
                     string b2cTenant = Environment.GetEnvironmentVariable("B2CTenant", EnvironmentVariableTarget.Process);
                     string b2cPolicyId = Environment.GetEnvironmentVariable("B2CChangeEmailPolicy", EnvironmentVariableTarget.Process);
-                    string b2cClientId = Environment.GetEnvironmentVariable("B2CClientId", EnvironmentVariableTarget.Process);
+                    string b2cClientId = Environment.GetEnvironmentVariable("RelyingPartyAppClientId", EnvironmentVariableTarget.Process);
                     string b2cRedirectUri = Environment.GetEnvironmentVariable("B2CRedirectUri", EnvironmentVariableTarget.Process);
                     string url = UrlBuilder.BuildUrl(token, b2cURL, b2cTenant, b2cPolicyId, b2cClientId, b2cRedirectUri);
 
