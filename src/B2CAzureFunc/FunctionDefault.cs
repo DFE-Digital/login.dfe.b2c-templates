@@ -94,7 +94,7 @@ namespace B2CAzureFunc
 
                 if (definition.Servers.Any())
                 {
-                    var hostname = $"http://{Environment.GetEnvironmentVariable("WEBSITE_HOSTNAME")}";
+                    var hostname = $"https://{Environment.GetEnvironmentVariable("WEBSITE_HOSTNAME")}";
 
                     //string hostname = "";
                     //bool.TryParse(Environment.GetEnvironmentVariable("HTTPS"), out bool sslOn);
