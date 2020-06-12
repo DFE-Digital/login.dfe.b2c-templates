@@ -1288,7 +1288,7 @@
       <ClientDefinition ReferenceId="DefaultWeb"/>
     </UserJourney>
 
-    <UserJourney Id="SignUpInvitation">
+    <UserJourney Id="SignupInvitation">
       <OrchestrationSteps>
 
         <OrchestrationStep Order="1" Type="GetClaims" CpimIssuerTechnicalProfileReferenceId="IdTokenHint_ExtractClaims" />
