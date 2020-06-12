@@ -364,3 +364,4 @@ FodyWeavers.xsd
 .env
 scripts/.secrets
 scripts/_CertGeneration.ps1
+tenant_setup/*
