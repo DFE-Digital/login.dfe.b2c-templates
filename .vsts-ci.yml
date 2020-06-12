@@ -89,6 +89,7 @@ stages:
       deploymentPrimaryLocation: $(deploymentPrimaryLocation)
       deploymentSecondaryLocation: $(deploymentSecondaryLocation)
       eapimEnvironmentName: 'Test'
+      extensionAppId: replace('$(testProxyIdentityAppClientId)','-','')
       
 
 # - stage: deployDev
