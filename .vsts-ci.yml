@@ -18,6 +18,8 @@ trigger:
 variables:
 - name: applicationName
   value: authncs
+- name: parsedExtensionAppId
+  value: ${{ replace('$(testProxyIdentityAppClientId)','-','') }}
 - group: ncs-b2c-global
 
 stages:
@@ -79,7 +81,7 @@ stages:
       deploymentPrimaryLocation: $(deploymentPrimaryLocation)
       deploymentSecondaryLocation: $(deploymentSecondaryLocation)
       eapimEnvironmentName: 'Test'
-      extensionAppId: $[replace('$(testProxyIdentityAppClientId)','-','')]
+      extensionAppId: $(parsedExtensionAppId)
       
 
 # - stage: deployDev
