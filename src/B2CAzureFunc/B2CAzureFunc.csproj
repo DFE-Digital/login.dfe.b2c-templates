@@ -35,6 +35,12 @@
     <None Update="EmailTemplates\AdviserCreatedAccount\AdviserCreatedAccount_inlined_css.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="EmailTemplates\ChangeEmail\ActivateNewEmail_inlined_css.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="EmailTemplates\ChangeEmail\PreviousEmailDisabled_inlined_css.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="EmailTemplates\ResetPassword\ResetPassword_inlined_css.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
