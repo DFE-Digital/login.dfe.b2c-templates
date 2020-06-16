@@ -674,7 +674,7 @@
             <Item Key="UserMessageIfInvalidPassword">Your sign in details are incorrect. Try again.</Item>
             <Item Key="UserMessageIfOldPasswordUsed">Your sign in details are incorrect. Try again.</Item>
             <Item Key="DefaultMessage">Your sign in details are incorrect. Try again.</Item>
-            <Item Key="UserMessageIfUserAccountLocked">You have entered invalid details too many times. Your account has been locked for: 1 hour. Wait for your account to unlock ore reset your password to remove the account lock.</Item>
+            <Item Key="UserMessageIfUserAccountLocked">You have entered invalid details too many times. Your account has been locked for: 1 hour. Wait for your account to unlock or reset your password to remove the account lock.</Item>
 
             <Item Key="ProviderName">https://sts.windows.net/</Item>
             <Item Key="METADATA">https://login.microsoftonline.com/{tenant}/.well-known/openid-configuration</Item>
