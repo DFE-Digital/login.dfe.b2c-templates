@@ -68,11 +68,11 @@ parameters:
 
 - name: emailChangeConfirmationEmailSubjectNewEmail
   type: string
-  default: "Email Change Request"
+  default: "Activate your new email address"
 
 - name: emailChangeConfirmationEmailSubjectOldEmail 
   type: string
-  default: "Email Change Request"
+  default: "Changed email address"
 
 - name: environmentId
   type: string
@@ -141,10 +141,10 @@ jobs:
       -SMTPPassword "$(smtpPassword)"
       -SMTPFromAddress "$(smtpFromAddress)"
       -SMTPSubject "Sign-in to NCS"
-      -SignupEmailSubject "Create your account"
-      -SignupConfirmationEmailSubject "Verify your account"
-      -PasswordResetConfirmationEmailSubject "Verify your account"
-      -AccountActivationEmailExpiryInSeconds "86400"
+      -SignupEmailSubject "Complete your SFA registration"
+      -SignupConfirmationEmailSubject " Complete your SFA registration"
+      -PasswordResetConfirmationEmailSubject " Reset your password"
+      -AccountActivationEmailExpiryInSeconds "3600"
       -NCSApimSubscriptionKey "${{parameters.ncsApimSubscriptionKey}}"
       -NCSDSSApiKey "${{parameters.ncsDssApiKey}}"
       -NCSDSSSearchApiUrl "${{parameters.ncsDssSearchApiUrl}}"
