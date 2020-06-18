@@ -374,7 +374,7 @@
           <InputClaim ClaimTypeReferenceId="newEmail" TransformationClaimType="inputClaim" />
         </InputClaims>
         <InputParameters>
-          <InputParameter Id="stringFormat" DataType="string" Value="We've sent an activation email to {0}." />
+          <InputParameter Id="stringFormat" DataType="string" Value="We've send an email to {0}." />
         </InputParameters>
         <OutputClaims>
           <OutputClaim ClaimTypeReferenceId="confirmationMessage" TransformationClaimType="outputClaim" />
