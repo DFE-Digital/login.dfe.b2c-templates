@@ -137,5 +137,5 @@ stages:
       graphAccessClientSecret: $(devGraphAccessClientSecret)
       deploymentPrimaryLocation: $(deploymentPrimaryLocation)
       deploymentSecondaryLocation: $(deploymentSecondaryLocation)
-      eapimEnvironmentName: 'Dev'
+      eapimEnvironmentName: 'Development'
       extensionAppId: $(parsedDevExtensionAppId)
