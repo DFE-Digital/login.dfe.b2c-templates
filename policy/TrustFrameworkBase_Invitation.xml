@@ -602,6 +602,24 @@
         </Metadata>
       </ContentDefinition>
 
+      <ContentDefinition Id="api.changeemail.linkexpired">
+        <LoadUri>https://{{signinRedirectRoot}}/b2c/</LoadUri>
+        <RecoveryUri>~/common/default_page_error.html</RecoveryUri>
+        <DataUri>urn:com:microsoft:aad:b2c:elements:contract:selfasserted:1.2.0</DataUri>
+        <Metadata>
+          <Item Key="DisplayName">Collect information from user page</Item>
+        </Metadata>
+      </ContentDefinition>
+
+      <ContentDefinition Id="api.changeemail.emailactivated">
+        <LoadUri>https://{{signinRedirectRoot}}/b2c/</LoadUri>
+        <RecoveryUri>~/common/default_page_error.html</RecoveryUri>
+        <DataUri>urn:com:microsoft:aad:b2c:elements:contract:selfasserted:1.2.0</DataUri>
+        <Metadata>
+          <Item Key="DisplayName">Collect information from user page</Item>
+        </Metadata>
+      </ContentDefinition>
+
     </ContentDefinitions>
 
     <Localization Enabled="true">
@@ -674,6 +692,7 @@
             <Item Key="UserMessageIfInvalidPassword">Your sign in details are incorrect. Try again.</Item>
             <Item Key="UserMessageIfOldPasswordUsed">Your sign in details are incorrect. Try again.</Item>
             <Item Key="DefaultMessage">Your sign in details are incorrect. Try again.</Item>
+            <Item Key="UserMessageIfUserAccountLocked">You have entered invalid details too many times. Your account has been locked for: 1 hour. Wait for your account to unlock or reset your password to remove the account lock.</Item>
 
             <Item Key="ProviderName">https://sts.windows.net/</Item>
             <Item Key="METADATA">https://login.microsoftonline.com/{tenant}/.well-known/openid-configuration</Item>

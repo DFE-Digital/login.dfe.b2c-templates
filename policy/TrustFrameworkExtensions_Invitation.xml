@@ -142,6 +142,11 @@
           <DataType>boolean</DataType>
         </ClaimType>
 
+        <ClaimType Id="newEmailIsNotEqual">
+          <DisplayName>Email Is Not Equal</DisplayName>
+          <DataType>boolean</DataType>
+        </ClaimType>
+
     </ClaimsSchema>
 
     <ClaimsTransformations>
@@ -373,6 +378,19 @@
         </InputParameters>
         <OutputClaims>
           <OutputClaim ClaimTypeReferenceId="confirmationMessage" TransformationClaimType="outputClaim" />
+        </OutputClaims>
+      </ClaimsTransformation>
+
+      <ClaimsTransformation Id="IsNewEmailEqual" TransformationMethod="CompareClaims">
+        <InputClaims>
+          <InputClaim ClaimTypeReferenceId="newEmail" TransformationClaimType="inputClaim1" />
+          <InputClaim ClaimTypeReferenceId="signInNames.emailAddress" TransformationClaimType="inputClaim2" />
+        </InputClaims>
+        <InputParameters>
+          <InputParameter Id="operator" DataType="string" Value="NOT EQUAL" />
+        </InputParameters>
+        <OutputClaims>
+          <OutputClaim ClaimTypeReferenceId="newEmailIsNotEqual" TransformationClaimType="outputClaim" />
         </OutputClaims>
       </ClaimsTransformation>
 
@@ -874,7 +892,7 @@
           <DisplayName>ChangeEmail-LinkExpired</DisplayName>
           <Protocol Name="Proprietary" Handler="Web.TPEngine.Providers.SelfAssertedAttributeProvider, Web.TPEngine, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"/>
           <Metadata>
-            <Item Key="ContentDefinitionReferenceId">api.selfasserted</Item>
+            <Item Key="ContentDefinitionReferenceId">api.changeemail.linkexpired</Item>
             <Item Key="language.button_continue">Request new activation link</Item>
             <Item Key="setting.showCancelButton">false</Item>
          </Metadata>
@@ -915,7 +933,7 @@
           <DisplayName>EmailChange ConfirmScreen</DisplayName>
           <Protocol Name="Proprietary" Handler="Web.TPEngine.Providers.SelfAssertedAttributeProvider, Web.TPEngine, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"/>
           <Metadata>
-            <Item Key="ContentDefinitionReferenceId">api.selfasserted</Item>
+            <Item Key="ContentDefinitionReferenceId">api.changeemail.emailactivated</Item>
             <Item Key="setting.showContinueButton">false</Item>
             <Item Key="setting.showCancelButton">false</Item>
          </Metadata>
@@ -948,6 +966,21 @@
           <OutputClaims>
             <OutputClaim ClaimTypeReferenceId="confirmationMessage"/>
           </OutputClaims>
+        </TechnicalProfile>
+
+        <TechnicalProfile Id="SelfAsserted-ValidateNewEmail">
+          <DisplayName>Validate Email Full Profile Edit</DisplayName>
+          <Protocol Name="Proprietary" Handler="Web.TPEngine.Providers.ClaimsTransformationProtocolProvider, Web.TPEngine, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" />
+          <InputClaims>
+            <InputClaim ClaimTypeReferenceId="newEmail" />
+            <InputClaim ClaimTypeReferenceId="signInNames.emailAddress" />
+          </InputClaims>
+          <OutputClaims>
+            <OutputClaim ClaimTypeReferenceId="newEmailIsNotEqual" />
+          </OutputClaims>
+          <OutputClaimsTransformations>
+            <OutputClaimsTransformation ReferenceId="IsNewEmailEqual" />
+          </OutputClaimsTransformations>
         </TechnicalProfile>
 
       </TechnicalProfiles>
@@ -1531,13 +1564,33 @@
           </ClaimsExchanges>
         </OrchestrationStep>
 
+
         <OrchestrationStep Order="6" Type="ClaimsExchange">
+          <ClaimsExchanges>
+            <ClaimsExchange Id="IsNewEmailEqual" TechnicalProfileReferenceId="SelfAsserted-ValidateNewEmail" />
+          </ClaimsExchanges>
+        </OrchestrationStep>
+
+        <OrchestrationStep Order="7" Type="ClaimsExchange">
+          <Preconditions>
+            <Precondition Type="ClaimEquals" ExecuteActionsIf="false">
+              <Value>newEmailIsNotEqual</Value>
+              <Value>False</Value>
+              <Action>SkipThisOrchestrationStep</Action>
+            </Precondition>
+          </Preconditions>
+          <ClaimsExchanges>
+            <ClaimsExchange Id="EmailChange-AlreadyActivated-ConfirmScreen" TechnicalProfileReferenceId="SelfAsserted-EmailChange-ConfirmScreen" />
+          </ClaimsExchanges>
+        </OrchestrationStep>
+
+        <OrchestrationStep Order="8" Type="ClaimsExchange">
           <ClaimsExchanges>
             <ClaimsExchange Id="IsEmailEqual" TechnicalProfileReferenceId="SelfAsserted-ValidateEmail"/>
           </ClaimsExchanges>
         </OrchestrationStep>
 
-        <OrchestrationStep Order="7" Type="ClaimsExchange">
+        <OrchestrationStep Order="9" Type="ClaimsExchange">
          <Preconditions>
             <Precondition Type="ClaimEquals" ExecuteActionsIf="false">
               <Value>emailIsNotEqual</Value>
@@ -1550,7 +1603,7 @@
           </ClaimsExchanges>
         </OrchestrationStep>
 
-        <OrchestrationStep Order="8" Type="ClaimsExchange">
+        <OrchestrationStep Order="10" Type="ClaimsExchange">
           <Preconditions>
             <Precondition Type="ClaimEquals" ExecuteActionsIf="false">
               <Value>isLinkValid</Value>
@@ -1563,7 +1616,7 @@
           </ClaimsExchanges>
         </OrchestrationStep>
 
-        <OrchestrationStep Order="9" Type="ClaimsExchange">
+        <OrchestrationStep Order="11" Type="ClaimsExchange">
          <Preconditions>
             <Precondition Type="ClaimEquals" ExecuteActionsIf="false">
               <Value>isLinkValid</Value>
@@ -1576,7 +1629,7 @@
           </ClaimsExchanges>
         </OrchestrationStep>
 
-        <OrchestrationStep Order="10" Type="SendClaims" CpimIssuerTechnicalProfileReferenceId="JwtIssuer"/>
+        <OrchestrationStep Order="12" Type="SendClaims" CpimIssuerTechnicalProfileReferenceId="JwtIssuer"/>
       </OrchestrationSteps>
       <ClientDefinition ReferenceId="DefaultWeb"/>
     </UserJourney>
