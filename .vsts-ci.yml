@@ -18,8 +18,10 @@ trigger:
 variables:
 - name: applicationName
   value: authncs
-- name: parsedExtensionAppId
+- name: parsedTestExtensionAppId
   value: $[ replace(variables['testProxyIdentityAppClientId'],'-','') ]
+- name: parsedDevExtensionAppId
+  value: $[ replace(variables['devProxyIdentityAppClientId'],'-','') ]
 - group: ncs-b2c-global
 
 stages:
@@ -34,6 +36,8 @@ stages:
 
 - stage: testTenantSetup
   displayName: Tenant Setup - TEST
+  dependsOn:
+  - build
   jobs:
   - template: yaml/jobs/tenant-setup.yml
     parameters:
@@ -47,6 +51,24 @@ stages:
       identAppRegistrationClientId: $(testIdentityAppClientId)
       signinRedirectRoot: test-interactions.signin.education.gov.uk
       eapimRootUrl: test-api-customerengagement.platform.education.gov.uk
+
+- stage: devTenantSetup
+  displayName: Tenant Setup - DEV
+  dependsOn:
+    - build
+  jobs:
+  - template: yaml/jobs/tenant-setup.yml
+    parameters:
+      applicationName: $(applicationName)
+      environmentName: test
+      tenantId: $(devAzureB2cTenantId)
+      uploaderPrincipalClientId: $(devPipelineManagementClientId)
+      uploaderPrincipalClientSecret: $(devPipelineManagementClientSecret)
+      proxyAppRegistrationClientId: $(devProxyIdentityAppClientId)
+      proxyAppRegistrationObjectId: $(devProxyIdentityAppObjectId)
+      identAppRegistrationClientId: $(devIdentityAppClientId)
+      signinRedirectRoot: dev-interactions.signin.education.gov.uk
+      eapimRootUrl: dev-api-customerengagement.platform.education.gov.uk
 
 - stage: deployTest
   displayName: Deploy - TEST
@@ -81,23 +103,39 @@ stages:
       deploymentPrimaryLocation: $(deploymentPrimaryLocation)
       deploymentSecondaryLocation: $(deploymentSecondaryLocation)
       eapimEnvironmentName: 'Test'
-      extensionAppId: $(parsedExtensionAppId)
-      
+      extensionAppId: $(parsedTestExtensionAppId)
 
-# - stage: deployDev
-#   displayName: Deploy - DEV
-#   jobs:
-#   - template: yaml/jobs/deploy.yml
-#     parameters:
-#       environmentName: 'test'
-#       environmentId: 'd01'
-#       serviceConnection: $(devServiceConnection)
-#       subscriptionId: $(devSubscriptionId)
-#       clientId: $(devAzureB2cTenantId)
-#       clientSigningKey: $(devClientSigningKey)
-#       graphAccessClientId: $(devGraphAccessClientId)
-#       graphAccessClientSecret: $(devGraphAccessClientSecret)
-#       deploymentPrimaryLocation: $(deploymentPrimaryLocation)
-#       deploymentSecondaryLocation: $(deploymentSecondaryLocation)
-#       deployApim: true
-#       eapimEnvironmentName: 'Test'
+- stage: deployTest
+  displayName: Deploy - TEST
+  dependsOn:
+  - build
+  - devTenantSetup
+  jobs:
+  - template: yaml/jobs/deploy.yml
+    parameters:
+      applicationName: $(applicationName)
+      environmentName: 'dev'
+      functionServicePlanSkuName: $(functionServicePlanSkuName)
+      functionServicePlanSkuTier: $(functionServicePlanSkuTier)
+      functionServicePlanSkuCount: $(functionServicePlanSkuCount)
+      b2cSignUpPolicy: $(b2cSignUpPolicy)
+      b2cSignupConfirmPolicy: $(b2cSignupConfirmPolicy)
+      b2cPasswordResetConfirmPoicy: $(b2cPasswordResetConfirmPoicy)
+      b2cChangeEmailPolicy: $(b2cChangeEmailPolicy)
+      b2cAuthorizationUrl: $(b2cAuthorizationUrl)
+      ncsApimSubscriptionKey: $(ncsApimSubscriptionKey)
+      ncsDssApiKey: $(ncsDssApiKey)
+      ncsDssSearchApiUrl: $(ncsDssSearchApiUrl)
+      ncsDssSearchApiVersion: $(ncsDssSearchApiVersion)
+      environmentId: 'd01'
+      serviceConnection: $(devServiceConnection)
+      eapimServiceConnection: $(eapimServiceConnection)
+      subscriptionId: $(devSubscriptionId)
+      relyingPartyAppClientId: $(devRelyAppClientId)
+      clientSigningKey: $(devClientSigningKey)
+      graphAccessClientId: $(devGraphAccessClientId)
+      graphAccessClientSecret: $(devGraphAccessClientSecret)
+      deploymentPrimaryLocation: $(deploymentPrimaryLocation)
+      deploymentSecondaryLocation: $(deploymentSecondaryLocation)
+      eapimEnvironmentName: 'Dev'
+      extensionAppId: $(parsedDevExtensionAppId)
