@@ -105,8 +105,8 @@ stages:
       eapimEnvironmentName: 'Test'
       extensionAppId: $(parsedTestExtensionAppId)
 
-- stage: deployTest
-  displayName: Deploy - TEST
+- stage: deployDev
+  displayName: Deploy - DEV
   dependsOn:
   - build
   - devTenantSetup
