@@ -20,7 +20,6 @@
           <DataType>string</DataType>
           <UserInputType>TextBox</UserInputType>
         </ClaimType>
-        </ClaimType>
 
         <ClaimType Id="newUserObjectId">
           <DisplayName>Verified Email Address</DisplayName>
