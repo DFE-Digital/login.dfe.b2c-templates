@@ -55,6 +55,7 @@ namespace B2CAzureFunc
                 string htmlTemplate = System.IO.File.ReadAllText(@"D:\home\site\wwwroot\EmailTemplates\ResetPassword\ResetPassword_inlined_css.html");
                 string from = Environment.GetEnvironmentVariable("SMTPFromAddress", EnvironmentVariableTarget.Process);
                 string subject = Environment.GetEnvironmentVariable("PasswordResetConfirmationEmailSubject", EnvironmentVariableTarget.Process);
+                string fromDisplayName = Environment.GetEnvironmentVariable("FromDisplayName", EnvironmentVariableTarget.Process);
                 htmlTemplate = htmlTemplate.Replace("#name#", data.givenName.ToString()).Replace("#link#", url);
 
                 EmailModel model = new EmailModel
@@ -64,7 +65,8 @@ namespace B2CAzureFunc
                     From = from,
                     Subject = subject,
                     To = data.email.ToString(),
-                    Name=data.givenName.ToString()
+                    Name = data.givenName.ToString(),
+                    FromDisplayName = fromDisplayName
                 };
 
                 var result = EmailService.SendEmail(model);

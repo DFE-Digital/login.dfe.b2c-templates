@@ -102,7 +102,7 @@ namespace B2CAzureFunc
                     string from = Environment.GetEnvironmentVariable("SMTPFromAddress", EnvironmentVariableTarget.Process);
                     string emailChangeSubjectToNewEmail = Environment.GetEnvironmentVariable("EmailChangeConfirmationEmailSubjectNewEmail", EnvironmentVariableTarget.Process);
                     string emailChangeSubjectToOldEmail = Environment.GetEnvironmentVariable("EmailChangeConfirmationEmailSubjectOldEmail", EnvironmentVariableTarget.Process);
-
+                    string fromDisplayName = Environment.GetEnvironmentVariable("FromDisplayName", EnvironmentVariableTarget.Process);
                     htmlTemplateOldEmail = htmlTemplateOldEmail.Replace("#name#", userDetails.value[0].givenName);
                     htmlTemplateNewEmail = htmlTemplateNewEmail.Replace("#name#", userDetails.value[0].givenName).Replace("#link#", url);
                     bool result2 = false;
@@ -113,7 +113,8 @@ namespace B2CAzureFunc
                         From = from,
                         Subject = emailChangeSubjectToNewEmail,
                         To = data.NewEmail.ToString(),
-                        Name = userDetails.value[0].givenName.ToString()
+                        Name = userDetails.value[0].givenName.ToString(),
+                        FromDisplayName = fromDisplayName
                     };
 
                     var result1 = EmailService.SendEmail(model);
@@ -128,7 +129,8 @@ namespace B2CAzureFunc
                             From = from,
                             Subject = emailChangeSubjectToOldEmail,
                             To = data.CurrentEmail.ToString(),
-                            Name = userDetails.value[0].givenName.ToString()
+                            Name = userDetails.value[0].givenName.ToString(),
+                            FromDisplayName = fromDisplayName
                         };
 
                         result2 = EmailService.SendEmail(model);

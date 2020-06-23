@@ -22,7 +22,7 @@ namespace B2CAzureFunc.Helpers
         /// <param name="requestScheme"></param>
         /// <param name="host"></param>
         /// <param name="path"></param>
-        /// <returns></returns>
+        /// <returns>string</returns>
         public static string BuildIdToken(string email, string givenName, string surname, string customerId, DateTime expiry, string requestScheme, string host, string path)
         {
             string issuer = $"{requestScheme}://{host}{path}/";
@@ -65,7 +65,7 @@ namespace B2CAzureFunc.Helpers
         /// <param name="host"></param>
         /// <param name="path"></param>
         /// <param name="objectId"></param>
-        /// <returns></returns>
+        /// <returns>string</returns>
         public static string BuildIdToken(string email, DateTime expiry, string requestScheme, string host, string path, string objectId)
         {
             string issuer = $"{requestScheme}://{host}{path}/";
@@ -107,7 +107,7 @@ namespace B2CAzureFunc.Helpers
         /// <param name="host"></param>
         /// <param name="path"></param>
         /// <param name="objectId"></param>
-        /// <returns></returns>
+        /// <returns>string</returns>
         public static string BuildIdToken(string currentEmail, string newEmail, DateTime expiry, string requestScheme, string host, string path, string objectId)
         {
             string issuer = $"{requestScheme}://{host}{path}/";
