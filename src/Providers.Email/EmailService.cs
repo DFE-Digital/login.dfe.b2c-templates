@@ -14,12 +14,12 @@ namespace Providers.Email
         /// Send Email
         /// </summary>
         /// <param name="model"></param>
-        /// <returns></returns>
+        /// <returns>bool</returns>
         public static bool SendEmail(EmailModel model)
         {
             MailMessage mailMessage = new MailMessage();
             mailMessage.To.Add(model.To);
-            mailMessage.From = new MailAddress(model.From);
+            mailMessage.From = new MailAddress(model.From, model.FromDisplayName);
             mailMessage.Subject = model.Subject;
             mailMessage.Body = model.EmailTemplate;
             mailMessage.IsBodyHtml = true;

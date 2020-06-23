@@ -66,7 +66,7 @@ namespace B2CAzureFunc
                                     version = "1.0.0",
                                     userMessage = "We have not been able to find your account",
                                     status = 409,
-                                    developerMessage = "Value null, "+ await response.Content.ReadAsStringAsync()
+                                    developerMessage = "Value null, " + await response.Content.ReadAsStringAsync()
                                 });
                             }
                             else
@@ -96,6 +96,7 @@ namespace B2CAzureFunc
                                 string htmlTemplate = System.IO.File.ReadAllText(@"D:\home\site\wwwroot\EmailTemplates\AdviserCreatedAccount\AdviserCreatedAccount_inlined_css.html");
                                 string from = Environment.GetEnvironmentVariable("SMTPFromAddress", EnvironmentVariableTarget.Process);
                                 string subject = Environment.GetEnvironmentVariable("SignupEmailSubject", EnvironmentVariableTarget.Process);
+                                string fromDisplayName = Environment.GetEnvironmentVariable("FromDisplayName", EnvironmentVariableTarget.Process);
 
                                 htmlTemplate = htmlTemplate.Replace("#name#", data.GivenName.ToString()).Replace("#link#", url);
 
@@ -105,7 +106,8 @@ namespace B2CAzureFunc
                                     EmailTemplate = htmlTemplate,
                                     From = from,
                                     Subject = subject,
-                                    To = data.Email.ToString()
+                                    To = data.Email.ToString(),
+                                    FromDisplayName = fromDisplayName
                                 };
 
                                 var result = EmailService.SendEmail(model);
