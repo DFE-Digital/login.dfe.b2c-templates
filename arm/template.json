@@ -801,6 +801,10 @@
                             "value": "[parameters('PasswordResetConfirmationEmailSubject')]"
                         },
                         {
+                            "name": "FromDisplayName",
+                            "value": "The National Careers Service"
+                        },
+                        {
                             "name": "resendSignupEmail",
                             "value": "Activate your account"
                         },
