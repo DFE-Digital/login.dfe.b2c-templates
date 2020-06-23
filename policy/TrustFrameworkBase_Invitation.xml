@@ -585,6 +585,7 @@
           <Item Key="DisplayName">Collect information from user page</Item>
         </Metadata>
       </ContentDefinition>
+
       <ContentDefinition Id="api.aidedsignup.linkexpired">
         <LoadUri>https://{{signinRedirectRoot}}/b2c/</LoadUri>
         <RecoveryUri>~/common/default_page_error.html</RecoveryUri>
@@ -593,6 +594,7 @@
           <Item Key="DisplayName">Collect information from user page</Item>
         </Metadata>
       </ContentDefinition>
+      
       <ContentDefinition Id="api.passwordreset.linkexpired">
         <LoadUri>https://{{signinRedirectRoot}}/b2c/</LoadUri>
         <RecoveryUri>~/common/default_page_error.html</RecoveryUri>
