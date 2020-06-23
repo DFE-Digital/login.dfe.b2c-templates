@@ -22,8 +22,8 @@
     "SMTPUseSSL": true,
     "SMTPFromAddress": "admin@contoso.com",
     "SMTPSubject": "Sign-in to Contoso.com",
-    "SignupEmailSubject": "Complete your SFA registration",
-    "SignupConfirmationEmailSubject": "Complete your SFA registration",
+    "SignupEmailSubject": "Complete your National Careers Service registration",
+    "SignupConfirmationEmailSubject": "Complete your National Careers Service registration",
     "PasswordResetConfirmationEmailSubject": "Reset your password",
     "AccountActivationEmailExpiryInSeconds": "1",
     "ncs-dss-search-api-url": "https://at.api.nationalcareersservice.org.uk/search/api/",
@@ -35,14 +35,15 @@
     "ncs-dss-create-contact-api-url": "https://at.api.nationalcareersservice.org.uk/contactdetails/api/customers/{0}/ContactDetails/",
     "ncs-dss-create-identity-api-url": "https://at.api.nationalcareersservice.org.uk/digitalidentities/api/identity",
     "TouchpointId": "1000000000",
-
-    //new
     "b2c:Tenant": "devauthncs.onmicrosoft.com",
     "b2c:GraphAccessClientId": "9e28727a-9abe-4d3b-80e8-367889846e1c",
     "b2c:GraphAccessClientSecret": "S5EUqH6PyEI.2qqztYlC4Pqx.1B.~8GTe7",
     "EmailChangeConfirmationEmailSubjectNewEmail": "Email change request",
     "EmailChangeConfirmationEmailSubjectOldEmail": "Email change request",
     "B2CChangeEmailPolicy": "B2C_1A_changeemail",
-    "ExtensionAppId": "9509a3af9e674a7d9443a094c02c8e69"
+    "ExtensionAppId": "9509a3af9e674a7d9443a094c02c8e69",
+
+    //new
+    "FromDisplayName": "The National Careers Service"
   }
 }

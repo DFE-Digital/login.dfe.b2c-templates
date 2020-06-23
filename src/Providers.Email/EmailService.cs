@@ -19,7 +19,7 @@ namespace Providers.Email
         {
             MailMessage mailMessage = new MailMessage();
             mailMessage.To.Add(model.To);
-            mailMessage.From = new MailAddress(model.From);
+            mailMessage.From = new MailAddress(model.From, model.FromDisplayName);
             mailMessage.Subject = model.Subject;
             mailMessage.Body = model.EmailTemplate;
             mailMessage.IsBodyHtml = true;

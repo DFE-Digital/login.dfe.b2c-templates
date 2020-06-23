@@ -30,7 +30,7 @@ namespace B2CAzureFunc
         /// <response code="409"><see cref="Object"/>Error</response>
         [FunctionName("SignupConfirmation")]
         public static async Task<IActionResult> Run(
-            [HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] 
+            [HttpTrigger(AuthorizationLevel.Function, "post", Route = null)]
             HttpRequest req,
             ILogger log)
         {
@@ -55,6 +55,7 @@ namespace B2CAzureFunc
 
                 string htmlTemplate = System.IO.File.ReadAllText(@"D:\home\site\wwwroot\EmailTemplates\Signup\Signup_inlined_css.html");
                 string from = Environment.GetEnvironmentVariable("SMTPFromAddress", EnvironmentVariableTarget.Process);
+                string fromDisplayName = Environment.GetEnvironmentVariable("FromDisplayName", EnvironmentVariableTarget.Process);
                 string subject = "";
                 if (!data.IsResend)
                     subject = Environment.GetEnvironmentVariable("SignupConfirmationEmailSubject", EnvironmentVariableTarget.Process);
@@ -70,7 +71,8 @@ namespace B2CAzureFunc
                     From = from,
                     Subject = subject,
                     To = data.Email.ToString(),
-                    Name = data.GivenName.ToString()
+                    Name = data.GivenName.ToString(),
+                    FromDisplayName = fromDisplayName
                 };
 
                 var result = EmailService.SendEmail(model);

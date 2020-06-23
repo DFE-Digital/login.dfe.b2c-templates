@@ -14,6 +14,10 @@
         /// </summary>
         public string From { get; set; }
         /// <summary>
+        /// Name for from email address
+        /// </summary>
+        public string FromDisplayName { get; set; }
+        /// <summary>
         /// Name
         /// </summary>
         public string Name { get; set; }
