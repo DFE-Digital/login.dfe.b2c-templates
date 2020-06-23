@@ -14,7 +14,7 @@ namespace Providers.Email
         /// Send Email
         /// </summary>
         /// <param name="model"></param>
-        /// <returns></returns>
+        /// <returns>bool</returns>
         public static bool SendEmail(EmailModel model)
         {
             MailMessage mailMessage = new MailMessage();

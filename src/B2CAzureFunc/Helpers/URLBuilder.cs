@@ -16,7 +16,7 @@ namespace B2CAzureFunc.Helpers
         /// <param name="b2cPolicyId"></param>
         /// <param name="b2cClientId"></param>
         /// <param name="b2cRedirectURI"></param>
-        /// <returns></returns>
+        /// <returns>string</returns>
         public static string BuildUrl(string token,string b2CAuthURL,string b2cTenant,string b2cPolicyId,string b2cClientId,string b2cRedirectURI)
         {
             string nonce = Guid.NewGuid().ToString("n");

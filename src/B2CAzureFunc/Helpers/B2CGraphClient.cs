@@ -18,7 +18,12 @@ namespace B2CAzureFunc.Helpers
 
         private AuthenticationContext authContext;
         private ClientCredential credential;
-
+        /// <summary>
+        /// B2CGraphClient
+        /// </summary>
+        /// <param name="clientId"></param>
+        /// <param name="clientSecret"></param>
+        /// <param name="tenant"></param>
         public B2CGraphClient(string clientId, string clientSecret, string tenant)
         {
             this.clientId = clientId;
@@ -29,16 +34,33 @@ namespace B2CAzureFunc.Helpers
             this.credential = new ClientCredential(clientId, clientSecret);
         }
 
+        /// <summary>
+        /// GetAllUsersAsync
+        /// </summary>
+        /// <param name="query"></param>
+        /// <returns></returns>
         public async Task<string> GetAllUsersAsync(string query)
         {
             return await SendGraphGetRequest("/users", query);
         }
 
+        /// <summary>
+        /// UpdateUser
+        /// </summary>
+        /// <param name="objectId"></param>
+        /// <param name="json"></param>
+        /// <returns>bool</returns>
         public async Task<bool> UpdateUser(string objectId, string json)
         {
             return await SendGraphPatchRequest("/users/" + objectId, json);
         }
 
+        /// <summary>
+        /// SendGraphGetRequest
+        /// </summary>
+        /// <param name="api"></param>
+        /// <param name="query"></param>
+        /// <returns>string</returns>
         public async Task<string> SendGraphGetRequest(string api, string query)
         {
             AuthenticationResult result = await authContext.AcquireTokenAsync("https://graph.windows.net", credential);
@@ -63,7 +85,8 @@ namespace B2CAzureFunc.Helpers
             var result1 = await response.Content.ReadAsStringAsync();
             return result1;
         }
-
+        
+        //Make tehe graph request to update the user
         private async Task<bool> SendGraphPatchRequest(string api, string json)
         {
             // NOTE: This client uses ADAL v2, not ADAL v4
