@@ -26,6 +26,7 @@
       <Protocol Name="OpenIdConnect" />
       <InputClaims>
         <InputClaim ClaimTypeReferenceId="email" PartnerClaimType="email" />
+        <InputClaim ClaimTypeReferenceId="givenName" PartnerClaimType="givenName" />
         <InputClaim ClaimTypeReferenceId="objectId" PartnerClaimType="objectId" />
         <InputClaim ClaimTypeReferenceId="expiry" PartnerClaimType="expiry" />
       </InputClaims>
