@@ -578,7 +578,7 @@
       </ContentDefinition>
 
       <ContentDefinition Id="api.selfsignup.linkexpired">
-        <LoadUri>~/tenant/templates/AzureBlue/selfAsserted.cshtml</LoadUri>
+        <LoadUri>https://{{signinRedirectRoot}}/b2c/</LoadUri>
         <RecoveryUri>~/common/default_page_error.html</RecoveryUri>
         <DataUri>urn:com:microsoft:aad:b2c:elements:contract:selfasserted:1.2.0</DataUri>
         <Metadata>
@@ -587,7 +587,7 @@
       </ContentDefinition>
 
       <ContentDefinition Id="api.aidedsignup.linkexpired">
-        <LoadUri>~/tenant/templates/AzureBlue/selfAsserted.cshtml</LoadUri>
+        <LoadUri>https://{{signinRedirectRoot}}/b2c/</LoadUri>
         <RecoveryUri>~/common/default_page_error.html</RecoveryUri>
         <DataUri>urn:com:microsoft:aad:b2c:elements:contract:selfasserted:1.2.0</DataUri>
         <Metadata>
@@ -632,7 +632,7 @@
       </ContentDefinition>
 
       <ContentDefinition Id="api.aidedsignup.emailresent">
-        <LoadUri>~/tenant/templates/AzureBlue/selfAsserted.cshtml</LoadUri>
+        <LoadUri>https://{{signinRedirectRoot}}/b2c/</LoadUri>
         <RecoveryUri>~/common/default_page_error.html</RecoveryUri>
         <DataUri>urn:com:microsoft:aad:b2c:elements:contract:selfasserted:1.2.0</DataUri>
         <Metadata>
@@ -641,14 +641,14 @@
       </ContentDefinition>
 
       <ContentDefinition Id="api.selfsignup.emailresent">
-        <LoadUri>~/tenant/templates/AzureBlue/selfAsserted.cshtml</LoadUri>
+        <LoadUri>https://{{signinRedirectRoot}}/b2c/</LoadUri>
         <RecoveryUri>~/common/default_page_error.html</RecoveryUri>
         <DataUri>urn:com:microsoft:aad:b2c:elements:contract:selfasserted:1.2.0</DataUri>
         <Metadata>
           <Item Key="DisplayName">Collect information from user page</Item>
         </Metadata>
       </ContentDefinition>
-
+      
     </ContentDefinitions>
 
     <Localization Enabled="true">
