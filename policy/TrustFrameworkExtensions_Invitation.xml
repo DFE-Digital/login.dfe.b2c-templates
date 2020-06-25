@@ -1217,7 +1217,7 @@
                 <DisplayName>User OTP Notifications</DisplayName>    
                 <Protocol Name="Proprietary" Handler="Web.TPEngine.Providers.RestfulProvider, Web.TPEngine, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" />
                 <Metadata>
-                  <Item Key="ServiceUrl">https://{{eapimRootUrl}}/{{apimAppName}}/SignUpInvitation</Item>
+                  <Item Key="ServiceUrl">https://{{eapimRootUrl}}/{{apimAppName}}/SignupConfirmation</Item>
                   <Item Key="SendClaimsIn">Body</Item>                        
                   <Item Key="AuthenticationType">ClientCertificate</Item>
                 </Metadata>
