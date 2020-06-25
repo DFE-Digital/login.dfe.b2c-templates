@@ -648,7 +648,7 @@
           <Item Key="DisplayName">Collect information from user page</Item>
         </Metadata>
       </ContentDefinition>
-
+      
     </ContentDefinitions>
 
     <Localization Enabled="true">
