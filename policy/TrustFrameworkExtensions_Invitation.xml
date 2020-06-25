@@ -1225,8 +1225,8 @@
                     <Key Id="ClientCertificate" StorageReferenceId="B2C_1A_APIMClientCertificate" />
                 </CryptographicKeys>
                 <InputClaims>
-                    <InputClaim ClaimTypeReferenceId="email" PartnerClaimType="Email"/>
-                    <InputClaim ClaimTypeReferenceId="givenName" PartnerClaimType="GivenName"/>
+                    <InputClaim ClaimTypeReferenceId="email" PartnerClaimType="email"/>
+                    <InputClaim ClaimTypeReferenceId="givenName" PartnerClaimType="givenName"/>
                     <InputClaim ClaimTypeReferenceId="objectId" PartnerClaimType="ObjectId"/>
                     <InputClaim ClaimTypeReferenceId="isResend" DefaultValue="true" PartnerClaimType="IsResend"/>
                 </InputClaims>
