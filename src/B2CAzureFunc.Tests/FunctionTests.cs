@@ -116,7 +116,7 @@ namespace B2CAzureFunc.Tests
         /// <param name="queryStringValue"></param>
         /// <returns></returns>
         [Theory]
-        [MemberData(nameof(TestFactory.SignupConfirmationData), MemberType = typeof(TestFactory))]
+        [MemberData(nameof(TestFactory.SignupInvitationData), MemberType = typeof(TestFactory))]
         public async Task SignupInvitationAsync(string queryStringValue)
         {
             var body = queryStringValue;
@@ -142,7 +142,7 @@ namespace B2CAzureFunc.Tests
         /// <returns></returns>
         [Theory]
         [MemberData(nameof(TestFactory.ValidateUserData), MemberType = typeof(TestFactory))]
-        public async Task AidedRegValidaeUserDetails(string queryStringValue)
+        public async Task AidedRegValidateUserDetails(string queryStringValue)
         {
             var body = queryStringValue;
             var request = TestFactory.CreateHttpRequest(body);
