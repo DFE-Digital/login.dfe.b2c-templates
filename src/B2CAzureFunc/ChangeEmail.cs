@@ -56,7 +56,7 @@ namespace B2CAzureFunc
                     {
                         version = "1.0.0",
                         userMessage = "Sorry, This email already exists",
-                        status = 404
+                        status = 400
                     });
                 }
 
@@ -69,7 +69,7 @@ namespace B2CAzureFunc
                     {
                         version = "1.0.0",
                         userMessage = "Sorry, This user doesn't exists.",
-                        status = 404
+                        status = 400
                     });
                 }
                 bool updateResult = false;
@@ -140,14 +140,14 @@ namespace B2CAzureFunc
 
                     return result1 && result2
                         ? (ActionResult)new OkObjectResult(true)
-                        : new BadRequestObjectResult(new
+                        : new BadRequestObjectResult(new ResponseContentModel
                         {
                             userMessage = "Something happened unexpectedly.",
                             version = "1.0.0",
                             status = 409,
                             code = "API12345",
                             requestId = "50f0bd91-2ff4-4b8f-828f-00f170519ddb",
-                            developerMessage = "Verbose description of problem and how to fix it.",
+                            developerMessage = "Email sent failed.",
                             moreInfo = "https://restapi/error/API12345/moreinfo"
                         });
                 }
@@ -156,7 +156,7 @@ namespace B2CAzureFunc
                     {
                         version = "1.0.0",
                         userMessage = "Sorry, Something happened unexpectedly. Please try after sometime.",
-                        status = 404
+                        status = 400
                     });
 
             }
@@ -165,7 +165,8 @@ namespace B2CAzureFunc
                 return new BadRequestObjectResult(new ResponseContentModel
                 {
                     version = "1.0.0",
-                    userMessage = ex.ToString(),
+                    developerMessage = ex.ToString(),
+                    userMessage = "Sorry, Something happened unexpectedly. Please try after sometime.",
                     status = 404
                 });
             }

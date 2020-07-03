@@ -202,6 +202,7 @@ namespace B2CAzureFunc
                 {
                     version = "1.0.0",
                     userMessage = "Sorry, Something happened unexpectedly. Please try after sometime.",
+                    developerMessage = ex.ToString(),
                     status = 404
                 });
             }

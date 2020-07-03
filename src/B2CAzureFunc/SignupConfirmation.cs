@@ -78,28 +78,27 @@ namespace B2CAzureFunc
                 var result = EmailService.SendEmail(model);
                 return result
                     ? (ActionResult)new OkObjectResult(true)
-                    : new BadRequestObjectResult(new
+                    : new BadRequestObjectResult(new ResponseContentModel
                     {
-                        userMessage = "Something happened unexpectedly.",
+                        userMessage = "Sorry, Something happened unexpectedly.",
                         version = "1.0.0",
                         status = 409,
                         code = "API12345",
                         requestId = "50f0bd91-2ff4-4b8f-828f-00f170519ddb",
-                        developerMessage = "Verbose description of problem and how to fix it.",
+                        developerMessage = "Email sent failed.",
                         moreInfo = "https://restapi/error/API12345/moreinfo"
                     });
             }
             catch (Exception ex)
             {
-                log.LogInformation(ex.ToString());
-                return new BadRequestObjectResult(new
+                return new BadRequestObjectResult(new ResponseContentModel
                 {
-                    userMessage = ex.ToString(),
+                    userMessage = "Sorry, Something happened unexpectedly.",
                     version = "1.0.0",
                     status = 409,
                     code = "API12345",
                     requestId = "50f0bd91-2ff4-4b8f-828f-00f170519ddb",
-                    developerMessage = "Verbose description of problem and how to fix it.",
+                    developerMessage = ex.ToString(),
                     moreInfo = "https://restapi/error/API12345/moreinfo"
                 });
             }

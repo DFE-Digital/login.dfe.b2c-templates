@@ -142,12 +142,11 @@ namespace B2CAzureFunc
             }
             catch (Exception ex)
             {
-                log.LogInformation(ex.ToString());
-
                 return new BadRequestObjectResult(new ResponseContentModel
                 {
                     version = "1.0.0",
                     userMessage = "Sorry, Something happened unexpectedly. Please try after sometime.",
+                    developerMessage = ex.ToString(),
                     status = 409
                 });
             }
