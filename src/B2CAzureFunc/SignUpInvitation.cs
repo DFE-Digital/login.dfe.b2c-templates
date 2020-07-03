@@ -117,7 +117,7 @@ namespace B2CAzureFunc
                                     {
                                         userMessage = "Something happened unexpectedly.",
                                         version = "1.0.0",
-                                        status = 409,
+                                        status = 400,
                                         code = "API12345",
                                         requestId = "50f0bd91-2ff4-4b8f-828f-00f170519ddb",
                                         developerMessage = "Email sent failed.",
@@ -131,7 +131,7 @@ namespace B2CAzureFunc
                             {
                                 version = "1.0.0",
                                 userMessage = "Sorry, Something happened unexpectedly. Please try after sometime.",
-                                status = 409,
+                                status = 400,
                                 developerMessage = "API call failed, " + await response.Content.ReadAsStringAsync()
                             });
                         }
@@ -146,7 +146,7 @@ namespace B2CAzureFunc
                     userMessage = "Sorry, Something happened unexpectedly. Please try after sometime.",
                     developerMessage = ex.ToString(),
                     version = "1.0.0",
-                    status = 409,
+                    status = 400,
                     code = "API12345",
                     requestId = "50f0bd91-2ff4-4b8f-828f-00f170519ddb",
                     moreInfo = "https://restapi/error/API12345/moreinfo"

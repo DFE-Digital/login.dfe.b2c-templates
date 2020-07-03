@@ -77,12 +77,14 @@ namespace B2CAzureFunc
                                     completionStatus = true;
                                 }
                                 else
+                                {
                                     return new BadRequestObjectResult(new ResponseContentModel
                                     {
                                         version = "1.0.0",
                                         userMessage = "Sorry, Something happened unexpectedly. Please try after sometime.",
-                                        status = 404
+                                        status = 400
                                     });
+                                }
                             }
                             else
                             {
@@ -90,7 +92,7 @@ namespace B2CAzureFunc
                                 {
                                     version = "1.0.0",
                                     userMessage = "Sorry, Something happened unexpectedly. Please try after sometime.",
-                                    status = 404
+                                    status = 400
                                 });
                             }
                         }
@@ -123,7 +125,7 @@ namespace B2CAzureFunc
                                     {
                                         version = "1.0.0",
                                         userMessage = "Sorry, Something happened unexpectedly. Please try after sometime.",
-                                        status = 404
+                                        status = 400
                                     });
 
                                 completionStatus = true;
@@ -134,7 +136,7 @@ namespace B2CAzureFunc
                                 {
                                     version = "1.0.0",
                                     userMessage = "Sorry, Something happened unexpectedly. Please try after sometime.",
-                                    status = 404
+                                    status = 400
                                 });
                             }
                         }
@@ -165,7 +167,7 @@ namespace B2CAzureFunc
                                 {
                                     version = "1.0.0",
                                     userMessage = "Sorry, Something happened unexpectedly. Please try after sometime.",
-                                    status = 404
+                                    status = 400
                                 });
 
                             completionStatus = true;
@@ -176,7 +178,7 @@ namespace B2CAzureFunc
                             {
                                 version = "1.0.0",
                                 userMessage = "Sorry, Something happened unexpectedly. Please try after sometime.",
-                                status = 404
+                                status = 400
                             });
                         }
                     }
@@ -192,7 +194,7 @@ namespace B2CAzureFunc
                     {
                         version = "1.0.0",
                         userMessage = "Sorry, Something happened unexpectedly. Please try after sometime.",
-                        status = 404
+                        status = 400
                     });
                 }
             }
@@ -203,7 +205,7 @@ namespace B2CAzureFunc
                     version = "1.0.0",
                     userMessage = "Sorry, Something happened unexpectedly. Please try after sometime.",
                     developerMessage = ex.ToString(),
-                    status = 404
+                    status = 400
                 });
             }
         }

@@ -71,7 +71,7 @@ namespace B2CAzureFunc
                                 return new BadRequestObjectResult(new ResponseContentModel
                                 {
                                     userMessage = "Sorry, Something happened unexpectedly. Please try after sometime.",
-                                    status = 404
+                                    status = 400
                                 });
                             }
                         }
@@ -109,7 +109,7 @@ namespace B2CAzureFunc
                 return new BadRequestObjectResult(new ResponseContentModel
                 {
                     userMessage = "Sorry, Something happened unexpectedly. Please try after sometime.",
-                    status = 404
+                    status = 400
                 });
             }
         }

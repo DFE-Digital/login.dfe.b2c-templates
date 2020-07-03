@@ -56,7 +56,7 @@ namespace B2CAzureFunc
                     {
                         version = "1.0.0",
                         userMessage = "Sorry, This email already exists",
-                        status = 400
+                        status = 409
                     });
                 }
 
@@ -69,7 +69,7 @@ namespace B2CAzureFunc
                     {
                         version = "1.0.0",
                         userMessage = "Sorry, This user doesn't exists.",
-                        status = 400
+                        status = 409
                     });
                 }
                 bool updateResult = false;
@@ -144,7 +144,7 @@ namespace B2CAzureFunc
                         {
                             userMessage = "Something happened unexpectedly.",
                             version = "1.0.0",
-                            status = 409,
+                            status = 400,
                             code = "API12345",
                             requestId = "50f0bd91-2ff4-4b8f-828f-00f170519ddb",
                             developerMessage = "Email sent failed.",
@@ -167,7 +167,7 @@ namespace B2CAzureFunc
                     version = "1.0.0",
                     developerMessage = ex.ToString(),
                     userMessage = "Sorry, Something happened unexpectedly. Please try after sometime.",
-                    status = 404
+                    status = 400
                 });
             }
         }

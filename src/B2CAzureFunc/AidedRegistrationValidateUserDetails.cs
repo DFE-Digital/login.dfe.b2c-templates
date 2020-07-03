@@ -124,7 +124,7 @@ namespace B2CAzureFunc
                                 {
                                     version = "1.0.0",
                                     userMessage = "Sorry, Something happened unexpectedly. Please try after sometime.",
-                                    status = 409,
+                                    status = 400,
                                 });
                             }
                         }
@@ -147,7 +147,7 @@ namespace B2CAzureFunc
                     version = "1.0.0",
                     userMessage = "Sorry, Something happened unexpectedly. Please try after sometime.",
                     developerMessage = ex.ToString(),
-                    status = 409
+                    status = 400
                 });
             }
         }

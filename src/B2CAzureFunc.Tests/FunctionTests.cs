@@ -1,3 +1,4 @@
+using B2CAzureFunc.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -20,14 +21,17 @@ namespace B2CAzureFunc.Tests
         {
             var body = queryStringValue;
             var request = TestFactory.CreateHttpRequest(body);
+            var response = await ChangeEmail.Run(request, logger);
+
             try
             {
-                var response = (OkObjectResult)await ChangeEmail.Run(request, logger);
-                Assert.Equal(200, response.StatusCode);
+                var result = (OkObjectResult)response;
+                Assert.Equal(200, result.StatusCode);
             }
-            catch (Exception)
+            catch (InvalidCastException)
             {
-
+                var result = (ResponseContentModel)((BadRequestObjectResult)response).Value;
+                Assert.Equal(409, result.status);
             }
         }
 
@@ -42,14 +46,17 @@ namespace B2CAzureFunc.Tests
         {
             var body = queryStringValue;
             var request = TestFactory.CreateHttpRequest(body);
+            var response = await FindEmail.Run(request, logger);
+
             try
             {
-                var response = (OkObjectResult)await FindEmail.Run(request, logger);
-                Assert.Equal(200, response.StatusCode);
+                var result = (OkObjectResult)response;
+                Assert.Equal(200, result.StatusCode);
             }
-            catch (Exception)
+            catch (InvalidCastException)
             {
-
+                var result = (ResponseContentModel)((BadRequestObjectResult)response).Value;
+                Assert.Equal(409, result.status);
             }
         }
 
@@ -64,14 +71,17 @@ namespace B2CAzureFunc.Tests
         {
             var body = queryStringValue;
             var request = TestFactory.CreateHttpRequest(body);
+            var response = await PasswordResetConfirmation.Run(request, logger);
+
             try
             {
-                var response = (OkObjectResult)await PasswordResetConfirmation.Run(request, logger);
-                Assert.Equal(200, response.StatusCode);
+                var result = (OkObjectResult)response;
+                Assert.Equal(200, result.StatusCode);
             }
-            catch (Exception)
+            catch (InvalidCastException)
             {
-
+                var result = (ResponseContentModel)((BadRequestObjectResult)response).Value;
+                Assert.Equal(409, result.status);
             }
         }
 
@@ -86,14 +96,17 @@ namespace B2CAzureFunc.Tests
         {
             var body = queryStringValue;
             var request = TestFactory.CreateHttpRequest(body);
+            var response = await SignupConfirmation.Run(request, logger);
+
             try
             {
-                var response = (OkObjectResult)await SignupConfirmation.Run(request, logger);
-                Assert.Equal(200, response.StatusCode);
+                var result = (OkObjectResult)response;
+                Assert.Equal(200, result.StatusCode);
             }
-            catch (Exception)
+            catch (InvalidCastException)
             {
-
+                var result = (ResponseContentModel)((BadRequestObjectResult)response).Value;
+                Assert.Equal(409, result.status);
             }
         }
 
@@ -108,14 +121,17 @@ namespace B2CAzureFunc.Tests
         {
             var body = queryStringValue;
             var request = TestFactory.CreateHttpRequest(body);
+            var response = await SignupInvitation.Run(request, logger);
+
             try
             {
-                var response = (OkObjectResult)await SignupInvitation.Run(request, logger);
-                Assert.Equal(200, response.StatusCode);
+                var result = (OkObjectResult)response;
+                Assert.Equal(200, result.StatusCode);
             }
-            catch (Exception)
+            catch (InvalidCastException)
             {
-
+                var result = (ResponseContentModel)((BadRequestObjectResult)response).Value;
+                Assert.Equal(409, result.status);
             }
         }
 
@@ -130,14 +146,17 @@ namespace B2CAzureFunc.Tests
         {
             var body = queryStringValue;
             var request = TestFactory.CreateHttpRequest(body);
+            var response = await AidedRegistrationValidateUserDetails.Run(request, logger);
+
             try
             {
-                var response = (OkObjectResult)await AidedRegistrationValidateUserDetails.Run(request, logger);
-                Assert.Equal(200, response.StatusCode);
+                var result = (OkObjectResult)response;
+                Assert.Equal(200, result.StatusCode);
             }
-            catch (Exception)
+            catch (InvalidCastException)
             {
-
+                var result = (ResponseContentModel)((BadRequestObjectResult)response).Value;
+                Assert.Equal(409, result.status);
             }
         }
 
@@ -152,14 +171,17 @@ namespace B2CAzureFunc.Tests
         {
             var body = queryStringValue;
             var request = TestFactory.CreateHttpRequest(body);
+            var response = await NCSDSSUserCreation.Run(request, logger);
+
             try
             {
-                var response = (OkObjectResult)await NCSDSSUserCreation.Run(request, logger);
-                Assert.Equal(200, response.StatusCode);
+                var result = (OkObjectResult)response;
+                Assert.Equal(200, result.StatusCode);
             }
-            catch (Exception)
+            catch (InvalidCastException)
             {
-
+                var result = (ResponseContentModel)((BadRequestObjectResult)response).Value;
+                Assert.Equal(409, result.status);
             }
         }
     }
