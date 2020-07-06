@@ -144,7 +144,7 @@ jobs:
       -SignupEmailSubject "Complete your National Careers Service registration"
       -SignupConfirmationEmailSubject "Complete your National Careers Service registration"
       -PasswordResetConfirmationEmailSubject " Reset your password"
-      -AccountActivationEmailExpiryInSeconds "3600"
+      -AccountActivationEmailExpiryInSeconds "600"
       -NCSApimSubscriptionKey "${{parameters.ncsApimSubscriptionKey}}"
       -NCSDSSApiKey "${{parameters.ncsDssApiKey}}"
       -NCSDSSSearchApiUrl "${{parameters.ncsDssSearchApiUrl}}"
