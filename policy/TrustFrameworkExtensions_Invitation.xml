@@ -147,6 +147,12 @@
           <DataType>boolean</DataType>
         </ClaimType>
 
+        <ClaimType Id="id_token_hint">
+          <DisplayName>id_token_hint</DisplayName>
+          <DataType>string</DataType>
+          <UserHelpText>id token hint</UserHelpText>
+        </ClaimType>
+
     </ClaimsSchema>
 
     <ClaimsTransformations>

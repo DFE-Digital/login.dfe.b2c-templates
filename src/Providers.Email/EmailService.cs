@@ -2,6 +2,9 @@
 using System;
 using System.Net;
 using System.Net.Mail;
+using Notify.Client;
+using Notify.Models;
+using Notify.Models.Responses;
 
 namespace Providers.Email
 {
@@ -28,6 +31,18 @@ namespace Providers.Email
             smtpClient.EnableSsl = Convert.ToBoolean(Environment.GetEnvironmentVariable("SMTPUseSSL", EnvironmentVariableTarget.Process));
             smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
             smtpClient.Send(mailMessage);
+            return true;
+        }
+
+        /// <summary>
+        /// Send email
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns>bool</returns>
+        public static bool Send(EmailModel model)
+        {
+            var client = new NotificationClient("emailintegration-f0833c0b-c57b-48c2-b455-62cf80226d42-89b7c7f6-8e59-4df6-ab62-27e7661e5a10");// (Environment.GetEnvironmentVariable("NotifyAPIKey", EnvironmentVariableTarget.Process));
+            EmailNotificationResponse response = client.SendEmail(model.To, model.EmailTemplate, model.Personalisation);
             return true;
         }
     }

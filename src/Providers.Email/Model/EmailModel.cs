@@ -1,4 +1,7 @@
-﻿namespace Providers.Email.Model
+﻿using System;
+using System.Collections.Generic;
+
+namespace Providers.Email.Model
 {
     /// <summary>
     ///     Email Model
@@ -33,5 +36,10 @@
         /// Email Template
         /// </summary>
         public string EmailTemplate { get; set; }
+
+        /// <summary>
+        /// Personalisation
+        /// </summary>
+        public Dictionary<String, dynamic> Personalisation { get; set; }
     }
 }
