@@ -17,8 +17,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\B2CAzureFunc\B2CAzureFunc.csproj" />
-    <ProjectReference Include="..\Providers.Email\Providers.Email.csproj" />
+    <ProjectReference Include="..\..\src\B2CAzureFunc\B2CAzureFunc.csproj" />
+    <ProjectReference Include="..\..\src\Providers.Email\Providers.Email.csproj" />
   </ItemGroup>
 
 </Project>
