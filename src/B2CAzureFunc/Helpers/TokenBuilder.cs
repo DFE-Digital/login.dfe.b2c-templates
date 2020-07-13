@@ -22,8 +22,9 @@ namespace B2CAzureFunc.Helpers
         /// <param name="requestScheme"></param>
         /// <param name="host"></param>
         /// <param name="path"></param>
+        /// <param name="journy"></param>
         /// <returns>string</returns>
-        public static string BuildIdToken(string email, string givenName, string surname, string customerId, DateTime expiry, string requestScheme, string host, string path)
+        public static string BuildIdToken(string email, string givenName, string surname, string customerId, DateTime expiry, string requestScheme, string host, string path,string journy)
         {
             string issuer = $"{requestScheme}://{host}{path}/";
 
@@ -34,6 +35,7 @@ namespace B2CAzureFunc.Helpers
             claims.Add(new System.Security.Claims.Claim("givenName", givenName.ToString(), System.Security.Claims.ClaimValueTypes.String, issuer));
             claims.Add(new System.Security.Claims.Claim("surname", surname.ToString(), System.Security.Claims.ClaimValueTypes.String, issuer));
             claims.Add(new System.Security.Claims.Claim("customerId", customerId.ToString(), System.Security.Claims.ClaimValueTypes.String, issuer));
+            claims.Add(new System.Security.Claims.Claim("journy", journy, System.Security.Claims.ClaimValueTypes.String, issuer));
 
             // Note: This key phrase needs to be stored also in Azure B2C Keys for token validation
             var securityKey = Encoding.UTF8.GetBytes(Environment.GetEnvironmentVariable("ClientSigningKey", EnvironmentVariableTarget.Process));
@@ -65,8 +67,9 @@ namespace B2CAzureFunc.Helpers
         /// <param name="host"></param>
         /// <param name="path"></param>
         /// <param name="objectId"></param>
+        /// <param name="journy"></param>
         /// <returns>string</returns>
-        public static string BuildIdToken(string email, DateTime expiry, string requestScheme, string host, string path, string objectId)
+        public static string BuildIdToken(string email, DateTime expiry, string requestScheme, string host, string path, string objectId, string journy)
         {
             string issuer = $"{requestScheme}://{host}{path}/";
 
@@ -75,6 +78,7 @@ namespace B2CAzureFunc.Helpers
             claims.Add(new System.Security.Claims.Claim("email", email, System.Security.Claims.ClaimValueTypes.String, issuer));
             claims.Add(new System.Security.Claims.Claim("expiry", expiry.ToString(), System.Security.Claims.ClaimValueTypes.DateTime, issuer));
             claims.Add(new System.Security.Claims.Claim("objectId", objectId.ToString(), System.Security.Claims.ClaimValueTypes.String, issuer));
+            claims.Add(new System.Security.Claims.Claim("journy", journy, System.Security.Claims.ClaimValueTypes.String, issuer));
 
             // Note: This key phrase needs to be stored also in Azure B2C Keys for token validation
             var securityKey = Encoding.UTF8.GetBytes(Environment.GetEnvironmentVariable("ClientSigningKey", EnvironmentVariableTarget.Process));
@@ -107,8 +111,9 @@ namespace B2CAzureFunc.Helpers
         /// <param name="path"></param>
         /// <param name="objectId"></param>
         /// <param name="givenName"></param>
+        /// <param name="journy"></param>
         /// <returns>string</returns>
-        public static string BuildIdToken(string email, DateTime expiry, string requestScheme, string host, string path, string objectId, string givenName)
+        public static string BuildIdToken(string email, DateTime expiry, string requestScheme, string host, string path, string objectId, string givenName, string journy)
         {
             string issuer = $"{requestScheme}://{host}{path}/";
 
@@ -118,6 +123,7 @@ namespace B2CAzureFunc.Helpers
             claims.Add(new System.Security.Claims.Claim("givenName", givenName, System.Security.Claims.ClaimValueTypes.String, issuer));
             claims.Add(new System.Security.Claims.Claim("expiry", expiry.ToString(), System.Security.Claims.ClaimValueTypes.DateTime, issuer));
             claims.Add(new System.Security.Claims.Claim("objectId", objectId.ToString(), System.Security.Claims.ClaimValueTypes.String, issuer));
+            claims.Add(new System.Security.Claims.Claim("journy", journy, System.Security.Claims.ClaimValueTypes.String, issuer));
 
             // Note: This key phrase needs to be stored also in Azure B2C Keys for token validation
             var securityKey = Encoding.UTF8.GetBytes(Environment.GetEnvironmentVariable("ClientSigningKey", EnvironmentVariableTarget.Process));
@@ -150,8 +156,9 @@ namespace B2CAzureFunc.Helpers
         /// <param name="host"></param>
         /// <param name="path"></param>
         /// <param name="objectId"></param>
+        /// <param name="journy"></param>
         /// <returns>string</returns>
-        public static string BuildIdToken(string currentEmail, string newEmail, DateTime expiry, string requestScheme, string host, string path, string objectId)
+        public static string BuildIdToken(string currentEmail, string newEmail, DateTime expiry, string requestScheme, string host, string path, string objectId, string journy)
         {
             string issuer = $"{requestScheme}://{host}{path}/";
 
@@ -161,6 +168,7 @@ namespace B2CAzureFunc.Helpers
             claims.Add(new System.Security.Claims.Claim("expiry", expiry.ToString(), System.Security.Claims.ClaimValueTypes.DateTime, issuer));
             claims.Add(new System.Security.Claims.Claim("objectId", objectId.ToString(), System.Security.Claims.ClaimValueTypes.String, issuer));
             claims.Add(new System.Security.Claims.Claim("newEmail", newEmail.ToString(), System.Security.Claims.ClaimValueTypes.String, issuer));
+            claims.Add(new System.Security.Claims.Claim("journy", journy, System.Security.Claims.ClaimValueTypes.String, issuer));
 
             // Note: This key phrase needs to be stored also in Azure B2C Keys for token validation
             var securityKey = Encoding.UTF8.GetBytes(Environment.GetEnvironmentVariable("ClientSigningKey", EnvironmentVariableTarget.Process));

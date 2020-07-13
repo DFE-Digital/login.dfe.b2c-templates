@@ -13,6 +13,7 @@ using Providers.Email;
 using B2CAzureFunc.Models;
 using System.Net.Http;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace B2CAzureFunc
 {
@@ -85,7 +86,7 @@ namespace B2CAzureFunc
 
                                 var accountActivationEmailExpiryInSeconds = Convert.ToInt32(Environment.GetEnvironmentVariable("AccountActivationEmailExpiryInSeconds", EnvironmentVariableTarget.Process));
 
-                                string token = TokenBuilder.BuildIdToken(data.Email.ToString(), data.GivenName.ToString(), data.LastName.ToString(), data.CustomerId.ToString(), DateTime.UtcNow.AddSeconds(accountActivationEmailExpiryInSeconds), req.Scheme, req.Host.Value, req.PathBase.Value);
+                                string token = TokenBuilder.BuildIdToken(data.Email.ToString(), data.GivenName.ToString(), data.LastName.ToString(), data.CustomerId.ToString(), DateTime.UtcNow.AddSeconds(accountActivationEmailExpiryInSeconds), req.Scheme, req.Host.Value, req.PathBase.Value, "aidedsignup");
                                 string b2cURL = Environment.GetEnvironmentVariable("B2CAuthorizationUrl", EnvironmentVariableTarget.Process);
                                 string b2cTenant = Environment.GetEnvironmentVariable("B2CTenant", EnvironmentVariableTarget.Process);
                                 string b2cPolicyId = Environment.GetEnvironmentVariable("B2CSignUpPolicy", EnvironmentVariableTarget.Process);
@@ -93,21 +94,16 @@ namespace B2CAzureFunc
                                 string b2cRedirectUri = Environment.GetEnvironmentVariable("B2CRedirectUri", EnvironmentVariableTarget.Process);
                                 string url = UrlBuilder.BuildUrl(token, b2cURL, b2cTenant, b2cPolicyId, b2cClientId, b2cRedirectUri);
 
-                                string htmlTemplate = System.IO.File.ReadAllText(@"D:\home\site\wwwroot\EmailTemplates\AdviserCreatedAccount\AdviserCreatedAccount_inlined_css.html");
-                                string from = Environment.GetEnvironmentVariable("SMTPFromAddress", EnvironmentVariableTarget.Process);
-                                string subject = Environment.GetEnvironmentVariable("SignupEmailSubject", EnvironmentVariableTarget.Process);
-                                string fromDisplayName = Environment.GetEnvironmentVariable("FromDisplayName", EnvironmentVariableTarget.Process);
-
-                                htmlTemplate = htmlTemplate.Replace("#name#", data.GivenName.ToString()).Replace("#link#", url);
+                                string htmlTemplate = Environment.GetEnvironmentVariable("NotifyAidedSignupEmailTemplateId", EnvironmentVariableTarget.Process);
 
                                 EmailModel model = new EmailModel
                                 {
-                                    Content = url,
                                     EmailTemplate = htmlTemplate,
-                                    From = from,
-                                    Subject = subject,
                                     To = data.Email.ToString(),
-                                    FromDisplayName = fromDisplayName
+                                    Personalisation = new Dictionary<string, dynamic>
+                                            { {"name", data.GivenName.ToString()},
+                                              {"link", url}
+                                            }
                                 };
 
                                 var result = EmailService.SendEmail(model);
