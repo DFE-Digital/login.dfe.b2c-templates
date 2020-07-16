@@ -44,23 +44,24 @@ parameters:
 - name: ncsDssApiKey
   type: string
 
-- name: ncsDssSearchApiUrl
-  type: string
-
 - name: ncsDssSearchApiVersion
   type: string
 
-- name: ncsDssCreateCustomerApiUrl
+- name: ncsDssApiRoot
   type: string
-  default: "https://at.api.nationalcareersservice.org.uk/customers/api/Customers/"
+  default: "https://at.api.nationalcareersservice.org.uk"
 
-- name: ncsDssCreateContactApiUrl 
+- name: ncsDssSearchApiUrlRoute
   type: string
-  default: "https://at.api.nationalcareersservice.org.uk/contactdetails/api/customers/{0}/ContactDetails/"
 
-- name: ncsDssCreateIdentityApiUrl
+- name: ncsDssCreateCustomerApiUrlRoute
   type: string
-  default: "https://at.api.nationalcareersservice.org.uk/digitalidentities/api/identity"
+
+- name: ncsDssCreateContactApiUrlRoute
+  type: string
+
+- name: ncsDssCreateIdentityApiUrlRoute
+  type: string
 
 - name: touchpointId
   type: string
