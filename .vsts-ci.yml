@@ -70,6 +70,7 @@ stages:
       identAppRegistrationClientId: $(devIdentityAppClientId)
       signinRedirectRoot: s141d01-signin-int.azurewebsites.net
       eapimRootUrl: dev-api-customerengagement.platform.education.gov.uk
+      
 
 - stage: deployTest
   displayName: Deploy - TEST
@@ -90,9 +91,13 @@ stages:
       b2cChangeEmailPolicy: $(b2cChangeEmailPolicy)
       b2cAuthorizationUrl: $(b2cAuthorizationUrl)
       ncsApimSubscriptionKey: $(ncsApimSubscriptionKey)
+      ncsDssApiRoot: $(devNcsDssApiRoot)
       ncsDssApiKey: $(ncsDssApiKey)
-      ncsDssSearchApiUrl: $(ncsDssSearchApiUrl)
       ncsDssSearchApiVersion: $(ncsDssSearchApiVersion)
+      ncsDssSearchApiUrlRoute: $(ncsDssSearchApiUrlRoute)
+      ncsDssCreateCustomerApiUrlRoute: $(ncsDssCreateCustomerApiUrlRoute)
+      ncsDssCreateContactApiUrlRoute: $(ncsDssCreateContactApiUrlRoute)
+      ncsDssCreateIdentityApiUrlRoute: $(ncsDssCreateIdentityApiUrlRoute)
       environmentId: 't01'
       serviceConnection: $(testServiceConnection)
       eapimServiceConnection: $(eapimServiceConnection)
@@ -125,9 +130,13 @@ stages:
       b2cChangeEmailPolicy: $(b2cChangeEmailPolicy)
       b2cAuthorizationUrl: $(b2cAuthorizationUrl)
       ncsApimSubscriptionKey: $(ncsApimSubscriptionKey)
+      ncsDssApiRoot: $(testNcsDssApiRoot)
       ncsDssApiKey: $(ncsDssApiKey)
-      ncsDssSearchApiUrl: $(ncsDssSearchApiUrl)
       ncsDssSearchApiVersion: $(ncsDssSearchApiVersion)
+      ncsDssSearchApiUrlRoute: $(ncsDssSearchApiUrlRoute)
+      ncsDssCreateCustomerApiUrlRoute: $(ncsDssCreateCustomerApiUrlRoute)
+      ncsDssCreateContactApiUrlRoute: $(ncsDssCreateContactApiUrlRoute)
+      ncsDssCreateIdentityApiUrlRoute: $(ncsDssCreateIdentityApiUrlRoute)
       environmentId: 'd01'
       serviceConnection: $(devServiceConnection)
       eapimServiceConnection: $(eapimServiceConnection)
