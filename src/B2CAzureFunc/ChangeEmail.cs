@@ -12,6 +12,7 @@ using B2CAzureFunc.Helpers;
 using Providers.Email.Model;
 using Providers.Email;
 using System.Web;
+using System.Collections.Generic;
 
 namespace B2CAzureFunc
 {
@@ -56,7 +57,7 @@ namespace B2CAzureFunc
                     {
                         version = "1.0.0",
                         userMessage = "Sorry, This email already exists",
-                        status = 404
+                        status = 409
                     });
                 }
 
@@ -69,7 +70,7 @@ namespace B2CAzureFunc
                     {
                         version = "1.0.0",
                         userMessage = "Sorry, This user doesn't exists.",
-                        status = 404
+                        status = 409
                     });
                 }
                 bool updateResult = false;
@@ -87,7 +88,7 @@ namespace B2CAzureFunc
                     var accountActivationEmailExpiryInSeconds = Convert.ToInt32(Environment.GetEnvironmentVariable("AccountActivationEmailExpiryInSeconds", EnvironmentVariableTarget.Process));
 
 
-                    string token = TokenBuilder.BuildIdToken(data.CurrentEmail, data.NewEmail, DateTime.UtcNow.AddSeconds(accountActivationEmailExpiryInSeconds), req.Scheme, req.Host.Value, req.PathBase.Value, userDetails.value[0].objectId);
+                    string token = TokenBuilder.BuildIdToken(data.CurrentEmail, data.NewEmail, DateTime.UtcNow.AddSeconds(accountActivationEmailExpiryInSeconds), req.Scheme, req.Host.Value, req.PathBase.Value, userDetails.value[0].objectId, "changeemail");
 
                     string b2cURL = Environment.GetEnvironmentVariable("B2CAuthorizationUrl", EnvironmentVariableTarget.Process);
                     string b2cTenant = Environment.GetEnvironmentVariable("B2CTenant", EnvironmentVariableTarget.Process);
@@ -96,58 +97,48 @@ namespace B2CAzureFunc
                     string b2cRedirectUri = Environment.GetEnvironmentVariable("B2CRedirectUri", EnvironmentVariableTarget.Process);
                     string url = UrlBuilder.BuildUrl(token, b2cURL, b2cTenant, b2cPolicyId, b2cClientId, b2cRedirectUri);
 
-                    string htmlTemplateOldEmail = System.IO.File.ReadAllText(@"D:\home\site\wwwroot\EmailTemplates\ChangeEmail\PreviousEmailDisabled_inlined_css.html");
-                    string htmlTemplateNewEmail = System.IO.File.ReadAllText(@"D:\home\site\wwwroot\EmailTemplates\ChangeEmail\ActivateNewEmail_inlined_css.html");
+                    string htmlTemplateOldEmail = Environment.GetEnvironmentVariable("NotifyEmailChangeConfirmationEmailOldEmailTemplateId", EnvironmentVariableTarget.Process);
+                    string htmlTemplateNewEmail = Environment.GetEnvironmentVariable("NotifyEmailChangeConfirmationEmailNewEmailTemplateId", EnvironmentVariableTarget.Process);
 
-                    string from = Environment.GetEnvironmentVariable("SMTPFromAddress", EnvironmentVariableTarget.Process);
-                    string emailChangeSubjectToNewEmail = Environment.GetEnvironmentVariable("EmailChangeConfirmationEmailSubjectNewEmail", EnvironmentVariableTarget.Process);
-                    string emailChangeSubjectToOldEmail = Environment.GetEnvironmentVariable("EmailChangeConfirmationEmailSubjectOldEmail", EnvironmentVariableTarget.Process);
-                    string fromDisplayName = Environment.GetEnvironmentVariable("FromDisplayName", EnvironmentVariableTarget.Process);
-                    htmlTemplateOldEmail = htmlTemplateOldEmail.Replace("#name#", userDetails.value[0].givenName);
-                    htmlTemplateNewEmail = htmlTemplateNewEmail.Replace("#name#", userDetails.value[0].givenName).Replace("#link#", url);
                     bool result2 = false;
                     EmailModel model = new EmailModel
                     {
-                        Content = url,
                         EmailTemplate = htmlTemplateNewEmail,
-                        From = from,
-                        Subject = emailChangeSubjectToNewEmail,
                         To = data.NewEmail.ToString(),
-                        Name = userDetails.value[0].givenName.ToString(),
-                        FromDisplayName = fromDisplayName
+                        Personalisation = new Dictionary<string, dynamic>
+                                            { {"name", userDetails.value[0].givenName.ToString()},
+                                              {"link", url}
+                                            }
                     };
 
-                    var result1 = EmailService.SendEmail(model);
+                    var result1 = EmailService.Send(model);
 
                     if (!data.IsResend)
                     {
-
                         model = new EmailModel
                         {
-                            Content = "",
                             EmailTemplate = htmlTemplateOldEmail,
-                            From = from,
-                            Subject = emailChangeSubjectToOldEmail,
                             To = data.CurrentEmail.ToString(),
-                            Name = userDetails.value[0].givenName.ToString(),
-                            FromDisplayName = fromDisplayName
+                            Personalisation = new Dictionary<string, dynamic>
+                                            { {"name", userDetails.value[0].givenName.ToString()}
+                                            }
                         };
 
-                        result2 = EmailService.SendEmail(model);
+                        result2 = EmailService.Send(model);
                     }
                     else
                         result2 = true;
 
                     return result1 && result2
                         ? (ActionResult)new OkObjectResult(true)
-                        : new BadRequestObjectResult(new
+                        : new BadRequestObjectResult(new ResponseContentModel
                         {
                             userMessage = "Something happened unexpectedly.",
                             version = "1.0.0",
-                            status = 409,
+                            status = 400,
                             code = "API12345",
                             requestId = "50f0bd91-2ff4-4b8f-828f-00f170519ddb",
-                            developerMessage = "Verbose description of problem and how to fix it.",
+                            developerMessage = "Email sent failed.",
                             moreInfo = "https://restapi/error/API12345/moreinfo"
                         });
                 }
@@ -156,7 +147,7 @@ namespace B2CAzureFunc
                     {
                         version = "1.0.0",
                         userMessage = "Sorry, Something happened unexpectedly. Please try after sometime.",
-                        status = 404
+                        status = 400
                     });
 
             }
@@ -165,8 +156,9 @@ namespace B2CAzureFunc
                 return new BadRequestObjectResult(new ResponseContentModel
                 {
                     version = "1.0.0",
-                    userMessage = ex.ToString(),
-                    status = 404
+                    developerMessage = ex.ToString(),
+                    userMessage = "Sorry, Something happened unexpectedly. Please try after sometime.",
+                    status = 400
                 });
             }
         }

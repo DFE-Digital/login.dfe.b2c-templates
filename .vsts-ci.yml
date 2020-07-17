@@ -33,6 +33,7 @@ stages:
     parameters:
       applicationName: $(applicationName)
       webPublish: false
+      nugetConfigPath: nuget.config
 
 - stage: testTenantSetup
   displayName: Tenant Setup - TEST
