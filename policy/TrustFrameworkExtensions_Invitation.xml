@@ -147,6 +147,18 @@
           <DataType>boolean</DataType>
         </ClaimType>
 
+        <ClaimType Id="id_token_hint">
+          <DisplayName>id_token_hint</DisplayName>
+          <DataType>string</DataType>
+          <UserHelpText>id token hint</UserHelpText>
+        </ClaimType>
+
+        <ClaimType Id="journey">
+          <DisplayName>journey</DisplayName>
+          <DataType>string</DataType>
+          <UserHelpText>which journey requested this token</UserHelpText>
+        </ClaimType>
+
     </ClaimsSchema>
 
     <ClaimsTransformations>
@@ -374,7 +386,7 @@
           <InputClaim ClaimTypeReferenceId="newEmail" TransformationClaimType="inputClaim" />
         </InputClaims>
         <InputParameters>
-          <InputParameter Id="stringFormat" DataType="string" Value="We've send an email to {0}." />
+          <InputParameter Id="stringFormat" DataType="string" Value="We've sent an email to {0}." />
         </InputParameters>
         <OutputClaims>
           <OutputClaim ClaimTypeReferenceId="confirmationMessage" TransformationClaimType="outputClaim" />
@@ -391,6 +403,18 @@
         </InputParameters>
         <OutputClaims>
           <OutputClaim ClaimTypeReferenceId="newEmailIsNotEqual" TransformationClaimType="outputClaim" />
+        </OutputClaims>
+      </ClaimsTransformation>
+
+      <ClaimsTransformation Id="CreateResentEmailEmailSentMessage" TransformationMethod="FormatStringClaim">
+        <InputClaims>
+          <InputClaim ClaimTypeReferenceId="email" TransformationClaimType="inputClaim" />
+        </InputClaims>
+        <InputParameters>
+          <InputParameter Id="stringFormat" DataType="string" Value="We've sent an email to {0}" />
+        </InputParameters>
+        <OutputClaims>
+          <OutputClaim ClaimTypeReferenceId="successMessage" TransformationClaimType="outputClaim" />
         </OutputClaims>
       </ClaimsTransformation>
 
@@ -584,6 +608,7 @@
             <OutputClaim ClaimTypeReferenceId="customerId" />
             <OutputClaim ClaimTypeReferenceId="expiry" />
             <OutputClaim ClaimTypeReferenceId="newEmail" />
+            <OutputClaim ClaimTypeReferenceId="journey" />
           </OutputClaims>
         </TechnicalProfile>
       </TechnicalProfiles>
@@ -913,7 +938,7 @@
             <OutputClaim ClaimTypeReferenceId="errorMessage"/>
           </OutputClaims>
           <ValidationTechnicalProfiles>
-            <ValidationTechnicalProfile ReferenceId="API-Send-ChagngeEmail-Activation-Email" />
+            <ValidationTechnicalProfile ReferenceId="API-Send-ChangeEmail-Activation-Email" />
           </ValidationTechnicalProfiles>
         </TechnicalProfile>
 
@@ -1020,6 +1045,26 @@
          </Metadata>
           <InputClaimsTransformations>
             <InputClaimsTransformation ReferenceId="CreateSignupEmailSentMessage" />
+          </InputClaimsTransformations>
+          <InputClaims>
+            <InputClaim ClaimTypeReferenceId="email" />
+            <InputClaim ClaimTypeReferenceId="successMessage" />
+          </InputClaims>
+          <OutputClaims>
+            <OutputClaim ClaimTypeReferenceId="successMessage"/>
+          </OutputClaims>
+        </TechnicalProfile>
+
+        <TechnicalProfile Id="SelfAsserted-Resent-Email-EmailSentConfirmation">
+          <DisplayName>Email Sent</DisplayName>
+          <Protocol Name="Proprietary" Handler="Web.TPEngine.Providers.SelfAssertedAttributeProvider, Web.TPEngine, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"/>
+          <Metadata>
+            <Item Key="ContentDefinitionReferenceId">api.resendemail.emailsent</Item>
+            <Item Key="setting.showContinueButton">false</Item>
+            <Item Key="setting.showCancelButton">false</Item>
+         </Metadata>
+          <InputClaimsTransformations>
+            <InputClaimsTransformation ReferenceId="CreateResentEmailEmailSentMessage" />
           </InputClaimsTransformations>
           <InputClaims>
             <InputClaim ClaimTypeReferenceId="email" />
@@ -1173,7 +1218,7 @@
                 <UseTechnicalProfileForSessionManagement ReferenceId="SM-Noop" />
             </TechnicalProfile>
 
-            <TechnicalProfile Id="API-Send-ChagngeEmail-Activation-Email">
+            <TechnicalProfile Id="API-Send-ChangeEmail-Activation-Email">
                 <DisplayName>User OTP Notifications</DisplayName>    
                 <Protocol Name="Proprietary" Handler="Web.TPEngine.Providers.RestfulProvider, Web.TPEngine, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" />
                 <Metadata>
@@ -1233,6 +1278,25 @@
                 <UseTechnicalProfileForSessionManagement ReferenceId="SM-Noop" />
             </TechnicalProfile>
 
+            <TechnicalProfile Id="API-Send-PasswordReset-Resent-Email">
+                <DisplayName>User OTP Notifications</DisplayName>    
+                <Protocol Name="Proprietary" Handler="Web.TPEngine.Providers.RestfulProvider, Web.TPEngine, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" />
+                <Metadata>
+                    <Item Key="ServiceUrl">https://{{eapimRootUrl}}/{{apimAppName}}/PasswordResetConfirmation</Item>
+                        <Item Key="SendClaimsIn">Body</Item>                        
+                        <Item Key="AuthenticationType">ClientCertificate</Item>
+                    </Metadata>
+                    <CryptographicKeys>
+                        <Key Id="ClientCertificate" StorageReferenceId="B2C_1A_APIMClientCertificate" />
+                    </CryptographicKeys>
+                <InputClaims>
+                    <InputClaim ClaimTypeReferenceId="email" PartnerClaimType="email" />
+                    <InputClaim ClaimTypeReferenceId="givenName" PartnerClaimType="givenName" />
+                    <InputClaim ClaimTypeReferenceId="objectId" PartnerClaimType="ObjectId"/>
+                </InputClaims>
+                <UseTechnicalProfileForSessionManagement ReferenceId="SM-Noop" />
+            </TechnicalProfile>
+
         </TechnicalProfiles>
     </ClaimsProvider>
 
@@ -1240,6 +1304,7 @@
 
 
   <UserJourneys>
+  
     <UserJourney Id="SelfSignUp">
       <OrchestrationSteps>
         <OrchestrationStep Order="1" Type="ClaimsExchange" ContentDefinitionReferenceId="api.localaccountsignup">
@@ -1731,6 +1796,87 @@
         </OrchestrationStep>
 
         <OrchestrationStep Order="12" Type="SendClaims" CpimIssuerTechnicalProfileReferenceId="JwtIssuer"/>
+      </OrchestrationSteps>
+      <ClientDefinition ReferenceId="DefaultWeb"/>
+    </UserJourney>
+
+    <UserJourney Id="ResendEmail">
+      <OrchestrationSteps>
+        <OrchestrationStep Order="1" Type="GetClaims" CpimIssuerTechnicalProfileReferenceId="IdTokenHint_ExtractClaims" />
+
+        <OrchestrationStep Order="2" Type="ClaimsExchange">
+         <Preconditions>
+            <Precondition Type="ClaimEquals" ExecuteActionsIf="false">
+              <Value>journey</Value>
+              <Value>changeemail</Value>
+              <Action>SkipThisOrchestrationStep</Action>
+            </Precondition>
+          </Preconditions>        
+          <ClaimsExchanges>
+            <ClaimsExchange Id="Send-ChangeEmail-Activation-Email" TechnicalProfileReferenceId="API-Send-ChangeEmail-Activation-Email"/>
+          </ClaimsExchanges>
+        </OrchestrationStep>
+
+        <OrchestrationStep Order="3" Type="ClaimsExchange">
+         <Preconditions>
+            <Precondition Type="ClaimEquals" ExecuteActionsIf="false">
+              <Value>journey</Value>
+              <Value>passwordreset</Value>
+              <Action>SkipThisOrchestrationStep</Action>
+            </Precondition>
+          </Preconditions>        
+          <ClaimsExchanges>
+            <ClaimsExchange Id="Send-PasswordReset-Resent-Email" TechnicalProfileReferenceId="API-Send-PasswordReset-Resent-Email"/>
+          </ClaimsExchanges>
+        </OrchestrationStep>
+
+        <OrchestrationStep Order="4" Type="ClaimsExchange">
+         <Preconditions>
+            <Precondition Type="ClaimEquals" ExecuteActionsIf="false">
+              <Value>journey</Value>
+              <Value>selfsignup</Value>
+              <Action>SkipThisOrchestrationStep</Action>
+            </Precondition>
+          </Preconditions>        
+          <ClaimsExchanges>
+            <ClaimsExchange Id="Send-SelfSignup-Resent-Email" TechnicalProfileReferenceId="API-Send-SelfSignup-Resent-Email"/>
+          </ClaimsExchanges>
+        </OrchestrationStep>
+
+        <OrchestrationStep Order="5" Type="ClaimsExchange">
+         <Preconditions>
+            <Precondition Type="ClaimEquals" ExecuteActionsIf="false">
+              <Value>journey</Value>
+              <Value>aidedsignup</Value>
+              <Action>SkipThisOrchestrationStep</Action>
+            </Precondition>
+          </Preconditions>        
+          <ClaimsExchanges>
+            <ClaimsExchange Id="Send-AidedSignup-Resent-Email" TechnicalProfileReferenceId="API-Send-AidedSignup-Resent-Email"/>
+          </ClaimsExchanges>
+        </OrchestrationStep>
+
+        <OrchestrationStep Order="6" Type="ClaimsExchange">
+          <Preconditions>
+            <Precondition Type="ClaimEquals" ExecuteActionsIf="false">
+              <Value>journey</Value>
+              <Value>changeemail</Value>
+              <Action>SkipThisOrchestrationStep</Action>
+            </Precondition>
+          </Preconditions>       
+          <ClaimsExchanges>
+            <ClaimsExchange Id="Resent-ChangeEmail-EmailSentConfirmation" TechnicalProfileReferenceId="SelfAsserted-ChangeEmail-ResentEmail"/>
+          </ClaimsExchanges>
+        </OrchestrationStep>
+
+        <OrchestrationStep Order="7" Type="ClaimsExchange">       
+          <ClaimsExchanges>
+            <ClaimsExchange Id="Resent-Email-EmailSentConfirmation" TechnicalProfileReferenceId="SelfAsserted-Resent-Email-EmailSentConfirmation"/>
+          </ClaimsExchanges>
+        </OrchestrationStep>
+
+        <OrchestrationStep Order="8" Type="SendClaims" CpimIssuerTechnicalProfileReferenceId="JwtIssuer"/>
+        
       </OrchestrationSteps>
       <ClientDefinition ReferenceId="DefaultWeb"/>
     </UserJourney>
