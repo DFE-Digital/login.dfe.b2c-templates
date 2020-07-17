@@ -209,7 +209,7 @@ namespace B2CAzureFunc.Tests
                 var result = EmailService.Send(model);
                 Assert.True(result);
             }
-            catch (InvalidCastException)
+            catch (Exception)
             {
                 //var result = (ResponseContentModel)((BadRequestObjectResult)response).Value;
                 //Assert.Equal(409, result.status);
