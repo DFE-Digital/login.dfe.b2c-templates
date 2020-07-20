@@ -252,7 +252,25 @@
         "B2CChangeEmailPolicy": {
             "type": "string"
         },
+        "notifyApiKey": {
+            "type": "string"
+        },
         "ExtensionAppId": {
+            "type": "string"
+        },
+        "NotifyAidedSignupEmailTemplateId": {
+            "type": "string"
+        },
+        "NotifySelfSignupEmailTemplateId": {
+            "type": "string"
+        },
+        "NotifyPasswordResetConfirmationEmailTemplateId": {
+            "type": "string"
+        },
+        "NotifyEmailChangeConfirmationEmailNewEmailTemplateId": {
+            "type": "string"
+        },
+        "NotifyEmailChangeConfirmationEmailOldEmailTemplateId": {
             "type": "string"
         }
     },
@@ -875,6 +893,30 @@
                         {
                             "name": "ExtensionAppId",
                             "value": "[parameters('ExtensionAppId')]"
+                        },
+                        {
+                            "name": "NotifyAPIKey",
+                            "value": "[parameters('NotifyAPIKey')]"
+                        },
+                        {
+                            "name": "NotifyAidedSignupEmailTemplateId",
+                            "value": "[parameters('NotifyAidedSignupEmailTemplateId')]"
+                        },
+                        {
+                            "name": "NotifySelfSignupEmailTemplateId",
+                            "value": "[parameters('NotifySelfSignupEmailTemplateId')]"
+                        },
+                        {
+                            "name": "NotifyPasswordResetConfirmationEmailTemplateId",
+                            "value": "[parameters('NotifyPasswordResetConfirmationEmailTemplateId')]"
+                        },
+                        {
+                            "name": "NotifyEmailChangeConfirmationEmailNewEmailTemplateId",
+                            "value": "[parameters('NotifyEmailChangeConfirmationEmailNewEmailTemplateId')]"
+                        },
+                        {
+                            "name": "NotifyEmailChangeConfirmationEmailOldEmailTemplateId",
+                            "value": "[parameters('NotifyEmailChangeConfirmationEmailOldEmailTemplateId')]"
                         }
                     ]
                 },

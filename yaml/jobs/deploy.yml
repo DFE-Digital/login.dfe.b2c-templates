@@ -103,6 +103,24 @@ parameters:
   type: string
   default: 'EC634E6E424711C4060CA3821C3A4F457BC6D244'
 
+- name: NotifyAPIKey
+  type: string
+
+- name: notifyAidedSignupEmailTemplateId
+  type: string
+
+- name: notifySelfSignupEmailTemplateId
+  type: string
+
+- name: notifyPasswordResetConfirmationEmailTemplateId
+  type: string
+
+- name: notifyEmailChangeConfirmationEmailNewEmailTemplateId
+  type: string
+
+- name: notifyEmailChangeConfirmationEmailOldEmailTemplateId
+  type: string
+
 - name: eapimEnvironmentName
   type: string
   values:

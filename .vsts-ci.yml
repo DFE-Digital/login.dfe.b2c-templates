@@ -70,6 +70,51 @@ stages:
       identAppRegistrationClientId: $(devIdentityAppClientId)
       signinRedirectRoot: s141d01-signin-int.azurewebsites.net
       eapimRootUrl: dev-api-customerengagement.platform.education.gov.uk
+
+- stage: deployDev
+  displayName: Deploy - DEV
+  dependsOn:
+  - build
+  - devTenantSetup
+  jobs:
+  - template: yaml/jobs/deploy.yml
+    parameters:
+      applicationName: $(applicationName)
+      environmentName: 'dev'
+      functionServicePlanSkuName: $(functionServicePlanSkuName)
+      functionServicePlanSkuTier: $(functionServicePlanSkuTier)
+      functionServicePlanSkuCount: $(functionServicePlanSkuCount)
+      b2cSignUpPolicy: $(b2cSignUpPolicy)
+      b2cSignupConfirmPolicy: $(b2cSignupConfirmPolicy)
+      b2cPasswordResetConfirmPoicy: $(b2cPasswordResetConfirmPoicy)
+      b2cChangeEmailPolicy: $(b2cChangeEmailPolicy)
+      b2cAuthorizationUrl: $(b2cAuthorizationUrl)
+      ncsApimSubscriptionKey: $(ncsApimSubscriptionKey)
+      ncsDssApiRoot: $(devNcsDssApiRoot)
+      ncsDssApiKey: $(ncsDssApiKey)
+      ncsDssSearchApiVersion: $(ncsDssSearchApiVersion)
+      ncsDssSearchApiUrlRoute: $(ncsDssSearchApiUrlRoute)
+      ncsDssCreateCustomerApiUrlRoute: $(ncsDssCreateCustomerApiUrlRoute)
+      ncsDssCreateContactApiUrlRoute: $(ncsDssCreateContactApiUrlRoute)
+      ncsDssCreateIdentityApiUrlRoute: $(ncsDssCreateIdentityApiUrlRoute)
+      environmentId: 'd01'
+      serviceConnection: $(devServiceConnection)
+      eapimServiceConnection: $(eapimServiceConnection)
+      subscriptionId: $(devSubscriptionId)
+      relyingPartyAppClientId: $(devRelyAppClientId)
+      clientSigningKey: $(devClientSigningKey)
+      graphAccessClientId: $(devGraphAccessClientId)
+      graphAccessClientSecret: $(devGraphAccessClientSecret)
+      deploymentPrimaryLocation: $(deploymentPrimaryLocation)
+      deploymentSecondaryLocation: $(deploymentSecondaryLocation)
+      eapimEnvironmentName: 'Development'
+      extensionAppId: $(parsedDevExtensionAppId)
+      notifyAPIKey: $(devNotifyAPIKey)
+      notifyAidedSignupEmailTemplateId: $(devNotifyAidedSignupEmailTemplateId)
+      notifySelfSignupEmailTemplateId: $(devNotifySelfSignupEmailTemplateId)
+      notifyPasswordResetConfirmationEmailTemplateId: $(devNotifyPasswordResetConfirmationEmailTemplateId)
+      notifyEmailChangeConfirmationEmailNewEmailTemplateId: $(devNotifyEmailChangeConfirmationEmailNewEmailTemplateId)
+      notifyEmailChangeConfirmationEmailOldEmailTemplateId: $(devNotifyEmailChangeConfirmationEmailOldEmailTemplateId)
       
 
 - stage: deployTest
@@ -110,42 +155,10 @@ stages:
       deploymentSecondaryLocation: $(deploymentSecondaryLocation)
       eapimEnvironmentName: 'Test'
       extensionAppId: $(parsedTestExtensionAppId)
+      notifyAPIKey: $(devNotifyAPIKey)
+      notifyAidedSignupEmailTemplateId: $(devNotifyAidedSignupEmailTemplateId)
+      notifySelfSignupEmailTemplateId: $(devNotifySelfSignupEmailTemplateId)
+      notifyPasswordResetConfirmationEmailTemplateId: $(devNotifyPasswordResetConfirmationEmailTemplateId)
+      notifyEmailChangeConfirmationEmailNewEmailTemplateId: $(devNotifyEmailChangeConfirmationEmailNewEmailTemplateId)
+      notifyEmailChangeConfirmationEmailOldEmailTemplateId: $(devNotifyEmailChangeConfirmationEmailOldEmailTemplateId)
 
-- stage: deployDev
-  displayName: Deploy - DEV
-  dependsOn:
-  - build
-  - devTenantSetup
-  jobs:
-  - template: yaml/jobs/deploy.yml
-    parameters:
-      applicationName: $(applicationName)
-      environmentName: 'dev'
-      functionServicePlanSkuName: $(functionServicePlanSkuName)
-      functionServicePlanSkuTier: $(functionServicePlanSkuTier)
-      functionServicePlanSkuCount: $(functionServicePlanSkuCount)
-      b2cSignUpPolicy: $(b2cSignUpPolicy)
-      b2cSignupConfirmPolicy: $(b2cSignupConfirmPolicy)
-      b2cPasswordResetConfirmPoicy: $(b2cPasswordResetConfirmPoicy)
-      b2cChangeEmailPolicy: $(b2cChangeEmailPolicy)
-      b2cAuthorizationUrl: $(b2cAuthorizationUrl)
-      ncsApimSubscriptionKey: $(ncsApimSubscriptionKey)
-      ncsDssApiRoot: $(devNcsDssApiRoot)
-      ncsDssApiKey: $(ncsDssApiKey)
-      ncsDssSearchApiVersion: $(ncsDssSearchApiVersion)
-      ncsDssSearchApiUrlRoute: $(ncsDssSearchApiUrlRoute)
-      ncsDssCreateCustomerApiUrlRoute: $(ncsDssCreateCustomerApiUrlRoute)
-      ncsDssCreateContactApiUrlRoute: $(ncsDssCreateContactApiUrlRoute)
-      ncsDssCreateIdentityApiUrlRoute: $(ncsDssCreateIdentityApiUrlRoute)
-      environmentId: 'd01'
-      serviceConnection: $(devServiceConnection)
-      eapimServiceConnection: $(eapimServiceConnection)
-      subscriptionId: $(devSubscriptionId)
-      relyingPartyAppClientId: $(devRelyAppClientId)
-      clientSigningKey: $(devClientSigningKey)
-      graphAccessClientId: $(devGraphAccessClientId)
-      graphAccessClientSecret: $(devGraphAccessClientSecret)
-      deploymentPrimaryLocation: $(deploymentPrimaryLocation)
-      deploymentSecondaryLocation: $(deploymentSecondaryLocation)
-      eapimEnvironmentName: 'Development'
-      extensionAppId: $(parsedDevExtensionAppId)
