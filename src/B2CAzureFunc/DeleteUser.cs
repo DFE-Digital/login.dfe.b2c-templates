@@ -24,7 +24,7 @@ namespace B2CAzureFunc
         /// <returns>OkObjectResult</returns>
         [FunctionName("DeleteUser")]
         public static async Task<IActionResult> Run(
-            [HttpTrigger(AuthorizationLevel.Function, "delete", Route = "DeleteUser/{id}")] HttpRequest req,
+            [HttpTrigger(AuthorizationLevel.Function, "delete", Route = "{id}")] HttpRequest req,
             ILogger log, string id)
         {
             try
