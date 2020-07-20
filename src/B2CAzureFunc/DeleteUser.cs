@@ -69,7 +69,7 @@ namespace B2CAzureFunc
                 return new BadRequestObjectResult(new ResponseContentModel
                 {
                     version = "1.0.0",
-                    userMessage = "Please pass object id of the user",
+                    userMessage = "Sorry, something happened unexpectedly. Couldn't delete the user. Please try again later.",
                     status = 400,
                     developerMessage = ex.ToString()
                 });
