@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using B2CAzureFunc.Helpers;
 using B2CAzureFunc.Models;
+using System.IO;
+using Newtonsoft.Json;
 
 namespace B2CAzureFunc
 {
@@ -24,11 +26,12 @@ namespace B2CAzureFunc
         /// <returns>OkObjectResult</returns>
         [FunctionName("DeleteUser")]
         public static async Task<IActionResult> Run(
-            [HttpTrigger(AuthorizationLevel.Function, "delete", Route = "{id}")] HttpRequest req,
-            ILogger log, string id)
+            [HttpTrigger(AuthorizationLevel.Function, "delete", Route = null)] HttpRequest req,
+            ILogger log)
         {
             try
             {
+                string id = req.Query["id"];
                 if (!String.IsNullOrEmpty(id))
                 {
                     string tenant = Environment.GetEnvironmentVariable("b2c:Tenant", EnvironmentVariableTarget.Process);
