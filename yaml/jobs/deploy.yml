@@ -103,7 +103,7 @@ parameters:
   type: string
   default: 'EC634E6E424711C4060CA3821C3A4F457BC6D244'
 
-- name: NotifyAPIKey
+- name: notifyAPIKey
   type: string
 
 - name: notifyAidedSignupEmailTemplateId
@@ -176,7 +176,13 @@ jobs:
       -B2CGraphAccessClientSecret "${{parameters.graphAccessClientSecret}}"
       -EmailChangeConfirmationEmailSubjectNewEmail "${{parameters.emailChangeConfirmationEmailSubjectNewEmail}}"
       -EmailChangeConfirmationEmailSubjectOldEmail "${{parameters.emailChangeConfirmationEmailSubjectOldEmail}}"
-      -ExtensionAppId "${{parameters.extensionAppId}}"'
+      -ExtensionAppId "${{parameters.extensionAppId}}"
+      -NotifyAPIKey "${{parameters.notifyAPIKey}}"
+      -NotifyAidedSignupEmailTemplateId "${{parameters.notifyAidedSignupEmailTemplateId}}"
+      -NotifySelfSignupEmailTemplateId "${{parameters.notifySelfSignupEmailTemplateId}}"
+      -NotifyPasswordResetConfirmationEmailTemplateId "${{parameters.notifyPasswordResetConfirmationEmailTemplateId}}"
+      -NotifyEmailChangeConfirmationEmailNewEmailTemplateId "${{parameters.notifyEmailChangeConfirmationEmailNewEmailTemplateId}}"
+      -NotifyEmailChangeConfirmationEmailOldEmailTemplateId "${{parameters.notifyEmailChangeConfirmationEmailOldEmailTemplateId}}"'
 
   strategy:
     runOnce:
