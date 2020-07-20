@@ -252,10 +252,10 @@
         "B2CChangeEmailPolicy": {
             "type": "string"
         },
-        "notifyApiKey": {
+        "ExtensionAppId": {
             "type": "string"
         },
-        "ExtensionAppId": {
+        "NotifyApiKey": {
             "type": "string"
         },
         "NotifyAidedSignupEmailTemplateId": {
