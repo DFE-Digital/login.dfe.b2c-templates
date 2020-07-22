@@ -54,6 +54,16 @@ namespace B2CAzureFunc.Helpers
         {
             return await SendGraphPatchRequest("/users/" + objectId, json);
         }
+        
+        /// <summary>
+        /// Delete user
+        /// </summary>
+        /// <param name="objectId"></param>
+        /// <returns></returns>
+        public async Task<bool> DeleteUser(string objectId)
+        {
+            return await SendGraphDeleteRequest("/users/" + objectId);
+        }
 
         /// <summary>
         /// SendGraphGetRequest
@@ -85,7 +95,7 @@ namespace B2CAzureFunc.Helpers
             var result1 = await response.Content.ReadAsStringAsync();
             return result1;
         }
-        
+
         //Make tehe graph request to update the user
         private async Task<bool> SendGraphPatchRequest(string api, string json)
         {
@@ -103,6 +113,24 @@ namespace B2CAzureFunc.Helpers
             {
                 throw new Exception(await response.Content.ReadAsStringAsync() + response.ReasonPhrase);
             }
+            return response.IsSuccessStatusCode;
+        }
+
+        //Make tehe graph request to delete the user
+        private async Task<bool> SendGraphDeleteRequest(string api)
+        {
+            AuthenticationResult result = await authContext.AcquireTokenAsync(Globals.aadGraphResourceId, credential);
+            HttpClient http = new HttpClient();
+            string url = Globals.aadGraphEndpoint + tenant + api + "?" + Globals.aadGraphVersion;
+            HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Delete, url);
+            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", result.AccessToken);
+            HttpResponseMessage response = await http.SendAsync(request);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new Exception(await response.Content.ReadAsStringAsync() + response.ReasonPhrase);
+            }
+
             return response.IsSuccessStatusCode;
         }
     }
