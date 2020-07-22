@@ -32,6 +32,8 @@ namespace B2CAzureFunc
             try
             {
                 string id = req.Query["id"];
+                log.LogInformation("Query: "+req.Query);
+                log.LogInformation(id);
                 if (!String.IsNullOrEmpty(id))
                 {
                     string tenant = Environment.GetEnvironmentVariable("b2c:Tenant", EnvironmentVariableTarget.Process);
