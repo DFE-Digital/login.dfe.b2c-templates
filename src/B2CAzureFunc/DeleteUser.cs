@@ -18,12 +18,14 @@ namespace B2CAzureFunc
     public static class DeleteUser
     {
         /// <summary>
-        /// DeleteUser
+        ///     DeleteUser
         /// </summary>
+        /// <verb>POST</verb>
+        /// <url>http://localhost:7070/DeleteUser</url>
         /// <param name="req"></param>
         /// <param name="log"></param>
-        /// <param name="id"></param>
-        /// <returns>OkObjectResult</returns>
+        /// <response code="200"><see cref="object"/>Email Found Response</response>
+        /// <response code="404"><see cref="ResponseContentModel"/>Not Found</response>
         [FunctionName("DeleteUser")]
         public static async Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Function, "delete", Route = null)] HttpRequest req,
