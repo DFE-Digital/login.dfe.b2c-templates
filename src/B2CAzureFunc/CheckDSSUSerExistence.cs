@@ -18,9 +18,19 @@ namespace B2CAzureFunc
     /// </summary>
     public static class CheckDSSUSerExistence
     {
+        /// <summary>
+        ///     CheckDSSUSerExistence
+        /// </summary>
+        /// <verb>POST</verb>
+        /// <url>http://localhost:7070/CheckDSSUSerExistence</url>
+        /// <param name="req"></param>
+        /// <param name="log"></param>
+        /// <response code="200"><see cref="ResponseContentModel"/>User Found Response</response>
+        /// <response code="404"><see cref="Object"/>Not Found</response>
+        /// <response code="409"><see cref="ResponseContentModel"/>Not Found</response>
         [FunctionName("CheckDSSUSerExistence")]
         public static async Task<IActionResult> Run(
-            [HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)] HttpRequest req,
+            [HttpTrigger(AuthorizationLevel.Function, "get", Route = null)] HttpRequest req,
             ILogger log)
         {
             log.LogInformation("C# HTTP trigger function processed a request.");

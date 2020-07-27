@@ -442,6 +442,15 @@
           </OutputClaims>
       </ClaimsTransformation> -->
 
+      <ClaimsTransformation Id="CreateSignupDisabledErrorMessage" TransformationMethod="CreateStringClaim">
+        <InputParameters>
+          <InputParameter Id="value" DataType="string" Value=" " />
+        </InputParameters>
+        <OutputClaims>
+          <OutputClaim ClaimTypeReferenceId="errorMessage" TransformationClaimType="createdClaim" />
+        </OutputClaims>
+      </ClaimsTransformation>
+
 
     </ClaimsTransformations>
 
@@ -1129,14 +1138,35 @@
             <ValidationTechnicalProfile ReferenceId="SelfAsserted-Resend-ValidateEmail" />
             <ValidationTechnicalProfile ReferenceId="">
               <Preconditions>
-                <Precondition Type="ClaimEquals" ExecuteActionsIf="true">
-                  <Value>emailIsNotEqual</Value>
-                  <Value>true</Value>
+                <Precondition Type="ClaimEquals" ExecuteActionsIf="false">
+                  <Value>journey</Value>
+                  <Value>selfsignup</Value>
                   <Action>SkipThisValidationTechnicalProfile</Action>
                 </Precondition>
               </Preconditions>
+            </ValidationTechnicalProfile>
           </ValidationTechnicalProfiles>
         </TechnicalProfile> -->
+
+
+        <TechnicalProfile Id="SelfAsserted-LocalAccountSignUpWithEmailDisabled">
+          <DisplayName>Email Sent</DisplayName>
+          <Protocol Name="Proprietary" Handler="Web.TPEngine.Providers.SelfAssertedAttributeProvider, Web.TPEngine, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"/>
+          <Metadata>
+            <Item Key="ContentDefinitionReferenceId">api.selfsignup.disabled</Item>
+            <Item Key="setting.showContinueButton">false</Item>
+            <Item Key="setting.showCancelButton">false</Item>
+         </Metadata>
+          <InputClaimsTransformations>
+            <InputClaimsTransformation ReferenceId="CreateSignupDisabledErrorMessage" />
+          </InputClaimsTransformations>
+          <InputClaims>
+            <InputClaim ClaimTypeReferenceId="errorMessage" />
+          </InputClaims>
+          <OutputClaims>
+            <OutputClaim ClaimTypeReferenceId="errorMessage"/>
+          </OutputClaims>
+        </TechnicalProfile>
 
       </TechnicalProfiles>
     </ClaimsProvider>
@@ -1360,6 +1390,23 @@
                 <UseTechnicalProfileForSessionManagement ReferenceId="SM-Noop" />
             </TechnicalProfile>
 
+            <TechnicalProfile Id="API-Send-PasswordReset-Resent-Email">
+                <DisplayName>User OTP Notifications</DisplayName>    
+                <Protocol Name="Proprietary" Handler="Web.TPEngine.Providers.RestfulProvider, Web.TPEngine, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" />
+                <Metadata>
+                    <Item Key="ServiceUrl">https://{{eapimRootUrl}}/{{apimAppName}}/CheckDSSUSerExistence</Item>
+                        <Item Key="SendClaimsIn">Body</Item>                        
+                        <Item Key="AuthenticationType">ClientCertificate</Item>
+                    </Metadata>
+                    <CryptographicKeys>
+                        <Key Id="ClientCertificate" StorageReferenceId="B2C_1A_APIMClientCertificate" />
+                    </CryptographicKeys>
+                <InputClaims>
+                    <InputClaim ClaimTypeReferenceId="resend_email" PartnerClaimType="email" />
+                </InputClaims>
+                <UseTechnicalProfileForSessionManagement ReferenceId="SM-Noop" />
+            </TechnicalProfile>
+
         </TechnicalProfiles>
     </ClaimsProvider>
 
@@ -1370,17 +1417,22 @@
   
     <UserJourney Id="SelfSignUp">
       <OrchestrationSteps>
-        <OrchestrationStep Order="1" Type="ClaimsExchange" ContentDefinitionReferenceId="api.localaccountsignup">
+        <OrchestrationStep Order="1" Type="ClaimsExchange" ContentDefinitionReferenceId="api.selfsignup.disabled">
+          <ClaimsExchanges>
+            <ClaimsExchange Id="LocalAccountSignUpWithEmailDisabled" TechnicalProfileReferenceId="SelfAsserted-LocalAccountSignUpWithEmailDisabled"/>
+          </ClaimsExchanges>
+        </OrchestrationStep>
+        <OrchestrationStep Order="2" Type="ClaimsExchange" ContentDefinitionReferenceId="api.localaccountsignup">
           <ClaimsExchanges>
             <ClaimsExchange Id="LocalAccountSignUpWithEmail" TechnicalProfileReferenceId="LocalAccountSignUpWithEmail"/>
           </ClaimsExchanges>
         </OrchestrationStep>
-        <OrchestrationStep Order="2" Type="ClaimsExchange">
+        <OrchestrationStep Order="3" Type="ClaimsExchange">
           <ClaimsExchanges>
             <ClaimsExchange Id="LocalAccountSignUpEmailSentConfirmation" TechnicalProfileReferenceId="SelfAsserted-Signup-EmailSentConfirmation"/>
           </ClaimsExchanges>
         </OrchestrationStep>  
-        <OrchestrationStep Order="3" Type="SendClaims" CpimIssuerTechnicalProfileReferenceId="JwtIssuer"/>
+        <OrchestrationStep Order="4" Type="SendClaims" CpimIssuerTechnicalProfileReferenceId="JwtIssuer"/>
       </OrchestrationSteps>
       <ClientDefinition ReferenceId="DefaultWeb"/>
     </UserJourney>
