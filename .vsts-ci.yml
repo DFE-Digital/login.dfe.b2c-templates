@@ -107,7 +107,7 @@ stages:
       graphAccessClientSecret: $(devGraphAccessClientSecret)
       deploymentPrimaryLocation: $(deploymentPrimaryLocation)
       deploymentSecondaryLocation: $(deploymentSecondaryLocation)
-      policyCertThumbprint: $(devB2cApimCertThumbrint)
+      policyCertThumbprint: $(devB2cApimCertThumbprint)
       eapimEnvironmentName: 'Development'
       extensionAppId: $(parsedDevExtensionAppId)
       notifyAPIKey: $(devNotifyAPIKey)
@@ -154,7 +154,7 @@ stages:
       graphAccessClientSecret: $(testGraphAccessClientSecret)
       deploymentPrimaryLocation: $(deploymentPrimaryLocation)
       deploymentSecondaryLocation: $(deploymentSecondaryLocation)
-      policyCertThumbprint: $(testB2cApimCertThumbrint)
+      policyCertThumbprint: $(testB2cApimCertThumbprint)
       eapimEnvironmentName: 'Test'
       extensionAppId: $(parsedTestExtensionAppId)
       notifyAPIKey: $(testNotifyAPIKey)
