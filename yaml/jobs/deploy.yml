@@ -101,7 +101,6 @@ parameters:
 
 - name: policyCertThumbprint
   type: string
-  default: 'EC634E6E424711C4060CA3821C3A4F457BC6D244'
 
 - name: notifyAPIKey
   type: string
@@ -198,7 +197,7 @@ jobs:
             armParameterOverrideString: $(overrideParameters)
 
         - pwsh: |
-            Write-Host "##vso[task.setvariable variable=dsiB2cCertThumbprint]XXXXXX"
+            Write-Host "##vso[task.setvariable variable=dsiB2cCertThumbprint]$($env:DSIB2CCERTTHUMBPRINT)"
             Write-Host "##vso[task.setvariable variable=dsiB2cFunctionKey]$($env:ARMOUTPUT_FUNCTIONDEFAULTKEY)"
           displayName: Set Named values
 
