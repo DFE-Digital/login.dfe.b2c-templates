@@ -670,7 +670,7 @@
       </ContentDefinition>
 
       <ContentDefinition Id="api.selfsignup.disabled">
-        <LoadUri>~/tenant/templates/AzureBlue/selfAsserted.cshtml</LoadUri>
+        <LoadUri>https://{{signinRedirectRoot}}/b2c/</LoadUri>
         <RecoveryUri>~/common/default_page_error.html</RecoveryUri>
         <DataUri>urn:com:microsoft:aad:b2c:elements:contract:selfasserted:1.2.0</DataUri>
         <Metadata>
