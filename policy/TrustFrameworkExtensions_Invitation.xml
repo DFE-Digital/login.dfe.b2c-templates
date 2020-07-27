@@ -1986,7 +1986,7 @@
 
         <OrchestrationStep Order="3" Type="ClaimsExchange">
          <Preconditions>
-            <Precondition Type="ClaimEquals" ExecuteActionsIf="true">
+            <Precondition Type="ClaimEquals" ExecuteActionsIf="false">
               <Value>journey</Value>
               <Value>aidedsignup</Value>
               <Action>SkipThisOrchestrationStep</Action>
