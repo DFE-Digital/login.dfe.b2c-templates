@@ -159,16 +159,6 @@
           <UserHelpText>which journey requested this token</UserHelpText>
         </ClaimType>
 
-        <!-- <ClaimType Id="resend_email">
-          <DisplayName>Email address</DisplayName>
-          <DataType>string</DataType>
-          <UserHelpText>You'll need this to sign in to your account.</UserHelpText>
-          <UserInputType>TextBox</UserInputType>
-          <Restriction>
-            <Pattern RegularExpression="^[a-zA-Z0-9.!#$%&amp;'^_`{}~+-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$" HelpText="Enter a valid email address." />
-          </Restriction>
-        </ClaimType> -->
-
     </ClaimsSchema>
 
     <ClaimsTransformations>
@@ -429,7 +419,7 @@
       </ClaimsTransformation>
 
 
-      <!-- <ClaimsTransformation Id="IsResendEmailEqual" TransformationMethod="CompareClaims">
+      <ClaimsTransformation Id="IsResendEmailEqual" TransformationMethod="CompareClaims">
           <InputClaims>
               <InputClaim ClaimTypeReferenceId="email" TransformationClaimType="inputClaim1" />
               <InputClaim ClaimTypeReferenceId="resend_email" TransformationClaimType="inputClaim2" />
@@ -440,7 +430,7 @@
           <OutputClaims>
               <OutputClaim ClaimTypeReferenceId="emailIsNotEqual" TransformationClaimType="outputClaim" />
           </OutputClaims>
-      </ClaimsTransformation> -->
+      </ClaimsTransformation>
 
       <ClaimsTransformation Id="CreateSignupDisabledErrorMessage" TransformationMethod="CreateStringClaim">
         <InputParameters>
@@ -451,6 +441,14 @@
         </OutputClaims>
       </ClaimsTransformation>
 
+      <ClaimsTransformation Id="AssertResendEmailVerified" TransformationMethod="AssertBooleanClaimIsEqualToValue">
+        <InputClaims>
+          <InputClaim ClaimTypeReferenceId="extension_IsEmailVerified" TransformationClaimType="inputClaim" />
+        </InputClaims>
+        <InputParameters>
+          <InputParameter Id="valueToCompareTo" DataType="boolean" Value="false" />
+        </InputParameters>
+      </ClaimsTransformation>
 
     </ClaimsTransformations>
 
@@ -1107,8 +1105,39 @@
             <OutputClaim ClaimTypeReferenceId="successMessage"/>
           </OutputClaims>
         </TechnicalProfile>
-<!-- Resend email validator -->
-        <!-- <TechnicalProfile Id="SelfAsserted-Resend-ValidateEmail">
+
+        <TechnicalProfile Id="SelfAsserted-AiidedReg-Resent-Email-EmailSentConfirmation">
+          <DisplayName>Email Sent</DisplayName>
+          <Protocol Name="Proprietary" Handler="Web.TPEngine.Providers.SelfAssertedAttributeProvider, Web.TPEngine, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"/>
+          <Metadata>
+            <Item Key="ContentDefinitionReferenceId">api.resendemail.emailsent</Item>
+            <Item Key="setting.showContinueButton">false</Item>
+            <Item Key="setting.showCancelButton">false</Item>
+         </Metadata>
+          <InputClaimsTransformations>
+            <InputClaimsTransformation ReferenceId="CreateResentEmailEmailSentMessage" />
+          </InputClaimsTransformations>
+          <InputClaims>
+            <InputClaim ClaimTypeReferenceId="resend_email" />
+            <InputClaim ClaimTypeReferenceId="successMessage" />
+          </InputClaims>
+          <OutputClaims>
+            <OutputClaim ClaimTypeReferenceId="successMessage"/>
+          </OutputClaims>
+        </TechnicalProfile>
+
+        <TechnicalProfile Id="ClaimsTransformation-Resend-AssertEmailVerified">
+          <DisplayName>Assert Email Verified Claims Transformation</DisplayName>
+          <Protocol Name="Proprietary" Handler="Web.TPEngine.Providers.ClaimsTransformationProtocolProvider, Web.TPEngine, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" />
+          <OutputClaims>
+            <OutputClaim ClaimTypeReferenceId="extension_IsEmailVerified" />
+          </OutputClaims>
+          <OutputClaimsTransformations>
+            <OutputClaimsTransformation ReferenceId="AssertResendEmailVerified" />
+          </OutputClaimsTransformations>
+        </TechnicalProfile>
+
+        <TechnicalProfile Id="SelfAsserted-Resend-ValidateEmail">
           <DisplayName>Validate Email Full Profile Edit</DisplayName>                    
           <Protocol Name="Proprietary" Handler="Web.TPEngine.Providers.ClaimsTransformationProtocolProvider, Web.TPEngine, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" />                    
           <InputClaims>
@@ -1123,31 +1152,51 @@
           </OutputClaimsTransformations>
         </TechnicalProfile>
 
-        <TechnicalProfile Id="SelfAsserted-Resend-Email-Validator">
+        <TechnicalProfile Id="SelfAsserted-AidedReg-Resend-Email-Validator">
           <DisplayName>Email Sent</DisplayName>
           <Protocol Name="Proprietary" Handler="Web.TPEngine.Providers.SelfAssertedAttributeProvider, Web.TPEngine, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"/>
           <Metadata>
             <Item Key="ContentDefinitionReferenceId">api.resendemail</Item>
             <Item Key="language.button_continue">Send activation email</Item>
             <Item Key="setting.showCancelButton">false</Item>
+            <Item Key="UserMessageIfClaimsTransformationBooleanValueIsNotEqual">ACCOUNT_ACTIVATED</Item>
          </Metadata>
           <OutputClaims>
             <OutputClaim ClaimTypeReferenceId="resend_email"/>
+            <OutputClaim ClaimTypeReferenceId="isFound"/>
+            <OutputClaim ClaimTypeReferenceId="emailIsNotEqual" />
           </OutputClaims>
           <ValidationTechnicalProfiles>
             <ValidationTechnicalProfile ReferenceId="SelfAsserted-Resend-ValidateEmail" />
-            <ValidationTechnicalProfile ReferenceId="">
+            <ValidationTechnicalProfile ReferenceId="AAD-Resend-UserReadUsingEmailAddress">
               <Preconditions>
-                <Precondition Type="ClaimEquals" ExecuteActionsIf="false">
-                  <Value>journey</Value>
-                  <Value>selfsignup</Value>
+                <Precondition Type="ClaimEquals" ExecuteActionsIf="true">
+                  <Value>emailIsNotEqual</Value>
+                  <Value>True</Value>
+                  <Action>SkipThisValidationTechnicalProfile</Action>
+                </Precondition>
+              </Preconditions>
+            </ValidationTechnicalProfile>
+            <ValidationTechnicalProfile ReferenceId="ClaimsTransformation-Resend-AssertEmailVerified">
+              <Preconditions>
+                <Precondition Type="ClaimEquals" ExecuteActionsIf="true">
+                  <Value>emailIsNotEqual</Value>
+                  <Value>True</Value>
+                  <Action>SkipThisValidationTechnicalProfile</Action>
+                </Precondition>
+              </Preconditions>
+            </ValidationTechnicalProfile>
+            <ValidationTechnicalProfile ReferenceId="API-Check-User-Existence">
+              <Preconditions>
+                <Precondition Type="ClaimEquals" ExecuteActionsIf="true">
+                  <Value>emailIsNotEqual</Value>
+                  <Value>True</Value>
                   <Action>SkipThisValidationTechnicalProfile</Action>
                 </Precondition>
               </Preconditions>
             </ValidationTechnicalProfile>
           </ValidationTechnicalProfiles>
-        </TechnicalProfile> -->
-
+        </TechnicalProfile>
 
         <TechnicalProfile Id="SelfAsserted-LocalAccountSignUpWithEmailDisabled">
           <DisplayName>Email Sent</DisplayName>
@@ -1390,7 +1439,7 @@
                 <UseTechnicalProfileForSessionManagement ReferenceId="SM-Noop" />
             </TechnicalProfile>
 
-            <!-- <TechnicalProfile Id="API-Check-User-Existence">
+            <TechnicalProfile Id="API-Check-User-Existence">
                 <DisplayName>User OTP Notifications</DisplayName>    
                 <Protocol Name="Proprietary" Handler="Web.TPEngine.Providers.RestfulProvider, Web.TPEngine, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" />
                 <Metadata>
@@ -1404,8 +1453,11 @@
                 <InputClaims>
                     <InputClaim ClaimTypeReferenceId="resend_email" PartnerClaimType="email" />
                 </InputClaims>
+                <OutputClaims>
+                  <OutputClaim ClaimTypeReferenceId="isFound" />
+                </OutputClaims>
                 <UseTechnicalProfileForSessionManagement ReferenceId="SM-Noop" />
-            </TechnicalProfile> -->
+            </TechnicalProfile>
 
         </TechnicalProfiles>
     </ClaimsProvider>
@@ -1932,20 +1984,20 @@
           </ClaimsExchanges>
         </OrchestrationStep>
 
-        <!-- <OrchestrationStep Order="3" Type="ClaimsExchange">
+        <OrchestrationStep Order="3" Type="ClaimsExchange">
          <Preconditions>
             <Precondition Type="ClaimEquals" ExecuteActionsIf="true">
               <Value>journey</Value>
-              <Value>changeemail</Value>
+              <Value>aidedsignup</Value>
               <Action>SkipThisOrchestrationStep</Action>
             </Precondition>
           </Preconditions>        
           <ClaimsExchanges>
-            <ClaimsExchange Id="Resend-Email-Validator" TechnicalProfileReferenceId="SelfAsserted-Resend-Email-Validator"/>
+            <ClaimsExchange Id="Resend-Email-Validator" TechnicalProfileReferenceId="SelfAsserted-AidedReg-Resend-Email-Validator"/>
           </ClaimsExchanges>
-        </OrchestrationStep> -->
+        </OrchestrationStep>
 
-        <OrchestrationStep Order="3" Type="ClaimsExchange">
+        <OrchestrationStep Order="4" Type="ClaimsExchange">
          <Preconditions>
             <Precondition Type="ClaimEquals" ExecuteActionsIf="false">
               <Value>journey</Value>
@@ -1958,7 +2010,7 @@
           </ClaimsExchanges>
         </OrchestrationStep>
 
-        <OrchestrationStep Order="4" Type="ClaimsExchange">
+        <OrchestrationStep Order="5" Type="ClaimsExchange">
          <Preconditions>
             <Precondition Type="ClaimEquals" ExecuteActionsIf="false">
               <Value>journey</Value>
@@ -1971,20 +2023,30 @@
           </ClaimsExchanges>
         </OrchestrationStep>
 
-        <OrchestrationStep Order="5" Type="ClaimsExchange">
+        <OrchestrationStep Order="6" Type="ClaimsExchange">
          <Preconditions>
             <Precondition Type="ClaimEquals" ExecuteActionsIf="false">
               <Value>journey</Value>
               <Value>aidedsignup</Value>
               <Action>SkipThisOrchestrationStep</Action>
             </Precondition>
-          </Preconditions>        
+            <Precondition Type="ClaimEquals" ExecuteActionsIf="true">
+              <Value>isFound</Value>
+              <Value>False</Value>
+              <Action>SkipThisOrchestrationStep</Action>
+            </Precondition>
+            <Precondition Type="ClaimEquals" ExecuteActionsIf="true">
+              <Value>emailIsNotEqual</Value>
+              <Value>True</Value>
+              <Action>SkipThisOrchestrationStep</Action>
+            </Precondition>
+          </Preconditions>       
           <ClaimsExchanges>
             <ClaimsExchange Id="Send-AidedSignup-Resent-Email" TechnicalProfileReferenceId="API-Send-AidedSignup-Resent-Email"/>
           </ClaimsExchanges>
         </OrchestrationStep>
 
-        <OrchestrationStep Order="6" Type="ClaimsExchange">
+        <OrchestrationStep Order="7" Type="ClaimsExchange">
           <Preconditions>
             <Precondition Type="ClaimEquals" ExecuteActionsIf="false">
               <Value>journey</Value>
@@ -1997,14 +2059,27 @@
           </ClaimsExchanges>
         </OrchestrationStep>
 
-        <OrchestrationStep Order="7" Type="ClaimsExchange">       
+        <OrchestrationStep Order="8" Type="ClaimsExchange">
+          <Preconditions>
+            <Precondition Type="ClaimEquals" ExecuteActionsIf="false">
+              <Value>journey</Value>
+              <Value>aidedsignup</Value>
+              <Action>SkipThisOrchestrationStep</Action>
+            </Precondition>
+          </Preconditions>      
+          <ClaimsExchanges>
+            <ClaimsExchange Id="Resent-Email-AidedReg-EmailSentConfirmation" TechnicalProfileReferenceId="SelfAsserted-AiidedReg-Resent-Email-EmailSentConfirmation"/>
+          </ClaimsExchanges>
+        </OrchestrationStep>
+
+        <OrchestrationStep Order="9" Type="ClaimsExchange">       
           <ClaimsExchanges>
             <ClaimsExchange Id="Resent-Email-EmailSentConfirmation" TechnicalProfileReferenceId="SelfAsserted-Resent-Email-EmailSentConfirmation"/>
           </ClaimsExchanges>
         </OrchestrationStep>
 
-        <OrchestrationStep Order="8" Type="SendClaims" CpimIssuerTechnicalProfileReferenceId="JwtIssuer"/>
-        
+        <OrchestrationStep Order="10" Type="SendClaims" CpimIssuerTechnicalProfileReferenceId="JwtIssuer"/>
+
       </OrchestrationSteps>
       <ClientDefinition ReferenceId="DefaultWeb"/>
     </UserJourney>

@@ -296,6 +296,16 @@
           <DataType>string</DataType>
       </ClaimType>
 
+        <ClaimType Id="resend_email">
+          <DisplayName>Email address</DisplayName>
+          <DataType>string</DataType>
+          <UserHelpText>You'll need this to sign in to your account.</UserHelpText>
+          <UserInputType>TextBox</UserInputType>
+          <Restriction>
+            <Pattern RegularExpression="^[a-zA-Z0-9.!#$%&amp;'^_`{}~+-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$" HelpText="Enter a valid email address." />
+          </Restriction>
+        </ClaimType>
+
     </ClaimsSchema>
 
     <ClaimsTransformations>
@@ -357,6 +367,7 @@
           <InputParameter Id="valueToCompareTo" DataType="boolean" Value="true" />
         </InputParameters>
       </ClaimsTransformation>
+      
       <ClaimsTransformation Id="AssertEmailVerified" TransformationMethod="AssertBooleanClaimIsEqualToValue">
         <InputClaims>
           <InputClaim ClaimTypeReferenceId="extension_IsEmailVerified" TransformationClaimType="inputClaim" />
@@ -1078,6 +1089,32 @@
             <PersistedClaim ClaimTypeReferenceId="extension_IsEmailChangeRequested" DefaultValue="false" AlwaysUseDefaultValue="true"/>
             <PersistedClaim ClaimTypeReferenceId="extension_NewEmail" DefaultValue="none" AlwaysUseDefaultValue="true"/>
           </PersistedClaims>
+          <IncludeTechnicalProfile ReferenceId="AAD-Common" />
+        </TechnicalProfile>
+
+        <TechnicalProfile Id="AAD-Resend-UserReadUsingEmailAddress">
+          <Metadata>
+            <Item Key="Operation">Read</Item>
+            <Item Key="RaiseErrorIfClaimsPrincipalDoesNotExist">false</Item>
+            <Item Key="UserMessageIfClaimsPrincipalDoesNotExist">An account could not be found for the provided user ID.</Item>
+          </Metadata>
+          <IncludeInSso>false</IncludeInSso>
+          <InputClaims>
+            <InputClaim ClaimTypeReferenceId="resend_email" PartnerClaimType="signInNames.emailAddress" Required="true" />
+          </InputClaims>
+          <OutputClaims>
+            <!-- Required claims -->
+            <OutputClaim ClaimTypeReferenceId="objectId" />
+            <OutputClaim ClaimTypeReferenceId="authenticationSource" DefaultValue="localAccountAuthentication" />
+  
+            <!-- Optional claims -->
+            <OutputClaim ClaimTypeReferenceId="userPrincipalName" />
+            <OutputClaim ClaimTypeReferenceId="displayName" />
+            <OutputClaim ClaimTypeReferenceId="givenName" />
+            <OutputClaim ClaimTypeReferenceId="otherMails" />
+            <OutputClaim ClaimTypeReferenceId="signInNames.emailAddress" />
+            <OutputClaim ClaimTypeReferenceId="extension_IsEmailVerified" />
+          </OutputClaims>
           <IncludeTechnicalProfile ReferenceId="AAD-Common" />
         </TechnicalProfile>
 
