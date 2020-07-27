@@ -197,7 +197,6 @@ jobs:
             armParameterOverrideString: $(overrideParameters)
 
         - pwsh: |
-            Write-Host "##vso[task.setvariable variable=dsiB2cCertThumbprint]$($env:DSIB2CCERTTHUMBPRINT)"
             Write-Host "##vso[task.setvariable variable=dsiB2cFunctionKey]$($env:ARMOUTPUT_FUNCTIONDEFAULTKEY)"
           displayName: Set Named values
 
