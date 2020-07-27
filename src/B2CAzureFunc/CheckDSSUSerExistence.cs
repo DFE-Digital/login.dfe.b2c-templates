@@ -30,7 +30,7 @@ namespace B2CAzureFunc
         /// <response code="409"><see cref="ResponseContentModel"/>Not Found</response>
         [FunctionName("CheckDSSUSerExistence")]
         public static async Task<IActionResult> Run(
-            [HttpTrigger(AuthorizationLevel.Function, "get", Route = null)] HttpRequest req,
+            [HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] HttpRequest req,
             ILogger log)
         {
             log.LogInformation("C# HTTP trigger function processed a request.");
