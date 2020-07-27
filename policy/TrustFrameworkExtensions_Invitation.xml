@@ -1191,6 +1191,10 @@
             </ValidationTechnicalProfile>
             <ValidationTechnicalProfile ReferenceId="ClaimsTransformation-Resend-AssertEmailVerified">
               <Preconditions>
+                <Precondition Type="ClaimsExist" ExecuteActionsIf="false">
+                  <Value>userPrincipalName</Value>
+                  <Action>SkipThisValidationTechnicalProfile</Action>
+                </Precondition>
                 <Precondition Type="ClaimEquals" ExecuteActionsIf="true">
                   <Value>emailIsNotEqual</Value>
                   <Value>True</Value>
