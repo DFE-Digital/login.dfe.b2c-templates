@@ -450,6 +450,18 @@
         </InputParameters>
       </ClaimsTransformation>
 
+      <ClaimsTransformation Id="CreateAidedRegResentEmailEmailSentMessage" TransformationMethod="FormatStringClaim">
+        <InputClaims>
+          <InputClaim ClaimTypeReferenceId="resend_email" TransformationClaimType="inputClaim" />
+        </InputClaims>
+        <InputParameters>
+          <InputParameter Id="stringFormat" DataType="string" Value="We've sent an email to {0}" />
+        </InputParameters>
+        <OutputClaims>
+          <OutputClaim ClaimTypeReferenceId="successMessage" TransformationClaimType="outputClaim" />
+        </OutputClaims>
+      </ClaimsTransformation>
+
     </ClaimsTransformations>
 
   </BuildingBlocks>
@@ -1115,7 +1127,7 @@
             <Item Key="setting.showCancelButton">false</Item>
          </Metadata>
           <InputClaimsTransformations>
-            <InputClaimsTransformation ReferenceId="CreateResentEmailEmailSentMessage" />
+            <InputClaimsTransformation ReferenceId="CreateAidedRegResentEmailEmailSentMessage" />
           </InputClaimsTransformations>
           <InputClaims>
             <InputClaim ClaimTypeReferenceId="resend_email" />
