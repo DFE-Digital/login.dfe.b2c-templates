@@ -1390,7 +1390,7 @@
                 <UseTechnicalProfileForSessionManagement ReferenceId="SM-Noop" />
             </TechnicalProfile>
 
-            <TechnicalProfile Id="API-Send-PasswordReset-Resent-Email">
+            <TechnicalProfile Id="API-Check-User-Existence">
                 <DisplayName>User OTP Notifications</DisplayName>    
                 <Protocol Name="Proprietary" Handler="Web.TPEngine.Providers.RestfulProvider, Web.TPEngine, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" />
                 <Metadata>
