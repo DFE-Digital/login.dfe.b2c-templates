@@ -1,17 +1,21 @@
 <policies>
 	<inbound>
+		<cors>
+			<allowed-origins>
+				<origin>*</origin>
+			</allowed-origins>
+			<allowed-methods>
+				<method>*</method>
+			</allowed-methods>
+			<allowed-headers>
+				<header>*</header>
+			</allowed-headers>
+		</cors>
 		<cache-lookup vary-by-developer="false" vary-by-developer-groups="false">
 			<vary-by-header>Accept</vary-by-header>
 			<vary-by-header>Accept-Charset</vary-by-header>
 			<vary-by-header>Authorization</vary-by-header>
 		</cache-lookup>
-		<choose>
-			<when condition="@(context.Request.Certificate == null ||  context.Request.Certificate.Thumbprint != &quot;{{Dsi-B2c-CertThumbprint}}&quot;)">
-				<return-response>
-					<set-status code="403" reason="Invalid client certificate" />
-				</return-response>
-			</when>
-		</choose>
 		<set-query-parameter name="code" exists-action="override">
 			<value>{{Dsi-B2c-FunctionKey}}</value>
 		</set-query-parameter>
