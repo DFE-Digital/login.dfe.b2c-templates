@@ -686,7 +686,7 @@
             <Item Key="ContentDefinitionReferenceId">api.aidedsignup.linkexpired</Item>
             <Item Key="language.button_continue">Resend activation email</Item>
             <Item Key="setting.showCancelButton">false</Item>
-            <Item Key="setting.showContinueButton">true</Item>
+            <Item Key="setting.showContinueButton">false</Item>
          </Metadata>
           <InputClaimsTransformations>
             <InputClaimsTransformation ReferenceId="CreateLinkEpiredErrorMessage" />
@@ -697,9 +697,6 @@
           <OutputClaims>
             <OutputClaim ClaimTypeReferenceId="errorMessage"/>
           </OutputClaims>
-           <ValidationTechnicalProfiles>
-            <ValidationTechnicalProfile ReferenceId="API-Send-AidedSignup-Resent-Email" />
-          </ValidationTechnicalProfiles>
         </TechnicalProfile>
 
         <TechnicalProfile Id="SelfAsserted-SignUpConfirmation-LinkExpired">
@@ -709,6 +706,7 @@
             <Item Key="ContentDefinitionReferenceId">api.selfsignup.linkexpired</Item>
             <Item Key="language.button_continue">Resend activation email</Item>
             <Item Key="setting.showCancelButton">false</Item>
+            <Item Key="setting.showContinueButton">false</Item>
          </Metadata>
           <InputClaimsTransformations>
             <InputClaimsTransformation ReferenceId="CreateSignupConfirmationLinkEpiredErrorMessage" />
@@ -719,9 +717,6 @@
           <OutputClaims>
             <OutputClaim ClaimTypeReferenceId="errorMessage"/>
           </OutputClaims>
-          <ValidationTechnicalProfiles>
-            <ValidationTechnicalProfile ReferenceId="API-Send-SelfSignup-Resent-Email" />
-          </ValidationTechnicalProfiles>
         </TechnicalProfile>
         
         <TechnicalProfile Id="SelfAsserted-PasswordReset-LinkExpired">
@@ -970,6 +965,7 @@
             <Item Key="ContentDefinitionReferenceId">api.changeemail.linkexpired</Item>
             <Item Key="language.button_continue">Request new activation link</Item>
             <Item Key="setting.showCancelButton">false</Item>
+            <Item Key="setting.showContinueButton">false</Item>
          </Metadata>
           <InputClaimsTransformations>
             <InputClaimsTransformation ReferenceId="CreateEmailChangeLinkEpiredErrorMessage" />
@@ -980,9 +976,6 @@
           <OutputClaims>
             <OutputClaim ClaimTypeReferenceId="errorMessage"/>
           </OutputClaims>
-          <ValidationTechnicalProfiles>
-            <ValidationTechnicalProfile ReferenceId="API-Send-ChangeEmail-Activation-Email" />
-          </ValidationTechnicalProfiles>
         </TechnicalProfile>
 
         <TechnicalProfile Id="SelfAsserted-EmailChange-EmailNotMatched">

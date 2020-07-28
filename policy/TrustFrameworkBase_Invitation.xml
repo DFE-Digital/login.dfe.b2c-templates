@@ -634,7 +634,7 @@
       </ContentDefinition>
 
       <ContentDefinition Id="api.changeemail.emailresent">
-        <LoadUri>https://{{signinRedirectRoot}}/b2c/</LoadUri>
+        <LoadUri>https://{{signinRedirectRoot}}/b2c/?custom_ui_page=emailSent</LoadUri>
         <RecoveryUri>~/common/default_page_error.html</RecoveryUri>
         <DataUri>urn:com:microsoft:aad:b2c:elements:contract:selfasserted:1.2.0</DataUri>
         <Metadata>
