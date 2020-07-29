@@ -970,7 +970,7 @@
             <OutputClaim ClaimTypeReferenceId="bearerToken" />            
           </OutputClaims>
           <ValidationTechnicalProfiles>
-            <ValidationTechnicalProfile ReferenceId="SecureREST-AccessToken" />
+            <!-- <ValidationTechnicalProfile ReferenceId="SecureREST-AccessToken" /> -->
             <ValidationTechnicalProfile ReferenceId="API-Find-User-Email" />
           </ValidationTechnicalProfiles>
         </TechnicalProfile>
@@ -1293,12 +1293,10 @@
                 <Metadata>
                   <Item Key="ServiceUrl">https://{{eapimRootUrl}}/{{apimAppName}}/FindEmail</Item>
                   <Item Key="SendClaimsIn">Body</Item>                        
-                  <Item Key="AuthenticationType">Bearer</Item>
-                  <Item Key="UseClaimAsBearerToken">bearerToken</Item>
-                  <Item Key="AllowInsecureAuthInProduction">false</Item>
+                  <Item Key="AuthenticationType">ClientCertificate</Item>
                 </Metadata>
                 <CryptographicKeys>
-                    <Key Id="ClientCertificate" StorageReferenceId="B2C_1A_APIMClientCertificate" />
+                  <Key Id="ClientCertificate" StorageReferenceId="B2C_1A_APIMClientCertificate" />
                 </CryptographicKeys>
                 <InputClaims>
                     <InputClaim ClaimTypeReferenceId="bearerToken"/>
