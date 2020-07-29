@@ -159,6 +159,21 @@
           <UserHelpText>which journey requested this token</UserHelpText>
         </ClaimType>
 
+        <ClaimType Id="bearerToken">
+          <DisplayName>Bearer token</DisplayName>
+          <DataType>string</DataType>
+        </ClaimType>
+
+        <ClaimType Id="grant_type">
+          <DisplayName>Grant type</DisplayName>
+          <DataType>string</DataType>
+        </ClaimType>
+
+        <ClaimType Id="scope">
+          <DisplayName>scope</DisplayName>
+          <DataType>string</DataType>
+        </ClaimType>
+
     </ClaimsSchema>
 
     <ClaimsTransformations>
@@ -952,8 +967,10 @@
             <OutputClaim ClaimTypeReferenceId="foundEmail" />
             <OutputClaim ClaimTypeReferenceId="isFound" />
             <OutputClaim ClaimTypeReferenceId="objectId" DefaultValue="123" />
+            <OutputClaim ClaimTypeReferenceId="bearerToken" />            
           </OutputClaims>
           <ValidationTechnicalProfiles>
+            <ValidationTechnicalProfile ReferenceId="SecureREST-AccessToken" />
             <ValidationTechnicalProfile ReferenceId="API-Find-User-Email" />
           </ValidationTechnicalProfiles>
         </TechnicalProfile>
@@ -1276,12 +1293,15 @@
                 <Metadata>
                   <Item Key="ServiceUrl">https://{{eapimRootUrl}}/{{apimAppName}}/FindEmail</Item>
                   <Item Key="SendClaimsIn">Body</Item>                        
-                  <Item Key="AuthenticationType">ClientCertificate</Item>
+                  <Item Key="AuthenticationType">Bearer</Item>
+                  <Item Key="UseClaimAsBearerToken">bearerToken</Item>
+                  <Item Key="AllowInsecureAuthInProduction">false</Item>
                 </Metadata>
                 <CryptographicKeys>
                     <Key Id="ClientCertificate" StorageReferenceId="B2C_1A_APIMClientCertificate" />
                 </CryptographicKeys>
                 <InputClaims>
+                    <InputClaim ClaimTypeReferenceId="bearerToken"/>
                     <InputClaim ClaimTypeReferenceId="givenName" PartnerClaimType="GivenName" />
                     <InputClaim ClaimTypeReferenceId="surname" PartnerClaimType="SurName"/>
                     <InputClaim ClaimTypeReferenceId="day" PartnerClaimType="Day"/>
@@ -1452,13 +1472,13 @@
                 <DisplayName>User OTP Notifications</DisplayName>    
                 <Protocol Name="Proprietary" Handler="Web.TPEngine.Providers.RestfulProvider, Web.TPEngine, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" />
                 <Metadata>
-                    <Item Key="ServiceUrl">https://{{eapimRootUrl}}/{{apimAppName}}/CheckDSSUSerExistence</Item>
-                        <Item Key="SendClaimsIn">Body</Item>                        
-                        <Item Key="AuthenticationType">ClientCertificate</Item>
-                    </Metadata>
-                    <CryptographicKeys>
-                        <Key Id="ClientCertificate" StorageReferenceId="B2C_1A_APIMClientCertificate" />
-                    </CryptographicKeys>
+                  <Item Key="ServiceUrl">https://{{eapimRootUrl}}/{{apimAppName}}/CheckDSSUSerExistence</Item>
+                  <Item Key="SendClaimsIn">Body</Item>                        
+                  <Item Key="AuthenticationType">ClientCertificate</Item>
+                </Metadata>
+                <CryptographicKeys>
+                  <Key Id="ClientCertificate" StorageReferenceId="B2C_1A_APIMClientCertificate" />
+                </CryptographicKeys>
                 <InputClaims>
                     <InputClaim ClaimTypeReferenceId="resend_email" PartnerClaimType="email" />
                 </InputClaims>
@@ -1466,6 +1486,28 @@
                   <OutputClaim ClaimTypeReferenceId="isFound" />
                 </OutputClaims>
                 <UseTechnicalProfileForSessionManagement ReferenceId="SM-Noop" />
+            </TechnicalProfile>
+
+            <TechnicalProfile Id="SecureREST-AccessToken">
+              <DisplayName></DisplayName>
+              <Protocol Name="Proprietary" Handler="Web.TPEngine.Providers.RestfulProvider, Web.TPEngine, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" />
+              <Metadata>
+                <Item Key="ServiceUrl">https://login.microsoftonline.com/{tenant}/oauth2/v2.0/token</Item>
+                <Item Key="AuthenticationType">Basic</Item>
+                <Item Key="SendClaimsIn">Form</Item>
+              </Metadata>
+              <CryptographicKeys>
+                <Key Id="BasicAuthenticationUsername" StorageReferenceId="B2C_1A_SecureRESTClientId" />
+                <Key Id="BasicAuthenticationPassword" StorageReferenceId="B2C_1A_SecureRESTClientSecret" />
+              </CryptographicKeys>
+              <InputClaims>
+                <InputClaim ClaimTypeReferenceId="grant_type" DefaultValue="client_credentials" />
+                <InputClaim ClaimTypeReferenceId="scope" DefaultValue="https://graph.microsoft.com/.default" />
+              </InputClaims>
+              <OutputClaims>
+                <OutputClaim ClaimTypeReferenceId="bearerToken" PartnerClaimType="access_token" />
+              </OutputClaims>
+              <UseTechnicalProfileForSessionManagement ReferenceId="SM-Noop" />
             </TechnicalProfile>
 
         </TechnicalProfiles>
