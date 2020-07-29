@@ -1486,7 +1486,7 @@
                 <UseTechnicalProfileForSessionManagement ReferenceId="SM-Noop" />
             </TechnicalProfile>
 
-            <TechnicalProfile Id="SecureREST-AccessToken">
+            <!-- <TechnicalProfile Id="SecureREST-AccessToken">
               <DisplayName></DisplayName>
               <Protocol Name="Proprietary" Handler="Web.TPEngine.Providers.RestfulProvider, Web.TPEngine, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" />
               <Metadata>
@@ -1507,7 +1507,7 @@
                 <OutputClaim ClaimTypeReferenceId="bearerToken" PartnerClaimType="access_token" />
               </OutputClaims>
               <UseTechnicalProfileForSessionManagement ReferenceId="SM-Noop" />
-            </TechnicalProfile>
+            </TechnicalProfile> -->
 
         </TechnicalProfiles>
     </ClaimsProvider>
