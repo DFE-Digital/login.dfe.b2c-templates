@@ -1495,6 +1495,7 @@
                 <Item Key="ServiceUrl">https://login.microsoftonline.com/{tenant}/oauth2/v2.0/token</Item>
                 <Item Key="AuthenticationType">Basic</Item>
                 <Item Key="SendClaimsIn">Form</Item>
+                <Item Key="DebugMode">true</Item>
               </Metadata>
               <CryptographicKeys>
                 <Key Id="BasicAuthenticationUsername" StorageReferenceId="B2C_1A_SecureRESTClientId" />
