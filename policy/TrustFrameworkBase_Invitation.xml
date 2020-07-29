@@ -562,7 +562,7 @@
 
 
       <ContentDefinition Id="api.localaccountforgotemail">
-        <LoadUri>https://{{signinRedirectRoot}}/b2c/forgotten-email</LoadUri>
+        <LoadUri>https://{{signinRedirectRoot}}/b2c/forgotten-email?custom_ui_page=forgottenEmail</LoadUri>
         <RecoveryUri>~/common/default_page_error.html</RecoveryUri>
         <DataUri>urn:com:microsoft:aad:b2c:elements:contract:selfasserted:1.2.0</DataUri>
         <Metadata>
@@ -571,7 +571,7 @@
       </ContentDefinition>
       
       <ContentDefinition Id="api.localaccountforgotemail.emailnotfound">
-        <LoadUri>https://{{signinRedirectRoot}}/b2c/account-not-found</LoadUri>
+        <LoadUri>https://{{signinRedirectRoot}}/b2c/account-not-found?custom_ui_page=accountNotFound</LoadUri>
         <RecoveryUri>~/common/default_page_error.html</RecoveryUri>
         <DataUri>urn:com:microsoft:aad:b2c:elements:contract:selfasserted:1.2.0</DataUri>
         <Metadata>
@@ -580,7 +580,7 @@
       </ContentDefinition>
 
       <ContentDefinition Id="api.localaccountforgotemail.emailfound">
-        <LoadUri>https://{{signinRedirectRoot}}/b2c/account-found</LoadUri>
+        <LoadUri>https://{{signinRedirectRoot}}/b2c/account-found?custom_ui_page=accountFound</LoadUri>
         <RecoveryUri>~/common/default_page_error.html</RecoveryUri>
         <DataUri>urn:com:microsoft:aad:b2c:elements:contract:selfasserted:1.2.0</DataUri>
         <Metadata>
