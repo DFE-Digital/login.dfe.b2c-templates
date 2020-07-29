@@ -967,10 +967,10 @@
             <OutputClaim ClaimTypeReferenceId="foundEmail" />
             <OutputClaim ClaimTypeReferenceId="isFound" />
             <OutputClaim ClaimTypeReferenceId="objectId" DefaultValue="123" />
-            <OutputClaim ClaimTypeReferenceId="bearerToken" />            
+            <OutputClaim ClaimTypeReferenceId="bearerToken" DefaultValue=""/>            
           </OutputClaims>
           <ValidationTechnicalProfiles>
-            <!-- <ValidationTechnicalProfile ReferenceId="SecureREST-AccessToken" /> -->
+            <ValidationTechnicalProfile ReferenceId="SecureREST-AccessToken" />
             <ValidationTechnicalProfile ReferenceId="API-Find-User-Email" />
           </ValidationTechnicalProfiles>
         </TechnicalProfile>
@@ -1293,7 +1293,10 @@
                 <Metadata>
                   <Item Key="ServiceUrl">https://{{eapimRootUrl}}/{{apimAppName}}/FindEmail</Item>
                   <Item Key="SendClaimsIn">Body</Item>                        
-                  <Item Key="AuthenticationType">ClientCertificate</Item>
+                  <Item Key="AuthenticationType">Bearer</Item>
+                  <Item Key="UseClaimAsBearerToken">bearerToken</Item>
+                  <Item Key="AllowInsecureAuthInProduction">false</Item>
+                  <Item Key="DebugMode">true</Item>
                 </Metadata>
                 <CryptographicKeys>
                   <Key Id="ClientCertificate" StorageReferenceId="B2C_1A_APIMClientCertificate" />
@@ -1486,11 +1489,11 @@
                 <UseTechnicalProfileForSessionManagement ReferenceId="SM-Noop" />
             </TechnicalProfile>
 
-            <!-- <TechnicalProfile Id="SecureREST-AccessToken">
+            <TechnicalProfile Id="SecureREST-AccessToken">
               <DisplayName></DisplayName>
               <Protocol Name="Proprietary" Handler="Web.TPEngine.Providers.RestfulProvider, Web.TPEngine, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" />
               <Metadata>
-                <Item Key="ServiceUrl">https://login.microsoftonline.com/{tenant}/oauth2/v2.0/token</Item>
+                <Item Key="ServiceUrl">https://login.microsoftonline.com/{{environmentName}}authncs.onmicrosoft.com/oauth2/v2.0/token</Item>
                 <Item Key="AuthenticationType">Basic</Item>
                 <Item Key="SendClaimsIn">Form</Item>
                 <Item Key="DebugMode">true</Item>
@@ -1507,7 +1510,7 @@
                 <OutputClaim ClaimTypeReferenceId="bearerToken" PartnerClaimType="access_token" />
               </OutputClaims>
               <UseTechnicalProfileForSessionManagement ReferenceId="SM-Noop" />
-            </TechnicalProfile> -->
+            </TechnicalProfile>
 
         </TechnicalProfiles>
     </ClaimsProvider>
