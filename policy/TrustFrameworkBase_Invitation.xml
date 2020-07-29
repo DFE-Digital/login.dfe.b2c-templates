@@ -678,8 +678,17 @@
         </Metadata>
       </ContentDefinition>
 
-      <ContentDefinition Id="api.resendemail">
-        <LoadUri>~/tenant/templates/AzureBlue/selfAsserted.cshtml</LoadUri>
+      <ContentDefinition Id="api.resendemail.aidedsignup">
+        <LoadUri>https://{{signinRedirectRoot}}/b2c/</LoadUri>
+        <RecoveryUri>~/common/default_page_error.html</RecoveryUri>
+        <DataUri>urn:com:microsoft:aad:b2c:elements:contract:selfasserted:1.2.0</DataUri>
+        <Metadata>
+          <Item Key="DisplayName">Collect information from user page</Item>
+        </Metadata>
+      </ContentDefinition>
+      
+      <ContentDefinition Id="api.resendemail.aidedsignup.emailsent">
+        <LoadUri>https://{{signinRedirectRoot}}/b2c/</LoadUri>
         <RecoveryUri>~/common/default_page_error.html</RecoveryUri>
         <DataUri>urn:com:microsoft:aad:b2c:elements:contract:selfasserted:1.2.0</DataUri>
         <Metadata>
