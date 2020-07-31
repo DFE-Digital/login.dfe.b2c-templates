@@ -21,7 +21,7 @@
         </set-query-parameter>
         <validate-jwt header-name="Authorization" failed-validation-httpcode="401" failed-validation-error-message="Unauthorized. Access token is missing or invalid.">
             <issuers>
-                <issuer>{{Ds1-B2c-AuthIssuerValue}}</issuer>
+                <issuer>{{Dsi-B2c-AuthIssuerValue}}</issuer>
             </issuers>
             <required-claims>
                 <claim name="appid" match="any">
