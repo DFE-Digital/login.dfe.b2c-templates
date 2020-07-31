@@ -167,7 +167,8 @@ namespace B2CAzureFunc
                                 {
                                     version = "1.0.0",
                                     userMessage = "Sorry, Something happened unexpectedly. Please try after sometime.",
-                                    status = 400
+                                    status = 400,
+                                    developerMessage="response null, uri: "+request.RequestUri.ToString()+"==============="+userMessage
                                 });
 
                             completionStatus = true;
@@ -178,7 +179,8 @@ namespace B2CAzureFunc
                             {
                                 version = "1.0.0",
                                 userMessage = "Sorry, Something happened unexpectedly. Please try after sometime.",
-                                status = 400
+                                status = 400,
+                                developerMessage= "response.StatusCode: "+ response.StatusCode+", uri: " + request.RequestUri.ToString()+"==============="+userMessage
                             });
                         }
                     }
@@ -194,7 +196,8 @@ namespace B2CAzureFunc
                     {
                         version = "1.0.0",
                         userMessage = "Sorry, Something happened unexpectedly. Please try after sometime.",
-                        status = 400
+                        status = 400,
+                        developerMessage= "completionStatus: " + completionStatus+"==============="+userMessage
                     });
                 }
             }
