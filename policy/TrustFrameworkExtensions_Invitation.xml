@@ -970,7 +970,7 @@
             <OutputClaim ClaimTypeReferenceId="bearerToken" DefaultValue=""/>
           </OutputClaims>
           <ValidationTechnicalProfiles>
-            <!-- <ValidationTechnicalProfile ReferenceId="SecureREST-AccessToken" /> -->
+            <ValidationTechnicalProfile ReferenceId="SecureREST-AccessToken" />
             <ValidationTechnicalProfile ReferenceId="API-Find-User-Email" />
           </ValidationTechnicalProfiles>
         </TechnicalProfile>
@@ -1292,17 +1292,17 @@
                 <Protocol Name="Proprietary" Handler="Web.TPEngine.Providers.RestfulProvider, Web.TPEngine, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" />
                 <Metadata>
                   <Item Key="ServiceUrl">https://{{eapimRootUrl}}/{{apimAppName}}/FindEmail</Item>
-                  <Item Key="SendClaimsIn">Body</Item>                        
-                  <Item Key="AuthenticationType">ClientCertificate</Item>
-                  <!-- <Item Key="UseClaimAsBearerToken">bearerToken</Item>
+                  <Item Key="SendClaimsIn">Body</Item>
+                  <Item Key="AuthenticationType">Bearer</Item>
+                  <Item Key="UseClaimAsBearerToken">bearerToken</Item>
                   <Item Key="AllowInsecureAuthInProduction">false</Item>
-                  <Item Key="DebugMode">true</Item> -->
+                  <Item Key="DebugMode">true</Item>
                 </Metadata>
-                <CryptographicKeys>
+                <!-- <CryptographicKeys>
                   <Key Id="ClientCertificate" StorageReferenceId="B2C_1A_APIMClientCertificate" />
-                </CryptographicKeys>
+                </CryptographicKeys> -->
                 <InputClaims>
-                    <!-- <InputClaim ClaimTypeReferenceId="bearerToken"/> -->
+                    <InputClaim ClaimTypeReferenceId="bearerToken"/>
                     <InputClaim ClaimTypeReferenceId="givenName" PartnerClaimType="GivenName" />
                     <InputClaim ClaimTypeReferenceId="surname" PartnerClaimType="SurName"/>
                     <InputClaim ClaimTypeReferenceId="day" PartnerClaimType="Day"/>
@@ -1489,7 +1489,7 @@
                 <UseTechnicalProfileForSessionManagement ReferenceId="SM-Noop" />
             </TechnicalProfile>
 
-            <!-- <TechnicalProfile Id="SecureREST-AccessToken">
+            <TechnicalProfile Id="SecureREST-AccessToken">
               <DisplayName></DisplayName>
               <Protocol Name="Proprietary" Handler="Web.TPEngine.Providers.RestfulProvider, Web.TPEngine, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" />
               <Metadata>
@@ -1510,7 +1510,7 @@
                 <OutputClaim ClaimTypeReferenceId="bearerToken" PartnerClaimType="access_token" />
               </OutputClaims>
               <UseTechnicalProfileForSessionManagement ReferenceId="SM-Noop" />
-            </TechnicalProfile> -->
+            </TechnicalProfile>
 
         </TechnicalProfiles>
     </ClaimsProvider>
