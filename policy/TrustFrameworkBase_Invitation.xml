@@ -687,7 +687,7 @@
       </ContentDefinition>
       
       <ContentDefinition Id="api.resendemail.aidedsignup.emailsent">
-        <LoadUri>https://{{signinRedirectRoot}}/b2c/?custom_ui_page=emailSent&referrer_policy=B2C_1A_Signup_Invitation</LoadUri>
+        <LoadUri>https://{{signinRedirectRoot}}/b2c/?custom_ui_page=emailSent&amp;referrer_policy=B2C_1A_Signup_Invitation</LoadUri>
         <RecoveryUri>~/common/default_page_error.html</RecoveryUri>
         <DataUri>urn:com:microsoft:aad:b2c:elements:contract:selfasserted:1.2.0</DataUri>
         <Metadata>
@@ -696,7 +696,7 @@
       </ContentDefinition>
 
       <ContentDefinition Id="api.resendemail.changeemail.emailsent">
-        <LoadUri>https://{{signinRedirectRoot}}/b2c/?custom_ui_page=emailSent&referrer_policy=B2C_1A_Change_Email</LoadUri>
+        <LoadUri>https://{{signinRedirectRoot}}/b2c/?custom_ui_page=emailSent&amp;referrer_policy=B2C_1A_Change_Email</LoadUri>
         <RecoveryUri>~/common/default_page_error.html</RecoveryUri>
         <DataUri>urn:com:microsoft:aad:b2c:elements:contract:selfasserted:1.2.0</DataUri>
         <Metadata>
