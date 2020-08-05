@@ -44,11 +44,18 @@ namespace B2CAzureFunc
                 var data = JsonConvert.DeserializeObject<SignupInvitationModel>(requestBody);
                 log.LogInformation(requestBody);
 
+                if (String.IsNullOrEmpty(data.CustomerId) || String.IsNullOrEmpty(data.Email) || String.IsNullOrEmpty(data.GivenName) || String.IsNullOrEmpty(data.LastName))
+                {
+                    return new BadRequestObjectResult(new ResponseContentModel
+                    {
+                        userMessage = "Please check the input",
+                    });
+                }
+
                 using (var httpClient = new HttpClient())
                 {
                     var searchApiUrl = Environment.GetEnvironmentVariable("ncs-dss-search-api-url", EnvironmentVariableTarget.Process);
-                    var searcUrl = String.Format("{0}?&search=EmailAddress:{1}",
-                         searchApiUrl, data.Email);
+                    var searcUrl = String.Format("{0}?&search=EmailAddress:{1}", searchApiUrl, data.Email);
                     using (var request = new HttpRequestMessage(new HttpMethod("GET"), searcUrl))
                     {
                         request.Headers.TryAddWithoutValidation("api-key", Environment.GetEnvironmentVariable("ncs-dss-api-key", EnvironmentVariableTarget.Process));
@@ -59,29 +66,23 @@ namespace B2CAzureFunc
                         if (response.StatusCode == System.Net.HttpStatusCode.OK)
                         {
                             var searchResult = JsonConvert.DeserializeObject<SearchAPIResponseModel>(await response.Content.ReadAsStringAsync());
-                            var value = searchResult.Value.FirstOrDefault(p => p.EmailAddress.ToString().ToLower() == data.Email.ToLower());
+                            var value = searchResult.Value.FirstOrDefault(p => p.CustomerId.ToString().ToLower() == data.CustomerId.ToLower());
                             if (value == null)
                             {
                                 return new BadRequestObjectResult(new ResponseContentModel
                                 {
-                                    version = "1.0.0",
-                                    userMessage = "We have not been able to find your account",
-                                    status = 409,
-                                    developerMessage = "Value null, " + await response.Content.ReadAsStringAsync()
+                                    userMessage = "We have not been able to find your account"
                                 });
                             }
                             else
                             {
-                                if (!String.IsNullOrEmpty(data.CustomerId) && data.CustomerId.ToLower() == value.CustomerId.ToString().ToLower()
+                                if (!String.IsNullOrEmpty(data.Email) && data.Email.ToLower() == value.EmailAddress.ToString().ToLower()
                                     && data.GivenName.ToLower() == value.GivenName.ToLower() && data.LastName.ToLower() == value.FamilyName.ToLower())
                                     data.CustomerId = value.CustomerId.ToString();
                                 else
                                     return new BadRequestObjectResult(new ResponseContentModel
                                     {
-                                        version = "1.0.0",
-                                        userMessage = "We have not been able to find your account",
-                                        status = 409,
-                                        developerMessage = "data not matched, " + await response.Content.ReadAsStringAsync()
+                                        userMessage = "We have not been able to find your account"
                                     });
 
                                 var accountActivationEmailExpiryInSeconds = Convert.ToInt32(Environment.GetEnvironmentVariable("AccountActivationEmailExpiryInSeconds", EnvironmentVariableTarget.Process));
@@ -111,13 +112,7 @@ namespace B2CAzureFunc
                                     ? (ActionResult)new OkObjectResult(true)
                                     : new BadRequestObjectResult(new ResponseContentModel
                                     {
-                                        userMessage = "Something happened unexpectedly.",
-                                        version = "1.0.0",
-                                        status = 400,
-                                        code = "API12345",
-                                        requestId = "50f0bd91-2ff4-4b8f-828f-00f170519ddb",
-                                        developerMessage = "Email sent failed.",
-                                        moreInfo = "https://restapi/error/API12345/moreinfo"
+                                        userMessage = "Couldn't send email to user."
                                     });
                             }
                         }
@@ -125,10 +120,7 @@ namespace B2CAzureFunc
                         {
                             return new BadRequestObjectResult(new ResponseContentModel
                             {
-                                version = "1.0.0",
-                                userMessage = "Sorry, Something happened unexpectedly. Please try after sometime.",
-                                status = 400,
-                                developerMessage = "API call failed, " + await response.Content.ReadAsStringAsync()
+                                userMessage = "Failed to fetch customer details, please contact support"
                             });
                         }
                     }
@@ -139,13 +131,7 @@ namespace B2CAzureFunc
                 log.LogInformation(ex.ToString());
                 return new BadRequestObjectResult(new ResponseContentModel
                 {
-                    userMessage = "Sorry, Something happened unexpectedly. Please try after sometime.",
-                    developerMessage = ex.ToString(),
-                    version = "1.0.0",
-                    status = 400,
-                    code = "API12345",
-                    requestId = "50f0bd91-2ff4-4b8f-828f-00f170519ddb",
-                    moreInfo = "https://restapi/error/API12345/moreinfo"
+                    userMessage = "Sorry, Something happened unexpectedly. Please try after sometime."
                 });
             }
         }

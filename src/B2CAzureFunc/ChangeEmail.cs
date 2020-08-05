@@ -55,9 +55,7 @@ namespace B2CAzureFunc
                 {
                     return new BadRequestObjectResult(new ResponseContentModel
                     {
-                        version = "1.0.0",
                         userMessage = "Sorry, This email already exists",
-                        status = 409
                     });
                 }
 
@@ -68,9 +66,7 @@ namespace B2CAzureFunc
                 {
                     return new BadRequestObjectResult(new ResponseContentModel
                     {
-                        version = "1.0.0",
                         userMessage = "Sorry, This user doesn't exists.",
-                        status = 409
                     });
                 }
                 bool updateResult = false;
@@ -78,8 +74,17 @@ namespace B2CAzureFunc
                 {
                     var extensionAppId = Environment.GetEnvironmentVariable("ExtensionAppId", EnvironmentVariableTarget.Process);
                     string json = "{\"extension_" + extensionAppId + "_IsEmailChangeRequested\":\"true\",\"extension_" + extensionAppId + "_NewEmail\":\"" + data.NewEmail + "\"}";
-
-                    updateResult = await client.UpdateUser(userDetails.value[0].objectId, json);
+                    try
+                    {
+                        updateResult = await client.UpdateUser(userDetails.value[0].objectId, json);
+                    }
+                    catch (Exception ex)
+                    {
+                        return new BadRequestObjectResult(new ResponseContentModel
+                        {
+                            userMessage = "Sorry, something happened unexpectedly while updating AD user.",
+                        });
+                    }
                 }
 
                 if (updateResult || data.IsResend)
@@ -133,21 +138,13 @@ namespace B2CAzureFunc
                         ? (ActionResult)new OkObjectResult(true)
                         : new BadRequestObjectResult(new ResponseContentModel
                         {
-                            userMessage = "Something happened unexpectedly.",
-                            version = "1.0.0",
-                            status = 400,
-                            code = "API12345",
-                            requestId = "50f0bd91-2ff4-4b8f-828f-00f170519ddb",
-                            developerMessage = "Email sent failed.",
-                            moreInfo = "https://restapi/error/API12345/moreinfo"
+                            userMessage = "Failed to sent email, please contact support."
                         });
                 }
                 else
                     return new BadRequestObjectResult(new ResponseContentModel
                     {
-                        version = "1.0.0",
-                        userMessage = "Sorry, Something happened unexpectedly. Please try after sometime.",
-                        status = 400
+                        userMessage = "Sorry, Something happened unexpectedly. Please try after sometime."
                     });
 
             }
@@ -155,10 +152,8 @@ namespace B2CAzureFunc
             {
                 return new BadRequestObjectResult(new ResponseContentModel
                 {
-                    version = "1.0.0",
                     developerMessage = ex.ToString(),
-                    userMessage = "Sorry, Something happened unexpectedly. Please try after sometime.",
-                    status = 400
+                    userMessage = "Sorry, Something happened unexpectedly. Please try after sometime."
                 });
             }
         }

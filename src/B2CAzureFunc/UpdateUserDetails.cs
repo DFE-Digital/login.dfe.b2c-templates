@@ -47,8 +47,7 @@ namespace B2CAzureFunc
                         return new BadRequestObjectResult(new ResponseContentModel
                         {
                             version = "1.0.0",
-                            userMessage = "Object id can't be null",
-                            developerMessage = "Object id can't be null"
+                            userMessage = "Object id can't be null"
                         });
                     }
 
@@ -64,7 +63,7 @@ namespace B2CAzureFunc
                     if (!String.IsNullOrEmpty(getUserApiResponse))
                     {
                         var user = JsonConvert.DeserializeObject<UserValueModel>(getUserApiResponse);
-                        if (user == null ||  String.IsNullOrEmpty(user.objectId))
+                        if (user == null || String.IsNullOrEmpty(user.objectId))
                         {
                             return new BadRequestObjectResult(new ResponseContentModel
                             {
@@ -89,7 +88,6 @@ namespace B2CAzureFunc
                     {
                         return new BadRequestObjectResult(new ResponseContentModel
                         {
-                            version = "1.0.0",
                             userMessage = "Sorry, something happened unexpectedly. Couldn't update the user. Please try again later."
                         });
                     }
@@ -98,9 +96,7 @@ namespace B2CAzureFunc
                 {
                     return new BadRequestObjectResult(new ResponseContentModel
                     {
-                        version = "1.0.0",
-                        userMessage = "Please provide valid input",
-                        developerMessage = "Payload is null"
+                        userMessage = "Please provide valid input"
                     });
                 }
             }
@@ -108,9 +104,7 @@ namespace B2CAzureFunc
             {
                 return new BadRequestObjectResult(new ResponseContentModel
                 {
-                    version = "1.0.0",
-                    userMessage = "Sorry, something happened unexpectedly. Couldn't update the user. Please try again later.",
-                    developerMessage = ex.ToString()
+                    userMessage = "Sorry, something happened unexpectedly. Couldn't update the user. Please try again later."
                 });
             }
         }

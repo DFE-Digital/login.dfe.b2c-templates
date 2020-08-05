@@ -73,8 +73,7 @@ namespace B2CAzureFunc
                     {
                         return new BadRequestObjectResult(new ResponseContentModel
                         {
-                            version = "1.0.0",
-                            userMessage = "Sorry, something happened unexpectedly. Couldn't delete the user. Please try again later.",
+                            userMessage = "Sorry, something happened unexpectedly. Couldn't delete the user. Please try again later."
                         });
                     }
                 }
@@ -82,7 +81,6 @@ namespace B2CAzureFunc
                 {
                     return new BadRequestObjectResult(new ResponseContentModel
                     {
-                        version = "1.0.0",
                         userMessage = "Please pass object id of the user",
                     });
                 }
@@ -91,7 +89,6 @@ namespace B2CAzureFunc
             {
                 return new BadRequestObjectResult(new ResponseContentModel
                 {
-                    version = "1.0.0",
                     userMessage = "Sorry, something happened unexpectedly. Couldn't delete the user. Please try again later.",
                     developerMessage = ex.ToString()
                 });
