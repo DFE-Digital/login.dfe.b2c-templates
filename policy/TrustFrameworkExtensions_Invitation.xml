@@ -1246,6 +1246,26 @@
           </OutputClaims>
         </TechnicalProfile>
 
+        <TechnicalProfile Id="SelfAsserted-ChangeEmail-Resent-Email-EmailSentConfirmation">
+          <DisplayName>Email Sent</DisplayName>
+          <Protocol Name="Proprietary" Handler="Web.TPEngine.Providers.SelfAssertedAttributeProvider, Web.TPEngine, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"/>
+          <Metadata>
+            <Item Key="ContentDefinitionReferenceId">api.resendemail.changeemail.emailsent</Item>
+            <Item Key="setting.showContinueButton">false</Item>
+            <Item Key="setting.showCancelButton">false</Item>
+         </Metadata>
+          <InputClaimsTransformations>
+            <InputClaimsTransformation ReferenceId="CreateEmailChangeEmailResentMessage" />
+          </InputClaimsTransformations>
+          <InputClaims>
+            <InputClaim ClaimTypeReferenceId="confirmationMessage"/>
+            <InputClaim ClaimTypeReferenceId="newEmail"/>
+          </InputClaims>
+          <OutputClaims>
+            <OutputClaim ClaimTypeReferenceId="confirmationMessage"/>
+          </OutputClaims>
+        </TechnicalProfile>
+
       </TechnicalProfiles>
     </ClaimsProvider>
 
@@ -2049,7 +2069,7 @@
             </Precondition>
           </Preconditions>        
           <ClaimsExchanges>
-            <ClaimsExchange Id="Resend-Email-Validator" TechnicalProfileReferenceId="SelfAsserted-AidedReg-Resend-Email-Validator"/>
+            <ClaimsExchange Id="AidedReg-Resend-Email-Validator" TechnicalProfileReferenceId="SelfAsserted-AidedReg-Resend-Email-Validator"/>
           </ClaimsExchanges>
         </OrchestrationStep>
 
@@ -2111,7 +2131,7 @@
             </Precondition>
           </Preconditions>       
           <ClaimsExchanges>
-            <ClaimsExchange Id="Resent-ChangeEmail-EmailSentConfirmation" TechnicalProfileReferenceId="SelfAsserted-ChangeEmail-ResentEmail"/>
+            <ClaimsExchange Id="Resent-ChangeEmail-EmailSentConfirmation" TechnicalProfileReferenceId="SelfAsserted-ChangeEmail-Resent-Email-EmailSentConfirmation"/>
           </ClaimsExchanges>
         </OrchestrationStep>
 

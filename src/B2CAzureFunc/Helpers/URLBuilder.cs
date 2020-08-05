@@ -26,7 +26,7 @@ namespace B2CAzureFunc.Helpers
                     b2cPolicyId,
                     b2cClientId,
                     Uri.EscapeDataString(b2cRedirectURI),
-                    nonce) + "&id_token_hint=" + token;
+                    nonce) + "&id_token_hint=" + token + "&idtokenhint=" + token;
         }
     }
 }
