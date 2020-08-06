@@ -52,7 +52,7 @@ namespace B2CAzureFunc
                     }
 
                     if (String.IsNullOrEmpty(data.DisplayName))
-                        data.DisplayName = data.GiveName + " " + data.Surname;
+                        data.DisplayName = data.FirstName + " " + data.LastName;
 
                     string tenant = Environment.GetEnvironmentVariable("b2c:Tenant", EnvironmentVariableTarget.Process);
                     string clientId = Environment.GetEnvironmentVariable("b2c:GraphAccessClientId", EnvironmentVariableTarget.Process);
@@ -79,7 +79,7 @@ namespace B2CAzureFunc
                         });
                     }
 
-                    var status = await client.UpdateUser(data.ObjectId, JsonConvert.SerializeObject(new { givenName = data.GiveName, surname = data.Surname, displayName = data.DisplayName }));
+                    var status = await client.UpdateUser(data.ObjectId, JsonConvert.SerializeObject(new { givenName = data.FirstName, surname = data.LastName, displayName = data.DisplayName }));
                     if (status)
                     {
                         return (ActionResult)new OkObjectResult(status);

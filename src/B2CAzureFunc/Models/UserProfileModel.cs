@@ -16,11 +16,11 @@ namespace B2CAzureFunc.Models
         /// <summary>
         /// First name
         /// </summary>
-        public string GiveName { get; set; }
+        public string FirstName { get; set; }
         /// <summary>
         /// Last name
         /// </summary>
-        public string Surname { get; set; }
+        public string LastName { get; set; }
         /// <summary>
         /// DisplayName
         /// </summary>
