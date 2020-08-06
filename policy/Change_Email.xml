@@ -20,6 +20,12 @@
     <DefaultUserJourney ReferenceId="ChangeEmail" />
     <UserJourneyBehaviors>
         <JourneyInsights TelemetryEngine="ApplicationInsights" InstrumentationKey="2e40fd68-c157-4397-b2a2-38dc0bbb1b89" DeveloperMode="true" ClientEnabled="false" ServerEnabled="true" TelemetryVersion="1.0.0" />
+        <ContentDefinitionParameters>
+          <Parameter Name="policy">{Policy:PolicyId}</Parameter>
+          <Parameter Name="redirect_uri">{OIDC:RedirectUri}</Parameter>
+          <Parameter Name="client_id">{OIDC:ClientId}</Parameter>
+          <Parameter Name="tenant_id">{Policy:RelyingPartyTenantId}</Parameter>
+        </ContentDefinitionParameters>
         <ScriptExecution>Allow</ScriptExecution>
     </UserJourneyBehaviors>
     <TechnicalProfile Id="PolicyProfile">

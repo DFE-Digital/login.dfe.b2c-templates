@@ -35,6 +35,16 @@ namespace B2CAzureFunc.Helpers
         }
 
         /// <summary>
+        /// GetUserByObjectId
+        /// </summary>
+        /// <param name="objectId"></param>
+        /// <returns></returns>
+        public async Task<string> GetUserByObjectId(string objectId)
+        {
+            return await SendGraphGetRequest("/users/" + objectId, null);
+        }
+
+        /// <summary>
         /// GetAllUsersAsync
         /// </summary>
         /// <param name="query"></param>
@@ -54,7 +64,7 @@ namespace B2CAzureFunc.Helpers
         {
             return await SendGraphPatchRequest("/users/" + objectId, json);
         }
-        
+
         /// <summary>
         /// Delete user
         /// </summary>
@@ -92,8 +102,8 @@ namespace B2CAzureFunc.Helpers
             {
                 return null;
             }
-            var result1 = await response.Content.ReadAsStringAsync();
-            return result1;
+            var apiResult = await response.Content.ReadAsStringAsync();
+            return apiResult;
         }
 
         //Make tehe graph request to update the user
