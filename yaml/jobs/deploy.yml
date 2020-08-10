@@ -60,6 +60,9 @@ parameters:
 - name: ncsDssCreateContactApiUrlRoute
   type: string
 
+- name: ncsDssGetCustomerUrlRoute
+  type: string
+
 - name: ncsDssCreateIdentityApiUrlRoute
   type: string
 
@@ -170,6 +173,7 @@ jobs:
       -NCSDSSCreateCustomerApiUrl "${{parameters.ncsDssApiRoot}}${{parameters.ncsDssCreateCustomerApiUrlRoute}}"
       -NCSDSSCreateContactApiUrl "${{parameters.ncsDssApiRoot}}${{parameters.ncsDssCreateContactApiUrlRoute}}"
       -NCSDSSCreateIdentityApiUrl "${{parameters.ncsDssApiRoot}}${{parameters.ncsDssCreateIdentityApiUrlRoute}}"
+      -NCSDSSGetCustomerUrl "${{parameters.ncsDssApiRoot}}${{parameters.ncsDssGetCustomerUrlRoute}}"
       -TouchpointId "${{parameters.touchpointId}}"
       -B2CGraphAccessClientId "${{parameters.graphAccessClientId}}"
       -B2CGraphAccessClientSecret "${{parameters.graphAccessClientSecret}}"

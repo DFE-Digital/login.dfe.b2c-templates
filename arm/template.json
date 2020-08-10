@@ -234,6 +234,9 @@
         "NCSDSSCreateIdentityApiUrl": {
             "type": "string"
         },
+        "NCSDSSGetCustomerUrl": {
+            "type": "string"
+        },
         "TouchpointId": {
             "type": "string"
         },
@@ -861,6 +864,10 @@
                         {
                             "name": "ncs-dss-create-identity-api-url",
                             "value": "[parameters('NCSDSSCreateIdentityApiUrl')]"
+                        },
+                        {
+                            "name": "ncs-dss-get-customer-api-url",
+                            "value": "[parameters('NCSDSSGetCustomerUrl')]"
                         },
                         {
                             "name": "TouchpointId",
