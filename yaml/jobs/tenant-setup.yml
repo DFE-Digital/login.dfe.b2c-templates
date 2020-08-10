@@ -19,20 +19,30 @@ parameters:
   type: string
 - name: eapimRootUrl
   type: string
-  
+- name: variableGroupName
+  type: string
+
 jobs:
 - job: tenantSetup
   displayName: B2C Tenant Setup 
   pool:
     vmImage: windows-latest
   variables:
-    apimAppName: ${{parameters.applicationName}}
-    environmentName: ${{parameters.environmentName}}
-    proxyIdentAppRegistrationClientId: ${{parameters.proxyAppRegistrationClientId}}
-    proxyIdentAppRegistrationObjectId: ${{parameters.proxyAppRegistrationObjectId}}
-    identAppRegistrationClientId: ${{parameters.identAppRegistrationClientId}}
-    signinRedirectRoot: ${{parameters.signinRedirectRoot}}
-    eapimRootUrl: ${{parameters.eapimRootUrl}}
+  - group: ${{parameters.variableGroupName}}
+  - name: apimAppName
+    value: ${{parameters.applicationName}}
+  - name: environmentName
+    value: ${{parameters.environmentName}}
+  - name:  proxyIdentAppRegistrationClientId
+    value: ${{parameters.proxyAppRegistrationClientId}}
+  - name: proxyIdentAppRegistrationObjectId
+    value: ${{parameters.proxyAppRegistrationObjectId}}
+  - name: identAppRegistrationClientId
+    value: ${{parameters.identAppRegistrationClientId}}
+  - name: signinRedirectRoot
+    value: ${{parameters.signinRedirectRoot}}
+  - name: eapimRootUrl
+    value: ${{parameters.eapimRootUrl}}
   steps:
     - task: Tokenization@2
       displayName: Tokenise Policy Files

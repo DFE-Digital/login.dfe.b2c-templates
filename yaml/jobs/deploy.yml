@@ -60,6 +60,9 @@ parameters:
 - name: ncsDssCreateContactApiUrlRoute
   type: string
 
+- name: ncsDssGetCustomerUrlRoute
+  type: string
+
 - name: ncsDssCreateIdentityApiUrlRoute
   type: string
 
@@ -128,6 +131,9 @@ parameters:
   - Oat
   - Production
 
+- name: variableGroupName
+  type: string
+
 jobs:
 - deployment: Deploy
   displayName: Deploy Azure Function
@@ -135,8 +141,11 @@ jobs:
   pool:
     vmImage: windows-latest
   variables:
-    dsiB2cCertThumbprint: ${{parameters.policyCertThumbprint}}
-    overrideParameters: '
+  - group: ${{parameters.variableGroupName}}
+  - name: dsiB2cCertThumbprint
+    value: ${{parameters.policyCertThumbprint}}
+  - name: overrideParameters
+    value: '
       -applicationName "${{parameters.applicationName}}"
       -environmentName "${{parameters.environmentName}}"
       -servicePlanSkuName "${{parameters.functionServicePlanSkuName}}"
@@ -170,6 +179,7 @@ jobs:
       -NCSDSSCreateCustomerApiUrl "${{parameters.ncsDssApiRoot}}${{parameters.ncsDssCreateCustomerApiUrlRoute}}"
       -NCSDSSCreateContactApiUrl "${{parameters.ncsDssApiRoot}}${{parameters.ncsDssCreateContactApiUrlRoute}}"
       -NCSDSSCreateIdentityApiUrl "${{parameters.ncsDssApiRoot}}${{parameters.ncsDssCreateIdentityApiUrlRoute}}"
+      -NCSDSSGetCustomerUrl "${{parameters.ncsDssApiRoot}}${{parameters.ncsDssGetCustomerUrlRoute}}"
       -TouchpointId "${{parameters.touchpointId}}"
       -B2CGraphAccessClientId "${{parameters.graphAccessClientId}}"
       -B2CGraphAccessClientSecret "${{parameters.graphAccessClientSecret}}"

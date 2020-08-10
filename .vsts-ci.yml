@@ -42,6 +42,7 @@ stages:
   jobs:
   - template: yaml/jobs/tenant-setup.yml
     parameters:
+      variableGroupName: ncs-b2c-test
       applicationName: $(applicationName)
       environmentName: test
       tenantId: $(testAzureB2cTenantId)
@@ -60,6 +61,7 @@ stages:
   jobs:
   - template: yaml/jobs/tenant-setup.yml
     parameters:
+      variableGroupName: ncs-b2c-dev
       applicationName: $(applicationName)
       environmentName: dev
       tenantId: $(devAzureB2cTenantId)
@@ -79,6 +81,7 @@ stages:
   jobs:
   - template: yaml/jobs/deploy.yml
     parameters:
+      variableGroupName: ncs-b2c-dev
       applicationName: $(applicationName)
       environmentName: 'dev'
       functionServicePlanSkuName: $(functionServicePlanSkuName)
@@ -97,6 +100,7 @@ stages:
       ncsDssCreateCustomerApiUrlRoute: $(ncsDssCreateCustomerApiUrlRoute)
       ncsDssCreateContactApiUrlRoute: $(ncsDssCreateContactApiUrlRoute)
       ncsDssCreateIdentityApiUrlRoute: $(ncsDssCreateIdentityApiUrlRoute)
+      ncsDssGetCustomerUrlRoute: $(ncsDssGetCustomerUrlRoute)
       environmentId: 'd01'
       serviceConnection: $(devServiceConnection)
       eapimServiceConnection: $(eapimServiceConnection)
@@ -126,6 +130,7 @@ stages:
   jobs:
   - template: yaml/jobs/deploy.yml
     parameters:
+      variableGroupName: ncs-b2c-test
       applicationName: $(applicationName)
       environmentName: 'test'
       functionServicePlanSkuName: $(functionServicePlanSkuName)
@@ -144,6 +149,7 @@ stages:
       ncsDssCreateCustomerApiUrlRoute: $(ncsDssCreateCustomerApiUrlRoute)
       ncsDssCreateContactApiUrlRoute: $(ncsDssCreateContactApiUrlRoute)
       ncsDssCreateIdentityApiUrlRoute: $(ncsDssCreateIdentityApiUrlRoute)
+      ncsDssGetCustomerUrlRoute: $(ncsDssGetCustomerUrlRoute)
       environmentId: 't01'
       serviceConnection: $(testServiceConnection)
       eapimServiceConnection: $(eapimServiceConnection)
