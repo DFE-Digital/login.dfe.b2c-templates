@@ -12,7 +12,6 @@ using Providers.Email.Model;
 using Providers.Email;
 using B2CAzureFunc.Models;
 using System.Net.Http;
-using System.Linq;
 using System.Collections.Generic;
 
 namespace B2CAzureFunc
@@ -44,7 +43,8 @@ namespace B2CAzureFunc
                 var data = JsonConvert.DeserializeObject<SignupInvitationModel>(requestBody);
                 log.LogInformation(requestBody);
 
-                if (String.IsNullOrEmpty(data.CustomerId) || String.IsNullOrEmpty(data.Email) || String.IsNullOrEmpty(data.GivenName) || String.IsNullOrEmpty(data.LastName))
+                if (String.IsNullOrEmpty(data.CustomerId) || String.IsNullOrEmpty(data.Email) || String.IsNullOrEmpty(data.GivenName)
+                    || String.IsNullOrEmpty(data.LastName))
                 {
                     return new BadRequestObjectResult(new ResponseContentModel
                     {
@@ -54,9 +54,9 @@ namespace B2CAzureFunc
 
                 using (var httpClient = new HttpClient())
                 {
-                    var searchApiUrl = Environment.GetEnvironmentVariable("ncs-dss-search-api-url", EnvironmentVariableTarget.Process);
-                    var searcUrl = String.Format("{0}?&search=EmailAddress:{1}", searchApiUrl, data.Email);
-                    using (var request = new HttpRequestMessage(new HttpMethod("GET"), searcUrl))
+                    var getApiUrl = Environment.GetEnvironmentVariable("ncs-dss-get-customer-api-url", EnvironmentVariableTarget.Process);
+                    var dssApiUrl = String.Format("{0}", getApiUrl, data.CustomerId);
+                    using (var request = new HttpRequestMessage(new HttpMethod("GET"), dssApiUrl))
                     {
                         request.Headers.TryAddWithoutValidation("api-key", Environment.GetEnvironmentVariable("ncs-dss-api-key", EnvironmentVariableTarget.Process));
                         request.Headers.TryAddWithoutValidation("version", Environment.GetEnvironmentVariable("ncs-dss-search-api-version", EnvironmentVariableTarget.Process));
@@ -65,9 +65,8 @@ namespace B2CAzureFunc
                         var response = await httpClient.SendAsync(request);
                         if (response.StatusCode == System.Net.HttpStatusCode.OK)
                         {
-                            var searchResult = JsonConvert.DeserializeObject<SearchAPIResponseModel>(await response.Content.ReadAsStringAsync());
-                            var value = searchResult.Value.FirstOrDefault(p => p.CustomerId.ToString().ToLower() == data.CustomerId.ToLower());
-                            if (value == null)
+                            var customer = JsonConvert.DeserializeObject<CustomerModel>(await response.Content.ReadAsStringAsync());
+                            if (customer == null)
                             {
                                 return new BadRequestObjectResult(new ResponseContentModel
                                 {
@@ -76,9 +75,8 @@ namespace B2CAzureFunc
                             }
                             else
                             {
-                                if (!String.IsNullOrEmpty(data.Email) && data.Email.ToLower() == value.EmailAddress.ToString().ToLower()
-                                    && data.GivenName.ToLower() == value.GivenName.ToLower() && data.LastName.ToLower() == value.FamilyName.ToLower())
-                                    data.CustomerId = value.CustomerId.ToString();
+                                if (data.GivenName.ToLower() == customer.GivenName.ToLower() && data.LastName.ToLower() == customer.FamilyName.ToLower())
+                                    data.CustomerId = customer.CustomerId.ToString();
                                 else
                                     return new BadRequestObjectResult(new ResponseContentModel
                                     {

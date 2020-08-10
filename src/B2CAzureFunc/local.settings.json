@@ -43,13 +43,14 @@
     "B2CChangeEmailPolicy": "B2C_1A_changeemail",
     "ExtensionAppId": "9509a3af9e674a7d9443a094c02c8e69",
     "FromDisplayName": "The National Careers Service",
-
-    //new
     "NotifyAPIKey": "emailintegration-f0833c0b-c57b-48c2-b455-62cf80226d42-89b7c7f6-8e59-4df6-ab62-27e7661e5a10",
     "NotifyAidedSignupEmailTemplateId": "3a128969-3d8f-4000-8fc9-2cdb6805691f",
     "NotifySelfSignupEmailTemplateId": "4c021b69-82f6-46ee-baf8-cd2c14eb244b",
     "NotifyPasswordResetConfirmationEmailTemplateId": "8dffe252-f532-49fc-9415-ebf332f33f00",
     "NotifyEmailChangeConfirmationEmailNewEmailTemplateId": "223634a9-58cd-4d56-9385-d7448993e11a",
-    "NotifyEmailChangeConfirmationEmailOldEmailTemplateId": "a7147406-cf75-4100-a711-5aeea98e4ad9"
+    "NotifyEmailChangeConfirmationEmailOldEmailTemplateId": "a7147406-cf75-4100-a711-5aeea98e4ad9",
+
+    //new
+    "ncs-dss-get-customer-api-url": "https://at.api.nationalcareersservice.org.uk/customers/api/Customers/{0}"
   }
 }
