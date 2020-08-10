@@ -48,7 +48,7 @@ namespace B2CAzureFunc
                     {
                         var dob = String.Format("{0}-{1}-{2}", data.Year, data.Month, data.Day);
                         var getApiUrl = Environment.GetEnvironmentVariable("ncs-dss-get-customer-api-url", EnvironmentVariableTarget.Process);
-                        var url = String.Format("{0}", getApiUrl, data.CustomerId);
+                        var url = String.Format(getApiUrl, data.CustomerId);
                         using (var request = new HttpRequestMessage(new HttpMethod("GET"), url))
                         {
                             request.Headers.TryAddWithoutValidation("api-key", Environment.GetEnvironmentVariable("ncs-dss-api-key", EnvironmentVariableTarget.Process));
