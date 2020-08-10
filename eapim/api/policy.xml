@@ -1,5 +1,6 @@
 <policies>
     <inbound>
+        <base />
         <cors>
             <allowed-origins>
                 <origin>*</origin>
@@ -19,17 +20,6 @@
         <set-query-parameter name="code" exists-action="override">
             <value>{{Dsi-B2c-FunctionKey}}</value>
         </set-query-parameter>
-        <validate-jwt header-name="Authorization" failed-validation-httpcode="401" failed-validation-error-message="Unauthorized. Access token is missing or invalid.">
-            <issuers>
-                <issuer>{{Dsi-B2c-AuthIssuerValue}}</issuer>
-            </issuers>
-            <required-claims>
-                <claim name="appid" match="any">
-                    <value>{{Dsi-B2c-AuthClaimValue}}</value>
-                </claim>
-            </required-claims>
-        </validate-jwt>
-        <base />
     </inbound>
     <backend>
         <base />
