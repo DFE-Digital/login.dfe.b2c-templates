@@ -38,7 +38,7 @@ namespace B2CAzureFunc
             {
                 log.LogInformation("Request started");
                 string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
-                FindEmailModel data = JsonConvert.DeserializeObject<FindEmailModel>(requestBody);
+                ValidateUserInfoModel data = JsonConvert.DeserializeObject<ValidateUserInfoModel>(requestBody);
                 log.LogInformation(requestBody);
 
                 if (!String.IsNullOrEmpty(data.GivenName) && !String.IsNullOrEmpty(data.Surname) &&
@@ -47,9 +47,8 @@ namespace B2CAzureFunc
                     using (var httpClient = new HttpClient())
                     {
                         var dob = String.Format("{0}-{1}-{2}", data.Year, data.Month, data.Day);
-                        var searchApiUrl = Environment.GetEnvironmentVariable("ncs-dss-search-api-url", EnvironmentVariableTarget.Process);
-                        var url = String.Format("{0}?&search=EmailAddress:{1}",
-                             searchApiUrl, data.Email);
+                        var getApiUrl = Environment.GetEnvironmentVariable("ncs-dss-get-customer-api-url", EnvironmentVariableTarget.Process);
+                        var url = String.Format("{0}", getApiUrl, data.CustomerId);
                         using (var request = new HttpRequestMessage(new HttpMethod("GET"), url))
                         {
                             request.Headers.TryAddWithoutValidation("api-key", Environment.GetEnvironmentVariable("ncs-dss-api-key", EnvironmentVariableTarget.Process));
@@ -57,20 +56,14 @@ namespace B2CAzureFunc
                             request.Headers.TryAddWithoutValidation("Ocp-Apim-Subscription-Key", Environment.GetEnvironmentVariable("Ocp-Apim-Subscription-Key", EnvironmentVariableTarget.Process));
 
                             var response = await httpClient.SendAsync(request);
-                            var retryConter = Convert.ToInt32(data.RetryCounter);
-                            ++retryConter;
+
                             if (response.StatusCode == System.Net.HttpStatusCode.OK)
                             {
-                                var result = JsonConvert.DeserializeObject<SearchAPIResponseModel>(await response.Content.ReadAsStringAsync());
-                                var value = result.Value.FirstOrDefault(p => p.EmailAddress.ToString().ToLower() == data.Email.ToLower());
-                                if (value != null)
+                                var customer = JsonConvert.DeserializeObject<CustomerModel>(await response.Content.ReadAsStringAsync());
+
+                                if (customer != null)
                                 {
-
-                                    log.LogInformation("Param: " + dob);
-
-                                    log.LogInformation("API: " + value.DateOfBirth);
-
-                                    if (value.DateOfBirth == null)
+                                    if (customer.DateofBirth.HasValue)
                                     {
                                         return new BadRequestObjectResult(new ResponseContentModel
                                         {
@@ -80,22 +73,34 @@ namespace B2CAzureFunc
                                             status = 409
                                         });
                                     }
-                                    var day = value.DateOfBirth.GetValueOrDefault().Day;
-                                    var month = value.DateOfBirth.GetValueOrDefault().Month;
-                                    var year = value.DateOfBirth.GetValueOrDefault().Year;
+
+                                    var day = customer.DateofBirth.GetValueOrDefault().Day;
+                                    var month = customer.DateofBirth.GetValueOrDefault().Month;
+                                    var year = customer.DateofBirth.GetValueOrDefault().Year;
 
                                     var dayFromParam = Convert.ToInt32(data.Day);
                                     var monthFromParam = Convert.ToInt32(data.Month);
                                     var yearFromParam = Convert.ToInt32(data.Year);
 
-                                    if (day == dayFromParam && month == monthFromParam && year == yearFromParam
-                                        && data.GivenName.ToLower() == value.GivenName.ToLower()
-                                        && data.Surname.ToLower() == value.FamilyName.ToLower())
+                                    if (day == dayFromParam && month == monthFromParam && year == yearFromParam)
                                     {
-                                        return new OkObjectResult(new
+                                        if (data.GivenName.ToLower() == customer.GivenName.ToLower() && data.Surname.ToLower() == customer.FamilyName.ToLower())
                                         {
-                                            isFound = true,
-                                        });
+                                            return new OkObjectResult(new
+                                            {
+                                                isFound = true,
+                                            });
+                                        }
+                                        else
+                                        {
+                                            return new BadRequestObjectResult(new ResponseContentModel
+                                            {
+                                                version = "1.0.0",
+                                                userMessage = "Provided information not match your account details.",
+                                                isFound = false,
+                                                status = 409
+                                            });
+                                        }
                                     }
                                     else
                                     {
@@ -123,7 +128,7 @@ namespace B2CAzureFunc
                                 return new BadRequestObjectResult(new ResponseContentModel
                                 {
                                     version = "1.0.0",
-                                    userMessage = "Sorry, Something happened unexpectedly. Please try after sometime.",
+                                    userMessage = "Unable to validate your date of birth at the moment, please try after some time.",
                                     status = 400,
                                 });
                             }

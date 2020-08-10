@@ -1352,6 +1352,7 @@
                     <Key Id="ClientCertificate" StorageReferenceId="B2C_1A_APIMClientCertificate" />
                 </CryptographicKeys>
                 <InputClaims>
+                    <InputClaim ClaimTypeReferenceId="customerId" PartnerClaimType="CustomerId" />
                     <InputClaim ClaimTypeReferenceId="givenName" PartnerClaimType="GivenName" />
                     <InputClaim ClaimTypeReferenceId="surname" PartnerClaimType="SurName"/>
                     <InputClaim ClaimTypeReferenceId="day" PartnerClaimType="Day"/>
