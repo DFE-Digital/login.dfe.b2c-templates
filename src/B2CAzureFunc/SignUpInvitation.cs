@@ -13,6 +13,7 @@ using Providers.Email;
 using B2CAzureFunc.Models;
 using System.Net.Http;
 using System.Collections.Generic;
+using Microsoft.OpenApi.Extensions;
 
 namespace B2CAzureFunc
 {
@@ -65,6 +66,7 @@ namespace B2CAzureFunc
                         request.Headers.TryAddWithoutValidation("Ocp-Apim-Subscription-Key", Environment.GetEnvironmentVariable("Ocp-Apim-Subscription-Key", EnvironmentVariableTarget.Process));
 
                         var response = await httpClient.SendAsync(request);
+                        log.LogInformation(response.StatusCode.GetDisplayName() + " - " + response.StatusCode.ToString());
                         if (response.StatusCode == System.Net.HttpStatusCode.OK)
                         {
                             var content = await response.Content.ReadAsStringAsync();
