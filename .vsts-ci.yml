@@ -79,6 +79,7 @@ stages:
   jobs:
   - template: yaml/jobs/deploy.yml
     parameters:
+      variableGroupName: ncs-b2c-dev
       applicationName: $(applicationName)
       environmentName: 'dev'
       functionServicePlanSkuName: $(functionServicePlanSkuName)
@@ -127,6 +128,7 @@ stages:
   jobs:
   - template: yaml/jobs/deploy.yml
     parameters:
+      variableGroupName: ncs-b2c-test
       applicationName: $(applicationName)
       environmentName: 'test'
       functionServicePlanSkuName: $(functionServicePlanSkuName)

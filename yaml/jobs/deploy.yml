@@ -131,6 +131,9 @@ parameters:
   - Oat
   - Production
 
+- name: variableGroupName
+  type: string
+
 jobs:
 - deployment: Deploy
   displayName: Deploy Azure Function
@@ -138,8 +141,11 @@ jobs:
   pool:
     vmImage: windows-latest
   variables:
-    dsiB2cCertThumbprint: ${{parameters.policyCertThumbprint}}
-    overrideParameters: '
+  - group: ${{parameters.variableGroupName}}
+  - name: dsiB2cCertThumbprint
+    value: ${{parameters.policyCertThumbprint}}
+  - name: overrideParameters
+    value: '
       -applicationName "${{parameters.applicationName}}"
       -environmentName "${{parameters.environmentName}}"
       -servicePlanSkuName "${{parameters.functionServicePlanSkuName}}"
