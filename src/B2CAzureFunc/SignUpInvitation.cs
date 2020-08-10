@@ -57,21 +57,21 @@ namespace B2CAzureFunc
                 {
                     var getApiUrl = Environment.GetEnvironmentVariable("ncs-dss-get-customer-api-url", EnvironmentVariableTarget.Process);
                     var dssApiUrl = String.Format(getApiUrl, data.CustomerId);
-                    log.LogInformation(dssApiUrl);
 
                     using (var request = new HttpRequestMessage(new HttpMethod("GET"), dssApiUrl))
                     {
                         request.Headers.TryAddWithoutValidation("api-key", Environment.GetEnvironmentVariable("ncs-dss-api-key", EnvironmentVariableTarget.Process));
                         request.Headers.TryAddWithoutValidation("version", Environment.GetEnvironmentVariable("ncs-dss-search-api-version", EnvironmentVariableTarget.Process));
                         request.Headers.TryAddWithoutValidation("Ocp-Apim-Subscription-Key", Environment.GetEnvironmentVariable("Ocp-Apim-Subscription-Key", EnvironmentVariableTarget.Process));
+                        request.Headers.TryAddWithoutValidation("TouchpointId", Environment.GetEnvironmentVariable("TouchpointId", EnvironmentVariableTarget.Process));
 
                         var response = await httpClient.SendAsync(request);
                         log.LogInformation(response.StatusCode.GetDisplayName() + " - " + response.StatusCode.ToString());
                         if (response.StatusCode == System.Net.HttpStatusCode.OK)
                         {
                             var content = await response.Content.ReadAsStringAsync();
-                            log.LogInformation(content);
                             var customer = JsonConvert.DeserializeObject<CustomerModel>(content);
+
                             if (customer == null)
                             {
                                 return new BadRequestObjectResult(new ResponseContentModel
