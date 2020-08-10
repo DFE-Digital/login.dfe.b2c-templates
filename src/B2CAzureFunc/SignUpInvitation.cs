@@ -67,7 +67,9 @@ namespace B2CAzureFunc
                         var response = await httpClient.SendAsync(request);
                         if (response.StatusCode == System.Net.HttpStatusCode.OK)
                         {
-                            var customer = JsonConvert.DeserializeObject<CustomerModel>(await response.Content.ReadAsStringAsync());
+                            var result = await response.Content.ReadAsStringAsync();
+                            log.LogInformation(result);
+                            var customer = JsonConvert.DeserializeObject<CustomerModel>(result);
                             if (customer == null)
                             {
                                 return new BadRequestObjectResult(new ResponseContentModel
