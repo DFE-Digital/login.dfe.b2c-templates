@@ -238,7 +238,7 @@
             "type": "string"
         },
         "NCSDigitalIdentityUrl": {
-            "value":"string"
+            "type":"string"
         },
         "TouchpointId": {
             "type": "string"
