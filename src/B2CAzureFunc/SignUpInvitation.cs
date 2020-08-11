@@ -58,6 +58,8 @@ namespace B2CAzureFunc
                     var getApiUrl = Environment.GetEnvironmentVariable("ncs-dss-get-customer-api-url", EnvironmentVariableTarget.Process);
                     var dssApiUrl = String.Format(getApiUrl, data.CustomerId);
 
+                    log.LogInformation(getApiUrl);
+
                     using (var request = new HttpRequestMessage(new HttpMethod("GET"), dssApiUrl))
                     {
                         request.Headers.TryAddWithoutValidation("api-key", Environment.GetEnvironmentVariable("ncs-dss-api-key", EnvironmentVariableTarget.Process));
