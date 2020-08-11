@@ -101,6 +101,7 @@ stages:
       ncsDssCreateContactApiUrlRoute: $(ncsDssCreateContactApiUrlRoute)
       ncsDssCreateIdentityApiUrlRoute: $(ncsDssCreateIdentityApiUrlRoute)
       ncsDssGetCustomerUrlRoute: $(ncsDssGetCustomerUrlRoute)
+      ncsDigitalIdentityRoute: $(ncsDigitalIdentityRoute)
       environmentId: 'd01'
       serviceConnection: $(devServiceConnection)
       eapimServiceConnection: $(eapimServiceConnection)
@@ -150,6 +151,7 @@ stages:
       ncsDssCreateContactApiUrlRoute: $(ncsDssCreateContactApiUrlRoute)
       ncsDssCreateIdentityApiUrlRoute: $(ncsDssCreateIdentityApiUrlRoute)
       ncsDssGetCustomerUrlRoute: $(ncsDssGetCustomerUrlRoute)
+      ncsDigitalIdentityRoute: $(ncsDigitalIdentityRoute)
       environmentId: 't01'
       serviceConnection: $(testServiceConnection)
       eapimServiceConnection: $(eapimServiceConnection)

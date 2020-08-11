@@ -237,6 +237,9 @@
         "NCSDSSGetCustomerUrl": {
             "type": "string"
         },
+        "NCSDigitalIdentityUrl": {
+            "value":"string"
+        },
         "TouchpointId": {
             "type": "string"
         },
@@ -868,6 +871,10 @@
                         {
                             "name": "ncs-dss-get-customer-api-url",
                             "value": "[parameters('NCSDSSGetCustomerUrl')]"
+                        },
+                        {
+                            "name": "ncs-dss-patch-digitalidentity-api-url",
+                            "value": "[parameters('NCSDigitalIdentityUrl')]"
                         },
                         {
                             "name": "TouchpointId",
