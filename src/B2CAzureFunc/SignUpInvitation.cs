@@ -69,6 +69,7 @@ namespace B2CAzureFunc
 
                         var response = await httpClient.SendAsync(request);
                         log.LogInformation(response.StatusCode.GetDisplayName() + " - " + response.StatusCode.ToString());
+
                         if (response.StatusCode == System.Net.HttpStatusCode.OK)
                         {
                             var content = await response.Content.ReadAsStringAsync();
@@ -124,6 +125,7 @@ namespace B2CAzureFunc
                         }
                         else
                         {
+                            log.LogInformation(dssApiUrl);
                             return new BadRequestObjectResult(new ResponseContentModel
                             {
                                 userMessage = "Failed to fetch customer details, please contact support"
