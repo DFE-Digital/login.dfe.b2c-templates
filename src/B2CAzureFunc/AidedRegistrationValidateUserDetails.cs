@@ -64,7 +64,7 @@ namespace B2CAzureFunc
 
                                 if (customer != null)
                                 {
-                                    if (customer.DateofBirth.HasValue)
+                                    if (!customer.DateofBirth.HasValue)
                                     {
                                         return new BadRequestObjectResult(new ResponseContentModel
                                         {
