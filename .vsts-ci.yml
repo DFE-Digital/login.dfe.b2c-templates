@@ -115,7 +115,6 @@ stages:
       policyCertThumbprint: $(devB2cApimCertThumbprint)
       eapimEnvironmentName: 'Development'
       extensionAppId: $(parsedDevExtensionAppId)
-      notifyAPIKey: $(devNotifyAPIKey)
       notifyAidedSignupEmailTemplateId: $(devNotifyAidedSignupEmailTemplateId)
       notifySelfSignupEmailTemplateId: $(devNotifySelfSignupEmailTemplateId)
       notifyPasswordResetConfirmationEmailTemplateId: $(devNotifyPasswordResetConfirmationEmailTemplateId)
@@ -165,7 +164,6 @@ stages:
       policyCertThumbprint: $(testB2cApimCertThumbprint)
       eapimEnvironmentName: 'Test'
       extensionAppId: $(parsedTestExtensionAppId)
-      notifyAPIKey: $(testNotifyAPIKey)
       notifyAidedSignupEmailTemplateId: $(testNotifyAidedSignupEmailTemplateId)
       notifySelfSignupEmailTemplateId: $(testNotifySelfSignupEmailTemplateId)
       notifyPasswordResetConfirmationEmailTemplateId: $(testNotifyPasswordResetConfirmationEmailTemplateId)

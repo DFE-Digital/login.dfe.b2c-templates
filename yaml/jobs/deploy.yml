@@ -108,9 +108,6 @@ parameters:
 - name: policyCertThumbprint
   type: string
 
-- name: notifyAPIKey
-  type: string
-
 - name: notifyAidedSignupEmailTemplateId
   type: string
 
@@ -190,7 +187,7 @@ jobs:
       -EmailChangeConfirmationEmailSubjectNewEmail "${{parameters.emailChangeConfirmationEmailSubjectNewEmail}}"
       -EmailChangeConfirmationEmailSubjectOldEmail "${{parameters.emailChangeConfirmationEmailSubjectOldEmail}}"
       -ExtensionAppId "${{parameters.extensionAppId}}"
-      -NotifyAPIKey "${{parameters.notifyAPIKey}}"
+      -NotifyAPIKey "$(notifyApiKey)"
       -NotifyAidedSignupEmailTemplateId "${{parameters.notifyAidedSignupEmailTemplateId}}"
       -NotifySelfSignupEmailTemplateId "${{parameters.notifySelfSignupEmailTemplateId}}"
       -NotifyPasswordResetConfirmationEmailTemplateId "${{parameters.notifyPasswordResetConfirmationEmailTemplateId}}"
