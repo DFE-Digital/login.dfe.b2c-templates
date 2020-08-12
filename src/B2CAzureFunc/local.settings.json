@@ -49,8 +49,9 @@
     "NotifyPasswordResetConfirmationEmailTemplateId": "8dffe252-f532-49fc-9415-ebf332f33f00",
     "NotifyEmailChangeConfirmationEmailNewEmailTemplateId": "223634a9-58cd-4d56-9385-d7448993e11a",
     "NotifyEmailChangeConfirmationEmailOldEmailTemplateId": "a7147406-cf75-4100-a711-5aeea98e4ad9",
+    "ncs-dss-get-customer-api-url": "https://at.api.nationalcareersservice.org.uk/customers/api/Customers/{0}",
 
     //new
-    "ncs-dss-get-customer-api-url": "https://at.api.nationalcareersservice.org.uk/customers/api/Customers/{0}"
+    "ncs-dss-patch-digitalidentity-api-url": "https://at.api.nationalcareersservice.org.uk/digitalidentities/api/customer/{0}"
   }
 }
