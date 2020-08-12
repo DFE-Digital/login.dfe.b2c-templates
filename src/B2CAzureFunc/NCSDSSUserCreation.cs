@@ -40,6 +40,8 @@ namespace B2CAzureFunc
                 UserCreationModel data = JsonConvert.DeserializeObject<UserCreationModel>(requestBody);
                 log.LogInformation(requestBody);
                 bool completionStatus = false;
+                var userMessage = "";
+
                 if (!data.IsAided)
                 {
                     // Create cutomer
@@ -141,47 +143,97 @@ namespace B2CAzureFunc
                             }
                         }
                     }
-                }
-                // Create digital identity
-                var userMessage = "";
-                using (var httpClient = new HttpClient())
-                {
-                    using (var request = new HttpRequestMessage(new HttpMethod("POST"), Environment.GetEnvironmentVariable("ncs-dss-create-identity-api-url", EnvironmentVariableTarget.Process)))
+
+                    // Create digital identity
+                    using (var httpClient = new HttpClient())
                     {
-                        request.Headers.TryAddWithoutValidation("api-key", Environment.GetEnvironmentVariable("ncs-dss-api-key", EnvironmentVariableTarget.Process));
-                        request.Headers.TryAddWithoutValidation("Ocp-Apim-Subscription-Key", Environment.GetEnvironmentVariable("Ocp-Apim-Subscription-Key", EnvironmentVariableTarget.Process));
-                        request.Headers.TryAddWithoutValidation("TouchpointId", Environment.GetEnvironmentVariable("TouchpointId", EnvironmentVariableTarget.Process));
-                        request.Headers.TryAddWithoutValidation("version", Environment.GetEnvironmentVariable("ncs-dss-search-api-version", EnvironmentVariableTarget.Process));
-
-                        request.Content = new StringContent("{\n    \"CustomerId\": \"" + data.CustomerId + "\",\n    \"IdentityStoreId\": \"" + data.ObjectId + "\"\n}");
-                        request.Content.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
-
-                        var response = await httpClient.SendAsync(request);
-                        userMessage = await response.Content.ReadAsStringAsync();
-                        if (response.StatusCode == System.Net.HttpStatusCode.Created)
+                        using (var request = new HttpRequestMessage(new HttpMethod("POST"), Environment.GetEnvironmentVariable("ncs-dss-create-identity-api-url", EnvironmentVariableTarget.Process)))
                         {
-                            var result = JsonConvert.DeserializeObject<IdentityCreationResponseModel>(await response.Content.ReadAsStringAsync());
+                            request.Headers.TryAddWithoutValidation("api-key", Environment.GetEnvironmentVariable("ncs-dss-api-key", EnvironmentVariableTarget.Process));
+                            request.Headers.TryAddWithoutValidation("Ocp-Apim-Subscription-Key", Environment.GetEnvironmentVariable("Ocp-Apim-Subscription-Key", EnvironmentVariableTarget.Process));
+                            request.Headers.TryAddWithoutValidation("TouchpointId", Environment.GetEnvironmentVariable("TouchpointId", EnvironmentVariableTarget.Process));
+                            request.Headers.TryAddWithoutValidation("version", Environment.GetEnvironmentVariable("ncs-dss-search-api-version", EnvironmentVariableTarget.Process));
 
-                            if (result == null)
+                            request.Content = new StringContent("{\n    \"CustomerId\": \"" + data.CustomerId + "\",\n    \"IdentityStoreId\": \"" + data.ObjectId + "\"\n}");
+                            request.Content.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
+
+                            var response = await httpClient.SendAsync(request);
+                            userMessage = await response.Content.ReadAsStringAsync();
+                            if (response.StatusCode == System.Net.HttpStatusCode.Created)
+                            {
+                                var result = JsonConvert.DeserializeObject<IdentityCreationResponseModel>(await response.Content.ReadAsStringAsync());
+
+                                if (result == null)
+                                    return new BadRequestObjectResult(new ResponseContentModel
+                                    {
+                                        version = "1.0.0",
+                                        userMessage = "Sorry, Something happened unexpectedly. Please try after sometime.",
+                                        status = 400,
+                                        developerMessage = "response null, uri: " + request.RequestUri.ToString() + "===============" + userMessage
+                                    });
+
+                                completionStatus = true;
+                            }
+                            else
+                            {
                                 return new BadRequestObjectResult(new ResponseContentModel
                                 {
                                     version = "1.0.0",
                                     userMessage = "Sorry, Something happened unexpectedly. Please try after sometime.",
                                     status = 400,
-                                    developerMessage="response null, uri: "+request.RequestUri.ToString()+"==============="+userMessage
+                                    developerMessage = "response.StatusCode: " + response.StatusCode + ", uri: " + request.RequestUri.ToString() + "===============" + userMessage
                                 });
-
-                            completionStatus = true;
+                            }
                         }
-                        else
+                    }
+
+                }
+                else
+                {
+                    // Update digital identity
+                    using (var httpClient = new HttpClient())
+                    {
+
+                        var patchApiUrl = Environment.GetEnvironmentVariable("ncs-dss-patch-digitalidentity-api-url", EnvironmentVariableTarget.Process);
+                        var requestUrl = String.Format(patchApiUrl, data.CustomerId);
+
+                        using (var request = new HttpRequestMessage(new HttpMethod("PATCH"), requestUrl))
                         {
-                            return new BadRequestObjectResult(new ResponseContentModel
+                            request.Headers.TryAddWithoutValidation("api-key", Environment.GetEnvironmentVariable("ncs-dss-api-key", EnvironmentVariableTarget.Process));
+                            request.Headers.TryAddWithoutValidation("Ocp-Apim-Subscription-Key", Environment.GetEnvironmentVariable("Ocp-Apim-Subscription-Key", EnvironmentVariableTarget.Process));
+                            request.Headers.TryAddWithoutValidation("TouchpointId", Environment.GetEnvironmentVariable("TouchpointId", EnvironmentVariableTarget.Process));
+                            request.Headers.TryAddWithoutValidation("version", Environment.GetEnvironmentVariable("ncs-dss-search-api-version", EnvironmentVariableTarget.Process));
+
+                            request.Content = new StringContent("{\n    \"CustomerId\": \"" + data.CustomerId + "\",\n    \"IdentityStoreId\": \"" + data.ObjectId + "\"\n}");
+                            request.Content.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
+
+                            var response = await httpClient.SendAsync(request);
+                            userMessage = await response.Content.ReadAsStringAsync();
+                            if (response.StatusCode == System.Net.HttpStatusCode.OK)
                             {
-                                version = "1.0.0",
-                                userMessage = "Sorry, Something happened unexpectedly. Please try after sometime.",
-                                status = 400,
-                                developerMessage= "response.StatusCode: "+ response.StatusCode+", uri: " + request.RequestUri.ToString()+"==============="+userMessage
-                            });
+                                //var result = JsonConvert.DeserializeObject<DigitalIdentityUpdateResponseModel>(await response.Content.ReadAsStringAsync());
+
+                                //if (result == null)
+                                //    return new BadRequestObjectResult(new ResponseContentModel
+                                //    {
+                                //        version = "1.0.0",
+                                //        userMessage = "Sorry, Something happened unexpectedly. Please try after sometime.",
+                                //        status = 400,
+                                //        developerMessage = "response null, uri: " + request.RequestUri.ToString() + "===============" + userMessage
+                                //    });
+
+                                completionStatus = true;
+                            }
+                            else
+                            {
+                                return new BadRequestObjectResult(new ResponseContentModel
+                                {
+                                    version = "1.0.0",
+                                    userMessage = "Sorry, Something happened unexpectedly. Please try after sometime.",
+                                    status = 400,
+                                    developerMessage = "response.StatusCode: " + response.StatusCode + ", uri: " + request.RequestUri.ToString() + "===============" + userMessage
+                                });
+                            }
                         }
                     }
                 }
@@ -197,7 +249,7 @@ namespace B2CAzureFunc
                         version = "1.0.0",
                         userMessage = "Sorry, Something happened unexpectedly. Please try after sometime.",
                         status = 400,
-                        developerMessage= "completionStatus: " + completionStatus+"==============="+userMessage
+                        developerMessage = "completionStatus: " + completionStatus + "===============" + userMessage
                     });
                 }
             }
