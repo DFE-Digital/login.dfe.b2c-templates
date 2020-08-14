@@ -13,6 +13,7 @@ using Providers.Email.Model;
 using Providers.Email;
 using System.Web;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace B2CAzureFunc
 {
@@ -51,6 +52,7 @@ namespace B2CAzureFunc
 
                 var newUser = await client.GetAllUsersAsync("$filter=signInNames/any(x:x/value eq '" + HttpUtility.UrlEncode(data.NewEmail) + "')");
                 UserDetailsModel newUserDetails = JsonConvert.DeserializeObject<UserDetailsModel>(newUser);
+
                 if (newUserDetails.value.Count > 0)
                 {
                     return new BadRequestObjectResult(new ResponseContentModel
@@ -59,24 +61,27 @@ namespace B2CAzureFunc
                     });
                 }
 
-                var currentUser = await client.GetAllUsersAsync("$filter=signInNames/any(x:x/value eq '" + HttpUtility.UrlEncode(data.CurrentEmail) + "')");
-                UserDetailsModel userDetails = JsonConvert.DeserializeObject<UserDetailsModel>(currentUser);
+                var currentUser = await client.GetUserByObjectId(data.ObjectId);
+                UserValueModel user = JsonConvert.DeserializeObject<UserValueModel>(currentUser);
                 log.LogInformation(currentUser);
-                if (!(userDetails.value.Count > 0))
+
+                if (user == null)
                 {
                     return new BadRequestObjectResult(new ResponseContentModel
                     {
                         userMessage = "Sorry, This user doesn't exists.",
                     });
                 }
+
                 bool updateResult = false;
+
                 if (!data.IsResend)
                 {
                     var extensionAppId = Environment.GetEnvironmentVariable("ExtensionAppId", EnvironmentVariableTarget.Process);
                     string json = "{\"extension_" + extensionAppId + "_IsEmailChangeRequested\":\"true\",\"extension_" + extensionAppId + "_NewEmail\":\"" + data.NewEmail + "\"}";
                     try
                     {
-                        updateResult = await client.UpdateUser(userDetails.value[0].objectId, json);
+                        updateResult = await client.UpdateUser(data.ObjectId, json);
                     }
                     catch (Exception ex)
                     {
@@ -93,7 +98,7 @@ namespace B2CAzureFunc
                     var accountActivationEmailExpiryInSeconds = Convert.ToInt32(Environment.GetEnvironmentVariable("AccountActivationEmailExpiryInSeconds", EnvironmentVariableTarget.Process));
 
 
-                    string token = TokenBuilder.BuildIdToken(data.CurrentEmail, data.NewEmail, DateTime.UtcNow.AddSeconds(accountActivationEmailExpiryInSeconds), req.Scheme, req.Host.Value, req.PathBase.Value, userDetails.value[0].objectId, "changeemail");
+                    string token = TokenBuilder.BuildIdToken(user.signInNames.FirstOrDefault().value, data.NewEmail, DateTime.UtcNow.AddSeconds(accountActivationEmailExpiryInSeconds), req.Scheme, req.Host.Value, req.PathBase.Value, data.ObjectId, "changeemail");
 
                     string b2cURL = Environment.GetEnvironmentVariable("B2CAuthorizationUrl", EnvironmentVariableTarget.Process);
                     string b2cTenant = Environment.GetEnvironmentVariable("B2CTenant", EnvironmentVariableTarget.Process);
@@ -111,7 +116,7 @@ namespace B2CAzureFunc
                         EmailTemplate = htmlTemplateNewEmail,
                         To = data.NewEmail.ToString(),
                         Personalisation = new Dictionary<string, dynamic>
-                                            { {"name", userDetails.value[0].givenName.ToString()},
+                                            { {"name", user.givenName},
                                               {"link", url}
                                             }
                     };
@@ -123,9 +128,9 @@ namespace B2CAzureFunc
                         model = new EmailModel
                         {
                             EmailTemplate = htmlTemplateOldEmail,
-                            To = data.CurrentEmail.ToString(),
+                            To = user.signInNames.FirstOrDefault().value,
                             Personalisation = new Dictionary<string, dynamic>
-                                            { {"name", userDetails.value[0].givenName.ToString()}
+                                            { {"name", user.givenName}
                                             }
                         };
 
