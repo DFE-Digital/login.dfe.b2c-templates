@@ -47,7 +47,7 @@ namespace B2CAzureFunc.Tests
         {
             var list = new List<object[]>
             {
-                new object[] { JsonConvert.SerializeObject( new ChangeEmailModel { NewEmail = "aman.guptaz@yopmail.com", CurrentEmail = "amanguptaz@yopmail.com", IsResend = false }) }
+                new object[] { JsonConvert.SerializeObject( new ChangeEmailModel { NewEmail = "aman.guptaz@yopmail.com", ObjectId = "3d76dca2-5dc9-40cd-bc59-6faebb6ee6be", IsResend = false }) }
             };
             return list;
         }

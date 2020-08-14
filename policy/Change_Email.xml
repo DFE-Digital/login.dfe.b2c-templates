@@ -25,6 +25,7 @@
           <Parameter Name="redirect_uri">{OIDC:RedirectUri}</Parameter>
           <Parameter Name="client_id">{OIDC:ClientId}</Parameter>
           <Parameter Name="tenant_id">{Policy:RelyingPartyTenantId}</Parameter>
+        <Parameter Name="id_token_hint">{OAUTH-KV:idtokenhint}</Parameter>
         </ContentDefinitionParameters>
         <ScriptExecution>Allow</ScriptExecution>
     </UserJourneyBehaviors>

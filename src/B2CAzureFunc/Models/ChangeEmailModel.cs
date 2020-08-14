@@ -14,9 +14,9 @@ namespace B2CAzureFunc.Models
         /// </summary>
         public string NewEmail { get; set; }
         /// <summary>
-        /// Email to be changed
+        /// Object id of user
         /// </summary>
-        public string CurrentEmail { get; set; }
+        public string ObjectId { get; set; }
 
         /// <summary>
         /// Is resend

@@ -13,6 +13,7 @@ using Providers.Email.Model;
 using Providers.Email;
 using System.Web;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace B2CAzureFunc
 {
@@ -51,6 +52,7 @@ namespace B2CAzureFunc
 
                 var newUser = await client.GetAllUsersAsync("$filter=signInNames/any(x:x/value eq '" + HttpUtility.UrlEncode(data.NewEmail) + "')");
                 UserDetailsModel newUserDetails = JsonConvert.DeserializeObject<UserDetailsModel>(newUser);
+
                 if (newUserDetails.value.Count > 0)
                 {
                     return new BadRequestObjectResult(new ResponseContentModel
@@ -59,94 +61,106 @@ namespace B2CAzureFunc
                     });
                 }
 
-                var currentUser = await client.GetAllUsersAsync("$filter=signInNames/any(x:x/value eq '" + HttpUtility.UrlEncode(data.CurrentEmail) + "')");
-                UserDetailsModel userDetails = JsonConvert.DeserializeObject<UserDetailsModel>(currentUser);
-                log.LogInformation(currentUser);
-                if (!(userDetails.value.Count > 0))
+                var currentUser = await client.GetUserByObjectId(data.ObjectId);
+                if (!String.IsNullOrEmpty(currentUser))
+                {
+                    UserValueModel user = JsonConvert.DeserializeObject<UserValueModel>(currentUser);
+                    log.LogInformation(currentUser);
+
+                    if (user == null)
+                    {
+                        return new BadRequestObjectResult(new ResponseContentModel
+                        {
+                            userMessage = "Sorry, This user doesn't exists.",
+                        });
+                    }
+
+                    bool updateResult = false;
+
+                    if (!data.IsResend)
+                    {
+                        var extensionAppId = Environment.GetEnvironmentVariable("ExtensionAppId", EnvironmentVariableTarget.Process);
+                        string json = "{\"extension_" + extensionAppId + "_IsEmailChangeRequested\":\"true\",\"extension_" + extensionAppId + "_NewEmail\":\"" + data.NewEmail + "\"}";
+                        try
+                        {
+                            updateResult = await client.UpdateUser(data.ObjectId, json);
+                        }
+                        catch (Exception ex)
+                        {
+                            return new BadRequestObjectResult(new ResponseContentModel
+                            {
+                                userMessage = "Sorry, something happened unexpectedly while updating AD user.",
+                            });
+                        }
+                    }
+
+                    if (updateResult || data.IsResend)
+                    {
+
+                        var accountActivationEmailExpiryInSeconds = Convert.ToInt32(Environment.GetEnvironmentVariable("AccountActivationEmailExpiryInSeconds", EnvironmentVariableTarget.Process));
+
+
+                        string token = TokenBuilder.BuildIdToken(user.signInNames.FirstOrDefault().value, data.NewEmail, DateTime.UtcNow.AddSeconds(accountActivationEmailExpiryInSeconds), req.Scheme, req.Host.Value, req.PathBase.Value, data.ObjectId, "changeemail");
+
+                        string b2cURL = Environment.GetEnvironmentVariable("B2CAuthorizationUrl", EnvironmentVariableTarget.Process);
+                        string b2cTenant = Environment.GetEnvironmentVariable("B2CTenant", EnvironmentVariableTarget.Process);
+                        string b2cPolicyId = Environment.GetEnvironmentVariable("B2CChangeEmailPolicy", EnvironmentVariableTarget.Process);
+                        string b2cClientId = Environment.GetEnvironmentVariable("RelyingPartyAppClientId", EnvironmentVariableTarget.Process);
+                        string b2cRedirectUri = Environment.GetEnvironmentVariable("B2CRedirectUri", EnvironmentVariableTarget.Process);
+                        string url = UrlBuilder.BuildUrl(token, b2cURL, b2cTenant, b2cPolicyId, b2cClientId, b2cRedirectUri);
+
+                        string htmlTemplateOldEmail = Environment.GetEnvironmentVariable("NotifyEmailChangeConfirmationEmailOldEmailTemplateId", EnvironmentVariableTarget.Process);
+                        string htmlTemplateNewEmail = Environment.GetEnvironmentVariable("NotifyEmailChangeConfirmationEmailNewEmailTemplateId", EnvironmentVariableTarget.Process);
+
+                        bool result2 = false;
+                        EmailModel model = new EmailModel
+                        {
+                            EmailTemplate = htmlTemplateNewEmail,
+                            To = data.NewEmail.ToString(),
+                            Personalisation = new Dictionary<string, dynamic>
+                                            { {"name", user.givenName},
+                                              {"link", url}
+                                            }
+                        };
+
+                        var result1 = EmailService.Send(model);
+
+                        if (!data.IsResend)
+                        {
+                            model = new EmailModel
+                            {
+                                EmailTemplate = htmlTemplateOldEmail,
+                                To = user.signInNames.FirstOrDefault().value,
+                                Personalisation = new Dictionary<string, dynamic>
+                                            { {"name", user.givenName}
+                                            }
+                            };
+
+                            result2 = EmailService.Send(model);
+                        }
+                        else
+                            result2 = true;
+
+                        return result1 && result2
+                            ? (ActionResult)new OkObjectResult(true)
+                            : new BadRequestObjectResult(new ResponseContentModel
+                            {
+                                userMessage = "Failed to sent email, please contact support."
+                            });
+                    }
+                    else
+                        return new BadRequestObjectResult(new ResponseContentModel
+                        {
+                            userMessage = "Sorry, Something happened unexpectedly. Please try after sometime."
+                        });
+                }
+                else
                 {
                     return new BadRequestObjectResult(new ResponseContentModel
                     {
                         userMessage = "Sorry, This user doesn't exists.",
                     });
                 }
-                bool updateResult = false;
-                if (!data.IsResend)
-                {
-                    var extensionAppId = Environment.GetEnvironmentVariable("ExtensionAppId", EnvironmentVariableTarget.Process);
-                    string json = "{\"extension_" + extensionAppId + "_IsEmailChangeRequested\":\"true\",\"extension_" + extensionAppId + "_NewEmail\":\"" + data.NewEmail + "\"}";
-                    try
-                    {
-                        updateResult = await client.UpdateUser(userDetails.value[0].objectId, json);
-                    }
-                    catch (Exception ex)
-                    {
-                        return new BadRequestObjectResult(new ResponseContentModel
-                        {
-                            userMessage = "Sorry, something happened unexpectedly while updating AD user.",
-                        });
-                    }
-                }
-
-                if (updateResult || data.IsResend)
-                {
-
-                    var accountActivationEmailExpiryInSeconds = Convert.ToInt32(Environment.GetEnvironmentVariable("AccountActivationEmailExpiryInSeconds", EnvironmentVariableTarget.Process));
-
-
-                    string token = TokenBuilder.BuildIdToken(data.CurrentEmail, data.NewEmail, DateTime.UtcNow.AddSeconds(accountActivationEmailExpiryInSeconds), req.Scheme, req.Host.Value, req.PathBase.Value, userDetails.value[0].objectId, "changeemail");
-
-                    string b2cURL = Environment.GetEnvironmentVariable("B2CAuthorizationUrl", EnvironmentVariableTarget.Process);
-                    string b2cTenant = Environment.GetEnvironmentVariable("B2CTenant", EnvironmentVariableTarget.Process);
-                    string b2cPolicyId = Environment.GetEnvironmentVariable("B2CChangeEmailPolicy", EnvironmentVariableTarget.Process);
-                    string b2cClientId = Environment.GetEnvironmentVariable("RelyingPartyAppClientId", EnvironmentVariableTarget.Process);
-                    string b2cRedirectUri = Environment.GetEnvironmentVariable("B2CRedirectUri", EnvironmentVariableTarget.Process);
-                    string url = UrlBuilder.BuildUrl(token, b2cURL, b2cTenant, b2cPolicyId, b2cClientId, b2cRedirectUri);
-
-                    string htmlTemplateOldEmail = Environment.GetEnvironmentVariable("NotifyEmailChangeConfirmationEmailOldEmailTemplateId", EnvironmentVariableTarget.Process);
-                    string htmlTemplateNewEmail = Environment.GetEnvironmentVariable("NotifyEmailChangeConfirmationEmailNewEmailTemplateId", EnvironmentVariableTarget.Process);
-
-                    bool result2 = false;
-                    EmailModel model = new EmailModel
-                    {
-                        EmailTemplate = htmlTemplateNewEmail,
-                        To = data.NewEmail.ToString(),
-                        Personalisation = new Dictionary<string, dynamic>
-                                            { {"name", userDetails.value[0].givenName.ToString()},
-                                              {"link", url}
-                                            }
-                    };
-
-                    var result1 = EmailService.Send(model);
-
-                    if (!data.IsResend)
-                    {
-                        model = new EmailModel
-                        {
-                            EmailTemplate = htmlTemplateOldEmail,
-                            To = data.CurrentEmail.ToString(),
-                            Personalisation = new Dictionary<string, dynamic>
-                                            { {"name", userDetails.value[0].givenName.ToString()}
-                                            }
-                        };
-
-                        result2 = EmailService.Send(model);
-                    }
-                    else
-                        result2 = true;
-
-                    return result1 && result2
-                        ? (ActionResult)new OkObjectResult(true)
-                        : new BadRequestObjectResult(new ResponseContentModel
-                        {
-                            userMessage = "Failed to sent email, please contact support."
-                        });
-                }
-                else
-                    return new BadRequestObjectResult(new ResponseContentModel
-                    {
-                        userMessage = "Sorry, Something happened unexpectedly. Please try after sometime."
-                    });
-
             }
             catch (Exception ex)
             {
