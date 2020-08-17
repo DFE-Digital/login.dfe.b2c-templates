@@ -1305,6 +1305,8 @@
           </InputClaims>
           <OutputClaims>
             <OutputClaim ClaimTypeReferenceId="confirmationMessage"/>
+            <OutputClaim ClaimTypeReferenceId="extension_NewEmail"/>
+            <OutputClaim ClaimTypeReferenceId="newEmail"/>
           </OutputClaims>
           <OutputClaimsTransformations>
             <OutputClaimsTransformation ReferenceId="createNewEmail" />
