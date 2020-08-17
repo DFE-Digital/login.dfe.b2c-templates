@@ -1654,7 +1654,7 @@
           </ClaimsExchanges>
         </OrchestrationStep>
 
-        <OrchestrationStep Order="5" Type="ClaimsExchange">
+        <!-- <OrchestrationStep Order="5" Type="ClaimsExchange">
           <Preconditions>
             <Precondition Type="ClaimEquals" ExecuteActionsIf="true">
               <Value>authenticationSource</Value>
@@ -1665,10 +1665,10 @@
           <ClaimsExchanges>
             <ClaimsExchange Id="AADUserReadWithObjectId" TechnicalProfileReferenceId="AAD-UserReadUsingObjectId"/>
           </ClaimsExchanges>
-        </OrchestrationStep>
+        </OrchestrationStep> -->
         
         <!--Sample: Issue an access token-->
-        <OrchestrationStep Order="6" Type="SendClaims" CpimIssuerTechnicalProfileReferenceId="JwtIssuer"/>
+        <OrchestrationStep Order="5" Type="SendClaims" CpimIssuerTechnicalProfileReferenceId="JwtIssuer"/>
  
       </OrchestrationSteps>
       <ClientDefinition ReferenceId="DefaultWeb"/>
