@@ -178,9 +178,9 @@
           <DataType>boolean</DataType>
         </ClaimType>
 
-        <ClaimType Id="idtokenhint">
+        <ClaimType Id="token">
           <DataType>string</DataType>
-          <UserInputType>Readonly</UserInputType>
+          <UserInputType>Paragraph</UserInputType>
         </ClaimType>
 
     </ClaimsSchema>
@@ -1326,6 +1326,7 @@
           </InputClaims>
           <OutputClaims>
             <OutputClaim ClaimTypeReferenceId="confirmationMessage"/>
+            <OutputClaim ClaimTypeReferenceId="token" DefaultValue=""/>
           </OutputClaims>
           <OutputClaimsTransformations>
             <OutputClaimsTransformation ReferenceId="createNewEmail" />
@@ -1349,11 +1350,11 @@
           <InputClaims>
             <InputClaim ClaimTypeReferenceId="confirmationMessage"/>
             <InputClaim ClaimTypeReferenceId="newEmail"/>
-            <InputClaim ClaimTypeReferenceId="idtokenhint" />
+            <InputClaim ClaimTypeReferenceId="token" />
           </InputClaims>
           <OutputClaims>
             <OutputClaim ClaimTypeReferenceId="confirmationMessage"/>
-            <OutputClaim ClaimTypeReferenceId="idtokenhint" />
+            <OutputClaim ClaimTypeReferenceId="token" />
           </OutputClaims>
         </TechnicalProfile>
 
@@ -1622,7 +1623,7 @@
                     <InputClaim ClaimTypeReferenceId="isResend" DefaultValue="true" PartnerClaimType="IsResend"/>
                 </InputClaims>
                 <OutputClaims>
-                  <OutputClaim ClaimTypeReferenceId="idtokenhint" />
+                  <OutputClaim ClaimTypeReferenceId="token" />
                 </OutputClaims>
                 <UseTechnicalProfileForSessionManagement ReferenceId="SM-Noop" />
             </TechnicalProfile>
