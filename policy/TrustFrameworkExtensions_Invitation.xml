@@ -174,6 +174,15 @@
           <DataType>string</DataType>
         </ClaimType>
 
+        <ClaimType Id="sendTokenBackRequired">
+          <DataType>boolean</DataType>
+        </ClaimType>
+
+        <ClaimType Id="idtokenhint">
+          <DataType>string</DataType>
+          <UserInputType>Readonly</UserInputType>
+        </ClaimType>
+
     </ClaimsSchema>
 
     <ClaimsTransformations>
@@ -1299,7 +1308,7 @@
           </OutputClaims>
         </TechnicalProfile>
 
-        <TechnicalProfile Id="SelfAsserted-Email-Change-ACtivation-Required">
+        <TechnicalProfile Id="SelfAsserted-Email-Change-Activation-Required">
           <DisplayName>Email Sent</DisplayName>
           <Protocol Name="Proprietary" Handler="Web.TPEngine.Providers.SelfAssertedAttributeProvider, Web.TPEngine, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"/>
           <Metadata>
@@ -1326,7 +1335,7 @@
           </ValidationTechnicalProfiles>
         </TechnicalProfile>
 
-        <TechnicalProfile Id="SelfAsserted-Email-Change-ACtivation-Email-ResentConfirmation">
+        <TechnicalProfile Id="SelfAsserted-Email-Change-Activation-Email-ResentConfirmation">
           <DisplayName>Email Sent</DisplayName>
           <Protocol Name="Proprietary" Handler="Web.TPEngine.Providers.SelfAssertedAttributeProvider, Web.TPEngine, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"/>
           <Metadata>
@@ -1340,9 +1349,11 @@
           <InputClaims>
             <InputClaim ClaimTypeReferenceId="confirmationMessage"/>
             <InputClaim ClaimTypeReferenceId="newEmail"/>
+            <InputClaim ClaimTypeReferenceId="idtokenhint" />
           </InputClaims>
           <OutputClaims>
             <OutputClaim ClaimTypeReferenceId="confirmationMessage"/>
+            <OutputClaim ClaimTypeReferenceId="idtokenhint" />
           </OutputClaims>
         </TechnicalProfile>
 
@@ -1605,10 +1616,14 @@
                     <Key Id="ClientCertificate" StorageReferenceId="B2C_1A_APIMClientCertificate" />
                 </CryptographicKeys>
                 <InputClaims>
+                    <InputClaim ClaimTypeReferenceId="sendTokenBackRequired" PartnerClaimType="SendTokenBackRequired" DefaultValue="true" />
                     <InputClaim ClaimTypeReferenceId="objectId" PartnerClaimType="ObjectId"/>
                     <InputClaim ClaimTypeReferenceId="extension_NewEmail" PartnerClaimType="NewEmail"/>
                     <InputClaim ClaimTypeReferenceId="isResend" DefaultValue="true" PartnerClaimType="IsResend"/>
                 </InputClaims>
+                <OutputClaims>
+                  <OutputClaim ClaimTypeReferenceId="idtokenhint" />
+                </OutputClaims>
                 <UseTechnicalProfileForSessionManagement ReferenceId="SM-Noop" />
             </TechnicalProfile>
 
@@ -1669,7 +1684,7 @@
             </Precondition>
           </Preconditions>
           <ClaimsExchanges>
-            <ClaimsExchange Id="SelfAsserted-Email-Change-ACtivation-Required" TechnicalProfileReferenceId="SelfAsserted-Email-Change-ACtivation-Required"/>
+            <ClaimsExchange Id="SelfAsserted-Email-Change-Activation-Required" TechnicalProfileReferenceId="SelfAsserted-Email-Change-Activation-Required"/>
           </ClaimsExchanges>
         </OrchestrationStep>
 
@@ -1682,7 +1697,7 @@
             </Precondition>
           </Preconditions>
           <ClaimsExchanges>
-            <ClaimsExchange Id="SelfAsserted-Email-Change-ACtivation-Email-ResentConfirmation" TechnicalProfileReferenceId="SelfAsserted-Email-Change-ACtivation-Email-ResentConfirmation"/>
+            <ClaimsExchange Id="SelfAsserted-Email-Change-Activation-Email-ResentConfirmation" TechnicalProfileReferenceId="SelfAsserted-Email-Change-Activation-Email-ResentConfirmation"/>
           </ClaimsExchanges>
         </OrchestrationStep>
 

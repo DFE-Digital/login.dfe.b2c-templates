@@ -22,5 +22,10 @@ namespace B2CAzureFunc.Models
         /// Is resend
         /// </summary>
         public bool IsResend { get; set; }
+
+        /// <summary>
+        /// SendTokenBackRequired
+        /// </summary>
+        public bool SendTokenBackRequired { get; set; }
     }
 }
