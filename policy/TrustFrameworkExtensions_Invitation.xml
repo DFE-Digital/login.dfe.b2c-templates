@@ -1624,9 +1624,9 @@
 
         <OrchestrationStep Order="2" Type="ClaimsExchange">
           <Preconditions>
-            <Precondition Type="ClaimEquals" ExecuteActionsIf="false">
+            <Precondition Type="ClaimEquals" ExecuteActionsIf="true">
               <Value>extension_IsEmailChangeRequested</Value>
-              <Value>True</Value>
+              <Value>False</Value>
               <Action>SkipThisOrchestrationStep</Action>
             </Precondition>
           </Preconditions>
@@ -1637,9 +1637,9 @@
 
         <OrchestrationStep Order="3" Type="ClaimsExchange">
           <Preconditions>
-            <Precondition Type="ClaimEquals" ExecuteActionsIf="false">
+            <Precondition Type="ClaimEquals" ExecuteActionsIf="true">
               <Value>extension_IsEmailChangeRequested</Value>
-              <Value>True</Value>
+              <Value>False</Value>
               <Action>SkipThisOrchestrationStep</Action>
             </Precondition>
           </Preconditions>
