@@ -477,6 +477,27 @@
         </OutputClaims>
       </ClaimsTransformation>
 
+      <ClaimsTransformation Id="CreateSigninEmailChangeActivationRequiredMessage" TransformationMethod="CreateStringClaim">
+        <InputParameters>
+          <InputParameter Id="value" DataType="string" Value="Our records show that you have recently updated information about your account." />
+        </InputParameters>
+        <OutputClaims>
+          <OutputClaim ClaimTypeReferenceId="confirmationMessage" TransformationClaimType="createdClaim" />
+        </OutputClaims>
+      </ClaimsTransformation>
+
+      <ClaimsTransformation Id="createNewEmail" TransformationMethod="FormatStringClaim">
+        <InputClaims>
+          <InputClaim ClaimTypeReferenceId="extension_NewEmail" TransformationClaimType="inputClaim" />
+        </InputClaims>
+        <InputParameters>
+          <InputParameter Id="stringFormat" DataType="string" Value="{0}" />
+        </InputParameters>
+        <OutputClaims>
+          <OutputClaim ClaimTypeReferenceId="newEmail" TransformationClaimType="outputClaim" />
+        </OutputClaims>
+      </ClaimsTransformation>
+
     </ClaimsTransformations>
 
   </BuildingBlocks>
@@ -1266,6 +1287,33 @@
           </OutputClaims>
         </TechnicalProfile>
 
+        <TechnicalProfile Id="SelfAsserted-Email-Change-ACtivation-Required">
+          <DisplayName>Email Sent</DisplayName>
+          <Protocol Name="Proprietary" Handler="Web.TPEngine.Providers.SelfAssertedAttributeProvider, Web.TPEngine, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"/>
+          <Metadata>
+            <Item Key="ContentDefinitionReferenceId">api.signin.changeemail.activationrequired</Item>
+            <Item Key="language.button_continue">Resend account activation link</Item>
+            <Item Key="setting.showCancelButton">false</Item>
+         </Metadata>
+          <InputClaimsTransformations>
+            <InputClaimsTransformation ReferenceId="CreateSigninEmailChangeActivationRequiredMessage" />
+          </InputClaimsTransformations>
+          <InputClaims>
+            <InputClaim ClaimTypeReferenceId="confirmationMessage"/>
+            <InputClaim ClaimTypeReferenceId="objectId"/>
+            <InputClaim ClaimTypeReferenceId="extension_NewEmail"/>
+          </InputClaims>
+          <OutputClaims>
+            <OutputClaim ClaimTypeReferenceId="confirmationMessage"/>
+          </OutputClaims>
+          <OutputClaimsTransformations>
+            <OutputClaimsTransformation ReferenceId="createNewEmail" />
+          </OutputClaimsTransformations>
+          <ValidationTechnicalProfiles>
+            <ValidationTechnicalProfile ReferenceId="API-Send-SignIn-ChangeEmail-Activation-Email" />
+          </ValidationTechnicalProfiles>
+        </TechnicalProfile>
+
       </TechnicalProfiles>
     </ClaimsProvider>
 
@@ -1513,28 +1561,24 @@
                 <UseTechnicalProfileForSessionManagement ReferenceId="SM-Noop" />
             </TechnicalProfile>
 
-            <!-- <TechnicalProfile Id="SecureREST-AccessToken">
-              <DisplayName></DisplayName>
-              <Protocol Name="Proprietary" Handler="Web.TPEngine.Providers.RestfulProvider, Web.TPEngine, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" />
-              <Metadata>
-                <Item Key="ServiceUrl">https://login.microsoftonline.com/{{environmentName}}authncs.onmicrosoft.com/oauth2/v2.0/token</Item>
-                <Item Key="AuthenticationType">Basic</Item>
-                <Item Key="SendClaimsIn">Form</Item>
-                <Item Key="DebugMode">true</Item>
-              </Metadata>
-              <CryptographicKeys>
-                <Key Id="BasicAuthenticationUsername" StorageReferenceId="B2C_1A_SecureRESTClientId" />
-                <Key Id="BasicAuthenticationPassword" StorageReferenceId="B2C_1A_SecureRESTClientSecret" />
-              </CryptographicKeys>
-              <InputClaims>
-                <InputClaim ClaimTypeReferenceId="grant_type" DefaultValue="client_credentials" />
-                <InputClaim ClaimTypeReferenceId="scope" DefaultValue="https://graph.microsoft.com/.default" />
-              </InputClaims>
-              <OutputClaims>
-                <OutputClaim ClaimTypeReferenceId="bearerToken" PartnerClaimType="access_token" />
-              </OutputClaims>
-              <UseTechnicalProfileForSessionManagement ReferenceId="SM-Noop" />
-            </TechnicalProfile> -->
+            <TechnicalProfile Id="API-Send-SignIn-ChangeEmail-Activation-Email">
+                <DisplayName>User OTP Notifications</DisplayName>    
+                <Protocol Name="Proprietary" Handler="Web.TPEngine.Providers.RestfulProvider, Web.TPEngine, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" />
+                <Metadata>
+                  <Item Key="ServiceUrl">https://{{eapimRootUrl}}/{{apimAppName}}/ChangeEmail?subscription-key={{dfeEapimSubscriptionKey}}</Item>
+                  <Item Key="SendClaimsIn">Body</Item>                        
+                  <Item Key="AuthenticationType">ClientCertificate</Item>
+                </Metadata>
+                <CryptographicKeys>
+                    <Key Id="ClientCertificate" StorageReferenceId="B2C_1A_APIMClientCertificate" />
+                </CryptographicKeys>
+                <InputClaims>
+                    <InputClaim ClaimTypeReferenceId="objectId" PartnerClaimType="ObjectId"/>
+                    <InputClaim ClaimTypeReferenceId="extension_NewEmail" PartnerClaimType="NewEmail"/>
+                    <InputClaim ClaimTypeReferenceId="isResend" DefaultValue="true" PartnerClaimType="IsResend"/>
+                </InputClaims>
+                <UseTechnicalProfileForSessionManagement ReferenceId="SM-Noop" />
+            </TechnicalProfile>
 
         </TechnicalProfiles>
     </ClaimsProvider>
@@ -1580,6 +1624,32 @@
 
         <OrchestrationStep Order="2" Type="ClaimsExchange">
           <Preconditions>
+            <Precondition Type="ClaimEquals" ExecuteActionsIf="false">
+              <Value>extension_IsEmailChangeRequested</Value>
+              <Value>True</Value>
+              <Action>SkipThisOrchestrationStep</Action>
+            </Precondition>
+          </Preconditions>
+          <ClaimsExchanges>
+            <ClaimsExchange Id="SelfAsserted-Email-Change-ACtivation-Required" TechnicalProfileReferenceId="SelfAsserted-Email-Change-ACtivation-Required"/>
+          </ClaimsExchanges>
+        </OrchestrationStep>
+
+        <OrchestrationStep Order="3" Type="ClaimsExchange">
+          <Preconditions>
+            <Precondition Type="ClaimEquals" ExecuteActionsIf="false">
+              <Value>extension_IsEmailChangeRequested</Value>
+              <Value>True</Value>
+              <Action>SkipThisOrchestrationStep</Action>
+            </Precondition>
+          </Preconditions>
+          <ClaimsExchanges>
+            <ClaimsExchange Id="SelfAsserted-Email-Change-ACtivation-Email-ResentConfirmation" TechnicalProfileReferenceId="SelfAsserted-ChangeEmail-ResentEmail"/>
+          </ClaimsExchanges>
+        </OrchestrationStep>
+
+        <OrchestrationStep Order="4" Type="ClaimsExchange">
+          <Preconditions>
             <Precondition Type="ClaimEquals" ExecuteActionsIf="true">
               <Value>authenticationSource</Value>
               <Value>socialIdpAuthentication</Value>
@@ -1592,7 +1662,7 @@
         </OrchestrationStep>
         
         <!--Sample: Issue an access token-->
-        <OrchestrationStep Order="3" Type="SendClaims" CpimIssuerTechnicalProfileReferenceId="JwtIssuer"/>
+        <OrchestrationStep Order="5" Type="SendClaims" CpimIssuerTechnicalProfileReferenceId="JwtIssuer"/>
  
       </OrchestrationSteps>
       <ClientDefinition ReferenceId="DefaultWeb"/>
