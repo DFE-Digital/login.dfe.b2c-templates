@@ -498,6 +498,18 @@
         </OutputClaims>
       </ClaimsTransformation>
 
+      <ClaimsTransformation Id="CreateSignInEmailChangeEmailResentMessage" TransformationMethod="FormatStringClaim">
+        <InputClaims>
+          <InputClaim ClaimTypeReferenceId="extension_NewEmail" TransformationClaimType="inputClaim" />
+        </InputClaims>
+        <InputParameters>
+          <InputParameter Id="stringFormat" DataType="string" Value="We've sent an email to {0}." />
+        </InputParameters>
+        <OutputClaims>
+          <OutputClaim ClaimTypeReferenceId="confirmationMessage" TransformationClaimType="outputClaim" />
+        </OutputClaims>
+      </ClaimsTransformation>
+
     </ClaimsTransformations>
 
   </BuildingBlocks>
@@ -1305,8 +1317,6 @@
           </InputClaims>
           <OutputClaims>
             <OutputClaim ClaimTypeReferenceId="confirmationMessage"/>
-            <OutputClaim ClaimTypeReferenceId="extension_NewEmail"/>
-            <OutputClaim ClaimTypeReferenceId="newEmail"/>
           </OutputClaims>
           <OutputClaimsTransformations>
             <OutputClaimsTransformation ReferenceId="createNewEmail" />
@@ -1314,6 +1324,26 @@
           <ValidationTechnicalProfiles>
             <ValidationTechnicalProfile ReferenceId="API-Send-SignIn-ChangeEmail-Activation-Email" />
           </ValidationTechnicalProfiles>
+        </TechnicalProfile>
+
+        <TechnicalProfile Id="SelfAsserted-Email-Change-ACtivation-Email-ResentConfirmation">
+          <DisplayName>Email Sent</DisplayName>
+          <Protocol Name="Proprietary" Handler="Web.TPEngine.Providers.SelfAssertedAttributeProvider, Web.TPEngine, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"/>
+          <Metadata>
+            <Item Key="ContentDefinitionReferenceId">api.signin.changeemail.emailresent</Item>
+            <Item Key="setting.showContinueButton">false</Item>
+            <Item Key="setting.showCancelButton">false</Item>
+         </Metadata>
+          <InputClaimsTransformations>
+            <InputClaimsTransformation ReferenceId="CreateSignInEmailChangeEmailResentMessage" />
+          </InputClaimsTransformations>
+          <InputClaims>
+            <InputClaim ClaimTypeReferenceId="confirmationMessage"/>
+            <InputClaim ClaimTypeReferenceId="newEmail"/>
+          </InputClaims>
+          <OutputClaims>
+            <OutputClaim ClaimTypeReferenceId="confirmationMessage"/>
+          </OutputClaims>
         </TechnicalProfile>
 
       </TechnicalProfiles>
@@ -1652,24 +1682,10 @@
             </Precondition>
           </Preconditions>
           <ClaimsExchanges>
-            <ClaimsExchange Id="SelfAsserted-Email-Change-ACtivation-Email-ResentConfirmation" TechnicalProfileReferenceId="SelfAsserted-ChangeEmail-ResentEmail"/>
+            <ClaimsExchange Id="SelfAsserted-Email-Change-ACtivation-Email-ResentConfirmation" TechnicalProfileReferenceId="SelfAsserted-Email-Change-ACtivation-Email-ResentConfirmation"/>
           </ClaimsExchanges>
         </OrchestrationStep>
 
-        <!-- <OrchestrationStep Order="5" Type="ClaimsExchange">
-          <Preconditions>
-            <Precondition Type="ClaimEquals" ExecuteActionsIf="true">
-              <Value>authenticationSource</Value>
-              <Value>socialIdpAuthentication</Value>
-              <Action>SkipThisOrchestrationStep</Action>
-            </Precondition>
-          </Preconditions>
-          <ClaimsExchanges>
-            <ClaimsExchange Id="AADUserReadWithObjectId" TechnicalProfileReferenceId="AAD-UserReadUsingObjectId"/>
-          </ClaimsExchanges>
-        </OrchestrationStep> -->
-        
-        <!--Sample: Issue an access token-->
         <OrchestrationStep Order="5" Type="SendClaims" CpimIssuerTechnicalProfileReferenceId="JwtIssuer"/>
  
       </OrchestrationSteps>
