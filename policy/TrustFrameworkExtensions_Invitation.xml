@@ -1623,15 +1623,8 @@
         </OrchestrationStep>
 
         <OrchestrationStep Order="2" Type="ClaimsExchange">
-          <Preconditions>
-            <Precondition Type="ClaimEquals" ExecuteActionsIf="true">
-              <Value>extension_IsEmailChangeRequested</Value>
-              <Value>False</Value>
-              <Action>SkipThisOrchestrationStep</Action>
-            </Precondition>
-          </Preconditions>
           <ClaimsExchanges>
-            <ClaimsExchange Id="SelfAsserted-Email-Change-ACtivation-Required" TechnicalProfileReferenceId="SelfAsserted-Email-Change-ACtivation-Required"/>
+            <ClaimsExchange Id="AADUserReadWithObjectId" TechnicalProfileReferenceId="AAD-UserReadUsingObjectId"/>
           </ClaimsExchanges>
         </OrchestrationStep>
 
@@ -1644,11 +1637,24 @@
             </Precondition>
           </Preconditions>
           <ClaimsExchanges>
-            <ClaimsExchange Id="SelfAsserted-Email-Change-ACtivation-Email-ResentConfirmation" TechnicalProfileReferenceId="SelfAsserted-ChangeEmail-ResentEmail"/>
+            <ClaimsExchange Id="SelfAsserted-Email-Change-ACtivation-Required" TechnicalProfileReferenceId="SelfAsserted-Email-Change-ACtivation-Required"/>
           </ClaimsExchanges>
         </OrchestrationStep>
 
         <OrchestrationStep Order="4" Type="ClaimsExchange">
+          <Preconditions>
+            <Precondition Type="ClaimEquals" ExecuteActionsIf="true">
+              <Value>extension_IsEmailChangeRequested</Value>
+              <Value>False</Value>
+              <Action>SkipThisOrchestrationStep</Action>
+            </Precondition>
+          </Preconditions>
+          <ClaimsExchanges>
+            <ClaimsExchange Id="SelfAsserted-Email-Change-ACtivation-Email-ResentConfirmation" TechnicalProfileReferenceId="SelfAsserted-ChangeEmail-ResentEmail"/>
+          </ClaimsExchanges>
+        </OrchestrationStep>
+
+        <OrchestrationStep Order="5" Type="ClaimsExchange">
           <Preconditions>
             <Precondition Type="ClaimEquals" ExecuteActionsIf="true">
               <Value>authenticationSource</Value>
@@ -1662,7 +1668,7 @@
         </OrchestrationStep>
         
         <!--Sample: Issue an access token-->
-        <OrchestrationStep Order="5" Type="SendClaims" CpimIssuerTechnicalProfileReferenceId="JwtIssuer"/>
+        <OrchestrationStep Order="6" Type="SendClaims" CpimIssuerTechnicalProfileReferenceId="JwtIssuer"/>
  
       </OrchestrationSteps>
       <ClientDefinition ReferenceId="DefaultWeb"/>
