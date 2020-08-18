@@ -145,7 +145,7 @@ namespace B2CAzureFunc
 
                         if (result1 && result2 & data.SendTokenBackRequired)
                         {
-                            return (ActionResult)new OkObjectResult(new { id_token_hint = token });
+                            return (ActionResult)new OkObjectResult(new { token = token });
                         }
 
                         return result1 && result2
