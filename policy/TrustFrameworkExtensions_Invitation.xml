@@ -177,11 +177,6 @@
           <DataType>boolean</DataType>
         </ClaimType>
 
-        <ClaimType Id="token">
-          <DataType>string</DataType>
-          <UserInputType>Paragraph</UserInputType>
-        </ClaimType>
-
     </ClaimsSchema>
 
     <ClaimsTransformations>
