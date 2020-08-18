@@ -147,10 +147,9 @@
           <DataType>boolean</DataType>
         </ClaimType>
 
-        <ClaimType Id="token">
-          <DisplayName>token</DisplayName>
+        <ClaimType Id="id_token_hint">
           <DataType>string</DataType>
-          <UserInputType>Paragraph</UserInputType>>
+          <UserInputType>Paragraph</UserInputType>
         </ClaimType>
 
         <ClaimType Id="journey">
@@ -176,6 +175,11 @@
 
         <ClaimType Id="sendTokenBackRequired">
           <DataType>boolean</DataType>
+        </ClaimType>
+
+        <ClaimType Id="token">
+          <DataType>string</DataType>
+          <UserInputType>Paragraph</UserInputType>
         </ClaimType>
 
     </ClaimsSchema>
@@ -1321,7 +1325,7 @@
           </InputClaims>
           <OutputClaims>
             <OutputClaim ClaimTypeReferenceId="confirmationMessage"/>
-            <OutputClaim ClaimTypeReferenceId="token" DefaultValue=""/>
+            <OutputClaim ClaimTypeReferenceId="id_token_hint" DefaultValue=""/>
           </OutputClaims>
           <OutputClaimsTransformations>
             <OutputClaimsTransformation ReferenceId="createNewEmail" />
@@ -1345,11 +1349,11 @@
           <InputClaims>
             <InputClaim ClaimTypeReferenceId="confirmationMessage"/>
             <InputClaim ClaimTypeReferenceId="newEmail"/>
-            <InputClaim ClaimTypeReferenceId="token" />
+            <InputClaim ClaimTypeReferenceId="id_token_hint" />
           </InputClaims>
           <OutputClaims>
             <OutputClaim ClaimTypeReferenceId="confirmationMessage"/>
-            <OutputClaim ClaimTypeReferenceId="token" />
+            <OutputClaim ClaimTypeReferenceId="id_token_hint" />
           </OutputClaims>
         </TechnicalProfile>
 
@@ -1618,7 +1622,7 @@
                     <InputClaim ClaimTypeReferenceId="isResend" DefaultValue="true" PartnerClaimType="IsResend"/>
                 </InputClaims>
                 <OutputClaims>
-                  <OutputClaim ClaimTypeReferenceId="token" />
+                  <OutputClaim ClaimTypeReferenceId="id_token_hint" />
                 </OutputClaims>
                 <UseTechnicalProfileForSessionManagement ReferenceId="SM-Noop" />
             </TechnicalProfile>
