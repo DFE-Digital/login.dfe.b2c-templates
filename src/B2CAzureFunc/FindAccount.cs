@@ -41,20 +41,14 @@ namespace B2CAzureFunc
                 log.LogInformation("Query: " + req.Query);
                 log.LogInformation(id);
 
-                var config = new ConfigurationBuilder()
-                .SetBasePath(context.FunctionAppDirectory)
-                .AddJsonFile("local.settings.json", optional: true, reloadOnChange: true)
-                .AddEnvironmentVariables()
-                .Build();
 
-                var appSettings = config.GetSection("AppSettings").GetChildren();
 
                 if (!String.IsNullOrEmpty(id))
                 {
-                    string tenant = config["b2c:Tenant"];// Environment.GetEnvironmentVariable("b2c:Tenant", EnvironmentVariableTarget.Process);
-                    string clientId = config["b2c:GraphAccessClientId"];//Environment.GetEnvironmentVariable("b2c:GraphAccessClientId", EnvironmentVariableTarget.Process);
-                    string clientSecret = config["b2c:GraphAccessClientSecret"];//Environment.GetEnvironmentVariable("b2c:GraphAccessClientSecret", EnvironmentVariableTarget.Process);
-                    string extensionAppId = config["ExtensionAppId"];//Environment.GetEnvironmentVariable("ExtensionAppId", EnvironmentVariableTarget.Process);
+                    string tenant = ConfigurationHelper.GetConfigurationValue(context, "b2c:Tenant");// Environment.GetEnvironmentVariable("b2c:Tenant", EnvironmentVariableTarget.Process);
+                    string clientId = ConfigurationHelper.GetConfigurationValue(context, "b2c:GraphAccessClientId");//Environment.GetEnvironmentVariable("b2c:GraphAccessClientId", EnvironmentVariableTarget.Process);
+                    string clientSecret = ConfigurationHelper.GetConfigurationValue(context, "b2c:GraphAccessClientSecret");//Environment.GetEnvironmentVariable("b2c:GraphAccessClientSecret", EnvironmentVariableTarget.Process);
+                    string extensionAppId = ConfigurationHelper.GetConfigurationValue(context, "ExtensionAppId");//Environment.GetEnvironmentVariable("ExtensionAppId", EnvironmentVariableTarget.Process);
 
                     B2CGraphClient client = new B2CGraphClient(clientId, clientSecret, tenant);
 
