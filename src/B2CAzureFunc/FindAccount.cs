@@ -41,14 +41,12 @@ namespace B2CAzureFunc
                 log.LogInformation("Query: " + req.Query);
                 log.LogInformation(id);
 
-
-
                 if (!String.IsNullOrEmpty(id))
                 {
-                    string tenant = ConfigurationHelper.GetConfigurationValue(context, "b2c:Tenant");// Environment.GetEnvironmentVariable("b2c:Tenant", EnvironmentVariableTarget.Process);
-                    string clientId = ConfigurationHelper.GetConfigurationValue(context, "b2c:GraphAccessClientId");//Environment.GetEnvironmentVariable("b2c:GraphAccessClientId", EnvironmentVariableTarget.Process);
-                    string clientSecret = ConfigurationHelper.GetConfigurationValue(context, "b2c:GraphAccessClientSecret");//Environment.GetEnvironmentVariable("b2c:GraphAccessClientSecret", EnvironmentVariableTarget.Process);
-                    string extensionAppId = ConfigurationHelper.GetConfigurationValue(context, "ExtensionAppId");//Environment.GetEnvironmentVariable("ExtensionAppId", EnvironmentVariableTarget.Process);
+                    string tenant = ConfigurationHelper.GetConfigurationValue(context, "AppSettings:b2c:Tenant");
+                    string clientId = ConfigurationHelper.GetConfigurationValue(context, "AppSettings:b2c:GraphAccessClientId");
+                    string clientSecret = ConfigurationHelper.GetConfigurationValue(context, "AppSettings:b2c:GraphAccessClientSecret");
+                    string extensionAppId = ConfigurationHelper.GetConfigurationValue(context, "AppSettings:ExtensionAppId");
 
                     B2CGraphClient client = new B2CGraphClient(clientId, clientSecret, tenant);
 
