@@ -43,10 +43,10 @@ namespace B2CAzureFunc
 
                 if (!String.IsNullOrEmpty(id))
                 {
-                    string tenant = ConfigurationHelper.GetConfigurationValue(context, "AppSettings:b2c:Tenant");
-                    string clientId = ConfigurationHelper.GetConfigurationValue(context, "AppSettings:b2c:GraphAccessClientId");
-                    string clientSecret = ConfigurationHelper.GetConfigurationValue(context, "AppSettings:b2c:GraphAccessClientSecret");
-                    string extensionAppId = ConfigurationHelper.GetConfigurationValue(context, "AppSettings:ExtensionAppId");
+                    string tenant = ConfigurationHelper.GetConfigurationValue(context, "b2c:Tenant");
+                    string clientId = ConfigurationHelper.GetConfigurationValue(context, "b2c:GraphAccessClientId");
+                    string clientSecret = ConfigurationHelper.GetConfigurationValue(context, "b2c:GraphAccessClientSecret");
+                    string extensionAppId = ConfigurationHelper.GetConfigurationValue(context, "ExtensionAppId");
 
                     B2CGraphClient client = new B2CGraphClient(clientId, clientSecret, tenant);
 
