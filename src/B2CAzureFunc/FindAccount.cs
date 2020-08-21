@@ -11,6 +11,7 @@ using System;
 using B2CAzureFunc.Helpers;
 using System.Linq;
 using Newtonsoft.Json.Linq;
+using Microsoft.Extensions.Configuration;
 
 namespace B2CAzureFunc
 {
@@ -26,24 +27,27 @@ namespace B2CAzureFunc
         /// <url>http://localhost:7070/FindAccount</url>
         /// <param name="req"></param>
         /// <param name="log"></param>
+        /// <param name="context"></param>
         /// <response code="400"><see cref="ResponseContentModel"/>Not Found</response>
         /// <response code="200"><see cref="object"/>Account Found Response</response>
         [FunctionName("FindAccount")]
         public static async Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Function, "get", Route = null)] HttpRequest req,
-            ILogger log)
+            ILogger log, ExecutionContext context)
         {
             try
             {
                 string id = req.Query["id"];
                 log.LogInformation("Query: " + req.Query);
                 log.LogInformation(id);
+
                 if (!String.IsNullOrEmpty(id))
                 {
-                    string tenant = Environment.GetEnvironmentVariable("b2c:Tenant", EnvironmentVariableTarget.Process);
-                    string clientId = Environment.GetEnvironmentVariable("b2c:GraphAccessClientId", EnvironmentVariableTarget.Process);
-                    string clientSecret =  Environment.GetEnvironmentVariable("b2c:GraphAccessClientSecret", EnvironmentVariableTarget.Process);
-                    string extensionAppId = Environment.GetEnvironmentVariable("ExtensionAppId", EnvironmentVariableTarget.Process);
+                    string tenant = ConfigurationHelper.GetConfigurationValue(context, "b2c:Tenant");
+                    string clientId = ConfigurationHelper.GetConfigurationValue(context, "b2c:GraphAccessClientId");
+                    string clientSecret = ConfigurationHelper.GetConfigurationValue(context, "b2c:GraphAccessClientSecret");
+                    string extensionAppId = ConfigurationHelper.GetConfigurationValue(context, "ExtensionAppId");
+
                     B2CGraphClient client = new B2CGraphClient(clientId, clientSecret, tenant);
 
                     var getUserApiResponse = await client.GetUserByObjectId(id);

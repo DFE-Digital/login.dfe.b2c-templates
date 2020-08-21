@@ -1,5 +1,6 @@
 ﻿using B2CAzureFunc.Models;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Internal;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using Microsoft.Extensions.Primitives;
@@ -34,6 +35,20 @@ namespace B2CAzureFunc.Tests
             var reqMock = new Mock<HttpRequest>();
 
             //reqMock.Setup(req => req.Query).Returns(new QueryCollection(query));
+            var stream = new MemoryStream();
+            var writer = new StreamWriter(stream);
+            writer.Write(body);
+            writer.Flush();
+            stream.Position = 0;
+            reqMock.Setup(req => req.Body).Returns(stream);
+            return (HttpRequest)reqMock.Object;
+        }
+
+        public static HttpRequest CreateHttpRequest(Dictionary<String, StringValues> query, string body)
+        {
+            var reqMock = new Mock<HttpRequest>();
+
+            reqMock.Setup(req => req.Query).Returns(new QueryCollection(query));
             var stream = new MemoryStream();
             var writer = new StreamWriter(stream);
             writer.Write(body);
@@ -110,6 +125,15 @@ namespace B2CAzureFunc.Tests
                 ,Email="johnsmithz2@yopmail.com",IsAided=false,ObjectId="05a0b92d-308a-4bcf-b046-200e77073a48"}) }
             };
             return list;
+        }
+
+        public static IEnumerable<object[]> FindAccountData()
+        {
+
+            return new List<object[]>
+            {
+                new object[] { "id,cc112dde-9b02-463b-91b7-e9e4037aebb5" }
+            };
         }
     }
 }

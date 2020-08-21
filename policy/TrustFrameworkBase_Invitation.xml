@@ -669,7 +669,7 @@
       </ContentDefinition>
 
       <ContentDefinition Id="api.selfsignup.disabled">
-        <LoadUri>https://{{signinRedirectRoot}}/b2c/</LoadUri>
+        <LoadUri>https://{{signinRedirectRoot}}/b2c/?custom_ui_page=pageNotFound</LoadUri>
         <RecoveryUri>~/common/default_page_error.html</RecoveryUri>
         <DataUri>urn:com:microsoft:aad:b2c:elements:contract:selfasserted:1.2.0</DataUri>
         <Metadata>
@@ -697,6 +697,24 @@
 
       <ContentDefinition Id="api.resendemail.changeemail.emailsent">
         <LoadUri>https://{{signinRedirectRoot}}/b2c/?custom_ui_page=emailSent&amp;referrer_policy=B2C_1A_Change_Email</LoadUri>
+        <RecoveryUri>~/common/default_page_error.html</RecoveryUri>
+        <DataUri>urn:com:microsoft:aad:b2c:elements:contract:selfasserted:1.2.0</DataUri>
+        <Metadata>
+          <Item Key="DisplayName">Collect information from user page</Item>
+        </Metadata>
+      </ContentDefinition>
+
+      <ContentDefinition Id="api.signin.changeemail.activationrequired">
+        <LoadUri>https://{{signinRedirectRoot}}/b2c/?custom_ui_page=accountNotActivated</LoadUri>
+        <RecoveryUri>~/common/default_page_error.html</RecoveryUri>
+        <DataUri>urn:com:microsoft:aad:b2c:elements:contract:selfasserted:1.2.0</DataUri>
+        <Metadata>
+          <Item Key="DisplayName">Collect information from user page</Item>
+        </Metadata>
+      </ContentDefinition>
+
+      <ContentDefinition Id="api.signin.changeemail.emailresent">
+        <LoadUri>https://{{signinRedirectRoot}}/b2c/?custom_ui_page=emailSent</LoadUri>
         <RecoveryUri>~/common/default_page_error.html</RecoveryUri>
         <DataUri>urn:com:microsoft:aad:b2c:elements:contract:selfasserted:1.2.0</DataUri>
         <Metadata>
@@ -1286,7 +1304,7 @@
             <!-- <Item Key="setting.operatingMode">Username</Item> -->
             <Item Key="ContentDefinitionReferenceId">api.selfasserted</Item>
             <Item Key="UserMessageIfClaimsTransformationBooleanValueIsNotEqual">Oops, your email hasn't been verified.</Item>
-            <Item Key="UserMessageIfClaimsTransformationStringsAreNotEqual">You must activate your updated email address.</Item>
+            <!-- <Item Key="UserMessageIfClaimsTransformationStringsAreNotEqual">You must activate your updated email address.</Item> -->
             <Item Key="setting.showSignupLink">false</Item>
             <Item Key="setting.forgotPasswordLinkLocation">AfterInput</Item>
           </Metadata>
@@ -1305,7 +1323,7 @@
             <ValidationTechnicalProfile ReferenceId="login-NonInteractive" />
             <ValidationTechnicalProfile ReferenceId="AAD-UserReadUsingObjectId" />
             <ValidationTechnicalProfile ReferenceId="ClaimsTransformation-AssertEmailVerified" />
-            <ValidationTechnicalProfile ReferenceId="ClaimsTransformation-AssertNewEmailIsNone">
+            <!-- <ValidationTechnicalProfile ReferenceId="ClaimsTransformation-AssertNewEmailIsNone">
               <Preconditions>
                 <Precondition Type="ClaimEquals" ExecuteActionsIf="true">
                   <Value>extension_IsEmailChangeRequested</Value>
@@ -1313,7 +1331,7 @@
                   <Action>SkipThisValidationTechnicalProfile</Action>
                 </Precondition>
               </Preconditions>
-            </ValidationTechnicalProfile>
+            </ValidationTechnicalProfile> -->
           </ValidationTechnicalProfiles>
           <UseTechnicalProfileForSessionManagement ReferenceId="SM-AAD" />
         </TechnicalProfile>

@@ -139,7 +139,14 @@ namespace B2CAzureFunc
                             result2 = EmailService.Send(model);
                         }
                         else
+                        {
                             result2 = true;
+                        }
+
+                        if (result1 && result2 & data.SendTokenBackRequired)
+                        {
+                            return (ActionResult)new OkObjectResult(new { id_token_hint = token });
+                        }
 
                         return result1 && result2
                             ? (ActionResult)new OkObjectResult(true)
@@ -149,10 +156,12 @@ namespace B2CAzureFunc
                             });
                     }
                     else
+                    {
                         return new BadRequestObjectResult(new ResponseContentModel
                         {
                             userMessage = "Sorry, Something happened unexpectedly. Please try after sometime."
                         });
+                    }
                 }
                 else
                 {

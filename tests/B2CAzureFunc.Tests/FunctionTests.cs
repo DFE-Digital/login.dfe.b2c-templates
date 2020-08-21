@@ -1,6 +1,9 @@
 using B2CAzureFunc.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Azure.WebJobs;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Primitives;
+using Moq;
 using Providers.Email;
 using Providers.Email.Model;
 using System;
@@ -175,6 +178,38 @@ namespace B2CAzureFunc.Tests
             var body = queryStringValue;
             var request = TestFactory.CreateHttpRequest(body);
             var response = await NCSDSSUserCreation.Run(request, logger);
+
+            try
+            {
+                var result = (OkObjectResult)response;
+                Assert.Equal(200, result.StatusCode);
+            }
+            catch (InvalidCastException)
+            {
+                //var result = (ResponseContentModel)((BadRequestObjectResult)response).Value;
+                //Assert.Equal(409, result.status);
+            }
+        }
+
+
+        /// <summary>
+        /// FindAccountAsync
+        /// </summary>
+        /// <param name="queryStringValue"></param>
+        /// <returns></returns>
+        [Theory]
+        [MemberData(nameof(TestFactory.FindAccountData), MemberType = typeof(TestFactory))]
+        public async Task FindAccountAsync(string queryStringValue)
+        {
+            var mockContext = new Mock<ExecutionContext>();
+
+            var testValues = queryStringValue.Split(",");
+            mockContext.Object.FunctionAppDirectory = @"D:\GIT\DFE\login.dfe.b2c-templates\tests\B2CAzureFunc.Tests";
+            var query = new Dictionary<String, StringValues>();
+            query.TryAdd(testValues[0], testValues[1]);
+            string body = "";
+            var request = TestFactory.CreateHttpRequest(query, body);
+            var response = await FindAccount.Run(request, logger, mockContext.Object);
 
             try
             {
