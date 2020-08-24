@@ -45,9 +45,9 @@ namespace B2CAzureFunc
                 ChangeEmailModel data = JsonConvert.DeserializeObject<ChangeEmailModel>(requestBody);
                 log.LogInformation(requestBody);
 
-                string tenant = Environment.GetEnvironmentVariable("b2c:Tenant", EnvironmentVariableTarget.Process);
-                string clientId = Environment.GetEnvironmentVariable("b2c:GraphAccessClientId", EnvironmentVariableTarget.Process);
-                string clientSecret = Environment.GetEnvironmentVariable("b2c:GraphAccessClientSecret", EnvironmentVariableTarget.Process);
+                string tenant = Environment.GetEnvironmentVariable("B2CTenantId", EnvironmentVariableTarget.Process);
+                string clientId = Environment.GetEnvironmentVariable("B2CGraphAccessClientId", EnvironmentVariableTarget.Process);
+                string clientSecret = Environment.GetEnvironmentVariable("B2CGraphAccessClientSecret", EnvironmentVariableTarget.Process);
                 B2CGraphClient client = new B2CGraphClient(clientId, clientSecret, tenant);
 
                 var newUser = await client.GetAllUsersAsync("$filter=signInNames/any(x:x/value eq '" + HttpUtility.UrlEncode(data.NewEmail) + "')");

@@ -113,22 +113,22 @@ namespace B2CAzureFunc.Models
         /// <summary>
         /// NcsDssSearchApiUrl
         /// </summary>
-        [JsonProperty("ncs-dss-search-api-url")]
+        [JsonProperty("ncsdsssearchapiurl")]
         public Uri NcsDssSearchApiUrl { get; set; }
         /// <summary>
         /// NcsDssApiKey
         /// </summary>
-        [JsonProperty("ncs-dss-api-key")]
+        [JsonProperty("ncsdssapikey")]
         public string NcsDssApiKey { get; set; }
         /// <summary>
         /// OcpApimSubscriptionKey
         /// </summary>
-        [JsonProperty("Ocp-Apim-Subscription-Key")]
+        [JsonProperty("OcpApimSubscriptionKey")]
         public string OcpApimSubscriptionKey { get; set; }
         /// <summary>
         /// NcsDssSearchApiVersion
         /// </summary>
-        [JsonProperty("ncs-dss-search-api-version")]
+        [JsonProperty("ncsdsssearchapiversion")]
         public string NcsDssSearchApiVersion { get; set; }
         /// <summary>
         /// ResendSignupEmail
@@ -138,17 +138,17 @@ namespace B2CAzureFunc.Models
         /// <summary>
         /// NcsDssCreateCustomerApiUrl
         /// </summary>
-        [JsonProperty("ncs-dss-create-customer-api-url")]
+        [JsonProperty("ncsdsscreatecustomerapiurl")]
         public Uri NcsDssCreateCustomerApiUrl { get; set; }
         /// <summary>
         /// NcsDssCreateContactApiUrl
         /// </summary>
-        [JsonProperty("ncs-dss-create-contact-api-url")]
+        [JsonProperty("ncsdsscreatecontactapiurl")]
         public string NcsDssCreateContactApiUrl { get; set; }
         /// <summary>
         /// NcsDssCreateIdentityApiUrl
         /// </summary>
-        [JsonProperty("ncs-dss-create-identity-api-url")]
+        [JsonProperty("ncsdsscreateidentityapiurl")]
         public Uri NcsDssCreateIdentityApiUrl { get; set; }
         /// <summary>
         /// TouchpointId
@@ -156,19 +156,19 @@ namespace B2CAzureFunc.Models
         [JsonProperty("TouchpointId")]
         public long TouchpointId { get; set; }
         /// <summary>
-        /// b2c:Tenant
+        /// B2CTenant
         /// </summary>
-        [JsonProperty("b2c:Tenant")]
+        [JsonProperty("B2CTenantId")]
         public string B2CTenantId { get; set; }
         /// <summary>
-        /// b2c:GraphAccessClientId
+        /// B2CGraphAccessClientId
         /// </summary>
-        [JsonProperty("b2c:GraphAccessClientId")]
+        [JsonProperty("B2CGraphAccessClientId")]
         public Guid B2CGraphAccessClientId { get; set; }
         /// <summary>
-        /// b2c:GraphAccessClientSecret
+        /// B2CGraphAccessClientSecret
         /// </summary>
-        [JsonProperty("b2c:GraphAccessClientSecret")]
+        [JsonProperty("B2CGraphAccessClientSecret")]
         public string B2CGraphAccessClientSecret { get; set; }
         /// <summary>
         /// EmailChangeConfirmationEmailSubjectNewEmail
@@ -226,14 +226,14 @@ namespace B2CAzureFunc.Models
         [JsonProperty("NotifyEmailChangeConfirmationEmailOldEmailTemplateId")]
         public Guid NotifyEmailChangeConfirmationEmailOldEmailTemplateId { get; set; }
         /// <summary>
-        /// ncs-dss-get-customer-api-url
+        /// ncsdssgetcustomerapiurl
         /// </summary>
-        [JsonProperty("ncs-dss-get-customer-api-url")]
+        [JsonProperty("ncsdssgetcustomerapiurl")]
         public string NcsDssGetCustomerApiUrl { get; set; }
         /// <summary>
-        /// ncs-dss-patch-digitalidentity-api-url
+        /// ncsdsspatchdigitalidentityapiurl
         /// </summary>
-        [JsonProperty("ncs-dss-patch-digitalidentity-api-url")]
+        [JsonProperty("ncsdsspatchdigitalidentityapiurl")]
         public string NcsDssPatchDigitalidentityApiUrl { get; set; }
     }
 }

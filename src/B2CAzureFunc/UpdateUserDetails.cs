@@ -54,9 +54,9 @@ namespace B2CAzureFunc
                     if (String.IsNullOrEmpty(data.DisplayName))
                         data.DisplayName = data.FirstName + " " + data.LastName;
 
-                    string tenant = Environment.GetEnvironmentVariable("b2c:Tenant", EnvironmentVariableTarget.Process);
-                    string clientId = Environment.GetEnvironmentVariable("b2c:GraphAccessClientId", EnvironmentVariableTarget.Process);
-                    string clientSecret = Environment.GetEnvironmentVariable("b2c:GraphAccessClientSecret", EnvironmentVariableTarget.Process);
+                    string tenant = Environment.GetEnvironmentVariable("B2CTenantId", EnvironmentVariableTarget.Process);
+                    string clientId = Environment.GetEnvironmentVariable("B2CGraphAccessClientId", EnvironmentVariableTarget.Process);
+                    string clientSecret = Environment.GetEnvironmentVariable("B2CGraphAccessClientSecret", EnvironmentVariableTarget.Process);
                     B2CGraphClient client = new B2CGraphClient(clientId, clientSecret, tenant);
 
                     var getUserApiResponse = await client.GetUserByObjectId(data.ObjectId);

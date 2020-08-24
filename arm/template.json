@@ -741,7 +741,7 @@
                             "value": "recommended"
                         },
                         {
-                            "name": "Ocp-Apim-Subscription-Key",
+                            "name": "OcpApimSubscriptionKey",
                             "value": "[parameters('NCSApimSubscriptionKey')]"
                         },
                         {
@@ -833,15 +833,15 @@
                             "value": "Activate your account"
                         },
                         {
-                            "name": "ncs-dss-api-key",
+                            "name": "ncsdssapikey",
                             "value": "[parameters('NCSDSSApiKey')]"
                         },
                         {
-                            "name": "ncs-dss-search-api-url",
+                            "name": "ncsdsssearchapiurl",
                             "value": "[parameters('NCSDSSSearchApiUrl')]"
                         },
                         {
-                            "name": "ncs-dss-search-api-version",
+                            "name": "ncsdsssearchapiversion",
                             "value": "[parameters('NCSDSSSearchApiVersion')]"
                         },
                         {
@@ -857,23 +857,23 @@
                             "value": "V2"
                         },
                         {
-                            "name": "ncs-dss-create-customer-api-url",
+                            "name": "ncsdsscreatecustomerapiurl",
                             "value": "[parameters('NCSDSSCreateCustomerApiUrl')]"
                         },
                         {
-                            "name": "ncs-dss-create-contact-api-url",
+                            "name": "ncsdsscreatecontactapiurl",
                             "value": "[parameters('NCSDSSCreateContactApiUrl')]"
                         },
                         {
-                            "name": "ncs-dss-create-identity-api-url",
+                            "name": "ncsdsscreateidentityapiurl",
                             "value": "[parameters('NCSDSSCreateIdentityApiUrl')]"
                         },
                         {
-                            "name": "ncs-dss-get-customer-api-url",
+                            "name": "ncsdssgetcustomerapiurl",
                             "value": "[parameters('NCSDSSGetCustomerUrl')]"
                         },
                         {
-                            "name": "ncs-dss-patch-digitalidentity-api-url",
+                            "name": "ncsdsspatchdigitalidentityapiurl",
                             "value": "[parameters('NCSDigitalIdentityUrl')]"
                         },
                         {
@@ -881,15 +881,15 @@
                             "value": "[parameters('TouchpointId')]"
                         },
                         {
-                            "name": "b2c:Tenant",
+                            "name": "B2CTenantId",
                             "value": "[parameters('B2CTenantFullName')]"
                         },
                         {
-                            "name": "b2c:GraphAccessClientId",
+                            "name": "B2CGraphAccessClientId",
                             "value": "[parameters('B2CGraphAccessClientId')]"
                         },
                         {
-                            "name": "b2c:GraphAccessClientSecret",
+                            "name": "B2CGraphAccessClientSecret",
                             "value": "[parameters('B2CGraphAccessClientSecret')]"
                         },
                         {

@@ -47,10 +47,10 @@ namespace B2CAzureFunc
                     // Create cutomer
                     using (var httpClient = new HttpClient())
                     {
-                        using (var request = new HttpRequestMessage(new HttpMethod("POST"), Environment.GetEnvironmentVariable("ncs-dss-create-customer-api-url", EnvironmentVariableTarget.Process)))
+                        using (var request = new HttpRequestMessage(new HttpMethod("POST"), Environment.GetEnvironmentVariable("ncsdsscreatecustomerapiurl", EnvironmentVariableTarget.Process)))
                         {
-                            request.Headers.TryAddWithoutValidation("api-key", Environment.GetEnvironmentVariable("ncs-dss-api-key", EnvironmentVariableTarget.Process));
-                            request.Headers.TryAddWithoutValidation("Ocp-Apim-Subscription-Key", Environment.GetEnvironmentVariable("Ocp-Apim-Subscription-Key", EnvironmentVariableTarget.Process));
+                            request.Headers.TryAddWithoutValidation("api-key", Environment.GetEnvironmentVariable("ncsdssapikey", EnvironmentVariableTarget.Process));
+                            request.Headers.TryAddWithoutValidation("OcpApimSubscriptionKey", Environment.GetEnvironmentVariable("OcpApimSubscriptionKey", EnvironmentVariableTarget.Process));
                             request.Headers.TryAddWithoutValidation("TouchpointId", Environment.GetEnvironmentVariable("TouchpointId", EnvironmentVariableTarget.Process));
                             var dob = "";
                             string payload = "";
@@ -104,13 +104,13 @@ namespace B2CAzureFunc
 
                     using (var httpClient = new HttpClient())
                     {
-                        var url = Environment.GetEnvironmentVariable("ncs-dss-create-contact-api-url", EnvironmentVariableTarget.Process);
+                        var url = Environment.GetEnvironmentVariable("ncsdsscreatecontactapiurl", EnvironmentVariableTarget.Process);
                         url = String.Format(url, data.CustomerId);
 
                         using (var request = new HttpRequestMessage(new HttpMethod("POST"), url))
                         {
-                            request.Headers.TryAddWithoutValidation("api-key", Environment.GetEnvironmentVariable("ncs-dss-api-key", EnvironmentVariableTarget.Process));
-                            request.Headers.TryAddWithoutValidation("Ocp-Apim-Subscription-Key", Environment.GetEnvironmentVariable("Ocp-Apim-Subscription-Key", EnvironmentVariableTarget.Process));
+                            request.Headers.TryAddWithoutValidation("api-key", Environment.GetEnvironmentVariable("ncsdssapikey", EnvironmentVariableTarget.Process));
+                            request.Headers.TryAddWithoutValidation("OcpApimSubscriptionKey", Environment.GetEnvironmentVariable("OcpApimSubscriptionKey", EnvironmentVariableTarget.Process));
                             request.Headers.TryAddWithoutValidation("TouchpointId", Environment.GetEnvironmentVariable("TouchpointId", EnvironmentVariableTarget.Process));
 
                             request.Content = new StringContent("{\n    \"EmailAddress\": \"" + data.Email + "\",\n    \"PreferredContactMethod\": \"1\"\n}");
@@ -147,12 +147,12 @@ namespace B2CAzureFunc
                     // Create digital identity
                     using (var httpClient = new HttpClient())
                     {
-                        using (var request = new HttpRequestMessage(new HttpMethod("POST"), Environment.GetEnvironmentVariable("ncs-dss-create-identity-api-url", EnvironmentVariableTarget.Process)))
+                        using (var request = new HttpRequestMessage(new HttpMethod("POST"), Environment.GetEnvironmentVariable("ncsdsscreateidentityapiurl", EnvironmentVariableTarget.Process)))
                         {
-                            request.Headers.TryAddWithoutValidation("api-key", Environment.GetEnvironmentVariable("ncs-dss-api-key", EnvironmentVariableTarget.Process));
-                            request.Headers.TryAddWithoutValidation("Ocp-Apim-Subscription-Key", Environment.GetEnvironmentVariable("Ocp-Apim-Subscription-Key", EnvironmentVariableTarget.Process));
+                            request.Headers.TryAddWithoutValidation("api-key", Environment.GetEnvironmentVariable("ncsdssapikey", EnvironmentVariableTarget.Process));
+                            request.Headers.TryAddWithoutValidation("OcpApimSubscriptionKey", Environment.GetEnvironmentVariable("OcpApimSubscriptionKey", EnvironmentVariableTarget.Process));
                             request.Headers.TryAddWithoutValidation("TouchpointId", Environment.GetEnvironmentVariable("TouchpointId", EnvironmentVariableTarget.Process));
-                            request.Headers.TryAddWithoutValidation("version", Environment.GetEnvironmentVariable("ncs-dss-search-api-version", EnvironmentVariableTarget.Process));
+                            request.Headers.TryAddWithoutValidation("version", Environment.GetEnvironmentVariable("ncsdsssearchapiversion", EnvironmentVariableTarget.Process));
 
                             request.Content = new StringContent("{\n    \"CustomerId\": \"" + data.CustomerId + "\",\n    \"IdentityStoreId\": \"" + data.ObjectId + "\"\n}");
                             request.Content.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
@@ -194,15 +194,15 @@ namespace B2CAzureFunc
                     using (var httpClient = new HttpClient())
                     {
 
-                        var patchApiUrl = Environment.GetEnvironmentVariable("ncs-dss-patch-digitalidentity-api-url", EnvironmentVariableTarget.Process);
+                        var patchApiUrl = Environment.GetEnvironmentVariable("ncsdsspatchdigitalidentityapiurl", EnvironmentVariableTarget.Process);
                         var requestUrl = String.Format(patchApiUrl, data.CustomerId);
 
                         using (var request = new HttpRequestMessage(new HttpMethod("PATCH"), requestUrl))
                         {
-                            request.Headers.TryAddWithoutValidation("api-key", Environment.GetEnvironmentVariable("ncs-dss-api-key", EnvironmentVariableTarget.Process));
-                            request.Headers.TryAddWithoutValidation("Ocp-Apim-Subscription-Key", Environment.GetEnvironmentVariable("Ocp-Apim-Subscription-Key", EnvironmentVariableTarget.Process));
+                            request.Headers.TryAddWithoutValidation("api-key", Environment.GetEnvironmentVariable("ncsdssapikey", EnvironmentVariableTarget.Process));
+                            request.Headers.TryAddWithoutValidation("OcpApimSubscriptionKey", Environment.GetEnvironmentVariable("OcpApimSubscriptionKey", EnvironmentVariableTarget.Process));
                             request.Headers.TryAddWithoutValidation("TouchpointId", Environment.GetEnvironmentVariable("TouchpointId", EnvironmentVariableTarget.Process));
-                            request.Headers.TryAddWithoutValidation("version", Environment.GetEnvironmentVariable("ncs-dss-search-api-version", EnvironmentVariableTarget.Process));
+                            request.Headers.TryAddWithoutValidation("version", Environment.GetEnvironmentVariable("ncsdsssearchapiversion", EnvironmentVariableTarget.Process));
 
                             request.Content = new StringContent("{\n    \"CustomerId\": \"" + data.CustomerId + "\",\n    \"IdentityStoreId\": \"" + data.ObjectId + "\"\n}");
                             request.Content.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");

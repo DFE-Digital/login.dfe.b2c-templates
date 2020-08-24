@@ -1,13 +1,18 @@
 using B2CAzureFunc.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Azure.Functions.Extensions.DependencyInjection;
 using Microsoft.Azure.WebJobs;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Primitives;
 using Moq;
 using Providers.Email;
 using Providers.Email.Model;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -16,6 +21,20 @@ namespace B2CAzureFunc.Tests
     public class FunctionTests
     {
         private readonly ILogger logger = TestFactory.CreateLogger();
+        private readonly AppSettings _appSettings;
+
+        public FunctionTests()
+        {
+            var config = new ConfigurationBuilder()
+                   .SetBasePath(Directory.GetCurrentDirectory())
+                   .AddJsonFile("settings.json", false)
+                   .AddEnvironmentVariables()
+                   .Build();
+            _appSettings = new AppSettings();
+
+            config.GetSection("AppSettings").Bind(_appSettings);
+        }
+
         /// <summary>
         /// ChangeEmailAsync
         /// </summary>
@@ -201,15 +220,17 @@ namespace B2CAzureFunc.Tests
         [MemberData(nameof(TestFactory.FindAccountData), MemberType = typeof(TestFactory))]
         public async Task FindAccountAsync(string queryStringValue)
         {
-            var mockContext = new Mock<ExecutionContext>();
-
             var testValues = queryStringValue.Split(",");
-            mockContext.Object.FunctionAppDirectory = @"D:\GIT\DFE\login.dfe.b2c-templates\tests\B2CAzureFunc.Tests";
             var query = new Dictionary<String, StringValues>();
+
             query.TryAdd(testValues[0], testValues[1]);
             string body = "";
             var request = TestFactory.CreateHttpRequest(query, body);
-            var response = await FindAccount.Run(request, logger, mockContext.Object);
+
+            var option = Options.Create(_appSettings);
+            FindAccount findAccount = new FindAccount(option);
+
+            var response = await findAccount.Run(request, logger);
 
             try
             {
