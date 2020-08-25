@@ -27,7 +27,7 @@ namespace B2CAzureFunc.Tests
         {
             var config = new ConfigurationBuilder()
                    .SetBasePath(Directory.GetCurrentDirectory())
-                   .AddJsonFile("settings.json", false)
+                   .AddJsonFile("local.settings.json", false)
                    .AddEnvironmentVariables()
                    .Build();
             _appSettings = new AppSettings();
