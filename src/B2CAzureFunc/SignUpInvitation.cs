@@ -141,7 +141,9 @@ namespace B2CAzureFunc
                             log.LogInformation(dssApiUrl);
                             return new BadRequestObjectResult(new ResponseContentModel
                             {
-                                userMessage = "Failed to fetch customer details, please contact support"
+                                userMessage = "Failed to fetch customer details, please contact support",
+                                developerMessage="Apikey: "+ _appSettings.NcsDssApiKey+ " TouchPointId"+ _appSettings.TouchpointId.ToString()+ " NcsDssSearchApiVersion:"+ _appSettings.NcsDssSearchApiVersion
+                                + " OcpApimSubscriptionKey:"+ _appSettings.OcpApimSubscriptionKey
                             });
                         }
                     }
