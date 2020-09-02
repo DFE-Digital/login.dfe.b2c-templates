@@ -50,7 +50,7 @@ namespace B2CAzureFunc
                         using (var request = new HttpRequestMessage(new HttpMethod("POST"), Environment.GetEnvironmentVariable("ncsdsscreatecustomerapiurl", EnvironmentVariableTarget.Process)))
                         {
                             request.Headers.TryAddWithoutValidation("api-key", Environment.GetEnvironmentVariable("ncsdssapikey", EnvironmentVariableTarget.Process));
-                            request.Headers.TryAddWithoutValidation("OcpApimSubscriptionKey", Environment.GetEnvironmentVariable("OcpApimSubscriptionKey", EnvironmentVariableTarget.Process));
+                            request.Headers.TryAddWithoutValidation("Ocp-Apim-Subscription-Key", Environment.GetEnvironmentVariable("OcpApimSubscriptionKey", EnvironmentVariableTarget.Process));
                             request.Headers.TryAddWithoutValidation("TouchpointId", Environment.GetEnvironmentVariable("TouchpointId", EnvironmentVariableTarget.Process));
                             var dob = "";
                             string payload = "";
@@ -110,7 +110,7 @@ namespace B2CAzureFunc
                         using (var request = new HttpRequestMessage(new HttpMethod("POST"), url))
                         {
                             request.Headers.TryAddWithoutValidation("api-key", Environment.GetEnvironmentVariable("ncsdssapikey", EnvironmentVariableTarget.Process));
-                            request.Headers.TryAddWithoutValidation("OcpApimSubscriptionKey", Environment.GetEnvironmentVariable("OcpApimSubscriptionKey", EnvironmentVariableTarget.Process));
+                            request.Headers.TryAddWithoutValidation("Ocp-Apim-Subscription-Key", Environment.GetEnvironmentVariable("OcpApimSubscriptionKey", EnvironmentVariableTarget.Process));
                             request.Headers.TryAddWithoutValidation("TouchpointId", Environment.GetEnvironmentVariable("TouchpointId", EnvironmentVariableTarget.Process));
 
                             request.Content = new StringContent("{\n    \"EmailAddress\": \"" + data.Email + "\",\n    \"PreferredContactMethod\": \"1\"\n}");
@@ -150,7 +150,7 @@ namespace B2CAzureFunc
                         using (var request = new HttpRequestMessage(new HttpMethod("POST"), Environment.GetEnvironmentVariable("ncsdsscreateidentityapiurl", EnvironmentVariableTarget.Process)))
                         {
                             request.Headers.TryAddWithoutValidation("api-key", Environment.GetEnvironmentVariable("ncsdssapikey", EnvironmentVariableTarget.Process));
-                            request.Headers.TryAddWithoutValidation("OcpApimSubscriptionKey", Environment.GetEnvironmentVariable("OcpApimSubscriptionKey", EnvironmentVariableTarget.Process));
+                            request.Headers.TryAddWithoutValidation("Ocp-Apim-Subscription-Key", Environment.GetEnvironmentVariable("OcpApimSubscriptionKey", EnvironmentVariableTarget.Process));
                             request.Headers.TryAddWithoutValidation("TouchpointId", Environment.GetEnvironmentVariable("TouchpointId", EnvironmentVariableTarget.Process));
                             request.Headers.TryAddWithoutValidation("version", Environment.GetEnvironmentVariable("ncsdsssearchapiversion", EnvironmentVariableTarget.Process));
 
@@ -200,7 +200,7 @@ namespace B2CAzureFunc
                         using (var request = new HttpRequestMessage(new HttpMethod("PATCH"), requestUrl))
                         {
                             request.Headers.TryAddWithoutValidation("api-key", Environment.GetEnvironmentVariable("ncsdssapikey", EnvironmentVariableTarget.Process));
-                            request.Headers.TryAddWithoutValidation("OcpApimSubscriptionKey", Environment.GetEnvironmentVariable("OcpApimSubscriptionKey", EnvironmentVariableTarget.Process));
+                            request.Headers.TryAddWithoutValidation("Ocp-Apim-Subscription-Key", Environment.GetEnvironmentVariable("OcpApimSubscriptionKey", EnvironmentVariableTarget.Process));
                             request.Headers.TryAddWithoutValidation("TouchpointId", Environment.GetEnvironmentVariable("TouchpointId", EnvironmentVariableTarget.Process));
                             request.Headers.TryAddWithoutValidation("version", Environment.GetEnvironmentVariable("ncsdsssearchapiversion", EnvironmentVariableTarget.Process));
 

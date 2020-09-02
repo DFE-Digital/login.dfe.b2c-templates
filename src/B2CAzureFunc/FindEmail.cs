@@ -55,7 +55,7 @@ namespace B2CAzureFunc
                         {
                             request.Headers.TryAddWithoutValidation("api-key", Environment.GetEnvironmentVariable("ncsdssapikey", EnvironmentVariableTarget.Process));
                             request.Headers.TryAddWithoutValidation("version", Environment.GetEnvironmentVariable("ncsdsssearchapiversion", EnvironmentVariableTarget.Process));
-                            request.Headers.TryAddWithoutValidation("OcpApimSubscriptionKey", Environment.GetEnvironmentVariable("OcpApimSubscriptionKey", EnvironmentVariableTarget.Process));
+                            request.Headers.TryAddWithoutValidation("Ocp-Apim-Subscription-Key", Environment.GetEnvironmentVariable("OcpApimSubscriptionKey", EnvironmentVariableTarget.Process));
 
                             var response = await httpClient.SendAsync(request);
                             if (response.StatusCode == System.Net.HttpStatusCode.OK)
