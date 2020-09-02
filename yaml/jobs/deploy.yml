@@ -187,7 +187,7 @@ jobs:
       -EmailChangeConfirmationEmailSubjectNewEmail "${{parameters.emailChangeConfirmationEmailSubjectNewEmail}}"
       -EmailChangeConfirmationEmailSubjectOldEmail "${{parameters.emailChangeConfirmationEmailSubjectOldEmail}}"
       -ExtensionAppId "${{parameters.extensionAppId}}"
-      -NotifyAPIKey "$(notifyApiKey)"
+      -NotifyApiKey "$(notifyApiKey)"
       -NotifyAidedSignupEmailTemplateId "${{parameters.notifyAidedSignupEmailTemplateId}}"
       -NotifySelfSignupEmailTemplateId "${{parameters.notifySelfSignupEmailTemplateId}}"
       -NotifyPasswordResetConfirmationEmailTemplateId "${{parameters.notifyPasswordResetConfirmationEmailTemplateId}}"
