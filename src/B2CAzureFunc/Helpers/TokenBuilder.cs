@@ -24,7 +24,7 @@ namespace B2CAzureFunc.Helpers
         /// <param name="path"></param>
         /// <param name="journey"></param>
         /// <returns>string</returns>
-        public static string BuildIdToken(string email, string givenName, string surname, string customerId, DateTime expiry, string requestScheme, string host, string path,string journey)
+        public static string BuildIdToken(string email, string givenName, string surname, string customerId, DateTime expiry, string requestScheme, string host, string path, string journey)
         {
             string issuer = $"{requestScheme}://{host}{path}/";
 
@@ -182,6 +182,56 @@ namespace B2CAzureFunc.Helpers
                     Environment.GetEnvironmentVariable("RelyingPartyAppClientId", EnvironmentVariableTarget.Process),
                     claims,
                     DateTime.UtcNow,
+                    expiry.AddYears(1),
+                    signingCredentials);
+
+            // Get the representation of the signed token
+            JwtSecurityTokenHandler jwtHandler = new JwtSecurityTokenHandler();
+
+            return jwtHandler.WriteToken(token);
+        }
+
+
+
+
+        //new overload
+        /// <summary>
+        /// BuildIdToken
+        /// </summary>
+        /// <param name="email"></param>
+        /// <param name="givenName"></param>
+        /// <param name="surname"></param>
+        /// <param name="customerId"></param>
+        /// <param name="expiry"></param>
+        /// <param name="requestScheme"></param>
+        /// <param name="host"></param>
+        /// <param name="path"></param>
+        /// <param name="journey"></param>
+        /// <param name="securityKey"></param>
+        /// <param name="relyingPartyAppClientId"></param>
+        /// <returns></returns>
+        public static string BuildIdToken(string email, string givenName, string surname, string customerId, DateTime expiry, string requestScheme, string host, string path, string journey, string securityKey, string relyingPartyAppClientId)
+        {
+            string issuer = $"{requestScheme}://{host}{path}/";
+
+            // All parameters send to Azure AD B2C needs to be sent as claims
+            IList<System.Security.Claims.Claim> claims = new List<System.Security.Claims.Claim>();
+            claims.Add(new System.Security.Claims.Claim("email", email, System.Security.Claims.ClaimValueTypes.String, issuer));
+            claims.Add(new System.Security.Claims.Claim("expiry", expiry.ToString(), System.Security.Claims.ClaimValueTypes.DateTime, issuer));
+            claims.Add(new System.Security.Claims.Claim("givenName", givenName.ToString(), System.Security.Claims.ClaimValueTypes.String, issuer));
+            claims.Add(new System.Security.Claims.Claim("surname", surname.ToString(), System.Security.Claims.ClaimValueTypes.String, issuer));
+            claims.Add(new System.Security.Claims.Claim("customerId", customerId.ToString(), System.Security.Claims.ClaimValueTypes.String, issuer));
+            claims.Add(new System.Security.Claims.Claim("journey", journey, System.Security.Claims.ClaimValueTypes.String, issuer));
+
+            var signingKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(securityKey));
+            SigningCredentials signingCredentials = new SigningCredentials(signingKey, SecurityAlgorithms.HmacSha256);
+
+            // Create the token
+            JwtSecurityToken token = new JwtSecurityToken(
+                    issuer,
+                    Environment.GetEnvironmentVariable("RelyingPartyAppClientId", EnvironmentVariableTarget.Process),
+                    claims,
+                    DateTime.Now,
                     expiry.AddYears(1),
                     signingCredentials);
 

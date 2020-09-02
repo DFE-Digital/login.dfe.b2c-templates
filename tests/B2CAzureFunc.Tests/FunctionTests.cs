@@ -13,6 +13,7 @@ using Providers.Email.Model;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Runtime.InteropServices.ComTypes;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -27,7 +28,7 @@ namespace B2CAzureFunc.Tests
         {
             var config = new ConfigurationBuilder()
                    .SetBasePath(Directory.GetCurrentDirectory())
-                   .AddJsonFile("local.settings.json", false)
+                   .AddJsonFile("local.settings.json", true)
                    .AddEnvironmentVariables()
                    .Build();
             _appSettings = new AppSettings();
@@ -146,7 +147,12 @@ namespace B2CAzureFunc.Tests
         {
             var body = queryStringValue;
             var request = TestFactory.CreateHttpRequest(body);
-            var response = await SignupInvitation.Run(request, logger);
+
+            var option = Options.Create(_appSettings);
+
+            SignupInvitation signupInvitation = new SignupInvitation(option);
+
+            var response = await signupInvitation.Run(request, logger);
 
             try
             {

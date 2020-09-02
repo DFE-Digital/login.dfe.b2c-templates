@@ -1,4 +1,3 @@
-using System.IO;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
@@ -11,7 +10,6 @@ using System;
 using B2CAzureFunc.Helpers;
 using System.Linq;
 using Newtonsoft.Json.Linq;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 
 namespace B2CAzureFunc
