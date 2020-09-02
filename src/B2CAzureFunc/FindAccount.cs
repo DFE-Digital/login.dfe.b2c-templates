@@ -57,6 +57,7 @@ namespace B2CAzureFunc
                     string clientId = _appSettings.B2CGraphAccessClientId.ToString(); ;
                     string clientSecret = _appSettings.B2CGraphAccessClientSecret;
                     string extensionAppId = _appSettings.ExtensionAppId;
+                    log.LogInformation("tenant: " + tenant);
 
                     B2CGraphClient client = new B2CGraphClient(clientId, clientSecret, tenant);
 
