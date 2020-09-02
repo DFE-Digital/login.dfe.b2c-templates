@@ -229,7 +229,7 @@ namespace B2CAzureFunc.Helpers
             // Create the token
             JwtSecurityToken token = new JwtSecurityToken(
                     issuer,
-                    Environment.GetEnvironmentVariable("RelyingPartyAppClientId", EnvironmentVariableTarget.Process),
+                    relyingPartyAppClientId,
                     claims,
                     DateTime.Now,
                     expiry.AddYears(1),
