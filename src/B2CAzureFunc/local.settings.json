@@ -11,6 +11,7 @@
     "B2CSignupConfirmPolicy": "B2C_1A_signup_confirmation",
     "B2CPasswordResetConfirmPolicy": "B2C_1A_passwordResetConformation",
     "RelyingPartyAppClientId": "488c321f-10e4-48f2-b9c2-261e2add2f8d",
+    //"RelyingPartyAppClientId": "162b73a0-4972-42de-ad41-f15c5b4d9b51",
     "B2CRedirectUri": "https://jwt.ms",
     "B2CAuthorizationUrl": "https://{0}.b2clogin.com/{0}.onmicrosoft.com/{1}/oauth2/v2.0/authorize?client_id={2}&nonce={4}&redirect_uri={3}&scope=openid&response_type=id_token",
     "ClientSigningKey": "kmVjIuIWOagbzfLp4cYn8tblf6n2Yz8sS9iwdceD+og=",

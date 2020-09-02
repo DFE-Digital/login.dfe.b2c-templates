@@ -24,7 +24,7 @@ namespace B2CAzureFunc
         {
             var config = new ConfigurationBuilder()
                    .SetBasePath(Directory.GetCurrentDirectory())
-                   .AddJsonFile("local.settings.json", true)
+                   //.AddJsonFile("local.settings.json", true)
                    .AddEnvironmentVariables()
                    .Build();
 
