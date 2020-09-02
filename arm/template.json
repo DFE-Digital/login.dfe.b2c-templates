@@ -741,107 +741,107 @@
                             "value": "recommended"
                         },
                         {
-                            "name": "OcpApimSubscriptionKey",
+                            "name": "AppSettings:OcpApimSubscriptionKey",
                             "value": "[parameters('NCSApimSubscriptionKey')]"
                         },
                         {
-                            "name": "B2CTenant",
+                            "name": "AppSettings:B2CTenant",
                             "value": "[parameters('B2CTenantShortName')]"
                         },
                         {
-                            "name": "B2CSignUpPolicy",
+                            "name": "AppSettings:B2CSignUpPolicy",
                             "value": "[parameters('B2CSignUpPolicy')]"
                         },
                         {
-                            "name": "B2CSignupConfirmPolicy",
+                            "name": "AppSettings:B2CSignupConfirmPolicy",
                             "value": "[parameters('B2CSignupConfirmPolicy')]"
                         },
                         {
-                            "name": "B2CPasswordResetConfirmPolicy",
+                            "name": "AppSettings:B2CPasswordResetConfirmPolicy",
                             "value": "[parameters('B2CPasswordResetConfirmPolicy')]"
                         },
                         {
-                            "name": "RelyingPartyAppClientId",
+                            "name": "AppSettings:RelyingPartyAppClientId",
                             "value": "[parameters('RelyingPartyAppClientId')]"
                         },
                         {
-                            "name": "B2CRedirectUri",
+                            "name": "AppSettings:B2CRedirectUri",
                             "value": "[parameters('B2CRedirectUri')]"
                         },
                         {
-                            "name": "B2CAuthorizationUrl",
+                            "name": "AppSettings:B2CAuthorizationUrl",
                             "value": "[parameters('B2CAuthorizationUrl')]"
                         },
                         {
-                            "name": "ClientSigningKey",
+                            "name": "AppSettings:ClientSigningKey",
                             "value": "[parameters('ClientSigningKey')]"
                         },
                         {
-                            "name": "LinkExpiresAfterMinutes",
+                            "name": "AppSettings:LinkExpiresAfterMinutes",
                             "value": "5"
                         },
                         {
-                            "name": "AccountActivationEmailExpiryInSeconds",
+                            "name": "AppSettings:AccountActivationEmailExpiryInSeconds",
                             "value": "[parameters('AccountActivationEmailExpiryInSeconds')]"
                         },
                         {
-                            "name": "SMTPServer",
+                            "name": "AppSettings:SMTPServer",
                             "value": "[parameters('SMTPServer')]"
                         },
                         {
-                            "name": "SMTPPort",
+                            "name": "AppSettings:SMTPPort",
                             "value": "[parameters('SMTPPort')]"
                         },
                         {
-                            "name": "SMTPUsername",
+                            "name": "AppSettings:SMTPUsername",
                             "value": "[parameters('SMTPUsername')]"
                         },
                         {
-                            "name": "SMTPPassword",
+                            "name": "AppSettings:SMTPPassword",
                             "value": "[parameters('SMTPPassword')]"
                         },
                         {
-                            "name": "SMTPUseSSL",
+                            "name": "AppSettings:SMTPUseSSL",
                             "value": "[parameters('SMTPUseSSL')]"
                         },
                         {
-                            "name": "SMTPFromAddress",
+                            "name": "AppSettings:SMTPFromAddress",
                             "value": "[parameters('SMTPFromAddress')]"
                         },
                         {
-                            "name": "SMTPSubject",
+                            "name": "AppSettings:SMTPSubject",
                             "value": "[parameters('SMTPSubject')]"
                         },
                         {
-                            "name": "SignupEmailSubject",
+                            "name": "AppSettings:SignupEmailSubject",
                             "value": "[parameters('SignupEmailSubject')]"
                         },
                         {
-                            "name": "SignupConfirmationEmailSubject",
+                            "name": "AppSettings:SignupConfirmationEmailSubject",
                             "value": "[parameters('SignupConfirmationEmailSubject')]"
                         },
                         {
-                            "name": "PasswordResetConfirmationEmailSubject",
+                            "name": "AppSettings:PasswordResetConfirmationEmailSubject",
                             "value": "[parameters('PasswordResetConfirmationEmailSubject')]"
                         },
                         {
-                            "name": "FromDisplayName",
+                            "name": "AppSettings:FromDisplayName",
                             "value": "The National Careers Service"
                         },
                         {
-                            "name": "resendSignupEmail",
+                            "name": "AppSettings:resendSignupEmail",
                             "value": "Activate your account"
                         },
                         {
-                            "name": "ncsdssapikey",
+                            "name": "AppSettings:ncsdssapikey",
                             "value": "[parameters('NCSDSSApiKey')]"
                         },
                         {
-                            "name": "ncsdsssearchapiurl",
+                            "name": "AppSettings:ncsdsssearchapiurl",
                             "value": "[parameters('NCSDSSSearchApiUrl')]"
                         },
                         {
-                            "name": "ncsdsssearchapiversion",
+                            "name": "AppSettings:ncsdsssearchapiversion",
                             "value": "[parameters('NCSDSSSearchApiVersion')]"
                         },
                         {
@@ -849,7 +849,7 @@
                             "value": "DfE NCS B2C Service"
                         },
                         {
-                            "name": "B2COpenApiConfig:ServiceTitle",
+                            "name": "B2COpenApiConfig:ServiceTitle",    
                             "value": "DFE NCS Auth"
                         },
                         {
@@ -857,79 +857,79 @@
                             "value": "V2"
                         },
                         {
-                            "name": "ncsdsscreatecustomerapiurl",
+                            "name": "AppSettings:ncsdsscreatecustomerapiurl",
                             "value": "[parameters('NCSDSSCreateCustomerApiUrl')]"
                         },
                         {
-                            "name": "ncsdsscreatecontactapiurl",
+                            "name": "AppSettings:ncsdsscreatecontactapiurl",
                             "value": "[parameters('NCSDSSCreateContactApiUrl')]"
                         },
                         {
-                            "name": "ncsdsscreateidentityapiurl",
+                            "name": "AppSettings:ncsdsscreateidentityapiurl",
                             "value": "[parameters('NCSDSSCreateIdentityApiUrl')]"
                         },
                         {
-                            "name": "ncsdssgetcustomerapiurl",
+                            "name": "AppSettings:ncsdssgetcustomerapiurl",
                             "value": "[parameters('NCSDSSGetCustomerUrl')]"
                         },
                         {
-                            "name": "ncsdsspatchdigitalidentityapiurl",
+                            "name": "AppSettings:ncsdsspatchdigitalidentityapiurl",
                             "value": "[parameters('NCSDigitalIdentityUrl')]"
                         },
                         {
-                            "name": "TouchpointId",
+                            "name": "AppSettings:TouchpointId",
                             "value": "[parameters('TouchpointId')]"
                         },
                         {
-                            "name": "B2CTenantId",
+                            "name": "AppSettings:B2CTenantId",
                             "value": "[parameters('B2CTenantFullName')]"
                         },
                         {
-                            "name": "B2CGraphAccessClientId",
+                            "name": "AppSettings:B2CGraphAccessClientId",
                             "value": "[parameters('B2CGraphAccessClientId')]"
                         },
                         {
-                            "name": "B2CGraphAccessClientSecret",
+                            "name": "AppSettings:B2CGraphAccessClientSecret",
                             "value": "[parameters('B2CGraphAccessClientSecret')]"
                         },
                         {
-                            "name": "EmailChangeConfirmationEmailSubjectNewEmail",
+                            "name": "AppSettings:EmailChangeConfirmationEmailSubjectNewEmail",
                             "value": "[parameters('EmailChangeConfirmationEmailSubjectNewEmail')]"
                         },
                         {
-                            "name": "EmailChangeConfirmationEmailSubjectOldEmail",
+                            "name": "AppSettings:EmailChangeConfirmationEmailSubjectOldEmail",
                             "value": "[parameters('EmailChangeConfirmationEmailSubjectOldEmail')]"
                         },
                         {
-                            "name": "B2CChangeEmailPolicy",
+                            "name": "AppSettings:B2CChangeEmailPolicy",
                             "value": "[parameters('B2CChangeEmailPolicy')]"
                         },
                         {
-                            "name": "ExtensionAppId",
+                            "name": "AppSettings:ExtensionAppId",
                             "value": "[parameters('ExtensionAppId')]"
                         },
                         {
-                            "name": "NotifyApiKey",
+                            "name": "AppSettings:NotifyApiKey",
                             "value": "[parameters('NotifyApiKey')]"
                         },
                         {
-                            "name": "NotifyAidedSignupEmailTemplateId",
+                            "name": "AppSettings:NotifyAidedSignupEmailTemplateId",
                             "value": "[parameters('NotifyAidedSignupEmailTemplateId')]"
                         },
                         {
-                            "name": "NotifySelfSignupEmailTemplateId",
+                            "name": "AppSettings:NotifySelfSignupEmailTemplateId",
                             "value": "[parameters('NotifySelfSignupEmailTemplateId')]"
                         },
                         {
-                            "name": "NotifyPasswordResetConfirmationEmailTemplateId",
+                            "name": "AppSettings:NotifyPasswordResetConfirmationEmailTemplateId",
                             "value": "[parameters('NotifyPasswordResetConfirmationEmailTemplateId')]"
                         },
                         {
-                            "name": "NotifyEmailChangeConfirmationEmailNewEmailTemplateId",
+                            "name": "AppSettings:NotifyEmailChangeConfirmationEmailNewEmailTemplateId",
                             "value": "[parameters('NotifyEmailChangeConfirmationEmailNewEmailTemplateId')]"
                         },
                         {
-                            "name": "NotifyEmailChangeConfirmationEmailOldEmailTemplateId",
+                            "name": "AppSettings:NotifyEmailChangeConfirmationEmailOldEmailTemplateId",
                             "value": "[parameters('NotifyEmailChangeConfirmationEmailOldEmailTemplateId')]"
                         }
                     ]
