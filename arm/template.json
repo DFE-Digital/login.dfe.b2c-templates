@@ -909,8 +909,8 @@
                             "value": "[parameters('ExtensionAppId')]"
                         },
                         {
-                            "name": "NotifyAPIKey",
-                            "value": "[parameters('NotifyAPIKey')]"
+                            "name": "NotifyApiKey",
+                            "value": "[parameters('NotifyApiKey')]"
                         },
                         {
                             "name": "NotifyAidedSignupEmailTemplateId",
