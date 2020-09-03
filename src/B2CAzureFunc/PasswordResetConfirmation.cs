@@ -61,7 +61,7 @@ namespace B2CAzureFunc
 
                 string b2cURL = _appSettings.B2CAuthorizationUrl;// Environment.GetEnvironmentVariable("B2CAuthorizationUrl", EnvironmentVariableTarget.Process);
                 string b2cTenant = _appSettings.B2CTenant;//Environment.GetEnvironmentVariable("B2CTenant", EnvironmentVariableTarget.Process);
-                string b2cPolicyId = _appSettings.B2CSignUpPolicy;//Environment.GetEnvironmentVariable("B2CSignUpPolicy", EnvironmentVariableTarget.Process);
+                string b2cPolicyId = _appSettings.B2CPasswordResetConfirmPolicy;//Environment.GetEnvironmentVariable("B2CSignUpPolicy", EnvironmentVariableTarget.Process);
                 string b2cClientId = _appSettings.RelyingPartyAppClientId.ToString();//Environment.GetEnvironmentVariable("RelyingPartyAppClientId", EnvironmentVariableTarget.Process);
                 string b2cRedirectUri = _appSettings.B2CRedirectUri.ToString();//Environment.GetEnvironmentVariable("B2CRedirectUri", EnvironmentVariableTarget.Process);
 
