@@ -136,7 +136,7 @@ namespace B2CAzureFunc
                                             }
                         };
 
-                        var result1 = EmailService.Send(model);
+                        var result1 = EmailService.Send(_appSettings.NotifyApiKey, model);
 
                         if (!data.IsResend)
                         {
@@ -149,7 +149,7 @@ namespace B2CAzureFunc
                                             }
                             };
 
-                            result2 = EmailService.Send(model);
+                            result2 = EmailService.Send(_appSettings.NotifyApiKey, model);
                         }
                         else
                         {

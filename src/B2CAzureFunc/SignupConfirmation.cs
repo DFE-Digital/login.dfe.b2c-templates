@@ -80,7 +80,7 @@ namespace B2CAzureFunc
                                             }
                 };
 
-                var result = EmailService.Send(model);
+                var result = EmailService.Send(_appSettings.NotifyApiKey, model);
                 return result
                     ? (ActionResult)new OkObjectResult(true)
                     : new BadRequestObjectResult(new ResponseContentModel
