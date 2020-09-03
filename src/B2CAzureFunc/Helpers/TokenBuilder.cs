@@ -112,8 +112,10 @@ namespace B2CAzureFunc.Helpers
         /// <param name="objectId"></param>
         /// <param name="givenName"></param>
         /// <param name="journey"></param>
+        /// <param name="securityKey"></param>
+        /// <param name="relyingPartyAppClientId"></param>
         /// <returns>string</returns>
-        public static string BuildIdToken(string email, DateTime expiry, string requestScheme, string host, string path, string objectId, string givenName, string journey)
+        public static string BuildIdToken(string email, DateTime expiry, string requestScheme, string host, string path, string objectId, string givenName, string journey, string securityKey, string relyingPartyAppClientId)
         {
             string issuer = $"{requestScheme}://{host}{path}/";
 
@@ -125,16 +127,13 @@ namespace B2CAzureFunc.Helpers
             claims.Add(new System.Security.Claims.Claim("objectId", objectId.ToString(), System.Security.Claims.ClaimValueTypes.String, issuer));
             claims.Add(new System.Security.Claims.Claim("journey", journey, System.Security.Claims.ClaimValueTypes.String, issuer));
 
-            // Note: This key phrase needs to be stored also in Azure B2C Keys for token validation
-            var securityKey = Encoding.UTF8.GetBytes(Environment.GetEnvironmentVariable("ClientSigningKey", EnvironmentVariableTarget.Process));
-
-            var signingKey = new SymmetricSecurityKey(securityKey);
+            var signingKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(securityKey));
             SigningCredentials signingCredentials = new SigningCredentials(signingKey, SecurityAlgorithms.HmacSha256);
 
             // Create the token
             JwtSecurityToken token = new JwtSecurityToken(
                     issuer,
-                    Environment.GetEnvironmentVariable("RelyingPartyAppClientId", EnvironmentVariableTarget.Process),
+                    relyingPartyAppClientId,
                     claims,
                     DateTime.Now,
                     expiry.AddYears(1),
@@ -157,8 +156,10 @@ namespace B2CAzureFunc.Helpers
         /// <param name="path"></param>
         /// <param name="objectId"></param>
         /// <param name="journey"></param>
+        /// <param name="securityKey"></param>
+        /// <param name="relyingPartyAppClientId"></param>
         /// <returns>string</returns>
-        public static string BuildIdToken(string currentEmail, string newEmail, DateTime expiry, string requestScheme, string host, string path, string objectId, string journey)
+        public static string BuildIdToken(string currentEmail, string newEmail, DateTime expiry, string requestScheme, string host, string path, string objectId, string journey, string securityKey, string relyingPartyAppClientId)
         {
             string issuer = $"{requestScheme}://{host}{path}/";
 
@@ -170,16 +171,14 @@ namespace B2CAzureFunc.Helpers
             claims.Add(new System.Security.Claims.Claim("newEmail", newEmail.ToString(), System.Security.Claims.ClaimValueTypes.String, issuer));
             claims.Add(new System.Security.Claims.Claim("journey", journey, System.Security.Claims.ClaimValueTypes.String, issuer));
 
-            // Note: This key phrase needs to be stored also in Azure B2C Keys for token validation
-            var securityKey = Encoding.UTF8.GetBytes(Environment.GetEnvironmentVariable("ClientSigningKey", EnvironmentVariableTarget.Process));
 
-            var signingKey = new SymmetricSecurityKey(securityKey);
+            var signingKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(securityKey));
             SigningCredentials signingCredentials = new SigningCredentials(signingKey, SecurityAlgorithms.HmacSha256);
 
             // Create the token
             JwtSecurityToken token = new JwtSecurityToken(
                     issuer,
-                    Environment.GetEnvironmentVariable("RelyingPartyAppClientId", EnvironmentVariableTarget.Process),
+                    relyingPartyAppClientId,
                     claims,
                     DateTime.UtcNow,
                     expiry.AddYears(1),

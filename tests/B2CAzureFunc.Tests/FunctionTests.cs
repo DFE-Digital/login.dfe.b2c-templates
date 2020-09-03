@@ -47,7 +47,9 @@ namespace B2CAzureFunc.Tests
         {
             var body = queryStringValue;
             var request = TestFactory.CreateHttpRequest(body);
-            var response = await ChangeEmail.Run(request, logger);
+            var option = Options.Create(_appSettings);
+            ChangeEmail changeEmail = new ChangeEmail(option);
+            var response = await changeEmail.Run(request, logger);
 
             try
             {
@@ -72,7 +74,9 @@ namespace B2CAzureFunc.Tests
         {
             var body = queryStringValue;
             var request = TestFactory.CreateHttpRequest(body);
-            var response = await FindEmail.Run(request, logger);
+            var option = Options.Create(_appSettings);
+            FindEmail findEmail = new FindEmail(option);
+            var response = await findEmail.Run(request, logger);
 
             try
             {
@@ -97,7 +101,9 @@ namespace B2CAzureFunc.Tests
         {
             var body = queryStringValue;
             var request = TestFactory.CreateHttpRequest(body);
-            var response = await PasswordResetConfirmation.Run(request, logger);
+            var option = Options.Create(_appSettings);
+            PasswordResetConfirmation passwordResetConfirmation = new PasswordResetConfirmation(option);
+            var response = await passwordResetConfirmation.Run(request, logger);
 
             try
             {
@@ -122,7 +128,10 @@ namespace B2CAzureFunc.Tests
         {
             var body = queryStringValue;
             var request = TestFactory.CreateHttpRequest(body);
-            var response = await SignupConfirmation.Run(request, logger);
+            var option = Options.Create(_appSettings);
+
+            SignupConfirmation signupConfirmation = new SignupConfirmation(option);
+            var response = await signupConfirmation.Run(request, logger);
 
             try
             {
@@ -177,7 +186,9 @@ namespace B2CAzureFunc.Tests
         {
             var body = queryStringValue;
             var request = TestFactory.CreateHttpRequest(body);
-            var response = await AidedRegistrationValidateUserDetails.Run(request, logger);
+            var option = Options.Create(_appSettings);
+            AidedRegistrationValidateUserDetails aidedRegistrationValidateUserDetails = new AidedRegistrationValidateUserDetails(option);
+            var response = await aidedRegistrationValidateUserDetails.Run(request, logger);
 
             try
             {
@@ -202,7 +213,9 @@ namespace B2CAzureFunc.Tests
         {
             var body = queryStringValue;
             var request = TestFactory.CreateHttpRequest(body);
-            var response = await NCSDSSUserCreation.Run(request, logger);
+            var option = Options.Create(_appSettings);
+            NCSDSSUserCreation nCSDSSUserCreation = new NCSDSSUserCreation(option);
+            var response = await nCSDSSUserCreation.Run(request, logger);
 
             try
             {

@@ -12,14 +12,26 @@ using Providers.Email.Model;
 using Providers.Email;
 using B2CAzureFunc.Models;
 using System.Collections.Generic;
+using Microsoft.Extensions.Options;
 
 namespace B2CAzureFunc
 {
     /// <summary>
     ///     PasswordResetConfirmation
     /// </summary>
-    public static class PasswordResetConfirmation
+    public class PasswordResetConfirmation
     {
+        private readonly AppSettings _appSettings;
+
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="appSettings"></param>
+        public PasswordResetConfirmation(IOptions<AppSettings> appSettings)
+        {
+            _appSettings = appSettings?.Value;
+        }
+
         /// <summary>
         ///     PasswordResetConfirmation
         /// </summary>
@@ -30,7 +42,7 @@ namespace B2CAzureFunc
         /// <response code="200"><see cref="bool"/>Password Reset Sent</response>
         /// <response code="409"><see cref="Object"/>Error</response>
         [FunctionName("PasswordResetConfirmation")]
-        public static async Task<IActionResult> Run(
+        public async Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] HttpRequest req,
             ILogger log)
         {
@@ -42,24 +54,25 @@ namespace B2CAzureFunc
                 string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
                 dynamic data = JsonConvert.DeserializeObject(requestBody);
                 log.LogInformation(requestBody);
-                var accountActivationEmailExpiryInSeconds = Convert.ToInt32(Environment.GetEnvironmentVariable("AccountActivationEmailExpiryInSeconds", EnvironmentVariableTarget.Process));
+                var accountActivationEmailExpiryInSeconds = _appSettings.AccountActivationEmailExpiryInSeconds;// Convert.ToInt32(Environment.GetEnvironmentVariable("AccountActivationEmailExpiryInSeconds", EnvironmentVariableTarget.Process));
 
 
-                string token = TokenBuilder.BuildIdToken(data.email.ToString(), DateTime.UtcNow.AddSeconds(accountActivationEmailExpiryInSeconds), req.Scheme, req.Host.Value, req.PathBase.Value, data.ObjectId.ToString(), data.givenName.ToString(), "passwordreset");
+                string token = TokenBuilder.BuildIdToken(data.email.ToString(), DateTime.UtcNow.AddSeconds(accountActivationEmailExpiryInSeconds), req.Scheme, req.Host.Value, req.PathBase.Value, data.ObjectId.ToString(), data.givenName.ToString(), "passwordreset", _appSettings.ClientSigningKey, _appSettings.RelyingPartyAppClientId.ToString());
 
-                string b2cURL = Environment.GetEnvironmentVariable("B2CAuthorizationUrl", EnvironmentVariableTarget.Process);
-                string b2cTenant = Environment.GetEnvironmentVariable("B2CTenant", EnvironmentVariableTarget.Process);
-                string b2cPolicyId = Environment.GetEnvironmentVariable("B2CPasswordResetConfirmPolicy", EnvironmentVariableTarget.Process);
-                string b2cClientId = Environment.GetEnvironmentVariable("RelyingPartyAppClientId", EnvironmentVariableTarget.Process);
-                string b2cRedirectUri = Environment.GetEnvironmentVariable("B2CRedirectUri", EnvironmentVariableTarget.Process);
+                string b2cURL = _appSettings.B2CAuthorizationUrl;// Environment.GetEnvironmentVariable("B2CAuthorizationUrl", EnvironmentVariableTarget.Process);
+                string b2cTenant = _appSettings.B2CTenant;//Environment.GetEnvironmentVariable("B2CTenant", EnvironmentVariableTarget.Process);
+                string b2cPolicyId = _appSettings.B2CSignUpPolicy;//Environment.GetEnvironmentVariable("B2CSignUpPolicy", EnvironmentVariableTarget.Process);
+                string b2cClientId = _appSettings.RelyingPartyAppClientId.ToString();//Environment.GetEnvironmentVariable("RelyingPartyAppClientId", EnvironmentVariableTarget.Process);
+                string b2cRedirectUri = _appSettings.B2CRedirectUri.ToString();//Environment.GetEnvironmentVariable("B2CRedirectUri", EnvironmentVariableTarget.Process);
+
                 string url = UrlBuilder.BuildUrl(token, b2cURL, b2cTenant, b2cPolicyId, b2cClientId, b2cRedirectUri);
 
-                string htmlTemplate = Environment.GetEnvironmentVariable("NotifyPasswordResetConfirmationEmailTemplateId", EnvironmentVariableTarget.Process);
+                string htmlTemplate = _appSettings.NotifyPasswordResetConfirmationEmailTemplateId.ToString();// Environment.GetEnvironmentVariable("NotifyPasswordResetConfirmationEmailTemplateId", EnvironmentVariableTarget.Process);
 
 
                 EmailModel model = new EmailModel
                 {
-                    EmailTemplate = htmlTemplate,                    
+                    EmailTemplate = htmlTemplate,
                     To = data.email.ToString(),
                     Personalisation = new Dictionary<string, dynamic>
                                             { {"name", data.givenName.ToString()},

@@ -9,14 +9,27 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using B2CAzureFunc.Models;
 using System.Net.Http;
+using Microsoft.Extensions.Options;
 
 namespace B2CAzureFunc
 {
     /// <summary>
     ///     FindEmail
     /// </summary>
-    public static class FindEmail
+    public class FindEmail
     {
+
+        private readonly AppSettings _appSettings;
+
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="appSettings"></param>
+        public FindEmail(IOptions<AppSettings> appSettings)
+        {
+            _appSettings = appSettings?.Value;
+        }
+
         /// <summary>
         ///     FindEmail
         /// </summary>
@@ -27,7 +40,7 @@ namespace B2CAzureFunc
         /// <response code="200"><see cref="EmailFoundResponseModel"/>Email Found Response</response>
         /// <response code="404"><see cref="Object"/>Not Found</response>
         [FunctionName("FindEmail")]
-        public static async Task<IActionResult> Run(
+        public async Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] HttpRequest req,
             ILogger log)
         {
@@ -48,14 +61,14 @@ namespace B2CAzureFunc
                     using (var httpClient = new HttpClient())
                     {
                         var dob = String.Format("{0}-{1}-{2}", data.Year, data.Month, data.Day);
-                        var searchApiUrl = Environment.GetEnvironmentVariable("ncsdsssearchapiurl", EnvironmentVariableTarget.Process);
+                        var searchApiUrl = _appSettings.NcsDssSearchApiUrl;// Environment.GetEnvironmentVariable("ncsdsssearchapiurl", EnvironmentVariableTarget.Process);
                         var url = String.Format("{0}?&search=GivenName:{1} FamilyName:{2} PostCode={3}&filter=DateOfBirth eq {4}",
                              searchApiUrl, data.GivenName, data.Surname, data.PostalCode, dob);
                         using (var request = new HttpRequestMessage(new HttpMethod("GET"), url))
                         {
-                            request.Headers.TryAddWithoutValidation("api-key", Environment.GetEnvironmentVariable("ncsdssapikey", EnvironmentVariableTarget.Process));
-                            request.Headers.TryAddWithoutValidation("version", Environment.GetEnvironmentVariable("ncsdsssearchapiversion", EnvironmentVariableTarget.Process));
-                            request.Headers.TryAddWithoutValidation("Ocp-Apim-Subscription-Key", Environment.GetEnvironmentVariable("OcpApimSubscriptionKey", EnvironmentVariableTarget.Process));
+                            request.Headers.TryAddWithoutValidation("api-key", _appSettings.NcsDssApiKey);// Environment.GetEnvironmentVariable("ncsdssapikey", EnvironmentVariableTarget.Process));
+                            request.Headers.TryAddWithoutValidation("version", _appSettings.NcsDssSearchApiVersion);//Environment.GetEnvironmentVariable("ncsdsssearchapiversion", EnvironmentVariableTarget.Process));
+                            request.Headers.TryAddWithoutValidation("Ocp-Apim-Subscription-Key", _appSettings.OcpApimSubscriptionKey);//Environment.GetEnvironmentVariable("OcpApimSubscriptionKey", EnvironmentVariableTarget.Process));
 
                             var response = await httpClient.SendAsync(request);
                             if (response.StatusCode == System.Net.HttpStatusCode.OK)

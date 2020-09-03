@@ -10,14 +10,26 @@ using Newtonsoft.Json;
 using B2CAzureFunc.Models;
 using System.Net.Http;
 using System.Linq;
+using Microsoft.Extensions.Options;
 
 namespace B2CAzureFunc
 {
     /// <summary>
     ///     AidedRegistrationValidateUserDetails
     /// </summary>
-    public static class AidedRegistrationValidateUserDetails
+    public class AidedRegistrationValidateUserDetails
     {
+        private readonly AppSettings _appSettings;
+
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="appSettings"></param>
+        public AidedRegistrationValidateUserDetails(IOptions<AppSettings> appSettings)
+        {
+            _appSettings = appSettings?.Value;
+        }
+
         /// <summary>
         ///     AidedRegistrationValidateUserDetails
         /// </summary>
@@ -28,7 +40,7 @@ namespace B2CAzureFunc
         /// <response code="200"><see cref="ResponseContentModel"/>User Found Response</response>
         /// <response code="404"><see cref="Object"/>Not Found</response>
         [FunctionName("AidedRegistrationValidateUserDetails")]
-        public static async Task<IActionResult> Run(
+        public async Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] HttpRequest req,
             ILogger log)
         {
@@ -47,14 +59,14 @@ namespace B2CAzureFunc
                     using (var httpClient = new HttpClient())
                     {
                         var dob = String.Format("{0}-{1}-{2}", data.Year, data.Month, data.Day);
-                        var getApiUrl = Environment.GetEnvironmentVariable("ncsdssgetcustomerapiurl", EnvironmentVariableTarget.Process);
+                        var getApiUrl = _appSettings.NcsDssGetCustomerApiUrl;// Environment.GetEnvironmentVariable("ncsdssgetcustomerapiurl", EnvironmentVariableTarget.Process);
                         var url = String.Format(getApiUrl, data.CustomerId);
                         using (var request = new HttpRequestMessage(new HttpMethod("GET"), url))
                         {
-                            request.Headers.TryAddWithoutValidation("api-key", Environment.GetEnvironmentVariable("ncsdssapikey", EnvironmentVariableTarget.Process));
-                            request.Headers.TryAddWithoutValidation("version", Environment.GetEnvironmentVariable("ncsdsssearchapiversion", EnvironmentVariableTarget.Process));
-                            request.Headers.TryAddWithoutValidation("Ocp-Apim-Subscription-Key", Environment.GetEnvironmentVariable("OcpApimSubscriptionKey", EnvironmentVariableTarget.Process));
-                            request.Headers.TryAddWithoutValidation("TouchpointId", Environment.GetEnvironmentVariable("TouchpointId", EnvironmentVariableTarget.Process));
+                            request.Headers.TryAddWithoutValidation("api-key", _appSettings.NcsDssApiKey);// Environment.GetEnvironmentVariable("ncsdssapikey", EnvironmentVariableTarget.Process));
+                            request.Headers.TryAddWithoutValidation("version", _appSettings.NcsDssSearchApiVersion);// Environment.GetEnvironmentVariable("ncsdsssearchapiversion", EnvironmentVariableTarget.Process));
+                            request.Headers.TryAddWithoutValidation("Ocp-Apim-Subscription-Key", _appSettings.OcpApimSubscriptionKey);// Environment.GetEnvironmentVariable("OcpApimSubscriptionKey", EnvironmentVariableTarget.Process));
+                            request.Headers.TryAddWithoutValidation("TouchpointId", _appSettings.TouchpointId.ToString());// Environment.GetEnvironmentVariable("TouchpointId", EnvironmentVariableTarget.Process));
 
                             var response = await httpClient.SendAsync(request);
 

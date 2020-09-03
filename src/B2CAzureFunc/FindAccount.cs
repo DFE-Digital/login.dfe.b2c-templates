@@ -54,7 +54,7 @@ namespace B2CAzureFunc
                 if (!String.IsNullOrEmpty(id))
                 {
                     string tenant = _appSettings.B2CTenantId;
-                    string clientId = _appSettings.B2CGraphAccessClientId.ToString(); ;
+                    string clientId = _appSettings.B2CGraphAccessClientId.ToString();
                     string clientSecret = _appSettings.B2CGraphAccessClientSecret;
                     string extensionAppId = _appSettings.ExtensionAppId;
                     log.LogInformation("tenant: " + tenant);
