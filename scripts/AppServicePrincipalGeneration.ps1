@@ -4,7 +4,7 @@ Param(
     [Parameter(Mandatory = $true)][string]$environmentName,
     [Parameter(Mandatory = $true)][string]$identAppSecret,
     [Parameter(Mandatory = $true)][string]$proxyAppSecret,
-    [Parameter(Mandatory = $true)][string]$graphAccessAppSecre
+    [Parameter(Mandatory = $true)][string]$graphAppSecret
 )
 
 $identAppName = "IdentityExperienceFramework"
@@ -64,7 +64,7 @@ $readWriteTrustFramework = az ad sp show --id $graphId --query "appRoles[?value=
 write-host found $readWriteTrustFramework
 
 Write-Host creating $graphAccessAppName
-$graphAccessApp = az ad app create --display-name $graphAccessAppName --password $graphAccessAppSecret --available-to-other-tenants false | ConvertFrom-Json
+$graphAccessApp = az ad app create --display-name $graphAccessAppName --password $graphAppSecret --available-to-other-tenants false | ConvertFrom-Json
 az ad app permission admin-consent --id $graphAccessApp.objectId 
 
 write-host adding application permissions

@@ -35,6 +35,25 @@ stages:
       webPublish: false
       nugetConfigPath: nuget.config
 
+- stage: devTenantSetup
+  displayName: Tenant Setup - DEV
+  dependsOn:
+    - build
+  jobs:
+  - template: yaml/jobs/tenant-setup.yml
+    parameters:
+      variableGroupName: ncs-b2c-dev
+      applicationName: $(applicationName)
+      environmentName: dev
+      tenantId: $(devAzureB2cTenantId)
+      uploaderPrincipalClientId: $(devPipelineManagementClientId)
+      uploaderPrincipalClientSecret: $(devPipelineManagementClientSecret)
+      proxyAppRegistrationClientId: $(devProxyIdentityAppClientId)
+      proxyAppRegistrationObjectId: $(devProxyIdentityAppObjectId)
+      identAppRegistrationClientId: $(devIdentityAppClientId)
+      signinRedirectRoot: s141d01-signin-int.azurewebsites.net
+      eapimRootUrl: dev-api-customerengagement.platform.education.gov.uk
+
 - stage: testTenantSetup
   displayName: Tenant Setup - TEST
   dependsOn:
@@ -54,24 +73,18 @@ stages:
       signinRedirectRoot: test-interactions.signin.education.gov.uk
       eapimRootUrl: test-api-customerengagement.platform.education.gov.uk
 
-- stage: devTenantSetup
-  displayName: Tenant Setup - DEV
+- stage: preProdTenantSetup
+  displayName: Tenant Setup - PREPROD
   dependsOn:
-    - build
+  - build
   jobs:
-  - template: yaml/jobs/tenant-setup.yml
+  - template: yaml/jobs/tenant-setup-grouped.yml
     parameters:
-      variableGroupName: ncs-b2c-dev
+      environmentName: preprod
+      variableGroupName: ncs-b2c-preprod
       applicationName: $(applicationName)
-      environmentName: dev
-      tenantId: $(devAzureB2cTenantId)
-      uploaderPrincipalClientId: $(devPipelineManagementClientId)
-      uploaderPrincipalClientSecret: $(devPipelineManagementClientSecret)
-      proxyAppRegistrationClientId: $(devProxyIdentityAppClientId)
-      proxyAppRegistrationObjectId: $(devProxyIdentityAppObjectId)
-      identAppRegistrationClientId: $(devIdentityAppClientId)
-      signinRedirectRoot: s141d01-signin-int.azurewebsites.net
-      eapimRootUrl: dev-api-customerengagement.platform.education.gov.uk
+      signinRedirectRoot: pp-interactions.signin.education.gov.uk
+      eapimRootUrl: oat-api-customerengagement.platform.education.gov.uk
 
 - stage: deployDev
   displayName: Deploy - DEV
