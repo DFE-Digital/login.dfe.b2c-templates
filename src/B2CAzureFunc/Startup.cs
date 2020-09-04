@@ -22,11 +22,11 @@ namespace B2CAzureFunc
         /// <param name="builder"></param>
         public override void Configure(IFunctionsHostBuilder builder)
         {
-            var config = new ConfigurationBuilder()
-                   .SetBasePath(Directory.GetCurrentDirectory())
-                   .AddJsonFile("local.settings.json", true)
-                   .AddEnvironmentVariables()
-                   .Build();
+            //var config = new ConfigurationBuilder()
+            //       .SetBasePath(Directory.GetCurrentDirectory())
+            //       .AddJsonFile("local.settings.json", true)
+            //       .AddEnvironmentVariables()
+            //       .Build();
 
             builder.Services.AddOptions<B2COpenApiConfig>()
                 .Configure<IConfiguration>((openApiConfig, config) =>
@@ -34,15 +34,15 @@ namespace B2CAzureFunc
                     config.GetSection("B2COpenApiConfig").Bind(openApiConfig);
                 });
 
-            //builder.Services.AddOptions<AppSettings>()
-            //    .Configure<IConfiguration>((appSettings, config) =>
-            //    {
-            //        config.GetSection("AppSettings").Bind(appSettings);
-            //    });
+            builder.Services.AddOptions<AppSettings>()
+                .Configure<IConfiguration>((appSettings, config) =>
+                {
+                    config.GetSection("AppSettings").Bind(appSettings);
+                });
 
-            builder.Services.Configure<AppSettings>(config.GetSection("AppSettings"));
+            //builder.Services.Configure<AppSettings>(config.GetSection("AppSettings"));
 
-            builder.Services.AddOptions();
+            //builder.Services.AddOptions();
         }
     }
 }
