@@ -10,14 +10,26 @@ using Newtonsoft.Json;
 using B2CAzureFunc.Models;
 using B2CAzureFunc.Helpers;
 using System.Linq;
+using Microsoft.Extensions.Options;
 
 namespace B2CAzureFunc
 {
     /// <summary>
     /// UpdateUser
     /// </summary>
-    public static class UpdateUser
+    public class UpdateUser
     {
+        private readonly AppSettings _appSettings;
+
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="appSettings"></param>
+        public UpdateUser(IOptions<AppSettings> appSettings)
+        {
+            _appSettings = appSettings?.Value;
+        }
+
         /// <summary>
         /// UpdateUser
         /// </summary>
@@ -29,7 +41,7 @@ namespace B2CAzureFunc
         /// <response code="400"><see cref="ResponseContentModel"/>Update Error</response>
         /// <response code="400"><see cref="ResponseContentModel"/>Bad request response</response>
         [FunctionName("UpdateUser")]
-        public static async Task<IActionResult> Run(
+        public async Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Function, "put", Route = null)] HttpRequest req,
             ILogger log)
         {
@@ -54,9 +66,9 @@ namespace B2CAzureFunc
                     if (String.IsNullOrEmpty(data.DisplayName))
                         data.DisplayName = data.FirstName + " " + data.LastName;
 
-                    string tenant = Environment.GetEnvironmentVariable("b2c:Tenant", EnvironmentVariableTarget.Process);
-                    string clientId = Environment.GetEnvironmentVariable("b2c:GraphAccessClientId", EnvironmentVariableTarget.Process);
-                    string clientSecret = Environment.GetEnvironmentVariable("b2c:GraphAccessClientSecret", EnvironmentVariableTarget.Process);
+                    string tenant = _appSettings.B2CTenantId;// Environment.GetEnvironmentVariable("B2CTenantId", EnvironmentVariableTarget.Process);
+                    string clientId = _appSettings.B2CGraphAccessClientId.ToString();// Environment.GetEnvironmentVariable("B2CGraphAccessClientId", EnvironmentVariableTarget.Process);
+                    string clientSecret = _appSettings.B2CGraphAccessClientSecret;// Environment.GetEnvironmentVariable("B2CGraphAccessClientSecret", EnvironmentVariableTarget.Process);
                     B2CGraphClient client = new B2CGraphClient(clientId, clientSecret, tenant);
 
                     var getUserApiResponse = await client.GetUserByObjectId(data.ObjectId);
