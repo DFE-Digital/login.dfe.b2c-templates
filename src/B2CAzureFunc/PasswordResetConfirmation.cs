@@ -50,6 +50,7 @@ namespace B2CAzureFunc
             {
                 log.LogInformation("Request started");
 
+                log.LogInformation(JsonConvert.SerializeObject(_appSettings));
 
                 string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
                 dynamic data = JsonConvert.DeserializeObject(requestBody);
@@ -67,7 +68,7 @@ namespace B2CAzureFunc
 
                 string url = UrlBuilder.BuildUrl(token, b2cURL, b2cTenant, b2cPolicyId, b2cClientId, b2cRedirectUri);
 
-                string htmlTemplate = _appSettings.NotifyPasswordResetConfirmationEmailTemplateId.ToString();// Environment.GetEnvironmentVariable("NotifyPasswordResetConfirmationEmailTemplateId", EnvironmentVariableTarget.Process);
+                string htmlTemplate = _appSettings.NotifyPasswordResetConfirmationEmailTemplateId.ToString();
 
 
                 EmailModel model = new EmailModel
