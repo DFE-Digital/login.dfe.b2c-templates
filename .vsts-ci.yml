@@ -190,7 +190,7 @@ stages:
   - build
   - preProdTenantSetup
   jobs:
-  - template: yaml/jobs/deploy.yml
+  - template: yaml/jobs/deploy-grouped.yml
     parameters:
       variableGroupName: ncs-b2c-preprod
       applicationName: $(applicationName)
