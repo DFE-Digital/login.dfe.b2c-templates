@@ -50,9 +50,6 @@ namespace B2CAzureFunc
             {
                 log.LogInformation("Request started");
 
-                log.LogInformation(JsonConvert.SerializeObject(_appSettings));
-
-
                 string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
                 dynamic data = JsonConvert.DeserializeObject(requestBody);
                 log.LogInformation(requestBody);
