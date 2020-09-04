@@ -37,7 +37,6 @@ namespace B2CAzureFunc
         /// <url>http://localhost:7070/FindAccount</url>
         /// <param name="req"></param>
         /// <param name="log"></param>
-        /// <param name="context"></param>
         /// <response code="400"><see cref="ResponseContentModel"/>Not Found</response>
         /// <response code="200"><see cref="object"/>Account Found Response</response>
         [FunctionName("FindAccount")]

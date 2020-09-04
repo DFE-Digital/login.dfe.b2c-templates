@@ -59,14 +59,14 @@ namespace B2CAzureFunc
                     using (var httpClient = new HttpClient())
                     {
                         var dob = String.Format("{0}-{1}-{2}", data.Year, data.Month, data.Day);
-                        var getApiUrl = _appSettings.NcsDssGetCustomerApiUrl;// Environment.GetEnvironmentVariable("ncsdssgetcustomerapiurl", EnvironmentVariableTarget.Process);
+                        var getApiUrl = _appSettings.NcsDssGetCustomerApiUrl;
                         var url = String.Format(getApiUrl, data.CustomerId);
                         using (var request = new HttpRequestMessage(new HttpMethod("GET"), url))
                         {
-                            request.Headers.TryAddWithoutValidation("api-key", _appSettings.NcsDssApiKey);// Environment.GetEnvironmentVariable("ncsdssapikey", EnvironmentVariableTarget.Process));
-                            request.Headers.TryAddWithoutValidation("version", _appSettings.NcsDssSearchApiVersion);// Environment.GetEnvironmentVariable("ncsdsssearchapiversion", EnvironmentVariableTarget.Process));
-                            request.Headers.TryAddWithoutValidation("Ocp-Apim-Subscription-Key", _appSettings.OcpApimSubscriptionKey);// Environment.GetEnvironmentVariable("OcpApimSubscriptionKey", EnvironmentVariableTarget.Process));
-                            request.Headers.TryAddWithoutValidation("TouchpointId", _appSettings.TouchpointId.ToString());// Environment.GetEnvironmentVariable("TouchpointId", EnvironmentVariableTarget.Process));
+                            request.Headers.TryAddWithoutValidation("api-key", _appSettings.NcsDssApiKey);
+                            request.Headers.TryAddWithoutValidation("version", _appSettings.NcsDssSearchApiVersion);
+                            request.Headers.TryAddWithoutValidation("Ocp-Apim-Subscription-Key", _appSettings.OcpApimSubscriptionKey);
+                            request.Headers.TryAddWithoutValidation("TouchpointId", _appSettings.TouchpointId.ToString());
 
                             var response = await httpClient.SendAsync(request);
 
