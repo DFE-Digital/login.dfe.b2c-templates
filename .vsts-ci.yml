@@ -143,9 +143,9 @@ stages:
   jobs:
   - template: yaml/jobs/deploy.yml
     parameters:
-      variableGroupName: ncs-b2c-test
+      variableGroupName: ncs-b2c-preprod
       applicationName: $(applicationName)
-      environmentName: 'test'
+      environmentName: 'preprod'
       functionServicePlanSkuName: $(functionServicePlanSkuName)
       functionServicePlanSkuTier: $(functionServicePlanSkuTier)
       functionServicePlanSkuCount: $(functionServicePlanSkuCount)
@@ -164,7 +164,7 @@ stages:
       ncsDssCreateIdentityApiUrlRoute: $(ncsDssCreateIdentityApiUrlRoute)
       ncsDssGetCustomerUrlRoute: $(ncsDssGetCustomerUrlRoute)
       ncsDigitalIdentityRoute: $(ncsDigitalIdentityRoute)
-      environmentId: 't01'
+      environmentId: 't02'
       serviceConnection: $(testServiceConnection)
       eapimServiceConnection: $(eapimServiceConnection)
       subscriptionId: $(testSubscriptionId)
@@ -183,3 +183,41 @@ stages:
       notifyEmailChangeConfirmationEmailNewEmailTemplateId: $(testNotifyEmailChangeConfirmationEmailNewEmailTemplateId)
       notifyEmailChangeConfirmationEmailOldEmailTemplateId: $(testNotifyEmailChangeConfirmationEmailOldEmailTemplateId)
 
+
+- stage: deployPreProd
+  displayName: Deploy - PREPROD
+  dependsOn:
+  - build
+  - preProdTenantSetup
+  jobs:
+  - template: yaml/jobs/deploy.yml
+    parameters:
+      variableGroupName: ncs-b2c-preprod
+      applicationName: $(applicationName)
+      environmentName: 'preprod'
+      functionServicePlanSkuName: $(functionServicePlanSkuName)
+      functionServicePlanSkuTier: $(functionServicePlanSkuTier)
+      functionServicePlanSkuCount: $(functionServicePlanSkuCount)
+      b2cSignUpPolicy: $(b2cSignUpPolicy)
+      b2cSignupConfirmPolicy: $(b2cSignupConfirmPolicy)
+      b2cPasswordResetConfirmPoicy: $(b2cPasswordResetConfirmPoicy)
+      b2cChangeEmailPolicy: $(b2cChangeEmailPolicy)
+      b2cAuthorizationUrl: $(b2cAuthorizationUrl)
+      ncsApimSubscriptionKey: $(ncsTestDssApiKey)
+      ncsDssApiKey: $(ncsTestDssApiKey)
+      ncsDssSearchApiVersion: $(ncsDssSearchApiVersion)
+      ncsDssSearchApiUrlRoute: $(ncsDssSearchApiUrlRoute)
+      ncsDssCreateCustomerApiUrlRoute: $(ncsDssCreateCustomerApiUrlRoute)
+      ncsDssCreateContactApiUrlRoute: $(ncsDssCreateContactApiUrlRoute)
+      ncsDssCreateIdentityApiUrlRoute: $(ncsDssCreateIdentityApiUrlRoute)
+      ncsDssGetCustomerUrlRoute: $(ncsDssGetCustomerUrlRoute)
+      ncsDigitalIdentityRoute: $(ncsDigitalIdentityRoute)
+      environmentId: 't01'
+      serviceConnection: $(testServiceConnection)
+      eapimServiceConnection: $(eapimServiceConnection)
+      subscriptionId: $(testSubscriptionId)
+      deploymentPrimaryLocation: $(deploymentPrimaryLocation)
+      deploymentSecondaryLocation: $(deploymentSecondaryLocation)
+      policyCertThumbprint: $(testB2cApimCertThumbprint)
+      eapimEnvironmentName: 'Test'
+      extensionAppId: $(parsedTestExtensionAppId)

@@ -47,10 +47,6 @@ parameters:
 - name: ncsDssSearchApiVersion
   type: string
 
-- name: ncsDssApiRoot
-  type: string
-  default: "https://at.api.nationalcareersservice.org.uk"
-
 - name: ncsDssSearchApiUrlRoute
   type: string
 
@@ -83,19 +79,7 @@ parameters:
 
 - name: environmentId
   type: string
-
-- name: relyingPartyAppClientId
-  type: string
-
-- name: clientSigningKey
-  type: string
-
-- name: graphAccessClientId
-  type: string
-
-- name: graphAccessClientSecret
-  type: string
-
+  
 - name: extensionAppId
   type: string
 
@@ -106,21 +90,6 @@ parameters:
   type: string
 
 - name: policyCertThumbprint
-  type: string
-
-- name: notifyAidedSignupEmailTemplateId
-  type: string
-
-- name: notifySelfSignupEmailTemplateId
-  type: string
-
-- name: notifyPasswordResetConfirmationEmailTemplateId
-  type: string
-
-- name: notifyEmailChangeConfirmationEmailNewEmailTemplateId
-  type: string
-
-- name: notifyEmailChangeConfirmationEmailOldEmailTemplateId
   type: string
 
 - name: eapimEnvironmentName
@@ -141,6 +110,8 @@ jobs:
   pool:
     vmImage: windows-latest
   variables:
+  - name: extensionAppId
+    value:  $[ replace(variables['ProxyIdentityAppClientId'],'-','') ]
   - group: ${{parameters.variableGroupName}}
   - name: dsiB2cCertThumbprint
     value: ${{parameters.policyCertThumbprint}}
@@ -159,10 +130,10 @@ jobs:
       -B2CSignupConfirmPolicy "${{parameters.b2cSignupConfirmPolicy}}"
       -B2CPasswordResetConfirmPolicy "${{parameters.b2cPasswordResetConfirmPoicy}}"
       -B2CChangeEmailPolicy "${{parameters.b2cChangeEmailPolicy}}"
-      -RelyingPartyAppClientId "${{parameters.relyingPartyAppClientId}}"
+      -RelyingPartyAppClientId "$(relyAppClientId)"
       -B2CRedirectUri "https://jwt.ms"
       -B2CAuthorizationUrl "${{parameters.b2cAuthorizationUrl}}"
-      -ClientSigningKey "${{parameters.clientSigningKey}}"
+      -ClientSigningKey "$(clientSigningKey)"
       -SMTPServer "$(smtpServer)"
       -SMTPUsername "$(smtpUsername)"
       -SMTPPassword "$(smtpPassword)"
@@ -175,24 +146,24 @@ jobs:
       -NCSApimSubscriptionKey "${{parameters.ncsApimSubscriptionKey}}"
       -NCSDSSApiKey "${{parameters.ncsDssApiKey}}"
       -NCSDSSSearchApiVersion "${{parameters.ncsDssSearchApiVersion}}"
-      -NCSDSSSearchApiUrl "${{parameters.ncsDssApiRoot}}${{parameters.ncsDssSearchApiUrlRoute}}"
-      -NCSDSSCreateCustomerApiUrl "${{parameters.ncsDssApiRoot}}${{parameters.ncsDssCreateCustomerApiUrlRoute}}"
-      -NCSDSSCreateContactApiUrl "${{parameters.ncsDssApiRoot}}${{parameters.ncsDssCreateContactApiUrlRoute}}"
-      -NCSDSSCreateIdentityApiUrl "${{parameters.ncsDssApiRoot}}${{parameters.ncsDssCreateIdentityApiUrlRoute}}"
-      -NCSDSSGetCustomerUrl "${{parameters.ncsDssApiRoot}}${{parameters.ncsDssGetCustomerUrlRoute}}"
-      -NCSDigitalIdentityUrl "${{parameters.ncsDssApiRoot}}${{parameters.ncsDigitalIdentityRoute}}"
+      -NCSDSSSearchApiUrl "$(ncsDssApiRoot)${{parameters.ncsDssSearchApiUrlRoute}}"
+      -NCSDSSCreateCustomerApiUrl "$(ncsDssApiRoot)${{parameters.ncsDssCreateCustomerApiUrlRoute}}"
+      -NCSDSSCreateContactApiUrl "$(ncsDssApiRoot)${{parameters.ncsDssCreateContactApiUrlRoute}}"
+      -NCSDSSCreateIdentityApiUrl "$(ncsDssApiRoot)${{parameters.ncsDssCreateIdentityApiUrlRoute}}"
+      -NCSDSSGetCustomerUrl "$(ncsDssApiRoot)${{parameters.ncsDssGetCustomerUrlRoute}}"
+      -NCSDigitalIdentityUrl "$(ncsDssApiRoot)${{parameters.ncsDigitalIdentityRoute}}"
       -TouchpointId "${{parameters.touchpointId}}"
-      -B2CGraphAccessClientId "${{parameters.graphAccessClientId}}"
-      -B2CGraphAccessClientSecret "${{parameters.graphAccessClientSecret}}"
+      -B2CGraphAccessClientId "$(graphAccessClientId)"
+      -B2CGraphAccessClientSecret "$(graphAccessClientSecret)"
       -EmailChangeConfirmationEmailSubjectNewEmail "${{parameters.emailChangeConfirmationEmailSubjectNewEmail}}"
       -EmailChangeConfirmationEmailSubjectOldEmail "${{parameters.emailChangeConfirmationEmailSubjectOldEmail}}"
-      -ExtensionAppId "${{parameters.extensionAppId}}"
+      -ExtensionAppId "$(extensionAppId)"
       -NotifyApiKey "$(notifyApiKey)"
-      -NotifyAidedSignupEmailTemplateId "${{parameters.notifyAidedSignupEmailTemplateId}}"
-      -NotifySelfSignupEmailTemplateId "${{parameters.notifySelfSignupEmailTemplateId}}"
-      -NotifyPasswordResetConfirmationEmailTemplateId "${{parameters.notifyPasswordResetConfirmationEmailTemplateId}}"
-      -NotifyEmailChangeConfirmationEmailNewEmailTemplateId "${{parameters.notifyEmailChangeConfirmationEmailNewEmailTemplateId}}"
-      -NotifyEmailChangeConfirmationEmailOldEmailTemplateId "${{parameters.notifyEmailChangeConfirmationEmailOldEmailTemplateId}}"'
+      -NotifyAidedSignupEmailTemplateId "$(notifyAidedSignupEmailTemplateId)"
+      -NotifySelfSignupEmailTemplateId "$(notifySelfSignupEmailTemplateId)"
+      -NotifyPasswordResetConfirmationEmailTemplateId "$(notifyPasswordResetConfirmationEmailTemplateId)"
+      -NotifyEmailChangeConfirmationEmailNewEmailTemplateId "$(notifyEmailChangeConfirmationEmailNewEmailTemplateId)"
+      -NotifyEmailChangeConfirmationEmailOldEmailTemplateId "$(notifyEmailChangeConfirmationEmailOldEmailTemplateId)"'
 
   strategy:
     runOnce:
