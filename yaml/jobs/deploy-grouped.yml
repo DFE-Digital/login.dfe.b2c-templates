@@ -1,0 +1,262 @@
+parameters:
+- name: serviceConnection
+  type: string
+
+- name: eapimServiceConnection
+  type: string
+
+- name: subscriptionId
+  type: string
+
+- name: applicationName
+  type: string
+
+- name: environmentName
+  type: string
+
+- name: functionServicePlanSkuName
+  type: string
+
+- name: functionServicePlanSkuTier
+  type: string
+
+- name: functionServicePlanSkuCount
+  type: string
+
+- name: b2cSignUpPolicy
+  type: string
+
+- name: b2cSignupConfirmPolicy
+  type: string
+
+- name: b2cPasswordResetConfirmPoicy
+  type: string
+
+- name: b2cChangeEmailPolicy
+  type: string
+
+- name: b2cAuthorizationUrl
+  type: string
+
+- name: ncsApimSubscriptionKey
+  type: string
+
+- name: ncsDssApiKey
+  type: string
+
+- name: ncsDssSearchApiVersion
+  type: string
+
+- name: ncsDssApiRoot
+  type: string
+  default: "https://at.api.nationalcareersservice.org.uk"
+
+- name: ncsDssSearchApiUrlRoute
+  type: string
+
+- name: ncsDssCreateCustomerApiUrlRoute
+  type: string
+
+- name: ncsDssCreateContactApiUrlRoute
+  type: string
+
+- name: ncsDssGetCustomerUrlRoute
+  type: string
+
+- name: ncsDigitalIdentityRoute
+  type: string
+
+- name: ncsDssCreateIdentityApiUrlRoute
+  type: string
+
+- name: touchpointId
+  type: string
+  default: "1000000000"
+
+- name: emailChangeConfirmationEmailSubjectNewEmail
+  type: string
+  default: "Activate your new email address"
+
+- name: emailChangeConfirmationEmailSubjectOldEmail 
+  type: string
+  default: "Changed email address"
+
+- name: environmentId
+  type: string
+
+- name: relyingPartyAppClientId
+  type: string
+
+- name: clientSigningKey
+  type: string
+
+- name: graphAccessClientId
+  type: string
+
+- name: graphAccessClientSecret
+  type: string
+
+- name: extensionAppId
+  type: string
+
+- name: deploymentPrimaryLocation
+  type: string
+
+- name: deploymentSecondaryLocation
+  type: string
+
+- name: policyCertThumbprint
+  type: string
+
+- name: notifyAidedSignupEmailTemplateId
+  type: string
+
+- name: notifySelfSignupEmailTemplateId
+  type: string
+
+- name: notifyPasswordResetConfirmationEmailTemplateId
+  type: string
+
+- name: notifyEmailChangeConfirmationEmailNewEmailTemplateId
+  type: string
+
+- name: notifyEmailChangeConfirmationEmailOldEmailTemplateId
+  type: string
+
+- name: eapimEnvironmentName
+  type: string
+  values:
+  - Development
+  - Test
+  - Oat
+  - Production
+
+- name: variableGroupName
+  type: string
+
+jobs:
+- deployment: Deploy
+  displayName: Deploy Azure Function
+  environment: ${{parameters.environmentName}}
+  pool:
+    vmImage: windows-latest
+  variables:
+  - group: ${{parameters.variableGroupName}}
+  - name: dsiB2cCertThumbprint
+    value: ${{parameters.policyCertThumbprint}}
+  - name: overrideParameters
+    value: '
+      -applicationName "${{parameters.applicationName}}"
+      -environmentName "${{parameters.environmentName}}"
+      -servicePlanSkuName "${{parameters.functionServicePlanSkuName}}"
+      -servicePlanSkuTier "${{parameters.functionServicePlanSkuTier}}"
+      -servicePlanSkuCount "${{parameters.functionServicePlanSkuCount}}"
+      -secondaryStorageLocation "${{parameters.deploymentSecondaryLocation}}"
+      -alertWebHookUrl "http://www.test.com"
+      -B2CTenantShortName "${{parameters.environmentName}}${{parameters.applicationName}}"
+      -B2CTenantFullName "${{parameters.environmentName}}${{parameters.applicationName}}.onmicrosoft.com"
+      -B2CSignUpPolicy "${{parameters.b2cSignUpPolicy}}"
+      -B2CSignupConfirmPolicy "${{parameters.b2cSignupConfirmPolicy}}"
+      -B2CPasswordResetConfirmPolicy "${{parameters.b2cPasswordResetConfirmPoicy}}"
+      -B2CChangeEmailPolicy "${{parameters.b2cChangeEmailPolicy}}"
+      -RelyingPartyAppClientId "${{parameters.relyingPartyAppClientId}}"
+      -B2CRedirectUri "https://jwt.ms"
+      -B2CAuthorizationUrl "${{parameters.b2cAuthorizationUrl}}"
+      -ClientSigningKey "${{parameters.clientSigningKey}}"
+      -SMTPServer "$(smtpServer)"
+      -SMTPUsername "$(smtpUsername)"
+      -SMTPPassword "$(smtpPassword)"
+      -SMTPFromAddress "$(smtpFromAddress)"
+      -SMTPSubject "Sign-in to NCS"
+      -SignupEmailSubject "Complete your National Careers Service registration"
+      -SignupConfirmationEmailSubject "Complete your National Careers Service registration"
+      -PasswordResetConfirmationEmailSubject " Reset your password"
+      -AccountActivationEmailExpiryInSeconds "600"
+      -NCSApimSubscriptionKey "${{parameters.ncsApimSubscriptionKey}}"
+      -NCSDSSApiKey "${{parameters.ncsDssApiKey}}"
+      -NCSDSSSearchApiVersion "${{parameters.ncsDssSearchApiVersion}}"
+      -NCSDSSSearchApiUrl "${{parameters.ncsDssApiRoot}}${{parameters.ncsDssSearchApiUrlRoute}}"
+      -NCSDSSCreateCustomerApiUrl "${{parameters.ncsDssApiRoot}}${{parameters.ncsDssCreateCustomerApiUrlRoute}}"
+      -NCSDSSCreateContactApiUrl "${{parameters.ncsDssApiRoot}}${{parameters.ncsDssCreateContactApiUrlRoute}}"
+      -NCSDSSCreateIdentityApiUrl "${{parameters.ncsDssApiRoot}}${{parameters.ncsDssCreateIdentityApiUrlRoute}}"
+      -NCSDSSGetCustomerUrl "${{parameters.ncsDssApiRoot}}${{parameters.ncsDssGetCustomerUrlRoute}}"
+      -NCSDigitalIdentityUrl "${{parameters.ncsDssApiRoot}}${{parameters.ncsDigitalIdentityRoute}}"
+      -TouchpointId "${{parameters.touchpointId}}"
+      -B2CGraphAccessClientId "${{parameters.graphAccessClientId}}"
+      -B2CGraphAccessClientSecret "${{parameters.graphAccessClientSecret}}"
+      -EmailChangeConfirmationEmailSubjectNewEmail "${{parameters.emailChangeConfirmationEmailSubjectNewEmail}}"
+      -EmailChangeConfirmationEmailSubjectOldEmail "${{parameters.emailChangeConfirmationEmailSubjectOldEmail}}"
+      -ExtensionAppId "${{parameters.extensionAppId}}"
+      -NotifyApiKey "$(notifyApiKey)"
+      -NotifyAidedSignupEmailTemplateId "${{parameters.notifyAidedSignupEmailTemplateId}}"
+      -NotifySelfSignupEmailTemplateId "${{parameters.notifySelfSignupEmailTemplateId}}"
+      -NotifyPasswordResetConfirmationEmailTemplateId "${{parameters.notifyPasswordResetConfirmationEmailTemplateId}}"
+      -NotifyEmailChangeConfirmationEmailNewEmailTemplateId "${{parameters.notifyEmailChangeConfirmationEmailNewEmailTemplateId}}"
+      -NotifyEmailChangeConfirmationEmailOldEmailTemplateId "${{parameters.notifyEmailChangeConfirmationEmailOldEmailTemplateId}}"'
+
+  strategy:
+    runOnce:
+      deploy:
+        steps:
+        - template: /Infrastructure/steps/deploy-template.yml@devopsTemplates
+          parameters:
+            serviceConnection: ${{parameters.serviceConnection}}
+            subscriptionId: ${{parameters.subscriptionId}}
+            resourceGroupName: s141${{parameters.environmentId}}-${{parameters.environmentName}}${{parameters.applicationName}}
+            location: ${{parameters.deploymentPrimaryLocation}}
+            templateFilePath: '$(Build.SourcesDirectory)/arm/template.json'
+            armParameterOverrideString: $(overrideParameters)
+
+        - pwsh: |
+            Write-Host "##vso[task.setvariable variable=dsiB2cFunctionKey]$($env:ARMOUTPUT_FUNCTIONDEFAULTKEY)"
+          displayName: Set Named values
+
+        - task: Tokenization@2
+          displayName: Tokenise CSV Files
+          inputs:
+            SourcePath: '$(Build.SourcesDirectory)\eapim\namedValues'
+            TargetFileNames: '*.csv'
+            RequireVariable: true
+            TokenStart: '{{'
+            TokenEnd: '}}'
+
+        - task: AzureAppServiceManage@0
+          displayName: Install Site Extensions
+          inputs:
+            azureSubscription: ${{parameters.serviceConnection}}
+            Action: 'Install Extensions'
+            WebAppName: ${{parameters.applicationName}}-${{parameters.environmentName}}-function
+            ExtensionsList: 'Microsoft.VisualStudio.SnapshotDebugger.AzureAppServices.Standalone'
+
+        - template: /Application/dotnet/steps/deploy-function.yml@devopsTemplates
+          parameters:
+            azureSubscription: ${{parameters.serviceConnection}}
+            applicationName: ${{parameters.applicationName}}
+            environmentName: ${{parameters.environmentName}}
+
+        - pwsh : |
+            $url = "$($env:ARMOUTPUT_FUNCTIONURL)/swagger"
+            $filePath = "$($env:BUILD_SOURCESDIRECTORY)\definition.json"
+            Write-Host "url: $($url)"
+            Write-Host "filePath: $($filePath)"
+            Invoke-RestMethod -Method Get -Uri $url -ContentType "application/json" -OutFile $filePath -MaximumRetryCount 5 -RetryIntervalSec 10
+          name: getDefinition
+          displayName: Download OpenApi Definition
+
+        - template: /Application/dotnet/steps/import-function-eapim.yml@devopsTemplates
+          parameters:
+            serviceConnection: ${{parameters.serviceConnection}}
+            eapimServiceConnection: ${{parameters.eapimServiceConnection}}
+            functionName: $(armOutput.functionName)
+            functionKey: $(armOutput.functionMasterKey)
+            functionUrl: $(armOutput.functionUrl)
+            productName: 'NCS Identity'
+            productRequiresSubscription: true
+            publishContactEmail: 'paul.sheridan@digital.education.gov.uk'
+            publishApiName: 'NCS Identity'
+            publishApiOpenApiSchemaPath: '$(Build.SourcesDirectory)\definition.json'
+            publishApiPath: ${{parameters.applicationName}}
+            publishApiXmlPolicyPath: '$(Build.SourcesDirectory)\eapim\api\policy.xml'
+            eapimEnvironment: ${{parameters.eapimEnvironmentName}}
+            namedValuesIncluded: true
+            namedValuesFileName: '$(Build.SourcesDirectory)\eapim\namedValues\values.csv'
