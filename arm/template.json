@@ -55,7 +55,7 @@
         },
         "configStoreSku": {
             "type": "string",
-            "defaultValue": "Free"
+            "defaultValue": "Standard"
         },
         "tags": {
             "type": "object",
