@@ -1,4 +1,3 @@
-using System.IO;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
@@ -11,15 +10,26 @@ using System;
 using B2CAzureFunc.Helpers;
 using System.Linq;
 using Newtonsoft.Json.Linq;
-using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 
 namespace B2CAzureFunc
 {
     /// <summary>
     /// FindAccount
     /// </summary>
-    public static class FindAccount
+    public class FindAccount
     {
+
+        private readonly AppSettings _appSettings;
+
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="appSettings"></param>
+        public FindAccount(IOptions<AppSettings> appSettings)
+        {
+            _appSettings = appSettings?.Value;
+        }
         /// <summary>
         /// FindAccount
         /// </summary>
@@ -27,13 +37,12 @@ namespace B2CAzureFunc
         /// <url>http://localhost:7070/FindAccount</url>
         /// <param name="req"></param>
         /// <param name="log"></param>
-        /// <param name="context"></param>
         /// <response code="400"><see cref="ResponseContentModel"/>Not Found</response>
         /// <response code="200"><see cref="object"/>Account Found Response</response>
         [FunctionName("FindAccount")]
-        public static async Task<IActionResult> Run(
+        public async Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Function, "get", Route = null)] HttpRequest req,
-            ILogger log, ExecutionContext context)
+            ILogger log)
         {
             try
             {
@@ -43,10 +52,11 @@ namespace B2CAzureFunc
 
                 if (!String.IsNullOrEmpty(id))
                 {
-                    string tenant = ConfigurationHelper.GetConfigurationValue(context, "b2c:Tenant");
-                    string clientId = ConfigurationHelper.GetConfigurationValue(context, "b2c:GraphAccessClientId");
-                    string clientSecret = ConfigurationHelper.GetConfigurationValue(context, "b2c:GraphAccessClientSecret");
-                    string extensionAppId = ConfigurationHelper.GetConfigurationValue(context, "ExtensionAppId");
+                    string tenant = _appSettings.B2CTenantId;
+                    string clientId = _appSettings.B2CGraphAccessClientId.ToString();
+                    string clientSecret = _appSettings.B2CGraphAccessClientSecret;
+                    string extensionAppId = _appSettings.ExtensionAppId;
+                    log.LogInformation("tenant: " + tenant);
 
                     B2CGraphClient client = new B2CGraphClient(clientId, clientSecret, tenant);
 
