@@ -1128,6 +1128,7 @@
             <OutputClaim ClaimTypeReferenceId="extension_customerId" />
             <OutputClaim ClaimTypeReferenceId="extension_IsEmailChangeRequested" DefaultValue="false" />
             <OutputClaim ClaimTypeReferenceId="extension_NewEmail" />
+            <OutputClaim ClaimTypeReferenceId="extension_TnCAcceptedOn" />
           </OutputClaims>
           <IncludeTechnicalProfile ReferenceId="AAD-Common" />
         </TechnicalProfile>
