@@ -416,12 +416,6 @@
         </InputParameters>
       </ClaimsTransformation>
 
-      <ClaimsTransformation Id="GetCurrentDateAndTime" TransformationMethod="GetCurrentDateTime">
-        <OutputClaims>
-          <OutputClaim ClaimTypeReferenceId="extension_TnCAcceptedOn" TransformationClaimType="currentDateTime" />
-        </OutputClaims>
-      </ClaimsTransformation>
-
     </ClaimsTransformations>
 
     <ClientDefinitions>
@@ -1076,7 +1070,6 @@
           </InputClaimsTransformations>
           <InputClaims>
             <InputClaim ClaimTypeReferenceId="objectId" Required="true" />
-            <InputClaim ClaimTypeReferenceId="extension_TnCAcceptedOn" />
           </InputClaims>
           <PersistedClaims>
             <PersistedClaim ClaimTypeReferenceId="objectId" />
@@ -1084,7 +1077,6 @@
             <PersistedClaim ClaimTypeReferenceId="extension_IsEmailVerified" DefaultValue="true" AlwaysUseDefaultValue="true" />
             <PersistedClaim ClaimTypeReferenceId="extension_IsEmailChangeRequested" DefaultValue="false" />
             <PersistedClaim ClaimTypeReferenceId="extension_NewEmail" DefaultValue="none" />
-            <PersistedClaim ClaimTypeReferenceId="extension_TnCAcceptedOn" />
           </PersistedClaims>
           <IncludeTechnicalProfile ReferenceId="AAD-Common" />
         </TechnicalProfile>

@@ -513,6 +513,12 @@
         </OutputClaims>
       </ClaimsTransformation>
 
+      <ClaimsTransformation Id="GetCurrentDateAndTime" TransformationMethod="GetCurrentDateTime">
+        <OutputClaims>
+          <OutputClaim ClaimTypeReferenceId="extension_TnCAcceptedOn" TransformationClaimType="currentDateTime" />
+        </OutputClaims>
+      </ClaimsTransformation>
+
     </ClaimsTransformations>
 
   </BuildingBlocks>
@@ -572,6 +578,7 @@
           <IncludeInSso>false</IncludeInSso>
           <InputClaimsTransformations>
             <InputClaimsTransformation ReferenceId="CreateDisplayName" />
+            <InputClaimsTransformation ReferenceId="GetCurrentDateAndTime" />
           </InputClaimsTransformations>
           <InputClaims>
             <InputClaim ClaimTypeReferenceId="email" PartnerClaimType="signInNames.emailAddress" Required="true" />
@@ -589,6 +596,7 @@
             <PersistedClaim ClaimTypeReferenceId="extension_IsEmailVerified" DefaultValue="true" AlwaysUseDefaultValue="true" />
             <PersistedClaim ClaimTypeReferenceId="extension_IsEmailChangeRequested" DefaultValue="false" AlwaysUseDefaultValue="true" />
             <PersistedClaim ClaimTypeReferenceId="extension_NewEmail" DefaultValue="none" AlwaysUseDefaultValue="true" />
+            <PersistedClaim ClaimTypeReferenceId="extension_TnCAcceptedOn" />
           </PersistedClaims>
           <OutputClaims>
             <OutputClaim ClaimTypeReferenceId="objectId" />
@@ -609,7 +617,6 @@
             <Item Key="IpAddressClaimReferenceId">IpAddress</Item>
             <Item Key="ContentDefinitionReferenceId">api.localaccountaidedsignup</Item>
             <Item Key="language.button_continue">Activate Account</Item>
-            <!-- Sample: Remove sign-up email verification -->
             <Item Key="EnforceEmailVerification">False</Item>
             <Item Key="setting.retryLimit">5</Item>
           </Metadata>
