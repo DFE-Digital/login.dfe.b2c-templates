@@ -204,27 +204,27 @@ namespace B2CAzureFunc.Models
         /// NotifyAidedSignupEmailTemplateId
         /// </summary>
         [JsonProperty("NotifyAidedSignupEmailTemplateId")]
-        public Guid NotifyAidedSignupEmailTemplateId { get; set; }
+        public string NotifyAidedSignupEmailTemplateId { get; set; }
         /// <summary>
         /// NotifySelfSignupEmailTemplateId
         /// </summary>
         [JsonProperty("NotifySelfSignupEmailTemplateId")]
-        public Guid NotifySelfSignupEmailTemplateId { get; set; }
+        public string NotifySelfSignupEmailTemplateId { get; set; }
         /// <summary>
         /// NotifyPasswordResetConfirmationEmailTemplateId
         /// </summary>
         [JsonProperty("NotifyPasswordResetConfirmationEmailTemplateId")]
-        public Guid NotifyPasswordResetConfirmationEmailTemplateId { get; set; }
+        public string NotifyPasswordResetConfirmationEmailTemplateId { get; set; }
         /// <summary>
         /// NotifyEmailChangeConfirmationEmailNewEmailTemplateId
         /// </summary>
         [JsonProperty("NotifyEmailChangeConfirmationEmailNewEmailTemplateId")]
-        public Guid NotifyEmailChangeConfirmationEmailNewEmailTemplateId { get; set; }
+        public string NotifyEmailChangeConfirmationEmailNewEmailTemplateId { get; set; }
         /// <summary>
         /// NotifyEmailChangeConfirmationEmailOldEmailTemplateId
         /// </summary>
         [JsonProperty("NotifyEmailChangeConfirmationEmailOldEmailTemplateId")]
-        public Guid NotifyEmailChangeConfirmationEmailOldEmailTemplateId { get; set; }
+        public string NotifyEmailChangeConfirmationEmailOldEmailTemplateId { get; set; }
         /// <summary>
         /// ncsdssgetcustomerapiurl
         /// </summary>
