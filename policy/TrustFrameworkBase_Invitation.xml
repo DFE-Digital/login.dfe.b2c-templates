@@ -296,15 +296,19 @@
           <DataType>string</DataType>
       </ClaimType>
 
-        <ClaimType Id="resend_email">
-          <DisplayName>Email address</DisplayName>
-          <DataType>string</DataType>
-          <UserHelpText>You'll need this to sign in to your account.</UserHelpText>
-          <UserInputType>TextBox</UserInputType>
-          <Restriction>
-            <Pattern RegularExpression="^[a-zA-Z0-9.!#$%&amp;'^_`{}~+-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$" HelpText="Enter a valid email address." />
-          </Restriction>
-        </ClaimType>
+      <ClaimType Id="resend_email">
+        <DisplayName>Email address</DisplayName>
+        <DataType>string</DataType>
+        <UserHelpText>You'll need this to sign in to your account.</UserHelpText>
+        <UserInputType>TextBox</UserInputType>
+        <Restriction>
+          <Pattern RegularExpression="^[a-zA-Z0-9.!#$%&amp;'^_`{}~+-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$" HelpText="Enter a valid email address." />
+        </Restriction>
+      </ClaimType>
+
+      <ClaimType Id="extension_TnCAcceptedOn">
+        <DataType>dateTime</DataType>
+      </ClaimType>
 
     </ClaimsSchema>
 
@@ -410,6 +414,12 @@
         <InputParameters>
           <InputParameter Id="stringComparison" DataType="string" Value="ordinalIgnoreCase" />
         </InputParameters>
+      </ClaimsTransformation>
+
+      <ClaimsTransformation Id="GetCurrentDateTime" TransformationMethod="GetCurrentDateTime">
+        <OutputClaims>
+          <OutputClaim ClaimTypeReferenceId="extension_TnCAcceptedOn" TransformationClaimType="currentDateTime" />
+        </OutputClaims>
       </ClaimsTransformation>
 
     </ClaimsTransformations>
@@ -1061,8 +1071,12 @@
             <Item Key="RaiseErrorIfClaimsPrincipalDoesNotExist">true</Item>
           </Metadata>
           <IncludeInSso>false</IncludeInSso>
+          <InputClaimsTransformations>
+            <InputClaimsTransformation referenced="GetCurrentDateTime" />
+          </InputClaimsTransformations>
           <InputClaims>
             <InputClaim ClaimTypeReferenceId="objectId" Required="true" />
+            <InputClaim ClaimTypeReferenceId="extension_TnCAcceptedOn" />
           </InputClaims>
           <PersistedClaims>
             <PersistedClaim ClaimTypeReferenceId="objectId" />
@@ -1070,6 +1084,7 @@
             <PersistedClaim ClaimTypeReferenceId="extension_IsEmailVerified" DefaultValue="true" AlwaysUseDefaultValue="true" />
             <PersistedClaim ClaimTypeReferenceId="extension_IsEmailChangeRequested" DefaultValue="false" />
             <PersistedClaim ClaimTypeReferenceId="extension_NewEmail" DefaultValue="none" />
+            <PersistedClaim ClaimTypeReferenceId="extension_TnCAcceptedOn" />
           </PersistedClaims>
           <IncludeTechnicalProfile ReferenceId="AAD-Common" />
         </TechnicalProfile>
