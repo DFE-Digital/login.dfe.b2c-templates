@@ -416,7 +416,7 @@
         </InputParameters>
       </ClaimsTransformation>
 
-      <ClaimsTransformation Id="GetCurrentDateTime" TransformationMethod="GetCurrentDateTime">
+      <ClaimsTransformation Id="GetCurrentDateAndTime" TransformationMethod="GetCurrentDateTime">
         <OutputClaims>
           <OutputClaim ClaimTypeReferenceId="extension_TnCAcceptedOn" TransformationClaimType="currentDateTime" />
         </OutputClaims>
@@ -1072,7 +1072,7 @@
           </Metadata>
           <IncludeInSso>false</IncludeInSso>
           <InputClaimsTransformations>
-            <InputClaimsTransformation ReferenceId="GetCurrentDateTime" />
+            <InputClaimsTransformation ReferenceId="GetCurrentDateAndTime" />
           </InputClaimsTransformations>
           <InputClaims>
             <InputClaim ClaimTypeReferenceId="objectId" Required="true" />
