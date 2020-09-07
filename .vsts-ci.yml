@@ -219,5 +219,5 @@ stages:
       deploymentPrimaryLocation: $(deploymentPrimaryLocation)
       deploymentSecondaryLocation: $(deploymentSecondaryLocation)
       policyCertThumbprint: $(testB2cApimCertThumbprint)
-      eapimEnvironmentName: 'Test'
+      eapimEnvironmentName: 'Oat'
       extensionAppId: $(parsedTestExtensionAppId)
