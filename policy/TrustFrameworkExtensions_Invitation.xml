@@ -1410,6 +1410,7 @@
             <InputClaim ClaimTypeReferenceId="objectId" Required="true" />
           </InputClaims>
           <PersistedClaims>
+            <PersistedClaim ClaimTypeReferenceId="objectId" />
             <PersistedClaim ClaimTypeReferenceId="extension_TnCAcceptedOn" />
           </PersistedClaims>
           <IncludeTechnicalProfile ReferenceId="AAD-Common" />
