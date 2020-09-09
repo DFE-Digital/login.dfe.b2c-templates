@@ -251,16 +251,16 @@ namespace B2CAzureFunc.Tests
 
             var response = await findAccount.Run(request, logger);
 
-            try
-            {
-                var result = (OkObjectResult)response;
-                Assert.Equal(200, result.StatusCode);
-            }
-            catch (InvalidCastException)
-            {
-                //var result = (ResponseContentModel)((BadRequestObjectResult)response).Value;
-                //Assert.Equal(409, result.status);
-            }
+            //try
+            //{
+            var result = (OkObjectResult)response;
+            Assert.Equal(200, result.StatusCode);
+            //}
+            //catch (InvalidCastException)
+            //{
+            //    //var result = (ResponseContentModel)((BadRequestObjectResult)response).Value;
+            //    //Assert.Equal(409, result.status);
+            //}
         }
 
         /// <summary>
