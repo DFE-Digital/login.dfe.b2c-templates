@@ -1432,7 +1432,6 @@
           </InputClaims>
           <OutputClaims>
             <OutputClaim ClaimTypeReferenceId="tncCheckbox" Required="true" />
-            <OutputClaim ClaimTypeReferenceId="objectId" Required="true" />
           </OutputClaims>
           <ValidationTechnicalProfiles>
             <ValidationTechnicalProfile ReferenceId="AAD-TncAcceptedTimeWriteEmailUsingObjectId" />
