@@ -1715,9 +1715,9 @@
                 <Protocol Name="Proprietary" Handler="Web.TPEngine.Providers.RestfulProvider, Web.TPEngine, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" />
                 <Metadata>
                   <Item Key="ServiceUrl">https://{{eapimRootUrl}}/{{apimAppName}}/GetTncDetails?subscription-key={{dfeEapimSubscriptionKey}}</Item>
-                  <Item Key="SendClaimsIn">Body</Item>                        
+                  <Item Key="SendClaimsIn">Header</Item>                        
                   <Item Key="AuthenticationType">None</Item>
-                  <Item Key="AllowInsecureAuthInProduction">false</Item>
+                  <Item Key="AllowInsecureAuthInProduction">true</Item>
                 </Metadata>
                 <OutputClaims>
                   <OutputClaim ClaimTypeReferenceId="lastModified" />
