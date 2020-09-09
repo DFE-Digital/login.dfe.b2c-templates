@@ -1398,9 +1398,11 @@
           </OutputClaimsTransformations>
         </TechnicalProfile>
 
-        <TechnicalProfile Id="AAD-Update-TncAcceptedTime">
+        <TechnicalProfile Id="AAD-TncAcceptedTimeWriteEmailUsingObjectId">
           <Metadata>
             <Item Key="Operation">Write</Item>
+            <Item Key="RaiseErrorIfClaimsPrincipalAlreadyExists">false</Item>
+            <Item Key="RaiseErrorIfClaimsPrincipalDoesNotExist">true</Item>
           </Metadata>
           <IncludeInSso>false</IncludeInSso>
           <InputClaimsTransformations>
@@ -1414,7 +1416,6 @@
             <PersistedClaim ClaimTypeReferenceId="extension_TnCAcceptedOn" />
           </PersistedClaims>
           <IncludeTechnicalProfile ReferenceId="AAD-Common" />
-          <UseTechnicalProfileForSessionManagement ReferenceId="SM-AAD" />
         </TechnicalProfile>
 
         <TechnicalProfile Id="SelfAsserted-AcceptLatestTnc">
@@ -1426,11 +1427,15 @@
             <Item Key="language.button_continue">Continue to your account</Item>
             <Item Key="setting.showCancelButton">false</Item>
           </Metadata>
+          <InputClaims>
+            <InputClaim ClaimTypeReferenceId="objectId" Required="true" />
+          </InputClaims>
           <OutputClaims>
             <OutputClaim ClaimTypeReferenceId="tncCheckbox" Required="true" />
+            <OutputClaim ClaimTypeReferenceId="objectId" Required="true" />
           </OutputClaims>
           <ValidationTechnicalProfiles>
-            <ValidationTechnicalProfile ReferenceId="AAD-Update-TncAcceptedTime" />
+            <ValidationTechnicalProfile ReferenceId="AAD-TncAcceptedTimeWriteEmailUsingObjectId" />
           </ValidationTechnicalProfiles>
           <UseTechnicalProfileForSessionManagement ReferenceId="SM-Noop" />
         </TechnicalProfile>
