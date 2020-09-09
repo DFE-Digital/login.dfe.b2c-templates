@@ -235,5 +235,20 @@ namespace B2CAzureFunc.Models
         /// </summary>
         [JsonProperty("ncsdsspatchdigitalidentityapiurl")]
         public string NcsDssPatchDigitalidentityApiUrl { get; set; }
+        /// <summary>
+        /// TncFileName
+        /// </summary>
+        [JsonProperty("TncFileName")]
+        public string TncFileName { get; set; }
+        /// <summary>
+        /// TncContainerName
+        /// </summary>
+        [JsonProperty("TncContainerName")]
+        public string TncContainerName { get; set; }
+        /// <summary>
+        /// StorageAccountConnectionString
+        /// </summary>
+        [JsonProperty("StorageAccountConnectionString")]
+        public string StorageAccountConnectionString { get; set; }
     }
 }
