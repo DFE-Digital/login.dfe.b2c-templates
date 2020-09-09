@@ -1787,6 +1787,19 @@
         <OrchestrationStep Order="5" Type="ClaimsExchange">
           <Preconditions>
             <Precondition Type="ClaimEquals" ExecuteActionsIf="false">
+              <Value>extension_TnCAcceptedOn</Value>
+              <Value>undefined</Value>
+              <Action>SkipThisOrchestrationStep</Action>
+            </Precondition>
+          </Preconditions>
+          <ClaimsExchanges>
+            <ClaimsExchange Id="AcceptUpdatedTnc-OldUser" TechnicalProfileReferenceId="SelfAsserted-AcceptLatestTnc"/>
+          </ClaimsExchanges>
+        </OrchestrationStep>
+
+        <OrchestrationStep Order="6" Type="ClaimsExchange">
+          <Preconditions>
+            <Precondition Type="ClaimEquals" ExecuteActionsIf="false">
               <Value>isTncUpdated</Value>
               <Value>True</Value>
               <Action>SkipThisOrchestrationStep</Action>
@@ -1794,19 +1807,6 @@
           </Preconditions>
           <ClaimsExchanges>
             <ClaimsExchange Id="AcceptUpdatedTnc" TechnicalProfileReferenceId="SelfAsserted-AcceptLatestTnc"/>
-          </ClaimsExchanges>
-        </OrchestrationStep>
-
-        <OrchestrationStep Order="6" Type="ClaimsExchange">
-          <Preconditions>
-            <Precondition Type="ClaimEquals" ExecuteActionsIf="true">
-              <Value>extension_IsEmailChangeRequested</Value>
-              <Value>False</Value>
-              <Action>SkipThisOrchestrationStep</Action>
-            </Precondition>
-          </Preconditions>
-          <ClaimsExchanges>
-            <ClaimsExchange Id="SelfAsserted-Email-Change-Activation-Required" TechnicalProfileReferenceId="SelfAsserted-Email-Change-Activation-Required"/>
           </ClaimsExchanges>
         </OrchestrationStep>
 
@@ -1819,11 +1819,24 @@
             </Precondition>
           </Preconditions>
           <ClaimsExchanges>
+            <ClaimsExchange Id="SelfAsserted-Email-Change-Activation-Required" TechnicalProfileReferenceId="SelfAsserted-Email-Change-Activation-Required"/>
+          </ClaimsExchanges>
+        </OrchestrationStep>
+
+        <OrchestrationStep Order="8" Type="ClaimsExchange">
+          <Preconditions>
+            <Precondition Type="ClaimEquals" ExecuteActionsIf="true">
+              <Value>extension_IsEmailChangeRequested</Value>
+              <Value>False</Value>
+              <Action>SkipThisOrchestrationStep</Action>
+            </Precondition>
+          </Preconditions>
+          <ClaimsExchanges>
             <ClaimsExchange Id="SelfAsserted-Email-Change-Activation-Email-ResentConfirmation" TechnicalProfileReferenceId="SelfAsserted-Email-Change-Activation-Email-ResentConfirmation"/>
           </ClaimsExchanges>
         </OrchestrationStep>
 
-        <OrchestrationStep Order="8" Type="SendClaims" CpimIssuerTechnicalProfileReferenceId="JwtIssuer"/>
+        <OrchestrationStep Order="9" Type="SendClaims" CpimIssuerTechnicalProfileReferenceId="JwtIssuer"/>
  
       </OrchestrationSteps>
       <ClientDefinition ReferenceId="DefaultWeb"/>
