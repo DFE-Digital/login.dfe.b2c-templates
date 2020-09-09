@@ -33,7 +33,7 @@ namespace B2CAzureFunc
         /// <summary>
         ///  GetTncDetails
         /// </summary>
-        /// <verb>POST</verb>
+        /// <verb>GET</verb>
         /// <url>http://localhost:7070/GetTncDetails</url>
         /// <param name="req"></param>
         /// <param name="log"></param>
