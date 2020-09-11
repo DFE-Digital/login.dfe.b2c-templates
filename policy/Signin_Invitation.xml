@@ -41,6 +41,7 @@
 		    <OutputClaim ClaimTypeReferenceId="objectId" PartnerClaimType="sub"/>
 		    <OutputClaim ClaimTypeReferenceId="extension_IsEmailVerified" PartnerClaimType="isEmailVerified"/>
         <OutputClaim ClaimTypeReferenceId="extension_customerId" PartnerClaimType="customerId" />
+        <OutputClaim ClaimTypeReferenceId="extension_TnCAcceptedOn" PartnerClaimType="TnCAcceptedOn"/>
       </OutputClaims>
       <SubjectNamingInfo ClaimType="sub" />
     </TechnicalProfile>
