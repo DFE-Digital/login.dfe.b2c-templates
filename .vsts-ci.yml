@@ -124,7 +124,6 @@ stages:
       graphAccessClientId: $(devGraphAccessClientId)
       graphAccessClientSecret: $(devGraphAccessClientSecret)
       deploymentPrimaryLocation: $(deploymentPrimaryLocation)
-      deploymentSecondaryLocation: $(deploymentSecondaryLocation)
       policyCertThumbprint: $(devB2cApimCertThumbprint)
       eapimEnvironmentName: 'Development'
       extensionAppId: $(parsedDevExtensionAppId)
@@ -173,7 +172,6 @@ stages:
       graphAccessClientId: $(testGraphAccessClientId)
       graphAccessClientSecret: $(testGraphAccessClientSecret)
       deploymentPrimaryLocation: $(deploymentPrimaryLocation)
-      deploymentSecondaryLocation: $(deploymentSecondaryLocation)
       policyCertThumbprint: $(testB2cApimCertThumbprint)
       eapimEnvironmentName: 'Test'
       extensionAppId: $(parsedTestExtensionAppId)
@@ -217,7 +215,6 @@ stages:
       eapimServiceConnection: $(eapimServiceConnection)
       subscriptionId: $(testSubscriptionId)
       deploymentPrimaryLocation: $(deploymentPrimaryLocation)
-      deploymentSecondaryLocation: $(deploymentSecondaryLocation)
       policyCertThumbprint: $(testB2cApimCertThumbprint)
       eapimEnvironmentName: 'Oat'
       extensionAppId: $(parsedTestExtensionAppId)

@@ -63,9 +63,6 @@
                 "Organisation": "DfE"
             }
         },
-        "secondaryStorageLocation": {
-            "type": "string"
-        },
         "alertsEnabled": {
             "type": "bool",
             "defaultValue": true,
@@ -278,6 +275,9 @@
         },
         "NotifyEmailChangeConfirmationEmailOldEmailTemplateId": {
             "type": "string"
+        },
+        "TncFileName": {
+            "type": "string"
         }
     },
     "variables": {
@@ -285,7 +285,6 @@
         "resourceNames": {
             "applicationInsightsName": "[concat(variables('baseName'), '-ai')]",
             "defaultStorageAccountName": "[replace(concat(variables('baseName'), 'str1'), '-', '')]",
-            "secondaryStorageAccountName": "[replace(concat(variables('baseName'), 'str2'), '-', '')]",
             "servicePlanName": "[concat(variables('baseName'), '-function-asp')]",
             "functionName": "[concat(variables('baseName'), '-function')]",
             "autoScaleRuleName": "[concat(variables('baseName'), '-function-asp-autoscale-setting')]",
@@ -296,11 +295,10 @@
         "resourceIds": {
             "appInsightsId": "[resourceId('Microsoft.Insights/components/', variables('resourceNames').applicationInsightsName)]",
             "defaultStorageAccountId": "[resourceId('Microsoft.Storage/storageAccounts', variables('resourceNames').defaultStorageAccountName)]",
-            "secondaryStorageAccountId": "[resourceId('Microsoft.Storage/storageAccounts', variables('resourceNames').secondaryStorageAccountName)]",
             "servicePlanId": "[resourceId('Microsoft.Web/serverfarms', variables('resourceNames').servicePlanName)]",
             "functionId": "[resourceId('Microsoft.Web/sites', variables('resourceNames').functionName )]",
             "actionGroupId": "[resourceId('microsoft.insights/actionGroups', variables('resourceNames').actionGroupName)]",
-            "storageAccountDefaultBlobContainerId": "[resourceId('Microsoft.Storage/storageAccounts/blobServices', variables('resourceNames').secondaryStorageAccountName, 'default')]",
+            "storageAccountDefaultBlobContainerId": "[resourceId('Microsoft.Storage/storageAccounts/blobServices', variables('resourceNames').defaultStorageAccountName, 'default')]",
             "configStoreId": "[resourceId('Microsoft.AppConfiguration/configurationStores/', variables('resourceNames').configStoreName)]"
         },
         "alertRules": [
@@ -419,48 +417,11 @@
             }
         },
         {
-            "apiVersion": "2019-06-01",
-            "kind": "StorageV2",
-            "name": "[variables('resourceNames').secondaryStorageAccountName]",
-            "type": "Microsoft.Storage/storageAccounts",
-            "sku": {
-                "name": "Standard_RAGRS",
-                "tier": "Standard"
-            },
-            "location": "[resourceGroup().location]",
-            "tags": "[parameters('tags')]",
-            "properties": {
-                "networkAcls": {
-                    "bypass": "AzureServices",
-                    "virtualNetworkRules": [
-                    ],
-                    "ipRules": [
-                    ],
-                    "defaultAction": "Allow"
-                },
-                "supportsHttpsTrafficOnly": true,
-                "encryption": {
-                    "services": {
-                        "file": {
-                            "enabled": true
-                        },
-                        "blob": {
-                            "enabled": true
-                        }
-                    },
-                    "keySource": "Microsoft.Storage"
-                },
-                "accessTier": "Hot",
-                "primaryLocation": "[resourceGroup().location]",
-                "secondaryLcation": "[parameters('secondaryStorageLocation')]"
-            }
-        },
-        {
             "type": "Microsoft.Storage/storageAccounts/blobServices",
             "apiVersion": "2019-06-01",
-            "name": "[concat(variables('resourceNames').secondaryStorageAccountName, '/default')]",
+            "name": "[concat(variables('resourceNames').defaultStorageAccountName, '/default')]",
             "dependsOn": [
-                "[variables('resourceIds').secondaryStorageAccountId]"
+                "[variables('resourceIds').defaultStorageAccountId]"
             ],
             "tags": "[parameters('tags')]",
             "sku": {
@@ -479,9 +440,9 @@
         {
             "type": "Microsoft.Storage/storageAccounts/blobServices/containers",
             "apiVersion": "2019-06-01",
-            "name": "[concat(variables('resourceNames').secondaryStorageAccountName, concat('/default/ui-files-', parameters('environmentName')))]",
+            "name": "[concat(variables('resourceNames').defaultStorageAccountName, concat('/default/terms-and-conditions'))]",
             "dependsOn": [
-                "[variables('resourceIds').secondaryStorageAccountId]",
+                "[variables('resourceIds').defaultStorageAccountId]",
                 "[variables('resourceIds').storageAccountDefaultBlobContainerId]"
 
             ],
@@ -931,7 +892,19 @@
                         {
                             "name": "AppSettings:NotifyEmailChangeConfirmationEmailOldEmailTemplateId",
                             "value": "[parameters('NotifyEmailChangeConfirmationEmailOldEmailTemplateId')]"
-                        }
+                        },
+                        {
+                            "name": "AppSettings:TncFileName",
+                            "value": "[parameters('TncFileName')]"
+                        },
+                        {
+                            "name": "AppSettings:TncContainerName",
+                            "value": "terms-and-conditions"
+                        },
+                        {
+                            "name": "AppSettings:StorageAccountConnectionString",
+                            "value": "[concat('DefaultEndpointsProtocol=https;AccountName=', variables('resourceNames').defaultStorageAccountName, ';AccountKey=', listKeys(variables('resourceIds').defaultStorageAccountId, '2015-05-01-preview').key1)]"
+                        }                  
                     ]
                 },
                 "name": "[variables('resourceNames').functionName]",

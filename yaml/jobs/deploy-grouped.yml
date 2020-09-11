@@ -86,11 +86,12 @@ parameters:
 - name: deploymentPrimaryLocation
   type: string
 
-- name: deploymentSecondaryLocation
-  type: string
-
 - name: policyCertThumbprint
   type: string
+
+- name: tncFileName
+  type: string
+  default: tncDetails.json
 
 - name: eapimEnvironmentName
   type: string
@@ -122,7 +123,6 @@ jobs:
       -servicePlanSkuName "${{parameters.functionServicePlanSkuName}}"
       -servicePlanSkuTier "${{parameters.functionServicePlanSkuTier}}"
       -servicePlanSkuCount "${{parameters.functionServicePlanSkuCount}}"
-      -secondaryStorageLocation "${{parameters.deploymentSecondaryLocation}}"
       -alertWebHookUrl "http://www.test.com"
       -B2CTenantShortName "${{parameters.environmentName}}${{parameters.applicationName}}"
       -B2CTenantFullName "${{parameters.environmentName}}${{parameters.applicationName}}.onmicrosoft.com"
@@ -163,7 +163,8 @@ jobs:
       -NotifySelfSignupEmailTemplateId "$(notifySelfSignupEmailTemplateId)"
       -NotifyPasswordResetConfirmationEmailTemplateId "$(notifyPasswordResetConfirmationEmailTemplateId)"
       -NotifyEmailChangeConfirmationEmailNewEmailTemplateId "$(notifyEmailChangeConfirmationEmailNewEmailTemplateId)"
-      -NotifyEmailChangeConfirmationEmailOldEmailTemplateId "$(notifyEmailChangeConfirmationEmailOldEmailTemplateId)"'
+      -NotifyEmailChangeConfirmationEmailOldEmailTemplateId "$(notifyEmailChangeConfirmationEmailOldEmailTemplateId)"
+      -TncFileName "${{parameters.tncFileName}}"'
 
   strategy:
     runOnce:
