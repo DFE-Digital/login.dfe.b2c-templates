@@ -28,7 +28,7 @@ namespace B2CAzureFunc.Tests
         {
             var config = new ConfigurationBuilder()
                    .SetBasePath(Directory.GetCurrentDirectory())
-                   .AddJsonFile("local.settings.json", true)
+                   //.AddJsonFile("local.settings.json", true)
                    .AddEnvironmentVariables()
                    .Build();
             _appSettings = new AppSettings();
@@ -281,7 +281,7 @@ namespace B2CAzureFunc.Tests
 
             try
             {
-                var result = EmailService.Send(model);
+                var result = EmailService.Send(_appSettings.NotifyApiKey, model);
                 Assert.True(result);
             }
             catch (Exception)

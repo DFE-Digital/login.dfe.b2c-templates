@@ -51,6 +51,11 @@
     "NotifyEmailChangeConfirmationEmailNewEmailTemplateId": "223634a9-58cd-4d56-9385-d7448993e11a",
     "NotifyEmailChangeConfirmationEmailOldEmailTemplateId": "a7147406-cf75-4100-a711-5aeea98e4ad9",
     "ncsdssgetcustomerapiurl": "https://at.api.nationalcareersservice.org.uk/customers/api/Customers/{0}",
-    "ncsdsspatchdigitalidentityapiurl": "https://at.api.nationalcareersservice.org.uk/digitalidentities/api/customer/{0}"
+    "ncsdsspatchdigitalidentityapiurl": "https://at.api.nationalcareersservice.org.uk/digitalidentities/api/customer/{0}",
+
+    //new
+    "TncFileName": "tncDetails.json",
+    "TncContainerName": "terms-and-conditions",
+    "StorageAccountConnectionString": "DefaultEndpointsProtocol=https;AccountName=authncsdevstr2;AccountKey=pSzFxxOBxo4jJGcndHjG0yC1C7tBM4gvEnsPFOhNJ2MxALZ1HLgAneG2VWX+ZHkJNVNtAbK7TqbtfzD4XVQ7Qg==;EndpointSuffix=core.windows.net"
   }
 }

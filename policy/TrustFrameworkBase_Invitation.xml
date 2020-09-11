@@ -296,15 +296,19 @@
           <DataType>string</DataType>
       </ClaimType>
 
-        <ClaimType Id="resend_email">
-          <DisplayName>Email address</DisplayName>
-          <DataType>string</DataType>
-          <UserHelpText>You'll need this to sign in to your account.</UserHelpText>
-          <UserInputType>TextBox</UserInputType>
-          <Restriction>
-            <Pattern RegularExpression="^[a-zA-Z0-9.!#$%&amp;'^_`{}~+-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$" HelpText="Enter a valid email address." />
-          </Restriction>
-        </ClaimType>
+      <ClaimType Id="resend_email">
+        <DisplayName>Email address</DisplayName>
+        <DataType>string</DataType>
+        <UserHelpText>You'll need this to sign in to your account.</UserHelpText>
+        <UserInputType>TextBox</UserInputType>
+        <Restriction>
+          <Pattern RegularExpression="^[a-zA-Z0-9.!#$%&amp;'^_`{}~+-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$" HelpText="Enter a valid email address." />
+        </Restriction>
+      </ClaimType>
+
+      <ClaimType Id="extension_TnCAcceptedOn">
+        <DataType>dateTime</DataType>
+      </ClaimType>
 
     </ClaimsSchema>
 
@@ -721,6 +725,15 @@
           <Item Key="DisplayName">Collect information from user page</Item>
         </Metadata>
       </ContentDefinition>
+
+      <ContentDefinition Id="api.termsandconditions">
+        <LoadUri>~/tenant/templates/AzureBlue/selfAsserted.cshtml</LoadUri>
+        <RecoveryUri>~/common/default_page_error.html</RecoveryUri>
+        <DataUri>urn:com:microsoft:aad:b2c:elements:contract:selfasserted:1.2.0</DataUri>
+        <Metadata>
+          <Item Key="DisplayName">Collect information from user page</Item>
+        </Metadata>
+      </ContentDefinition>
       
     </ContentDefinitions>
 
@@ -1113,6 +1126,7 @@
             <OutputClaim ClaimTypeReferenceId="extension_customerId" />
             <OutputClaim ClaimTypeReferenceId="extension_IsEmailChangeRequested" DefaultValue="false" />
             <OutputClaim ClaimTypeReferenceId="extension_NewEmail" />
+            <OutputClaim ClaimTypeReferenceId="extension_TnCAcceptedOn" />
           </OutputClaims>
           <IncludeTechnicalProfile ReferenceId="AAD-Common" />
         </TechnicalProfile>
