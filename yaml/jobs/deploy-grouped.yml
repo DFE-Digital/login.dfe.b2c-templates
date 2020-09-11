@@ -232,3 +232,12 @@ jobs:
             eapimEnvironment: ${{parameters.eapimEnvironmentName}}
             namedValuesIncluded: true
             namedValuesFileName: '$(Build.SourcesDirectory)\eapim\namedValues\values.csv'
+
+        - task: AzureFileCopy@4
+          displayName: Upload T&Cs
+          inputs:
+            SourcePath: 'source'
+            azureSubscription: 'S141D.bsvc.cip.azdo'
+            Destination: 'AzureBlob'
+            storage: 'str1'
+            ContainerName: 'terms-and-conditions'
