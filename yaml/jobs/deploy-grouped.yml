@@ -236,8 +236,8 @@ jobs:
         - task: AzureFileCopy@4
           displayName: Upload T&Cs
           inputs:
-            SourcePath: 'source'
-            azureSubscription: 'S141D.bsvc.cip.azdo'
+            SourcePath: '$(Build.SourcesDirectory)\storage-upload\tncDetails.json'
+            azureSubscription: ${{parameters.serviceConnection}}
             Destination: 'AzureBlob'
-            storage: 'str1'
+            storage: authncs${{parameters.environmentName}}str1
             ContainerName: 'terms-and-conditions'
