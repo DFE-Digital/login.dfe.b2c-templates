@@ -262,11 +262,11 @@ jobs:
             namedValuesIncluded: true
             namedValuesFileName: '$(Build.SourcesDirectory)\eapim\namedValues\values.csv'
 
-        - task: AzureFileCopy@4
-          displayName: Upload T&Cs
-          inputs:
-            SourcePath: '$(Build.SourcesDirectory)\storage-upload\tncDetails.json'
-            azureSubscription: ${{parameters.serviceConnection}}
-            Destination: 'AzureBlob'
-            storage: authncs${{parameters.environmentName}}str1
-            ContainerName: 'terms-and-conditions'
+        # - task: AzureFileCopy@4
+        #   displayName: Upload T&Cs
+        #   inputs:
+        #     SourcePath: '$(Build.SourcesDirectory)\storage-upload\tncDetails.json'
+        #     azureSubscription: ${{parameters.serviceConnection}}
+        #     Destination: 'AzureBlob'
+        #     storage: authncs${{parameters.environmentName}}str1
+        #     ContainerName: 'terms-and-conditions'
