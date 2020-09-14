@@ -38,12 +38,6 @@ parameters:
 - name: b2cAuthorizationUrl
   type: string
 
-- name: ncsApimSubscriptionKey
-  type: string
-
-- name: ncsDssApiKey
-  type: string
-
 - name: ncsDssSearchApiVersion
   type: string
 
@@ -143,8 +137,8 @@ jobs:
       -SignupConfirmationEmailSubject "Complete your National Careers Service registration"
       -PasswordResetConfirmationEmailSubject " Reset your password"
       -AccountActivationEmailExpiryInSeconds "600"
-      -NCSApimSubscriptionKey "${{parameters.ncsApimSubscriptionKey}}"
-      -NCSDSSApiKey "${{parameters.ncsDssApiKey}}"
+      -NCSApimSubscriptionKey "$(ncsDssApiKey)"
+      -NCSDSSApiKey "$(ncsDssApiKey)"
       -NCSDSSSearchApiVersion "${{parameters.ncsDssSearchApiVersion}}"
       -NCSDSSSearchApiUrl "$(ncsDssApiRoot)${{parameters.ncsDssSearchApiUrlRoute}}"
       -NCSDSSCreateCustomerApiUrl "$(ncsDssApiRoot)${{parameters.ncsDssCreateCustomerApiUrlRoute}}"

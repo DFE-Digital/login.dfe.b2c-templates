@@ -201,8 +201,6 @@ stages:
       b2cPasswordResetConfirmPoicy: $(b2cPasswordResetConfirmPoicy)
       b2cChangeEmailPolicy: $(b2cChangeEmailPolicy)
       b2cAuthorizationUrl: $(b2cAuthorizationUrl)
-      ncsApimSubscriptionKey: $(ncsTestDssApiKey)
-      ncsDssApiKey: $(ncsTestDssApiKey)
       ncsDssSearchApiVersion: $(ncsDssSearchApiVersion)
       ncsDssSearchApiUrlRoute: $(ncsDssSearchApiUrlRoute)
       ncsDssCreateCustomerApiUrlRoute: $(ncsDssCreateCustomerApiUrlRoute)
