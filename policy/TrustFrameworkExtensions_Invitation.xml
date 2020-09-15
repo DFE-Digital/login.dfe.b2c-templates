@@ -1450,12 +1450,10 @@
                 <Protocol Name="Proprietary" Handler="Web.TPEngine.Providers.RestfulProvider, Web.TPEngine, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" />
                 <Metadata>
                     <Item Key="ServiceUrl">https://{{eapimRootUrl}}/{{apimAppName}}/SignupConfirmation?subscription-key={{dfeEapimSubscriptionKey}}</Item>
-                        <Item Key="SendClaimsIn">Body</Item>                        
-                        <Item Key="AuthenticationType">ClientCertificate</Item>
-                    </Metadata>
-                    <CryptographicKeys>
-                        <Key Id="ClientCertificate" StorageReferenceId="B2C_1A_APIMClientCertificate" />
-                    </CryptographicKeys>
+                    <Item Key="SendClaimsIn">Body</Item>                        
+                    <Item Key="AuthenticationType">None</Item>
+                    <Item Key="AllowInsecureAuthInProduction">true</Item>
+                </Metadata>
                 <InputClaims>
                     <InputClaim ClaimTypeReferenceId="givenName" PartnerClaimType="givenName" />
                     <InputClaim ClaimTypeReferenceId="email" PartnerClaimType="email" />
@@ -1469,12 +1467,10 @@
                 <Protocol Name="Proprietary" Handler="Web.TPEngine.Providers.RestfulProvider, Web.TPEngine, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" />
                 <Metadata>
                     <Item Key="ServiceUrl">https://{{eapimRootUrl}}/{{apimAppName}}/PasswordResetConfirmation?subscription-key={{dfeEapimSubscriptionKey}}</Item>
-                        <Item Key="SendClaimsIn">Body</Item>                        
-                        <Item Key="AuthenticationType">ClientCertificate</Item>
-                    </Metadata>
-                    <CryptographicKeys>
-                        <Key Id="ClientCertificate" StorageReferenceId="B2C_1A_APIMClientCertificate" />
-                    </CryptographicKeys>
+                    <Item Key="SendClaimsIn">Body</Item>                        
+                    <Item Key="AuthenticationType">None</Item>
+                    <Item Key="AllowInsecureAuthInProduction">true</Item>
+                </Metadata>
                 <InputClaims>
                     <InputClaim ClaimTypeReferenceId="email" PartnerClaimType="email" />
                     <InputClaim ClaimTypeReferenceId="givenName" PartnerClaimType="givenName" />
@@ -1489,14 +1485,9 @@
                 <Metadata>
                   <Item Key="ServiceUrl">https://{{eapimRootUrl}}/{{apimAppName}}/FindEmail?subscription-key={{dfeEapimSubscriptionKey}}</Item>
                   <Item Key="SendClaimsIn">Body</Item>
-                  <Item Key="AuthenticationType">ClientCertificate</Item>
-                  <!-- <Item Key="UseClaimAsBearerToken">bearerToken</Item>
-                  <Item Key="AllowInsecureAuthInProduction">false</Item>
-                  <Item Key="DebugMode">true</Item> -->
+                  <Item Key="AuthenticationType">None</Item>
+                  <Item Key="AllowInsecureAuthInProduction">true</Item>
                 </Metadata>
-                <CryptographicKeys>
-                  <Key Id="ClientCertificate" StorageReferenceId="B2C_1A_APIMClientCertificate" />
-                </CryptographicKeys>
                 <InputClaims>
                     <!-- <InputClaim ClaimTypeReferenceId="bearerToken"/> -->
                     <InputClaim ClaimTypeReferenceId="givenName" PartnerClaimType="GivenName" />
@@ -1519,11 +1510,9 @@
                 <Metadata>
                   <Item Key="ServiceUrl">https://{{eapimRootUrl}}/{{apimAppName}}/AidedRegistrationValidateUserDetails?subscription-key={{dfeEapimSubscriptionKey}}</Item>
                   <Item Key="SendClaimsIn">Body</Item>                        
-                  <Item Key="AuthenticationType">ClientCertificate</Item>
+                  <Item Key="AuthenticationType">None</Item>
+                  <Item Key="AllowInsecureAuthInProduction">true</Item>
                 </Metadata>
-                <CryptographicKeys>
-                    <Key Id="ClientCertificate" StorageReferenceId="B2C_1A_APIMClientCertificate" />
-                </CryptographicKeys>
                 <InputClaims>
                     <InputClaim ClaimTypeReferenceId="customerId" PartnerClaimType="CustomerId" />
                     <InputClaim ClaimTypeReferenceId="givenName" PartnerClaimType="GivenName" />
@@ -1546,11 +1535,9 @@
                 <Metadata>
                   <Item Key="ServiceUrl">https://{{eapimRootUrl}}/{{apimAppName}}/NCSDSSUserCreation?subscription-key={{dfeEapimSubscriptionKey}}</Item>
                   <Item Key="SendClaimsIn">Body</Item>                        
-                  <Item Key="AuthenticationType">ClientCertificate</Item>
+                  <Item Key="AuthenticationType">None</Item>
+                  <Item Key="AllowInsecureAuthInProduction">true</Item>
                 </Metadata>
-                <CryptographicKeys>
-                    <Key Id="ClientCertificate" StorageReferenceId="B2C_1A_APIMClientCertificate" />
-                </CryptographicKeys>
                 <InputClaims>
                     <InputClaim ClaimTypeReferenceId="objectId" PartnerClaimType="ObjectId"/>
                     <InputClaim ClaimTypeReferenceId="customerId" PartnerClaimType="CustomerId"/>
@@ -1568,11 +1555,9 @@
                 <Metadata>
                   <Item Key="ServiceUrl">https://{{eapimRootUrl}}/{{apimAppName}}/NCSDSSUserCreation?subscription-key={{dfeEapimSubscriptionKey}}</Item>
                   <Item Key="SendClaimsIn">Body</Item>                        
-                  <Item Key="AuthenticationType">ClientCertificate</Item>
+                  <Item Key="AuthenticationType">None</Item>
+                  <Item Key="AllowInsecureAuthInProduction">true</Item>
                 </Metadata>
-                <CryptographicKeys>
-                    <Key Id="ClientCertificate" StorageReferenceId="B2C_1A_APIMClientCertificate" />
-                </CryptographicKeys>
                 <InputClaims>
                     <InputClaim ClaimTypeReferenceId="objectId" PartnerClaimType="ObjectId"/>
                     <InputClaim ClaimTypeReferenceId="customerId" PartnerClaimType="CustomerId"/>
@@ -1593,11 +1578,9 @@
                 <Metadata>
                   <Item Key="ServiceUrl">https://{{eapimRootUrl}}/{{apimAppName}}/ChangeEmail?subscription-key={{dfeEapimSubscriptionKey}}</Item>
                   <Item Key="SendClaimsIn">Body</Item>                        
-                  <Item Key="AuthenticationType">ClientCertificate</Item>
+                  <Item Key="AuthenticationType">None</Item>
+                  <Item Key="AllowInsecureAuthInProduction">true</Item>
                 </Metadata>
-                <CryptographicKeys>
-                    <Key Id="ClientCertificate" StorageReferenceId="B2C_1A_APIMClientCertificate" />
-                </CryptographicKeys>
                 <InputClaims>
                     <InputClaim ClaimTypeReferenceId="objectId" PartnerClaimType="ObjectId"/>
                     <InputClaim ClaimTypeReferenceId="newEmail" PartnerClaimType="NewEmail"/>
@@ -1612,11 +1595,9 @@
                 <Metadata>
                   <Item Key="ServiceUrl">https://{{eapimRootUrl}}/{{apimAppName}}/SignUpInvitation?subscription-key={{dfeEapimSubscriptionKey}}</Item>
                   <Item Key="SendClaimsIn">Body</Item>                        
-                  <Item Key="AuthenticationType">ClientCertificate</Item>
+                  <Item Key="AuthenticationType">None</Item>
+                  <Item Key="AllowInsecureAuthInProduction">true</Item>
                 </Metadata>
-                <CryptographicKeys>
-                    <Key Id="ClientCertificate" StorageReferenceId="B2C_1A_APIMClientCertificate" />
-                </CryptographicKeys>
                 <InputClaims>
                     <InputClaim ClaimTypeReferenceId="email" PartnerClaimType="Email"/>
                     <InputClaim ClaimTypeReferenceId="givenName" PartnerClaimType="GivenName"/>
@@ -1633,11 +1614,9 @@
                 <Metadata>
                   <Item Key="ServiceUrl">https://{{eapimRootUrl}}/{{apimAppName}}/SignupConfirmation?subscription-key={{dfeEapimSubscriptionKey}}</Item>
                   <Item Key="SendClaimsIn">Body</Item>                        
-                  <Item Key="AuthenticationType">ClientCertificate</Item>
+                  <Item Key="AuthenticationType">None</Item>
+                  <Item Key="AllowInsecureAuthInProduction">true</Item>
                 </Metadata>
-                <CryptographicKeys>
-                    <Key Id="ClientCertificate" StorageReferenceId="B2C_1A_APIMClientCertificate" />
-                </CryptographicKeys>
                 <InputClaims>
                     <InputClaim ClaimTypeReferenceId="email" PartnerClaimType="email"/>
                     <InputClaim ClaimTypeReferenceId="givenName" PartnerClaimType="givenName"/>
@@ -1652,12 +1631,10 @@
                 <Protocol Name="Proprietary" Handler="Web.TPEngine.Providers.RestfulProvider, Web.TPEngine, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" />
                 <Metadata>
                     <Item Key="ServiceUrl">https://{{eapimRootUrl}}/{{apimAppName}}/PasswordResetConfirmation?subscription-key={{dfeEapimSubscriptionKey}}</Item>
-                        <Item Key="SendClaimsIn">Body</Item>                        
-                        <Item Key="AuthenticationType">ClientCertificate</Item>
-                    </Metadata>
-                    <CryptographicKeys>
-                        <Key Id="ClientCertificate" StorageReferenceId="B2C_1A_APIMClientCertificate" />
-                    </CryptographicKeys>
+                    <Item Key="SendClaimsIn">Body</Item>                        
+                   <Item Key="AuthenticationType">None</Item>
+                  <Item Key="AllowInsecureAuthInProduction">true</Item>
+                </Metadata>
                 <InputClaims>
                     <InputClaim ClaimTypeReferenceId="email" PartnerClaimType="email" />
                     <InputClaim ClaimTypeReferenceId="givenName" PartnerClaimType="givenName" />
@@ -1672,11 +1649,9 @@
                 <Metadata>
                   <Item Key="ServiceUrl">https://{{eapimRootUrl}}/{{apimAppName}}/CheckDSSUSerExistence?subscription-key={{dfeEapimSubscriptionKey}}</Item>
                   <Item Key="SendClaimsIn">Body</Item>                        
-                  <Item Key="AuthenticationType">ClientCertificate</Item>
+                  <Item Key="AuthenticationType">None</Item>
+                  <Item Key="AllowInsecureAuthInProduction">true</Item>
                 </Metadata>
-                <CryptographicKeys>
-                  <Key Id="ClientCertificate" StorageReferenceId="B2C_1A_APIMClientCertificate" />
-                </CryptographicKeys>
                 <InputClaims>
                     <InputClaim ClaimTypeReferenceId="resend_email" PartnerClaimType="email" />
                 </InputClaims>
@@ -1692,11 +1667,9 @@
                 <Metadata>
                   <Item Key="ServiceUrl">https://{{eapimRootUrl}}/{{apimAppName}}/ChangeEmail?subscription-key={{dfeEapimSubscriptionKey}}</Item>
                   <Item Key="SendClaimsIn">Body</Item>                        
-                  <Item Key="AuthenticationType">ClientCertificate</Item>
+                  <Item Key="AuthenticationType">None</Item>
+                  <Item Key="AllowInsecureAuthInProduction">true</Item>
                 </Metadata>
-                <CryptographicKeys>
-                    <Key Id="ClientCertificate" StorageReferenceId="B2C_1A_APIMClientCertificate" />
-                </CryptographicKeys>
                 <InputClaims>
                     <InputClaim ClaimTypeReferenceId="sendTokenBackRequired" PartnerClaimType="SendTokenBackRequired" DefaultValue="true" />
                     <InputClaim ClaimTypeReferenceId="objectId" PartnerClaimType="ObjectId"/>
