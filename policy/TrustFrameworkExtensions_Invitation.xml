@@ -540,13 +540,12 @@
         </OutputClaims>
       </ClaimsTransformation>
 
-      <ClaimsTransformation Id="Assertextension_NewEmailIsActivated" TransformationMethod="AssertStringClaimsAreEqual">
+      <ClaimsTransformation Id="Assertextension_NewEmailIsActivated" TransformationMethod="AssertBooleanClaimIsEqualToValue">
         <InputClaims>
-          <InputClaim ClaimTypeReferenceId="newEmail" TransformationClaimType="inputClaim1" />
-          <InputClaim ClaimTypeReferenceId="signInNames.emailAddress" TransformationClaimType="inputClaim2" />
+          <InputClaim ClaimTypeReferenceId="extension_IsEmailChangeRequested" TransformationClaimType="inputClaim" />
         </InputClaims>
         <InputParameters>
-          <InputParameter Id="stringComparison" DataType="string" Value="ordinalIgnoreCase" />
+          <InputParameter Id="valueToCompareTo" DataType="boolean" Value="true" />
         </InputParameters>
       </ClaimsTransformation>
 
@@ -1054,7 +1053,7 @@
           <Protocol Name="Proprietary" Handler="Web.TPEngine.Providers.SelfAssertedAttributeProvider, Web.TPEngine, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"/>
           <Metadata>
             <Item Key="ContentDefinitionReferenceId">api.changeemail.linkexpired</Item>
-            <Item Key="UserMessageIfClaimsTransformationStringsAreNotEqual">Test message.</Item>
+            <Item Key="UserMessageIfClaimsTransformationBooleanValueIsNotEqual">Test message.</Item>
             <Item Key="language.button_continue">Request new activation link</Item>
             <Item Key="setting.showCancelButton">false</Item>
             <Item Key="setting.showContinueButton">true</Item>
@@ -1457,8 +1456,7 @@
           <DisplayName>Assert Email Verified Claims Transformation</DisplayName>
           <Protocol Name="Proprietary" Handler="Web.TPEngine.Providers.ClaimsTransformationProtocolProvider, Web.TPEngine, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" />
           <OutputClaims>
-            <OutputClaim ClaimTypeReferenceId="newEmail" />
-            <OutputClaim ClaimTypeReferenceId="signInNames.emailAddress" />
+            <OutputClaim ClaimTypeReferenceId="extension_IsEmailChangeRequested" />
           </OutputClaims>
           <OutputClaimsTransformations>
             <OutputClaimsTransformation ReferenceId="Assertextension_NewEmailIsActivated" />
