@@ -117,7 +117,6 @@ stages:
       ncsDigitalIdentityRoute: $(ncsDigitalIdentityRoute)
       environmentId: 'd01'
       serviceConnection: $(devServiceConnection)
-      eapimServiceConnection: $(eapimServiceConnection)
       subscriptionId: $(devSubscriptionId)
       relyingPartyAppClientId: $(devRelyAppClientId)
       clientSigningKey: $(devClientSigningKey)
@@ -125,14 +124,17 @@ stages:
       graphAccessClientSecret: $(devGraphAccessClientSecret)
       deploymentPrimaryLocation: $(deploymentPrimaryLocation)
       policyCertThumbprint: $(devB2cApimCertThumbprint)
-      eapimEnvironmentName: 'Development'
       extensionAppId: $(parsedDevExtensionAppId)
       notifyAidedSignupEmailTemplateId: $(devNotifyAidedSignupEmailTemplateId)
       notifySelfSignupEmailTemplateId: $(devNotifySelfSignupEmailTemplateId)
       notifyPasswordResetConfirmationEmailTemplateId: $(devNotifyPasswordResetConfirmationEmailTemplateId)
       notifyEmailChangeConfirmationEmailNewEmailTemplateId: $(devNotifyEmailChangeConfirmationEmailNewEmailTemplateId)
       notifyEmailChangeConfirmationEmailOldEmailTemplateId: $(devNotifyEmailChangeConfirmationEmailOldEmailTemplateId)
-      
+      eapimServiceConnection: $(eapimServiceConnection)
+      eapimEnvironmentName: 'Development'
+      eapimResourceGroupName: c106d01-eapim-custeng
+      eapimServiceName: c106d01-apim-custeng
+
 
 - stage: deployTest
   displayName: Deploy - TEST
@@ -165,7 +167,6 @@ stages:
       ncsDigitalIdentityRoute: $(ncsDigitalIdentityRoute)
       environmentId: 't01'
       serviceConnection: $(testServiceConnection)
-      eapimServiceConnection: $(eapimServiceConnection)
       subscriptionId: $(testSubscriptionId)
       relyingPartyAppClientId: $(testRelyAppClientId)
       clientSigningKey: $(testClientSigningKey)
@@ -173,13 +174,16 @@ stages:
       graphAccessClientSecret: $(testGraphAccessClientSecret)
       deploymentPrimaryLocation: $(deploymentPrimaryLocation)
       policyCertThumbprint: $(testB2cApimCertThumbprint)
-      eapimEnvironmentName: 'Test'
       extensionAppId: $(parsedTestExtensionAppId)
       notifyAidedSignupEmailTemplateId: $(testNotifyAidedSignupEmailTemplateId)
       notifySelfSignupEmailTemplateId: $(testNotifySelfSignupEmailTemplateId)
       notifyPasswordResetConfirmationEmailTemplateId: $(testNotifyPasswordResetConfirmationEmailTemplateId)
       notifyEmailChangeConfirmationEmailNewEmailTemplateId: $(testNotifyEmailChangeConfirmationEmailNewEmailTemplateId)
       notifyEmailChangeConfirmationEmailOldEmailTemplateId: $(testNotifyEmailChangeConfirmationEmailOldEmailTemplateId)
+      eapimServiceConnection: $(eapimServiceConnection)
+      eapimEnvironmentName: 'Test'
+      eapimResourceGroupName: c106t01-eapim-custeng
+      eapimServiceName: c106t01-apim-custeng
 
 
 - stage: deployPreProd
@@ -210,9 +214,11 @@ stages:
       ncsDigitalIdentityRoute: $(ncsDigitalIdentityRoute)
       environmentId: 't01'
       serviceConnection: $(testServiceConnection)
-      eapimServiceConnection: $(eapimServiceConnection)
       subscriptionId: $(testSubscriptionId)
       deploymentPrimaryLocation: $(deploymentPrimaryLocation)
       policyCertThumbprint: $(testB2cApimCertThumbprint)
-      eapimEnvironmentName: 'Oat'
       extensionAppId: $(parsedTestExtensionAppId)
+      eapimServiceConnection: $(eapimServiceConnection)
+      eapimEnvironmentName: 'Oat'
+      eapimResourceGroupName: c106t02-eapim-custeng
+      eapimServiceName: c106t02-apim-custeng

@@ -1,0 +1,19 @@
+parameters:
+- name: eapimServiceConnection
+  type: string
+- name: eapimResourceGroupName
+  type: string
+- name: eapimServiceName
+  type: string
+- name: eapimApiName
+  type: string
+  default: "NCS Identity"
+
+steps:
+- task: AzurePowerShell@5
+  inputs:
+    azureSubscription: ${{parameter.eapimServiceConnection}}
+    ScriptType: 'FilePath'
+    ScriptPath: '$(Build.SourcesDirectory)\scripts\ClearApimMockPolicies.ps1'
+    ScriptArguments: '-apimRg "${{parameters.eapimResourceGroupName}}" -apimServiceName "${{parameters.apimServiceName}}" -apimApiName "${{parameters.eapimApiName}}"'
+    azurePowerShellVersion: 'LatestVersion'
