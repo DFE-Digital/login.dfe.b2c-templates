@@ -18,5 +18,5 @@ steps:
     azureSubscription: ${{parameter.eapimServiceConnection}}
     ScriptType: 'FilePath'
     ScriptPath: '$(Build.SourcesDirectory)\scripts\DeployApimMockPolicies.ps1'
-    ScriptArguments: '-apimRg "${{parameters.eapimResourceGroupName}}" -apimServiceName "${{parameters.apimServiceName}}" -mockPolicyPathRoot "$(Build.SourcesDirectory)\eapim\mocks" -apimApiName "${{parameters.eapimApiName}}"'
+    ScriptArguments: '-apimRg "${{parameters.eapimResourceGroupName}}" -apimServiceName "${{parameters.eapimServiceName}}" -mockPolicyPathRoot "$(Build.SourcesDirectory)\eapim\mocks" -apimApiName "${{parameters.eapimApiName}}"'
     azurePowerShellVersion: 'LatestVersion'
