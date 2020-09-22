@@ -11,6 +11,7 @@ parameters:
 
 steps:
 - task: AzurePowerShell@5
+  displayName: "Clear Mock Policies : ${{parameters.eapimServiceName}}"
   inputs:
     azureSubscription: ${{parameters.eapimServiceConnection}}
     ScriptType: 'FilePath'
