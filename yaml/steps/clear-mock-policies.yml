@@ -12,7 +12,7 @@ parameters:
 steps:
 - task: AzurePowerShell@5
   inputs:
-    azureSubscription: ${{parameter.eapimServiceConnection}}
+    azureSubscription: ${{parameters.eapimServiceConnection}}
     ScriptType: 'FilePath'
     ScriptPath: '$(Build.SourcesDirectory)\scripts\ClearApimMockPolicies.ps1'
     ScriptArguments: '-apimRg "${{parameters.eapimResourceGroupName}}" -apimServiceName "${{parameters.eapimServiceName}}" -apimApiName "${{parameters.eapimApiName}}"'
