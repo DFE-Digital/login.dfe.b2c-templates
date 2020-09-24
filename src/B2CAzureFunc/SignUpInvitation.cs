@@ -107,7 +107,7 @@ namespace B2CAzureFunc
 
                                 var accountActivationEmailExpiryInSeconds = Convert.ToInt32(_appSettings.AccountActivationEmailExpiryInSeconds);//Environment.GetEnvironmentVariable("AccountActivationEmailExpiryInSeconds", EnvironmentVariableTarget.Process));
 
-                                string token = TokenBuilder.BuildIdToken(data.Email.ToString(), data.GivenName.ToString(), data.LastName.ToString(), data.CustomerId.ToString(), DateTime.UtcNow.AddSeconds(accountActivationEmailExpiryInSeconds), req.Scheme, req.Host.Value, req.PathBase.Value, "aidedsignup",_appSettings.ClientSigningKey,_appSettings.RelyingPartyAppClientId.ToString());
+                                string token = TokenBuilder.BuildIdToken(data.Email.ToString(), data.GivenName.ToString(), data.LastName.ToString(), data.CustomerId.ToString(), DateTime.UtcNow.AddSeconds(accountActivationEmailExpiryInSeconds), req.Scheme, req.Host.Value, req.PathBase.Value, "aidedsignup", _appSettings.ClientSigningKey, _appSettings.RelyingPartyAppClientId.ToString());
                                 string b2cURL = _appSettings.B2CAuthorizationUrl;// Environment.GetEnvironmentVariable("B2CAuthorizationUrl", EnvironmentVariableTarget.Process);
                                 string b2cTenant = _appSettings.B2CTenant;//Environment.GetEnvironmentVariable("B2CTenant", EnvironmentVariableTarget.Process);
                                 string b2cPolicyId = _appSettings.B2CSignUpPolicy;//Environment.GetEnvironmentVariable("B2CSignUpPolicy", EnvironmentVariableTarget.Process);
@@ -142,8 +142,8 @@ namespace B2CAzureFunc
                             return new BadRequestObjectResult(new ResponseContentModel
                             {
                                 userMessage = "Failed to fetch customer details, please contact support",
-                                developerMessage="Apikey: "+ _appSettings.NcsDssApiKey+ " TouchPointId"+ _appSettings.TouchpointId.ToString()+ " NcsDssSearchApiVersion:"+ _appSettings.NcsDssSearchApiVersion
-                                + " OcpApimSubscriptionKey:"+ _appSettings.OcpApimSubscriptionKey
+                                developerMessage = "Apikey: " + _appSettings.NcsDssApiKey + " TouchPointId" + _appSettings.TouchpointId.ToString() + " NcsDssSearchApiVersion:" + _appSettings.NcsDssSearchApiVersion
+                                + " OcpApimSubscriptionKey:" + _appSettings.OcpApimSubscriptionKey
                             });
                         }
                     }
@@ -154,7 +154,8 @@ namespace B2CAzureFunc
                 log.LogInformation(ex.ToString());
                 return new BadRequestObjectResult(new ResponseContentModel
                 {
-                    userMessage = "Sorry, Something happened unexpectedly. Please try after sometime."
+                    userMessage = "Sorry, Something happened unexpectedly. Please try after sometime.",
+                    developerMessage = ex.ToString()
                 });
             }
         }
