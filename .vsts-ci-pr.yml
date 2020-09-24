@@ -26,8 +26,8 @@ variables:
 
 stages:
 
-- stage: devTenantMockSetup
-  displayName: Tenant Mock Setup - DEV
+- stage: prTestWithMocks
+  displayName: PR Mock Testing
   jobs:
   - template: yaml/jobs/tenant-mocked-setup-grouped.yml
     parameters:
@@ -48,9 +48,6 @@ stages:
         eapimResourceGroupName: c106d01-eapim-custeng
         eapimServiceName: c106d01-apim-custeng
 
-- stage: buildAndTest
-  displayName: Build and Test
-  jobs:
   - template: /Application/dotnet/jobs/build-application.yml@devopsTemplates
     parameters:
       applicationName: $(applicationName)
