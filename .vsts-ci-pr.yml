@@ -14,6 +14,12 @@ pr:
     include:
     - develop
     - master
+trigger:
+  branches:
+    exclude:
+    - master
+    - develop
+    - feature/*
 
 variables:
 - name: applicationName
@@ -50,7 +56,7 @@ stages:
 
 - stage: buildAndtest
   dependsOn: prSetup
-  displayName: PR Tests
+  displayName: Run Tests
   jobs:
   - template: /Application/dotnet/jobs/build-application.yml@devopsTemplates
     parameters:
@@ -61,7 +67,7 @@ stages:
 
 - stage: prReset
   dependsOn: buildAndTest
-  displayName: PR Reset
+  displayName: PR Mock Reset
   jobs:
   - template: yaml/jobs/tenant-setup-grouped.yml
     parameters:
