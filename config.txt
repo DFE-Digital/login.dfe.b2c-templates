@@ -8,3 +8,5 @@ App Settings:
     5. b2c:GraphAccessClientId - Client id of Graph access app created before
     6. b2c:GraphAccessClientSecret - Secret created in Graph access app created before
     7. Extension
+
+    
