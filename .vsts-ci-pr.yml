@@ -67,6 +67,7 @@ stages:
 
 - stage: prReset
   dependsOn: buildAndTest
+  conditon: always()
   displayName: PR Mock Reset
   jobs:
   - template: yaml/jobs/tenant-setup-grouped.yml
