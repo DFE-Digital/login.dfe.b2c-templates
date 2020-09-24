@@ -34,7 +34,7 @@ stages:
   - template: yaml/jobs/tenant-mocked-setup-grouped.yml
     parameters:
       environmentName: dev
-      variableGroupName: ncs-b2c-preprod
+      variableGroupName: ncs-b2c-dev
       applicationName: $(applicationName)
       signinRedirectRoot: s141d01-signin-int.azurewebsites.net
       eapimRootUrl: dev-api-customerengagement.platform.education.gov.uk
@@ -58,7 +58,7 @@ stages:
   - template: yaml/jobs/tenant-setup-grouped.yml
     parameters:
       environmentName: dev
-      variableGroupName: ncs-b2c-preprod
+      variableGroupName: ncs-b2c-dev
       applicationName: $(applicationName)
       signinRedirectRoot: s141d01-signin-int.azurewebsites.net
       eapimRootUrl: dev-api-customerengagement.platform.education.gov.uk
