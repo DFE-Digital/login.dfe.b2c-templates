@@ -47,47 +47,47 @@ jobs:
         Write-Host UPLOADER_PRINCIPAL_SECRET : $env:UPLOADER_PRINCIPAL_SECRET
         Write-Host TENANT_ID : $env:TENANT_ID
 
-        $policyId = "B2C_1A_TrustFrameworkBase_Invitation"
+        $policyId = "B2C_1A_TrustFrameworkBase_Invitation_Mock"
         $policyFile = "$($env:BUILD_SOURCESDIRECTORY)\policy\mocks\TrustFrameworkBase_Invitation_Mock.xml"
         Invoke-Expression "$($scriptPath) $($env:UPLOADER_PRINCIPAL_CLIENTID) $($env:UPLOADER_PRINCIPAL_SECRET) $($env:TENANT_ID) $($policyId) $($policyFile)"
 
-        $policyId = "B2C_1A_TrustFrameworkExtensions_Invitation"
+        $policyId = "B2C_1A_TrustFrameworkExtensions_Invitation_Mock"
         $policyFile = "$($env:BUILD_SOURCESDIRECTORY)\policy\mocks\TrustFrameworkExtensions_Invitation_Mock.xml"
         Invoke-Expression "$($scriptPath) $($env:UPLOADER_PRINCIPAL_CLIENTID) $($env:UPLOADER_PRINCIPAL_SECRET) $($env:TENANT_ID) $($policyId) $($policyFile)"
 
-        $policyId = "B2C_1A_Account_Signup"
+        $policyId = "B2C_1A_Account_Signup_Mock"
         $policyFile = "$($env:BUILD_SOURCESDIRECTORY)\policy\mocks\Account_Signup_Mock.xml"
         Invoke-Expression "$($scriptPath) $($env:UPLOADER_PRINCIPAL_CLIENTID) $($env:UPLOADER_PRINCIPAL_SECRET) $($env:TENANT_ID) $($policyId) $($policyFile)"
 
-        $policyId = "B2C_1A_Change_Email"
+        $policyId = "B2C_1A_Change_Email_Mock"
         $policyFile = "$($env:BUILD_SOURCESDIRECTORY)\policy\mocks\Change_Email_Mock.xml"
         Invoke-Expression "$($scriptPath) $($env:UPLOADER_PRINCIPAL_CLIENTID) $($env:UPLOADER_PRINCIPAL_SECRET) $($env:TENANT_ID) $($policyId) $($policyFile)"
 
-        $policyId = "B2C_1A_Find_Email"
+        $policyId = "B2C_1A_Find_Email_Mock"
         $policyFile = "$($env:BUILD_SOURCESDIRECTORY)\policy\mocks\Find_Email_Mock.xml"
         Invoke-Expression "$($scriptPath) $($env:UPLOADER_PRINCIPAL_CLIENTID) $($env:UPLOADER_PRINCIPAL_SECRET) $($env:TENANT_ID) $($policyId) $($policyFile)"
 
-        $policyId = "B2C_1A_Resend_Email"
+        $policyId = "B2C_1A_Resend_Email_Mock"
         $policyFile = "$($env:BUILD_SOURCESDIRECTORY)\policy\mocks\Resend_Email_Mock.xml"
         Invoke-Expression "$($scriptPath) $($env:UPLOADER_PRINCIPAL_CLIENTID) $($env:UPLOADER_PRINCIPAL_SECRET) $($env:TENANT_ID) $($policyId) $($policyFile)"
 
-        $policyId = "B2C_1A_Password_Reset_Confirmation"
+        $policyId = "B2C_1A_Password_Reset_Confirmation_Mock"
         $policyFile = "$($env:BUILD_SOURCESDIRECTORY)\policy\mocks\Password_Reset_Confirmation_Mock.xml"
         Invoke-Expression "$($scriptPath) $($env:UPLOADER_PRINCIPAL_CLIENTID) $($env:UPLOADER_PRINCIPAL_SECRET) $($env:TENANT_ID) $($policyId) $($policyFile)"
 
-        $policyId = "B2C_1A_Password_Reset"
+        $policyId = "B2C_1A_Password_Reset_Mock"
         $policyFile = "$($env:BUILD_SOURCESDIRECTORY)\policy\mocks\Password_Reset_Mock.xml"
         Invoke-Expression "$($scriptPath) $($env:UPLOADER_PRINCIPAL_CLIENTID) $($env:UPLOADER_PRINCIPAL_SECRET) $($env:TENANT_ID) $($policyId) $($policyFile)"
 
-        $policyId = "B2C_1A_Signin_Invitation"
+        $policyId = "B2C_1A_Signin_Invitation_Mock"
         $policyFile = "$($env:BUILD_SOURCESDIRECTORY)\policy\mocks\Signin_Invitation_Mock.xml"
         Invoke-Expression "$($scriptPath) $($env:UPLOADER_PRINCIPAL_CLIENTID) $($env:UPLOADER_PRINCIPAL_SECRET) $($env:TENANT_ID) $($policyId) $($policyFile)"
 
-        $policyId = "B2C_1A_Signup_Confirmation"
+        $policyId = "B2C_1A_Signup_Confirmation_Mock"
         $policyFile = "$($env:BUILD_SOURCESDIRECTORY)\policy\mocks\Signup_Confirmation_Mock.xml"
         Invoke-Expression "$($scriptPath) $($env:UPLOADER_PRINCIPAL_CLIENTID) $($env:UPLOADER_PRINCIPAL_SECRET) $($env:TENANT_ID) $($policyId) $($policyFile)"
 
-        $policyId = "B2C_1A_Signup_Invitation"
+        $policyId = "B2C_1A_Signup_Invitation_Mock"
         $policyFile = "$($env:BUILD_SOURCESDIRECTORY)\policy\mocks\Signup_Invitation_Mock.xml"
         Invoke-Expression "$($scriptPath) $($env:UPLOADER_PRINCIPAL_CLIENTID) $($env:UPLOADER_PRINCIPAL_SECRET) $($env:TENANT_ID) $($policyId) $($policyFile)"
 
