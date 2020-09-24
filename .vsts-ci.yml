@@ -144,7 +144,7 @@ stages:
   jobs:
   - template: yaml/jobs/deploy.yml
     parameters:
-      variableGroupName: ncs-b2c-preprod
+      variableGroupName: ncs-b2c-test
       applicationName: $(applicationName)
       environmentName: 'test'
       functionServicePlanSkuName: $(functionServicePlanSkuName)
@@ -185,7 +185,6 @@ stages:
       eapimResourceGroupName: c106t01-eapim-custeng
       eapimServiceName: c106t01-apim-custeng
 
-
 - stage: deployPreProd
   displayName: Deploy - PREPROD
   dependsOn:
@@ -212,7 +211,7 @@ stages:
       ncsDssCreateIdentityApiUrlRoute: $(ncsDssCreateIdentityApiUrlRoute)
       ncsDssGetCustomerUrlRoute: $(ncsDssGetCustomerUrlRoute)
       ncsDigitalIdentityRoute: $(ncsDigitalIdentityRoute)
-      environmentId: 't01'
+      environmentId: 't02'
       serviceConnection: $(testServiceConnection)
       subscriptionId: $(testSubscriptionId)
       deploymentPrimaryLocation: $(deploymentPrimaryLocation)
