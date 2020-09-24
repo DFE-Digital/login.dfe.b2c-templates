@@ -39,7 +39,7 @@ stages:
       signinRedirectRoot: s141d01-signin-int.azurewebsites.net
       eapimRootUrl: dev-api-customerengagement.platform.education.gov.uk
 
-  - template: ../steps/enable-mock-policies.yml
+  - template: yaml/steps/enable-mock-policies.yml
     parameters:
       eapimServiceConnection: $(eapimServiceConnection)
       eapimResourceGroupName: c106d01-eapim-custeng
@@ -63,7 +63,7 @@ stages:
       signinRedirectRoot: s141d01-signin-int.azurewebsites.net
       eapimRootUrl: dev-api-customerengagement.platform.education.gov.uk
 
-  - template: ../steps/clear-mock-policies.yml
+  - template: yaml/steps/clear-mock-policies.yml
     parameters:
       eapimServiceConnection: $(eapimServiceConnection)
       eapimResourceGroupName: c106d01-eapim-custeng
