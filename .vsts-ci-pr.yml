@@ -26,7 +26,7 @@ variables:
 
 stages:
 
-- stage: prTestWithMocks
+- stage: prSetup
   displayName: PR Mock Testing
   jobs:
   - template: yaml/jobs/tenant-mocked-setup-grouped.yml
@@ -48,6 +48,10 @@ stages:
         eapimResourceGroupName: c106d01-eapim-custeng
         eapimServiceName: c106d01-apim-custeng
 
+- stage: buildAndtest
+  dependsOn: prSetup
+  displayName: PR Tests
+  jobs:
   - template: /Application/dotnet/jobs/build-application.yml@devopsTemplates
     parameters:
       applicationName: $(applicationName)
@@ -55,6 +59,10 @@ stages:
       nugetConfigPath: nuget.config
       testProjectPath: '$(Build.SourcesDirectory)\tests\MockPolicyTests\MockPolicyTests.csproj'
 
+- stage: prReset
+  dependsOn: buildAndTest
+  displayName: PR Reset
+  jobs:
   - template: yaml/jobs/tenant-setup-grouped.yml
     parameters:
       environmentName: dev
