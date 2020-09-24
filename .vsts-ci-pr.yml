@@ -45,16 +45,15 @@ stages:
       eapimResourceGroupName: ${{parameters.eapimResourceGroupName}}
       eapimServiceName: ${{parameters.eapimServiceName}}
 
-  - stage: build
-    displayName: Build and Test
-    jobs:
-    - template: /Application/dotnet/jobs/build-application.yml@devopsTemplates
-      parameters:
-        applicationName: $(applicationName)
-        webPublish: false
-        nugetConfigPath: nuget.config
-        testProjectPath: '$(Build.SourcesDirectory)\tests\MockPolicyTests\MockPolicyTests.csproj'
-
+- stage: build
+  displayName: Build and Test
+  jobs:
+  - template: /Application/dotnet/jobs/build-application.yml@devopsTemplates
+    parameters:
+      applicationName: $(applicationName)
+      webPublish: false
+      nugetConfigPath: nuget.config
+      testProjectPath: '$(Build.SourcesDirectory)\tests\MockPolicyTests\MockPolicyTests.csproj'
 
   - template: yaml/jobs/tenant-setup-grouped.yml
     parameters:
