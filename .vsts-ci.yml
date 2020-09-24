@@ -34,6 +34,7 @@ stages:
       applicationName: $(applicationName)
       webPublish: false
       nugetConfigPath: nuget.config
+      testProjectPath: '$(Build.SourcesDirectory)\tests\B2CAzureFunc.Tests\B2CAzureFunc.Tests.csproj'
 
 - stage: devTenantSetup
   displayName: Tenant Setup - DEV
