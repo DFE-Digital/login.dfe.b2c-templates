@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<TrustFrameworkPolicy
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  xmlns="http://schemas.microsoft.com/online/cpim/schemas/2013/06"
+  PolicySchemaVersion="0.3.0.0"
+  TenantId="{{environmentName}}authncs.onmicrosoft.com"
+  PolicyId="B2C_1A_Resend_Email_Mock"
+  PublicPolicyUri="http://{{environmentName}}authncs.onmicrosoft.com/B2C_1A_Resend_Email_Mock"
+  DeploymentMode="Development"
+  UserJourneyRecorderEndpoint="urn:journeyrecorder:applicationinsights">
+
+  <BasePolicy>
+    <TenantId>{{environmentName}}authncs.onmicrosoft.com</TenantId>
+    <PolicyId>B2C_1A_TrustFrameworkExtensions_Invitation_Mock</PolicyId>
+  </BasePolicy>
+
+
+  <RelyingParty>
+    <DefaultUserJourney ReferenceId="ResendEmail" />
+    <UserJourneyBehaviors>
+      <JourneyInsights TelemetryEngine="ApplicationInsights" InstrumentationKey="2e40fd68-c157-4397-b2a2-38dc0bbb1b89" DeveloperMode="true" ClientEnabled="false" ServerEnabled="true" TelemetryVersion="1.0.0" />
+      <ContentDefinitionParameters>
+        <Parameter Name="policy">{Policy:PolicyId}</Parameter>
+        <Parameter Name="redirect_uri">{OIDC:RedirectUri}</Parameter>
+        <Parameter Name="client_id">{OIDC:ClientId}</Parameter>
+        <Parameter Name="tenant_id">{Policy:RelyingPartyTenantId}</Parameter>
+        <Parameter Name="id_token_hint">{OAUTH-KV:idtokenhint}</Parameter>
+      </ContentDefinitionParameters>
+      <ScriptExecution>Allow</ScriptExecution>
+    </UserJourneyBehaviors>
+    <TechnicalProfile Id="PolicyProfile">
+      <DisplayName>PolicyProfile</DisplayName>
+      <Protocol Name="OpenIdConnect" />
+      <InputClaims>
+        <InputClaim ClaimTypeReferenceId="email" PartnerClaimType="email" />
+        <InputClaim ClaimTypeReferenceId="givenName" PartnerClaimType="givenName" />
+        <InputClaim ClaimTypeReferenceId="surname" PartnerClaimType="surname" />
+        <InputClaim ClaimTypeReferenceId="newEmail" PartnerClaimType="newEmail" />
+        <InputClaim ClaimTypeReferenceId="objectId" PartnerClaimType="objectId" />
+        <InputClaim ClaimTypeReferenceId="customerId" PartnerClaimType="customerId" />
+        <InputClaim ClaimTypeReferenceId="expiry" PartnerClaimType="expiry" />
+        <InputClaim ClaimTypeReferenceId="journey" PartnerClaimType="journey" />
+      </InputClaims>
+	  
+      <OutputClaims>
+        <OutputClaim ClaimTypeReferenceId="givenName" />
+        <OutputClaim ClaimTypeReferenceId="surname" />
+        <OutputClaim ClaimTypeReferenceId="email" />
+        <OutputClaim ClaimTypeReferenceId="objectId" PartnerClaimType="sub"/>
+        <OutputClaim ClaimTypeReferenceId="tenantId" AlwaysUseDefaultValue="true" DefaultValue="{Policy:TenantObjectId}" />
+      </OutputClaims>
+      <SubjectNamingInfo ClaimType="sub" />
+    </TechnicalProfile>
+  </RelyingParty>
+</TrustFrameworkPolicy>
