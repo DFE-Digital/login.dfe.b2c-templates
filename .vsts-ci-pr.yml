@@ -26,15 +26,6 @@ variables:
 
 stages:
 
-- stage: build
-  displayName: Build
-  jobs:
-  - template: /Application/dotnet/jobs/build-application.yml@devopsTemplates
-    parameters:
-      applicationName: $(applicationName)
-      webPublish: false
-      nugetConfigPath: nuget.config
-
 - stage: devTenantMockSetup
   displayName: Tenant Mock Setup - DEV
   dependsOn:
@@ -54,8 +45,18 @@ stages:
       eapimResourceGroupName: ${{parameters.eapimResourceGroupName}}
       eapimServiceName: ${{parameters.eapimServiceName}}
 
+  - stage: build
+    displayName: Build and Test
+    jobs:
+    - template: /Application/dotnet/jobs/build-application.yml@devopsTemplates
+      parameters:
+        applicationName: $(applicationName)
+        webPublish: false
+        nugetConfigPath: nuget.config
+        testProjectPath: '$(Build.SourcesDirectory)\tests\MockPolicyTests\MockPolicyTests.csproj'
 
-  - template: yaml/jobs/tenant-mocked-setup-grouped.yml
+
+  - template: yaml/jobs/tenant-setup-grouped.yml
     parameters:
       environmentName: dev
       variableGroupName: ncs-b2c-preprod
