@@ -41,9 +41,9 @@ stages:
 
   - template: ../steps/enable-mock-policies.yml
     parameters:
-      eapimServiceConnection: ${{parameters.eapimServiceConnection}}
-      eapimResourceGroupName: ${{parameters.eapimResourceGroupName}}
-      eapimServiceName: ${{parameters.eapimServiceName}}
+      eapimServiceConnection: $(eapimServiceConnection)
+      eapimResourceGroupName: c106d01-eapim-custeng
+      eapimServiceName: c106d01-apim-custeng
 
 - stage: build
   displayName: Build and Test
@@ -65,9 +65,9 @@ stages:
 
   - template: ../steps/clear-mock-policies.yml
     parameters:
-      eapimServiceConnection: ${{parameters.eapimServiceConnection}}
-      eapimResourceGroupName: ${{parameters.eapimResourceGroupName}}
-      eapimServiceName: ${{parameters.eapimServiceName}}
+      eapimServiceConnection: $(eapimServiceConnection)
+      eapimResourceGroupName: c106d01-eapim-custeng
+      eapimServiceName: c106d01-apim-custeng
 
 # - stage: deployDev
 #   displayName: Deploy - DEV
