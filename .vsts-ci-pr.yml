@@ -28,8 +28,6 @@ stages:
 
 - stage: devTenantMockSetup
   displayName: Tenant Mock Setup - DEV
-  dependsOn:
-  - build
   jobs:
   - template: yaml/jobs/tenant-mocked-setup-grouped.yml
     parameters:
@@ -40,7 +38,7 @@ stages:
       eapimRootUrl: dev-api-customerengagement.platform.education.gov.uk
 
   - job: devEapimOperationSetup
-    displayName: EAPIM Operation Setup
+    displayName: EAPIM Operation Setup Mocks
     pool:
       vmImage: windows-latest
     steps:
@@ -50,7 +48,7 @@ stages:
         eapimResourceGroupName: c106d01-eapim-custeng
         eapimServiceName: c106d01-apim-custeng
 
-- stage: build
+- stage: buildAndTest
   displayName: Build and Test
   jobs:
   - template: /Application/dotnet/jobs/build-application.yml@devopsTemplates
@@ -68,8 +66,8 @@ stages:
       signinRedirectRoot: s141d01-signin-int.azurewebsites.net
       eapimRootUrl: dev-api-customerengagement.platform.education.gov.uk
 
-  - job: devEapimOperationSetup
-    displayName: EAPIM Operation Setup
+  - job: devEapimOperationClear
+    displayName: EAPIM Operation Clear Mocks
     pool:
       vmImage: windows-latest
     steps:
