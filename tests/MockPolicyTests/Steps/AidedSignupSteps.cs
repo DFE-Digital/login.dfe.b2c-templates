@@ -28,6 +28,8 @@ namespace PolicyTests.Steps
         [Given(@"I filled the form")]
         public void GivenIFilledTheForm()
         {
+            _webDriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
+
             _webDriver.FindElement(By.Id("newPassword")).SendKeys("P@ssw0rd");
             _webDriver.FindElement(By.Id("reenterPassword")).SendKeys("P@ssw0rd");
             _webDriver.FindElement(By.Id("day")).SendKeys("01");
@@ -45,7 +47,9 @@ namespace PolicyTests.Steps
         [Then(@"I am taken to the Account activated page")]
         public void ThenIAmTakenToTheAccountActivatedPage()
         {
-            var wait = new WebDriverWait(_webDriver, TimeSpan.FromSeconds(5));
+            _webDriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
+
+            var wait = new WebDriverWait(_webDriver, TimeSpan.FromSeconds(3));
             var messageElement = wait.Until(drv => drv.FindElement(By.Id("confirmationMessage")));
 
             var message = messageElement.GetAttribute("aria-label");

@@ -27,6 +27,8 @@ namespace PolicyTests.Steps
         [Given(@"I enter new password and confirmation password")]
         public void GivenIEnterNewPasswordAndConfirmationPassword()
         {
+            _webDriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
+
             _webDriver.FindElement(By.Id("newPassword")).SendKeys("P@ssw0rd");
             _webDriver.FindElement(By.Id("reenterPassword")).SendKeys("P@ssw0rd");
         }
@@ -40,11 +42,12 @@ namespace PolicyTests.Steps
         [Then(@"I should redirected to password reset confirmation message page")]
         public void ThenIShouldRedirectedToPasswordResetConfirmationMessagePage()
         {
+            _webDriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
+
             var messageElement = _webDriver.FindElement(By.Id("confirmationMessage"));
             var message = messageElement.GetAttribute("aria-label");
             Assert.AreEqual(message.ToLower(), "we've changed your password");
             _webDriver.Quit();
-
         }
     }
 }

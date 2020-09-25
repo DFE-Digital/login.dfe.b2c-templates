@@ -31,6 +31,8 @@ namespace PolicyTests.Steps
         [Given(@"I enter email id and password")]
         public void GivenIEnterEmailIdAndPassword()
         {
+            _webDriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
+
             _webDriver.FindElement(By.Id("email")).SendKeys("amanguptaz117@yopmail.com");
             _webDriver.FindElement(By.Id("password")).SendKeys("P@ssw0rd");
         }
@@ -46,7 +48,9 @@ namespace PolicyTests.Steps
         {
             try
             {
-                var wait = new WebDriverWait(_webDriver, TimeSpan.FromSeconds(5));
+                _webDriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
+
+                var wait = new WebDriverWait(_webDriver, TimeSpan.FromSeconds(10));
                 var element = wait.Until(drv => drv.FindElement(By.Id("tncCheckbox_true")));
                 if (element != null)
                 {
@@ -60,7 +64,9 @@ namespace PolicyTests.Steps
         [Then(@"I should be redicected to jwt\.ms with a valid token")]
         public void ThenIShouldBeRedicectedToJwt_MsWithAValidToken()
         {
-            var wait = new WebDriverWait(_webDriver, TimeSpan.FromSeconds(5));
+            _webDriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
+
+            var wait = new WebDriverWait(_webDriver, TimeSpan.FromSeconds(10));
             wait.Until(drv => drv.FindElement(By.Id("decodedToken")));
             Assert.AreEqual(true, _webDriver.Url.StartsWith("https://jwt.ms/#id_token="));
 

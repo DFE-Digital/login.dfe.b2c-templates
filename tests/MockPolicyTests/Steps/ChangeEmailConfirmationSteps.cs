@@ -34,7 +34,9 @@ namespace PolicyTests.Steps
         {
             try
             {
-                var wait = new WebDriverWait(_webDriver, TimeSpan.FromSeconds(5));
+                _webDriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
+
+                var wait = new WebDriverWait(_webDriver, TimeSpan.FromSeconds(10));
                 var messageElement = wait.Until(drv => drv.FindElement(By.Id("errorMessage")));
 
                 var message = messageElement.GetAttribute("aria-label");
