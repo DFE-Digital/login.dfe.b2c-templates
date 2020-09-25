@@ -63,7 +63,7 @@ stages:
       applicationName: $(applicationName)
       webPublish: false
       nugetConfigPath: nuget.config
-      testProjectPath: '$(Build.SourcesDirectory)\tests\MockPolicyTests\MockPolicyTests.csproj'
+      testProjectPath: '$(Build.SourcesDirectory)\\tests\\MockPolicyTests\\MockPolicyTests.csproj'
 
 - stage: prReset
   dependsOn: buildAndTest
