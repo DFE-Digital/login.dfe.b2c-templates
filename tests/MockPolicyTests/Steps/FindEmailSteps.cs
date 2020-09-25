@@ -51,6 +51,8 @@ namespace PolicyTests.Steps
 
             var message = messageElement.GetAttribute("aria-label");
             Assert.AreEqual(message.ToLower(), "you'll need to use this email address to sign in to your account.");
+            _webDriver.Quit();
+
         }
     }
 }

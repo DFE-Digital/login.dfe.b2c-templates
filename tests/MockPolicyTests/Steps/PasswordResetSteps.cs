@@ -43,6 +43,8 @@ namespace PolicyTests.Steps
             var elemet = _webDriver.FindElement(By.Id("successMessage"));
 
             Assert.AreEqual(elemet != null, true);
+            _webDriver.Quit();
+
         }
     }
 }

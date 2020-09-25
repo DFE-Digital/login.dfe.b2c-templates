@@ -50,6 +50,8 @@ namespace PolicyTests.Steps
 
             var message = messageElement.GetAttribute("aria-label");
             Assert.AreEqual(message.ToLower(), "you can start using your account to access your information.");
+            _webDriver.Quit();
+
         }
     }
 }

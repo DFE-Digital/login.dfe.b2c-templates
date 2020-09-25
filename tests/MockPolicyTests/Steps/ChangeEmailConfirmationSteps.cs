@@ -58,6 +58,8 @@ namespace PolicyTests.Steps
                             wait = new WebDriverWait(_webDriver, TimeSpan.FromSeconds(5));
                             messageElement = wait.Until(drv => drv.FindElement(By.Id("confirmationMessage")));
                             Assert.AreEqual(true, messageElement != null);
+                            _webDriver.Quit();
+
                         }
                     }
                     catch { }
@@ -75,7 +77,9 @@ namespace PolicyTests.Steps
                 var messageElement = _webDriver.FindElement(By.Id("confirmationMessage"));
                 var message = messageElement.GetAttribute("aria-label");
                 Assert.AreEqual(message.ToLower(), "you can start using your account to access your information.");
+                _webDriver.Quit();
             }
+            _webDriver.Quit();
         }
     }
 }

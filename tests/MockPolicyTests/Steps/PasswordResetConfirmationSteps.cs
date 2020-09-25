@@ -43,6 +43,8 @@ namespace PolicyTests.Steps
             var messageElement = _webDriver.FindElement(By.Id("confirmationMessage"));
             var message = messageElement.GetAttribute("aria-label");
             Assert.AreEqual(message.ToLower(), "we've changed your password");
+            _webDriver.Quit();
+
         }
     }
 }

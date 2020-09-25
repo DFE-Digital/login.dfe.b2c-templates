@@ -63,6 +63,27 @@ namespace PolicyTests.Steps
             var wait = new WebDriverWait(_webDriver, TimeSpan.FromSeconds(5));
             wait.Until(drv => drv.FindElement(By.Id("decodedToken")));
             Assert.AreEqual(true, _webDriver.Url.StartsWith("https://jwt.ms/#id_token="));
+
+            _webDriver.Quit();
+
+            IConfidentialClientApplication confidentialClientApplication = ConfidentialClientApplicationBuilder
+                .Create("9e28727a-9abe-4d3b-80e8-367889846e1c")
+                .WithTenantId("devauthncs.onmicrosoft.com")
+                .WithClientSecret("S5EUqH6PyEI.2qqztYlC4Pqx.1B.~8GTe7")
+                .Build();
+
+            ClientCredentialProvider authProvider = new ClientCredentialProvider(confidentialClientApplication);
+            GraphServiceClient _graphClient = new GraphServiceClient(authProvider);
+
+            var email = "amanguptaz117@yopmail.com";
+            var user = _graphClient.Users
+                            .Request()
+                            .Filter($"identities/any(c:c/issuerAssignedId eq '{email}' and c/issuer eq '{email}')")
+                            .GetAsync().Result;
+
+            _graphClient.Users[user[0].Id]
+                .Request()
+                .DeleteAsync().Wait();
         }
     }
 }
