@@ -14,6 +14,13 @@ pr:
     include:
     - develop
     - master
+trigger:
+  branches:
+    exclude:
+    - master
+    - develop
+    - feature/*
+    - release/*
 
 variables:
 - name: applicationName
@@ -26,95 +33,59 @@ variables:
 
 stages:
 
-- stage: devTenantMockSetup
-  displayName: Tenant Mock Setup - DEV
-  dependsOn:
-  - build
+- stage: prSetup
+  displayName: PR Mock Testing
   jobs:
   - template: yaml/jobs/tenant-mocked-setup-grouped.yml
     parameters:
       environmentName: dev
-      variableGroupName: ncs-b2c-preprod
+      variableGroupName: ncs-b2c-dev
       applicationName: $(applicationName)
       signinRedirectRoot: s141d01-signin-int.azurewebsites.net
       eapimRootUrl: dev-api-customerengagement.platform.education.gov.uk
 
-  - template: ../steps/enable-mock-policies.yml
-    parameters:
-      eapimServiceConnection: ${{parameters.eapimServiceConnection}}
-      eapimResourceGroupName: ${{parameters.eapimResourceGroupName}}
-      eapimServiceName: ${{parameters.eapimServiceName}}
-
-  - stage: build
-    displayName: Build and Test
-    jobs:
-    - template: /Application/dotnet/jobs/build-application.yml@devopsTemplates
+  - job: devEapimOperationSetup
+    displayName: EAPIM Operation Setup Mocks
+    pool:
+      vmImage: windows-latest
+    steps:
+    - template: yaml/steps/enable-mock-policies.yml
       parameters:
-        applicationName: $(applicationName)
-        webPublish: false
-        nugetConfigPath: nuget.config
-        testProjectPath: '$(Build.SourcesDirectory)\tests\MockPolicyTests\MockPolicyTests.csproj'
+        eapimServiceConnection: $(eapimServiceConnection)
+        eapimResourceGroupName: c106d01-eapim-custeng
+        eapimServiceName: c106d01-apim-custeng
 
+- stage: buildAndtest
+  dependsOn: prSetup
+  displayName: Run Tests
+  jobs:
+  - template: /Application/dotnet/jobs/build-application.yml@devopsTemplates
+    parameters:
+      applicationName: $(applicationName)
+      webPublish: false
+      nugetConfigPath: nuget.config
+      testProjectPath: '$(Build.SourcesDirectory)/tests/MockPolicyTests/MockPolicyTests.csproj'
 
+- stage: prReset
+  dependsOn: buildAndTest
+  condition: always()
+  displayName: PR Mock Reset
+  jobs:
   - template: yaml/jobs/tenant-setup-grouped.yml
     parameters:
       environmentName: dev
-      variableGroupName: ncs-b2c-preprod
+      variableGroupName: ncs-b2c-dev
       applicationName: $(applicationName)
       signinRedirectRoot: s141d01-signin-int.azurewebsites.net
       eapimRootUrl: dev-api-customerengagement.platform.education.gov.uk
 
-  - template: ../steps/clear-mock-policies.yml
-    parameters:
-      eapimServiceConnection: ${{parameters.eapimServiceConnection}}
-      eapimResourceGroupName: ${{parameters.eapimResourceGroupName}}
-      eapimServiceName: ${{parameters.eapimServiceName}}
-
-# - stage: deployDev
-#   displayName: Deploy - DEV
-#   dependsOn:
-#   - build
-#   - devTenantSetup
-#   jobs:
-#   - template: yaml/jobs/deploy.yml
-#     parameters:
-#       variableGroupName: ncs-b2c-dev
-#       applicationName: $(applicationName)
-#       environmentName: 'dev'
-#       functionServicePlanSkuName: $(functionServicePlanSkuName)
-#       functionServicePlanSkuTier: $(functionServicePlanSkuTier)
-#       functionServicePlanSkuCount: $(functionServicePlanSkuCount)
-#       b2cSignUpPolicy: $(b2cSignUpPolicy)
-#       b2cSignupConfirmPolicy: $(b2cSignupConfirmPolicy)
-#       b2cPasswordResetConfirmPoicy: $(b2cPasswordResetConfirmPoicy)
-#       b2cChangeEmailPolicy: $(b2cChangeEmailPolicy)
-#       b2cAuthorizationUrl: $(b2cAuthorizationUrl)
-#       ncsApimSubscriptionKey: $(ncsApimSubscriptionKey)
-#       ncsDssApiRoot: $(devNcsDssApiRoot)
-#       ncsDssApiKey: $(ncsDevDssApiKey)
-#       ncsDssSearchApiVersion: $(ncsDssSearchApiVersion)
-#       ncsDssSearchApiUrlRoute: $(ncsDssSearchApiUrlRoute)
-#       ncsDssCreateCustomerApiUrlRoute: $(ncsDssCreateCustomerApiUrlRoute)
-#       ncsDssCreateContactApiUrlRoute: $(ncsDssCreateContactApiUrlRoute)
-#       ncsDssCreateIdentityApiUrlRoute: $(ncsDssCreateIdentityApiUrlRoute)
-#       ncsDssGetCustomerUrlRoute: $(ncsDssGetCustomerUrlRoute)
-#       ncsDigitalIdentityRoute: $(ncsDigitalIdentityRoute)
-#       environmentId: 'd01'
-#       serviceConnection: $(devServiceConnection)
-#       subscriptionId: $(devSubscriptionId)
-#       relyingPartyAppClientId: $(devRelyAppClientId)
-#       clientSigningKey: $(devClientSigningKey)
-#       graphAccessClientId: $(devGraphAccessClientId)
-#       graphAccessClientSecret: $(devGraphAccessClientSecret)
-#       deploymentPrimaryLocation: $(deploymentPrimaryLocation)
-#       policyCertThumbprint: $(devB2cApimCertThumbprint)
-#       extensionAppId: $(parsedDevExtensionAppId)
-#       notifyAidedSignupEmailTemplateId: $(devNotifyAidedSignupEmailTemplateId)
-#       notifySelfSignupEmailTemplateId: $(devNotifySelfSignupEmailTemplateId)
-#       notifyPasswordResetConfirmationEmailTemplateId: $(devNotifyPasswordResetConfirmationEmailTemplateId)
-#       notifyEmailChangeConfirmationEmailNewEmailTemplateId: $(devNotifyEmailChangeConfirmationEmailNewEmailTemplateId)
-#       notifyEmailChangeConfirmationEmailOldEmailTemplateId: $(devNotifyEmailChangeConfirmationEmailOldEmailTemplateId)
-#       eapimServiceConnection: $(eapimServiceConnection)
-#       eapimEnvironmentName: 'Development'
-#       eapimResourceGroupName: c106d01-eapim-custeng
-#       eapimServiceName: c106d01-apim-custeng
+  - job: devEapimOperationClear
+    displayName: EAPIM Operation Clear Mocks
+    pool:
+      vmImage: windows-latest
+    steps:
+    - template: yaml/steps/clear-mock-policies.yml
+      parameters:
+        eapimServiceConnection: $(eapimServiceConnection)
+        eapimResourceGroupName: c106d01-eapim-custeng
+        eapimServiceName: c106d01-apim-custeng
