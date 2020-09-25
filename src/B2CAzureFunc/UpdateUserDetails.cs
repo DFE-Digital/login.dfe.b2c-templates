@@ -116,7 +116,8 @@ namespace B2CAzureFunc
             {
                 return new BadRequestObjectResult(new ResponseContentModel
                 {
-                    userMessage = "Sorry, something happened unexpectedly. Couldn't update the user. Please try again later."
+                    userMessage = "Sorry, something happened unexpectedly. Couldn't update the user. Please try again later.",
+                    developerMessage=ex.ToString()
                 });
             }
         }

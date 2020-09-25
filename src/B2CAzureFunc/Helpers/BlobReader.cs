@@ -21,7 +21,6 @@ namespace B2CAzureFunc.Helpers
         /// <param name="fileName"></param>
         /// <param name="containerName"></param>
         /// <param name="storageConnectionString"></param>
-        /// <param name="country"></param>
         /// <returns>TnCDetailModel</returns>
         public async Task<TnCDetailModel> GetTnCDateDetails(string fileName, string containerName, string storageConnectionString)
         {
