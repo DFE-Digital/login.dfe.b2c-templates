@@ -98,7 +98,7 @@ namespace B2CAzureFunc
                         {
                             updateResult = await client.UpdateUser(data.ObjectId, json);
                         }
-                        catch (Exception ex)
+                        catch (Exception)
                         {
                             return new BadRequestObjectResult(new ResponseContentModel
                             {
