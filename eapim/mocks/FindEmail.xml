@@ -5,7 +5,7 @@
             <set-header name="Content-Type" exists-action="override">
                 <value>application/json</value>
             </set-header>
-            <set-body>{"customerId":"00021120-ef76-4774-87df-761ec33fc2e2"}</set-body>
+            <set-body>{"isFound":true,"foundEmail":"amanguptaz117@yopmail.com"}</set-body>
         </return-response>
         <base />
     </inbound>
