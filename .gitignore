@@ -366,3 +366,4 @@ scripts/.secrets
 scripts/_CertGeneration.ps1
 tenant_setup/*
 scripts/secrets.txt
+scripts/old/prod_secrets.txt
