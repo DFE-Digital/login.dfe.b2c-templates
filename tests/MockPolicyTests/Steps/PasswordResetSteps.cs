@@ -28,7 +28,7 @@ namespace PolicyTests.Steps
         [Given(@"I enter my email address")]
         public void GivenIEnterMyEmailAddress()
         {
-            _webDriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
+            _webDriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(9);
 
             _webDriver.FindElement(By.Id("email")).SendKeys("amanguptaz117@yopmail.com");
         }
@@ -42,7 +42,7 @@ namespace PolicyTests.Steps
         [Then(@"I redirected to we've sent an email page")]
         public void ThenIRedirectedToWeVeSentAnEmailPage()
         {
-            _webDriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
+            _webDriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(9);
 
             var elemet = _webDriver.FindElement(By.Id("successMessage"));
 

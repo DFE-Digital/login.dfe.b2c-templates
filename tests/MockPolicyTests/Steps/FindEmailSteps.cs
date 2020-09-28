@@ -28,7 +28,7 @@ namespace PolicyTests.Steps
         [Given(@"I filled the find email form")]
         public void GivenIFilledTheFindEmailForm()
         {
-            _webDriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
+            _webDriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(9);
 
             _webDriver.FindElement(By.Id("givenName")).SendKeys("Aman");
             _webDriver.FindElement(By.Id("surname")).SendKeys("Gupta");
@@ -48,7 +48,7 @@ namespace PolicyTests.Steps
         [Then(@"I shoud navigated to the result page")]
         public void ThenIShoudNavigatedToTheResultPage()
         {
-            _webDriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
+            _webDriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(9);
 
             var wait = new WebDriverWait(_webDriver, TimeSpan.FromSeconds(10));
             var messageElement = wait.Until(drv => drv.FindElement(By.Id("foundEmailMessagelast")));
