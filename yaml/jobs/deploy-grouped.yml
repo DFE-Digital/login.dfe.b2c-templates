@@ -176,7 +176,7 @@ jobs:
             subscriptionId: ${{parameters.subscriptionId}}
             resourceGroupName: s141${{parameters.environmentId}}-${{parameters.environmentName}}${{parameters.applicationName}}
             location: ${{parameters.deploymentPrimaryLocation}}
-            templateFilePath: '$(Build.SourcesDirectory)/arm/template.json'
+            templateFilePath: '$(Build.SourcesDirectory)\arm\template.json'
             armParameterOverrideString: $(overrideParameters)
 
         - pwsh: |
