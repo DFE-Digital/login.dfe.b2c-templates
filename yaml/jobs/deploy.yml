@@ -205,6 +205,7 @@ jobs:
     runOnce:
       deploy:
         steps:
+        - checkout: self
         - template: /Infrastructure/steps/deploy-template.yml@devopsTemplates
           parameters:
             serviceConnection: ${{parameters.serviceConnection}}
