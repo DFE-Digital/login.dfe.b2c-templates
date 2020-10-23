@@ -131,7 +131,7 @@ jobs:
       -B2CPasswordResetConfirmPolicy "${{parameters.b2cPasswordResetConfirmPoicy}}"
       -B2CChangeEmailPolicy "${{parameters.b2cChangeEmailPolicy}}"
       -RelyingPartyAppClientId "$(relyAppClientId)"
-      -B2CRedirectUri "https://jwt.ms"
+      -B2CRedirectUri "$(b2cRedirectUrl)"
       -B2CAuthorizationUrl "${{parameters.b2cAuthorizationUrl}}"
       -ClientSigningKey "$(clientSigningKey)"
       -SMTPServer "$(smtpServer)"
