@@ -216,7 +216,7 @@ jobs:
             armParameterOverrideString: $(overrideParameters)
 
         - pwsh: |
-            Write-Host "##vso[task.setvariable variable=dsiB2cFunctionKey]$($env:ARMOUTPUT_FUNCTIONDEFAULTKEY)"
+            Write-Host "##vso[task.setvariable variable=dsiB2cFunctionKey]$($env:ARMOUTPUTS_ARMOUTPUT_FUNCTIONDEFAULTKEY)"
           displayName: Set Named values
 
         - task: Tokenization@2
