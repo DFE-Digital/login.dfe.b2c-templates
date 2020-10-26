@@ -243,7 +243,7 @@ jobs:
             environmentName: ${{parameters.environmentName}}
 
         - pwsh : |
-            $url = "$($env:ARMOUTPUT_FUNCTIONURL)/swagger"
+            $url = "$($env:ARMOUTPUTS_ARMOUTPUT_FUNCTIONURL)/swagger"
             $filePath = "$($env:BUILD_SOURCESDIRECTORY)\definition.json"
             Write-Host "url: $($url)"
             Write-Host "filePath: $($filePath)"
@@ -255,9 +255,9 @@ jobs:
           parameters:
             serviceConnection: ${{parameters.serviceConnection}}
             eapimServiceConnection: ${{parameters.eapimServiceConnection}}
-            functionName: $(armOutput.functionName)
-            functionKey: $(armOutput.functionMasterKey)
-            functionUrl: $(armOutput.functionUrl)
+            functionName: $(armOutputs.armOutput.functionName)
+            functionKey: $(armOutputs.armOutput.functionMasterKey)
+            functionUrl: $(armOutputs.armOutput.functionUrl)
             productName: 'NCS Identity'
             productRequiresSubscription: true
             publishContactEmail: 'paul.sheridan@digital.education.gov.uk'
