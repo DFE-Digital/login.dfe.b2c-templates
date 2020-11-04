@@ -11,6 +11,9 @@ using B2CAzureFunc.Models;
 using B2CAzureFunc.Helpers;
 using System.Linq;
 using Microsoft.Extensions.Options;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+using System.ComponentModel.DataAnnotations;
+using System.Collections.Generic;
 
 namespace B2CAzureFunc
 {
@@ -47,9 +50,19 @@ namespace B2CAzureFunc
         {
             try
             {
-
                 string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
                 UserProfileModel data = JsonConvert.DeserializeObject<UserProfileModel>(requestBody);
+
+                var results = new List<ValidationResult>();
+
+                Validator.TryValidateObject(data, new ValidationContext(data, null, null), results, true);
+
+                if (results.Count > 0)
+                {
+                    var rvalidationResponse = results.Select(p => new ResponseContentModel { version = "1.0.0", userMessage = p.ErrorMessage });
+                    return new BadRequestObjectResult(rvalidationResponse);
+                }
+
                 log.LogInformation(requestBody);
 
                 if (data != null)
@@ -62,6 +75,8 @@ namespace B2CAzureFunc
                             userMessage = "Object id can't be null"
                         });
                     }
+
+
 
                     if (String.IsNullOrEmpty(data.DisplayName))
                         data.DisplayName = data.FirstName + " " + data.LastName;
@@ -117,7 +132,7 @@ namespace B2CAzureFunc
                 return new BadRequestObjectResult(new ResponseContentModel
                 {
                     userMessage = "Sorry, something happened unexpectedly. Couldn't update the user. Please try again later.",
-                    developerMessage=ex.ToString()
+                    developerMessage = ex.ToString()
                 });
             }
         }
