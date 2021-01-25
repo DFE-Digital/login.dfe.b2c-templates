@@ -52,7 +52,7 @@ stages:
       proxyAppRegistrationClientId: $(devProxyIdentityAppClientId)
       proxyAppRegistrationObjectId: $(devProxyIdentityAppObjectId)
       identAppRegistrationClientId: $(devIdentityAppClientId)
-      signinRedirectRoot: s141d01-signin-int.azurewebsites.net
+      signinRedirectRoot: s141d01-signin-ncs.azurewebsites.net
       eapimRootUrl: dev-api-customerengagement.platform.education.gov.uk
 
 - stage: testTenantSetup
