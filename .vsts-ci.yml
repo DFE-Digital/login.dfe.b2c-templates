@@ -84,7 +84,7 @@ stages:
       environmentName: preprod
       variableGroupName: ncs-b2c-preprod
       applicationName: $(applicationName)
-      signinRedirectRoot: pp-interactions.signin.education.gov.uk
+      signinRedirectRoot: s141t02-signin-ncs.azurewebsites.net
       eapimRootUrl: oat-api-customerengagement.platform.education.gov.uk
 
 - stage: deployDev
