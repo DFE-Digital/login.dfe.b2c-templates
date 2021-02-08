@@ -41,7 +41,7 @@ stages:
       environmentName: dev
       variableGroupName: ncs-b2c-dev
       applicationName: $(applicationName)
-      signinRedirectRoot: s141d01-signin-int.azurewebsites.net
+      signinRedirectRoot: s141d01-signin-ncs.azurewebsites.net
       eapimRootUrl: dev-api-customerengagement.platform.education.gov.uk
 
   - job: devEapimOperationSetup
@@ -76,7 +76,7 @@ stages:
       environmentName: dev
       variableGroupName: ncs-b2c-dev
       applicationName: $(applicationName)
-      signinRedirectRoot: s141d01-signin-int.azurewebsites.net
+      signinRedirectRoot: s141d01-signin-ncs.azurewebsites.net
       eapimRootUrl: dev-api-customerengagement.platform.education.gov.uk
 
   - job: devEapimOperationClear
