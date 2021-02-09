@@ -52,7 +52,7 @@ stages:
       proxyAppRegistrationClientId: $(devProxyIdentityAppClientId)
       proxyAppRegistrationObjectId: $(devProxyIdentityAppObjectId)
       identAppRegistrationClientId: $(devIdentityAppClientId)
-      signinRedirectRoot: s141d01-signin-int.azurewebsites.net
+      signinRedirectRoot: s141d01-signin-ncs.azurewebsites.net
       eapimRootUrl: dev-api-customerengagement.platform.education.gov.uk
 
 - stage: testTenantSetup
@@ -71,7 +71,7 @@ stages:
       proxyAppRegistrationClientId: $(testProxyIdentityAppClientId)
       proxyAppRegistrationObjectId: $(testProxyIdentityAppObjectId)
       identAppRegistrationClientId: $(testIdentityAppClientId)
-      signinRedirectRoot: test-interactions.signin.education.gov.uk
+      signinRedirectRoot: test-ncs.signin.education.gov.uk
       eapimRootUrl: test-api-customerengagement.platform.education.gov.uk
 
 - stage: preProdTenantSetup
@@ -84,7 +84,7 @@ stages:
       environmentName: preprod
       variableGroupName: ncs-b2c-preprod
       applicationName: $(applicationName)
-      signinRedirectRoot: pp-interactions.signin.education.gov.uk
+      signinRedirectRoot: pp-ncs.signin.education.gov.uk
       eapimRootUrl: oat-api-customerengagement.platform.education.gov.uk
 
 - stage: deployDev
