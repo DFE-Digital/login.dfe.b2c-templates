@@ -281,7 +281,10 @@
         },
         "B2CCustomDomain": {
             "type": "string",
-            "defaultValue": ""
+            "defaultValue": "",
+            "metadata": {
+                "description": "The hostname of the frontendEndpoints. Must be a domain name."
+            }
         }
     },
     "variables": {
@@ -306,7 +309,7 @@
             "backendPoolAddress": "[concat(parameters('B2CTenantShortName'),'.b2clogin.com')]",
             "backendPoolHostHeader": "[concat(parameters('B2CTenantShortName'),'.b2clogin.com')]",
             "routingRuleName": "[concat(variables('baseName'),'-rule')]",
-            "useCustomHostname": "[greater(length(parameters('B2CCustomDomain')), 0)]"
+            "useCustomHostName": "[not(empty(parameters('B2CCustomDomain')))]"
         },
         "frontDoorFrontendEndpoints": {
             "frontendEndpointsBase": [
@@ -1002,7 +1005,7 @@
                         }
                     }
                 ],
-                "frontendEndpoints": "[if(variables('frontDoor').useCustomHostname,variables('frontDoorFrontendEndpointsCombined'),variables('frontDoorFrontendEndpoints').frontendEndpointsBase)]",
+                "frontendEndpoints": "[if(variables('frontDoor').useCustomHostName,variables('frontDoorFrontendEndpointsCombined'),variables('frontDoorFrontendEndpoints').frontendEndpointsBase)]",
                 "backendPools": [
                     {
                         "name": "[variables('frontDoor').backendPoolName]",
@@ -1035,7 +1038,7 @@
                     {
                         "name": "[variables('frontDoor').routingRuleName]",
                         "properties": {
-                            "frontendEndpoints": "[if(variables('frontDoor').useCustomHostname,variables('frontDoorRoutingRuleFrontendEndpointsCombined'),variables('frontDoorRoutingRules').routingRuleFrontendEndpointBase)]",
+                            "frontendEndpoints": "[if(variables('frontDoor').useCustomHostName,variables('frontDoorRoutingRuleFrontendEndpointsCombined'),variables('frontDoorRoutingRules').routingRuleFrontendEndpointBase)]",
                             "acceptedProtocols": [
                                 "Http",
                                 "Https"
@@ -1063,10 +1066,10 @@
             }
         },
         {
-            "condition": "[variables('frontDoor').useCustomHostname]",
+            "condition": "[variables('frontDoor').useCustomHostName]",
             "type": "Microsoft.Network/frontdoors/frontendEndpoints/customHttpsConfiguration",
             "apiVersion": "2020-07-01",
-            "name": "[concat(variables('resourceNames').frontDoorName, '/',variables('frontDoor').frontendEndpointCustomDomainName,'/default')]",
+            "name": "[concat(variables('resourceNames').frontDoorName, '/',if(variables('frontDoor').useCustomHostName,variables('frontDoor').frontendEndpointCustomDomainName,'placeholder'),'/default')]",
             "dependsOn": [
                 "[variables('resourceNames').frontDoorName]"
             ],
