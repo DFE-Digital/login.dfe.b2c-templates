@@ -223,4 +223,3 @@ stages:
       eapimEnvironmentName: 'Oat'
       eapimResourceGroupName: c106t02-eapim-custeng
       eapimServiceName: c106t02-apim-custeng
-      b2cCustomDomain: pp-login.ncs.signin.education.gov.uk
