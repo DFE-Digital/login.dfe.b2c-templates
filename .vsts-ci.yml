@@ -87,6 +87,19 @@ stages:
       signinRedirectRoot: pp-ncs.signin.education.gov.uk
       eapimRootUrl: oat-api-customerengagement.platform.education.gov.uk
 
+# - stage: prodTenantSetup
+#   displayName: Tenant Setup - PROD
+#   dependsOn:
+#   - build
+#   jobs:
+#   - template: yaml/jobs/tenant-setup-grouped.yml
+#     parameters:
+#       environmentName: prod
+#       variableGroupName: ncs-b2c-prod
+#       applicationName: $(applicationName)
+#       signinRedirectRoot: ncs.signin.education.gov.uk
+#       eapimRootUrl: oat-api-customerengagement.platform.education.gov.uk
+
 - stage: deployDev
   displayName: Deploy - DEV
   dependsOn:
@@ -135,6 +148,7 @@ stages:
       eapimEnvironmentName: 'Development'
       eapimResourceGroupName: c106d01-eapim-custeng
       eapimServiceName: c106d01-apim-custeng
+      b2cCustomDomain: dev-login.ncs.signin.education.gov.uk
 
 
 - stage: deployTest

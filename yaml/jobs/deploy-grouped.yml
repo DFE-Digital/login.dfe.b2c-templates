@@ -110,7 +110,7 @@ parameters:
 
 jobs:
 - deployment: Deploy
-  displayName: Deploy Azure Function
+  displayName: Deploy Function and Front Door
   environment: ${{parameters.environmentName}}
   pool:
     vmImage: windows-latest
