@@ -185,6 +185,7 @@ stages:
       eapimEnvironmentName: 'Test'
       eapimResourceGroupName: c106t01-eapim-custeng
       eapimServiceName: c106t01-apim-custeng
+      b2cCustomDomain: test-login.ncs.signin.education.gov.uk
 
 - stage: deployPreProd
   displayName: Deploy - PREPROD
@@ -222,3 +223,4 @@ stages:
       eapimEnvironmentName: 'Oat'
       eapimResourceGroupName: c106t02-eapim-custeng
       eapimServiceName: c106t02-apim-custeng
+      b2cCustomDomain: test-login.ncs.signin.education.gov.uk
