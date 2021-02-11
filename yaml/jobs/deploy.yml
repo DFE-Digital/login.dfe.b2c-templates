@@ -124,6 +124,10 @@ parameters:
   type: string
   default: tncDetails.json
 
+- name: b2cCustomDomain
+  type: string
+  default: ''
+
 - name: eapimEnvironmentName
   type: string
   values:
@@ -199,7 +203,8 @@ jobs:
       -NotifyPasswordResetConfirmationEmailTemplateId "${{parameters.notifyPasswordResetConfirmationEmailTemplateId}}"
       -NotifyEmailChangeConfirmationEmailNewEmailTemplateId "${{parameters.notifyEmailChangeConfirmationEmailNewEmailTemplateId}}"
       -NotifyEmailChangeConfirmationEmailOldEmailTemplateId "${{parameters.notifyEmailChangeConfirmationEmailOldEmailTemplateId}}"
-      -TncFileName "${{parameters.tncFileName}}"'
+      -TncFileName "${{parameters.tncFileName}}"
+      -B2CCustomDomain "${{parameters.b2cCustomDomain}}"'
 
   strategy:
     runOnce:
