@@ -169,7 +169,7 @@ jobs:
       -NotifyEmailChangeConfirmationEmailNewEmailTemplateId "$(notifyEmailChangeConfirmationEmailNewEmailTemplateId)"
       -NotifyEmailChangeConfirmationEmailOldEmailTemplateId "$(notifyEmailChangeConfirmationEmailOldEmailTemplateId)"
       -TncFileName "${{parameters.tncFileName}}"
-      -B2CCustomDomain "${{parameters.b2cCustomDomain}}"'
+      -B2CCustomDomain "$(b2cCustomDomain)"'
 
   strategy:
     runOnce:
