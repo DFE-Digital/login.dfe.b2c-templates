@@ -227,19 +227,19 @@ stages:
       eapimResourceGroupName: c106t02-eapim-custeng
       eapimServiceName: c106t02-apim-custeng
 
-# - stage: prodTenantSetup
-#   displayName: Tenant Setup - PROD
-#   dependsOn:
-#     - build
-#     - deployPreProd
-#   jobs:
-#   - template: yaml/jobs/tenant-setup-grouped.yml
-#     parameters:
-#       environmentName: prod
-#       variableGroupName: ncs-b2c-prod
-#       applicationName: $(applicationName)
-#       signinRedirectRoot: ncs.signin.education.gov.uk
-#       eapimRootUrl: api-customerengagement.platform.education.gov.uk
+- stage: prodTenantSetup
+  displayName: Tenant Setup - PROD
+  dependsOn:
+    - build
+    - deployPreProd
+  jobs:
+  - template: yaml/jobs/tenant-setup-grouped.yml
+    parameters:
+      environmentName: prod
+      variableGroupName: ncs-b2c-prod
+      applicationName: $(applicationName)
+      signinRedirectRoot: ncs.signin.education.gov.uk
+      eapimRootUrl: api-customerengagement.platform.education.gov.uk
 
 - stage: deployProd
   displayName: Deploy - PROD
@@ -275,6 +275,6 @@ stages:
       policyCertThumbprint: $(prodB2cApimCertThumbprint)
       extensionAppId: $(parsedTestExtensionAppId)
       eapimServiceConnection: $(eapimServiceConnection)
-      eapimEnvironmentName: 'Prod'
+      eapimEnvironmentName: 'Production'
       eapimResourceGroupName: c106p01-eapim-custeng
       eapimServiceName: c106p01-apim-custeng
