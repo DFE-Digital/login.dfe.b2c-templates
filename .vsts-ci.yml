@@ -109,6 +109,7 @@ stages:
   displayName: Tenant Setup - TEST
   dependsOn:
     - build
+    - devTenantSetup
     - deployDev
   jobs:
   - template: yaml/jobs/tenant-setup.yml
@@ -179,6 +180,7 @@ stages:
   displayName: Tenant Setup - PREPROD
   dependsOn:
     - build
+    - testTenantSetup
     - deployTest
   jobs:
   - template: yaml/jobs/tenant-setup-grouped.yml
@@ -231,6 +233,7 @@ stages:
   displayName: Tenant Setup - PROD
   dependsOn:
     - build
+    - preProdTenantSetup
     - deployPreProd
   jobs:
   - template: yaml/jobs/tenant-setup-grouped.yml
