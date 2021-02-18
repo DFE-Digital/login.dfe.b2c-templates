@@ -11,8 +11,9 @@ parameters:
   type: string
 
 jobs:
-- job: tenantSetup
-  displayName: B2C Tenant Setup 
+- deployment: tenantSetup
+  displayName: B2C Tenant Setup
+  environment: ${{parameters.environmentName}}
   pool:
     vmImage: windows-latest
   variables:
@@ -31,69 +32,73 @@ jobs:
     value: ${{parameters.signinRedirectRoot}}
   - name: eapimRootUrl
     value: ${{parameters.eapimRootUrl}}
-  steps:
-    - task: Tokenization@2
-      displayName: Tokenise Policy Files
-      inputs:
-        SourcePath: '$(Build.SourcesDirectory)\policy\'
-        TargetFileNames: '*.xml'
-        RequireVariable: true
-        TokenStart: '{{'
-        TokenEnd: '}}'
-    - pwsh: |
-        $scriptPath = "$($env:BUILD_SOURCESDIRECTORY)\scripts\UploadFrameworkPolicy.ps1"
-        Write-Host Using Path : $scriptPath
-        Write-Host UPLOADER_PRINCIPAL_CLIENTID : $env:UPLOADER_PRINCIPAL_CLIENTID
-        Write-Host UPLOADER_PRINCIPAL_SECRET : $env:UPLOADER_PRINCIPAL_SECRET
-        Write-Host TENANT_ID : $env:TENANT_ID
 
-        $policyId = "B2C_1A_TrustFrameworkBase_Invitation"
-        $policyFile = "$($env:BUILD_SOURCESDIRECTORY)\policy\TrustFrameworkBase_Invitation.xml"
-        Invoke-Expression "$($scriptPath) $($env:UPLOADER_PRINCIPAL_CLIENTID) '$($env:UPLOADER_PRINCIPAL_SECRET)' $($env:TENANT_ID) $($policyId) $($policyFile)"
+strategy:
+  runOnce:
+    deploy:
+      steps:
+        - task: Tokenization@2
+          displayName: Tokenise Policy Files
+          inputs:
+            SourcePath: '$(Build.SourcesDirectory)\policy\'
+            TargetFileNames: '*.xml'
+            RequireVariable: true
+            TokenStart: '{{'
+            TokenEnd: '}}'
+        - pwsh: |
+            $scriptPath = "$($env:BUILD_SOURCESDIRECTORY)\scripts\UploadFrameworkPolicy.ps1"
+            Write-Host Using Path : $scriptPath
+            Write-Host UPLOADER_PRINCIPAL_CLIENTID : $env:UPLOADER_PRINCIPAL_CLIENTID
+            Write-Host UPLOADER_PRINCIPAL_SECRET : $env:UPLOADER_PRINCIPAL_SECRET
+            Write-Host TENANT_ID : $env:TENANT_ID
 
-        $policyId = "B2C_1A_TrustFrameworkExtensions_Invitation"
-        $policyFile = "$($env:BUILD_SOURCESDIRECTORY)\policy\TrustFrameworkExtensions_Invitation.xml"
-        Invoke-Expression "$($scriptPath) $($env:UPLOADER_PRINCIPAL_CLIENTID) '$($env:UPLOADER_PRINCIPAL_SECRET)' $($env:TENANT_ID) $($policyId) $($policyFile)"
+            $policyId = "B2C_1A_TrustFrameworkBase_Invitation"
+            $policyFile = "$($env:BUILD_SOURCESDIRECTORY)\policy\TrustFrameworkBase_Invitation.xml"
+            Invoke-Expression "$($scriptPath) $($env:UPLOADER_PRINCIPAL_CLIENTID) '$($env:UPLOADER_PRINCIPAL_SECRET)' $($env:TENANT_ID) $($policyId) $($policyFile)"
 
-        $policyId = "B2C_1A_Account_Signup"
-        $policyFile = "$($env:BUILD_SOURCESDIRECTORY)\policy\Account_Signup.xml"
-        Invoke-Expression "$($scriptPath) $($env:UPLOADER_PRINCIPAL_CLIENTID) '$($env:UPLOADER_PRINCIPAL_SECRET)' $($env:TENANT_ID) $($policyId) $($policyFile)"
+            $policyId = "B2C_1A_TrustFrameworkExtensions_Invitation"
+            $policyFile = "$($env:BUILD_SOURCESDIRECTORY)\policy\TrustFrameworkExtensions_Invitation.xml"
+            Invoke-Expression "$($scriptPath) $($env:UPLOADER_PRINCIPAL_CLIENTID) '$($env:UPLOADER_PRINCIPAL_SECRET)' $($env:TENANT_ID) $($policyId) $($policyFile)"
 
-        $policyId = "B2C_1A_Change_Email"
-        $policyFile = "$($env:BUILD_SOURCESDIRECTORY)\policy\Change_Email.xml"
-        Invoke-Expression "$($scriptPath) $($env:UPLOADER_PRINCIPAL_CLIENTID) '$($env:UPLOADER_PRINCIPAL_SECRET)' $($env:TENANT_ID) $($policyId) $($policyFile)"
+            $policyId = "B2C_1A_Account_Signup"
+            $policyFile = "$($env:BUILD_SOURCESDIRECTORY)\policy\Account_Signup.xml"
+            Invoke-Expression "$($scriptPath) $($env:UPLOADER_PRINCIPAL_CLIENTID) '$($env:UPLOADER_PRINCIPAL_SECRET)' $($env:TENANT_ID) $($policyId) $($policyFile)"
 
-        $policyId = "B2C_1A_Find_Email"
-        $policyFile = "$($env:BUILD_SOURCESDIRECTORY)\policy\Find_Email.xml"
-        Invoke-Expression "$($scriptPath) $($env:UPLOADER_PRINCIPAL_CLIENTID) '$($env:UPLOADER_PRINCIPAL_SECRET)' $($env:TENANT_ID) $($policyId) $($policyFile)"
+            $policyId = "B2C_1A_Change_Email"
+            $policyFile = "$($env:BUILD_SOURCESDIRECTORY)\policy\Change_Email.xml"
+            Invoke-Expression "$($scriptPath) $($env:UPLOADER_PRINCIPAL_CLIENTID) '$($env:UPLOADER_PRINCIPAL_SECRET)' $($env:TENANT_ID) $($policyId) $($policyFile)"
 
-        $policyId = "B2C_1A_Resend_Email"
-        $policyFile = "$($env:BUILD_SOURCESDIRECTORY)\policy\Resend_Email.xml"
-        Invoke-Expression "$($scriptPath) $($env:UPLOADER_PRINCIPAL_CLIENTID) '$($env:UPLOADER_PRINCIPAL_SECRET)' $($env:TENANT_ID) $($policyId) $($policyFile)"
+            $policyId = "B2C_1A_Find_Email"
+            $policyFile = "$($env:BUILD_SOURCESDIRECTORY)\policy\Find_Email.xml"
+            Invoke-Expression "$($scriptPath) $($env:UPLOADER_PRINCIPAL_CLIENTID) '$($env:UPLOADER_PRINCIPAL_SECRET)' $($env:TENANT_ID) $($policyId) $($policyFile)"
 
-        $policyId = "B2C_1A_Password_Reset_Confirmation"
-        $policyFile = "$($env:BUILD_SOURCESDIRECTORY)\policy\Password_Reset_Confirmation.xml"
-        Invoke-Expression "$($scriptPath) $($env:UPLOADER_PRINCIPAL_CLIENTID) '$($env:UPLOADER_PRINCIPAL_SECRET)' $($env:TENANT_ID) $($policyId) $($policyFile)"
+            $policyId = "B2C_1A_Resend_Email"
+            $policyFile = "$($env:BUILD_SOURCESDIRECTORY)\policy\Resend_Email.xml"
+            Invoke-Expression "$($scriptPath) $($env:UPLOADER_PRINCIPAL_CLIENTID) '$($env:UPLOADER_PRINCIPAL_SECRET)' $($env:TENANT_ID) $($policyId) $($policyFile)"
 
-        $policyId = "B2C_1A_Password_Reset"
-        $policyFile = "$($env:BUILD_SOURCESDIRECTORY)\policy\Password_Reset.xml"
-        Invoke-Expression "$($scriptPath) $($env:UPLOADER_PRINCIPAL_CLIENTID) '$($env:UPLOADER_PRINCIPAL_SECRET)' $($env:TENANT_ID) $($policyId) $($policyFile)"
+            $policyId = "B2C_1A_Password_Reset_Confirmation"
+            $policyFile = "$($env:BUILD_SOURCESDIRECTORY)\policy\Password_Reset_Confirmation.xml"
+            Invoke-Expression "$($scriptPath) $($env:UPLOADER_PRINCIPAL_CLIENTID) '$($env:UPLOADER_PRINCIPAL_SECRET)' $($env:TENANT_ID) $($policyId) $($policyFile)"
 
-        $policyId = "B2C_1A_Signin_Invitation"
-        $policyFile = "$($env:BUILD_SOURCESDIRECTORY)\policy\Signin_Invitation.xml"
-        Invoke-Expression "$($scriptPath) $($env:UPLOADER_PRINCIPAL_CLIENTID) '$($env:UPLOADER_PRINCIPAL_SECRET)' $($env:TENANT_ID) $($policyId) $($policyFile)"
+            $policyId = "B2C_1A_Password_Reset"
+            $policyFile = "$($env:BUILD_SOURCESDIRECTORY)\policy\Password_Reset.xml"
+            Invoke-Expression "$($scriptPath) $($env:UPLOADER_PRINCIPAL_CLIENTID) '$($env:UPLOADER_PRINCIPAL_SECRET)' $($env:TENANT_ID) $($policyId) $($policyFile)"
 
-        $policyId = "B2C_1A_Signup_Confirmation"
-        $policyFile = "$($env:BUILD_SOURCESDIRECTORY)\policy\Signup_Confirmation.xml"
-        Invoke-Expression "$($scriptPath) $($env:UPLOADER_PRINCIPAL_CLIENTID) '$($env:UPLOADER_PRINCIPAL_SECRET)' $($env:TENANT_ID) $($policyId) $($policyFile)"
+            $policyId = "B2C_1A_Signin_Invitation"
+            $policyFile = "$($env:BUILD_SOURCESDIRECTORY)\policy\Signin_Invitation.xml"
+            Invoke-Expression "$($scriptPath) $($env:UPLOADER_PRINCIPAL_CLIENTID) '$($env:UPLOADER_PRINCIPAL_SECRET)' $($env:TENANT_ID) $($policyId) $($policyFile)"
 
-        $policyId = "B2C_1A_Signup_Invitation"
-        $policyFile = "$($env:BUILD_SOURCESDIRECTORY)\policy\Signup_Invitation.xml"
-        Invoke-Expression "$($scriptPath) $($env:UPLOADER_PRINCIPAL_CLIENTID) '$($env:UPLOADER_PRINCIPAL_SECRET)' $($env:TENANT_ID) $($policyId) $($policyFile)"
+            $policyId = "B2C_1A_Signup_Confirmation"
+            $policyFile = "$($env:BUILD_SOURCESDIRECTORY)\policy\Signup_Confirmation.xml"
+            Invoke-Expression "$($scriptPath) $($env:UPLOADER_PRINCIPAL_CLIENTID) '$($env:UPLOADER_PRINCIPAL_SECRET)' $($env:TENANT_ID) $($policyId) $($policyFile)"
 
-        Write-Host 'Upload Complete'
-      env:
-        TENANT_ID: $(azureB2cTenantId)
-        UPLOADER_PRINCIPAL_SECRET: $(pipelineManagementClientSecret)
-        UPLOADER_PRINCIPAL_CLIENTID : $(pipelineManagementClientId)
-      displayName: Policy Upload
+            $policyId = "B2C_1A_Signup_Invitation"
+            $policyFile = "$($env:BUILD_SOURCESDIRECTORY)\policy\Signup_Invitation.xml"
+            Invoke-Expression "$($scriptPath) $($env:UPLOADER_PRINCIPAL_CLIENTID) '$($env:UPLOADER_PRINCIPAL_SECRET)' $($env:TENANT_ID) $($policyId) $($policyFile)"
+
+            Write-Host 'Upload Complete'
+          env:
+            TENANT_ID: $(azureB2cTenantId)
+            UPLOADER_PRINCIPAL_SECRET: $(pipelineManagementClientSecret)
+            UPLOADER_PRINCIPAL_CLIENTID : $(pipelineManagementClientId)
+          displayName: Policy Upload
