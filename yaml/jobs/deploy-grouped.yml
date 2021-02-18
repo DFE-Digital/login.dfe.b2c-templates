@@ -87,10 +87,6 @@ parameters:
   type: string
   default: tncDetails.json
 
-- name: b2cCustomDomain
-  type: string
-  default: ''
-
 - name: eapimEnvironmentName
   type: string
   values:
