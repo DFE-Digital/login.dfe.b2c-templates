@@ -25,7 +25,7 @@ parameters:
 jobs:
 - deployment: tenantSetup
   displayName: B2C Tenant Setup 
-  environment: ${{parameters.environmentName}}
+  environment: 'ncs-b2c-tenant-${{parameters.environmentName}}'
   pool:
     vmImage: windows-latest
   variables:

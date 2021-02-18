@@ -144,7 +144,7 @@ parameters:
 jobs:
 - deployment: Deploy
   displayName: Deploy Function and Front Door
-  environment: ${{parameters.environmentName}}
+  environment: 'ncs-b2c-${{parameters.environmentName}}'
   pool:
     vmImage: windows-latest
   variables:
