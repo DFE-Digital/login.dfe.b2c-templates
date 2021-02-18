@@ -49,6 +49,7 @@ jobs:
     runOnce:
       deploy:
         steps:
+          - checkout: self
           - task: Tokenization@2
             displayName: Tokenise Policy Files
             inputs:
