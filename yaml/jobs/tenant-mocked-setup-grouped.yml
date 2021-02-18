@@ -13,7 +13,7 @@ parameters:
 jobs:
 - deployment: tenantMockSetup
   displayName: B2C Tenant Mock Setup
-  environment: 'ncs-b2c-tenant-${{parameters.environmentName}}'
+  environment: 'ncs-b2c-${{parameters.environmentName}}'
   pool:
     vmImage: windows-latest
   variables:
