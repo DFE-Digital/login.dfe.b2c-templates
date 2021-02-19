@@ -278,6 +278,13 @@
         },
         "TncFileName": {
             "type": "string"
+        },
+        "B2CCustomDomain": {
+            "type": "string",
+            "defaultValue": "",
+            "metadata": {
+                "description": "The hostname of the frontendEndpoints. Must be a domain name."
+            }
         }
     },
     "variables": {
@@ -290,8 +297,58 @@
             "autoScaleRuleName": "[concat(variables('baseName'), '-function-asp-autoscale-setting')]",
             "actionGroupName": "[concat(variables('baseName'),'-action-group')]",
             "actionGroupShortName": "[concat(parameters('applicationName'),'-ag')]",
-            "configStoreName": "[concat(variables('baseName'), '-cfg')]"
+            "configStoreName": "[concat(variables('baseName'), '-cfg')]",
+            "frontDoorName": "[concat(variables('baseName'),'-frontend')]"
         },
+        "frontDoor": {
+            "frontendEndpointName": "[concat(variables('baseName'),'-frontend-azurefd-net')]",
+            "frontendEndpointHostName": "[concat(variables('baseName'),'-frontend.azurefd.net')]",
+            "frontendEndpointCustomDomainName": "[replace(parameters('B2CCustomDomain'),'.','-')]",
+            "frontendEndpointCustomDomain": "[parameters('B2CCustomDomain')]",
+            "backendPoolName": "[concat(variables('baseName'),'-backend')]",
+            "backendPoolAddress": "[concat(parameters('B2CTenantShortName'),'.b2clogin.com')]",
+            "backendPoolHostHeader": "[concat(parameters('B2CTenantShortName'),'.b2clogin.com')]",
+            "routingRuleName": "[concat(variables('baseName'),'-rule')]",
+            "useCustomHostName": "[not(empty(parameters('B2CCustomDomain')))]"
+        },
+        "frontDoorFrontendEndpoints": {
+            "frontendEndpointsBase": [
+                {
+                    "name": "[variables('frontDoor').frontendEndpointName]",
+                    "properties": {
+                        "hostName": "[variables('frontDoor').frontendEndpointHostName]",
+                        "sessionAffinityEnabledState": "Disabled",
+                        "sessionAffinityTtlSeconds": 0,
+                        "webApplicationFirewallPolicyLink": null,
+                        "customHttpsConfiguration": null
+                    }
+                }
+            ],
+            "frontendEndpointsCustomDomain": [
+                {
+                    "name": "[variables('frontDoor').frontendEndpointCustomDomainName]",
+                    "properties": {
+                        "hostName": "[variables('frontDoor').frontendEndpointCustomDomain]",
+                        "sessionAffinityEnabledState": "Disabled",
+                        "sessionAffinityTtlSeconds": 0
+                    }
+                }
+            ]
+        },
+        "frontDoorFrontendEndpointsCombined": "[union(variables('frontDoorFrontendEndpoints').frontendEndpointsBase,variables('frontDoorFrontendEndpoints').frontendEndpointsCustomDomain)]",
+        "frontDoorRoutingRules": {
+            "routingRuleFrontendEndpointBase": [
+                {
+                    "id": "[resourceId('Microsoft.Network/frontDoors/frontendEndpoints', variables('resourceNames').frontDoorName, variables('frontDoor').frontendEndpointName)]"
+                }
+            ],
+            "routingRuleCustomDomainFrontendEndpoint": [
+                {
+                    "id": "[resourceId('Microsoft.Network/frontdoors/frontendEndpoints', variables('resourceNames').frontDoorName, variables('frontDoor').frontendEndpointCustomDomainName)]"
+                }
+            ]
+        },
+        "frontDoorRoutingRuleFrontendEndpointsCombined": "[union(variables('frontDoorRoutingRules').routingRuleFrontendEndpointBase,variables('frontDoorRoutingRules').routingRuleCustomDomainFrontendEndpoint)]",
         "resourceIds": {
             "appInsightsId": "[resourceId('Microsoft.Insights/components/', variables('resourceNames').applicationInsightsName)]",
             "defaultStorageAccountId": "[resourceId('Microsoft.Storage/storageAccounts', variables('resourceNames').defaultStorageAccountName)]",
@@ -916,6 +973,114 @@
                 "[variables('resourceIds').servicePlanId]",
                 "[variables('resourceIds').appInsightsId]"
             ]
+        },
+        {
+            "apiVersion": "2020-05-01",
+            "type": "Microsoft.Network/frontdoors",
+            "name": "[variables('resourceNames').frontDoorName]",
+            "location": "global",
+            "tags": {},
+            "properties": {
+                "friendlyName": "[variables('resourceNames').frontDoorName]",
+                "enabledState": "Enabled",
+                "healthProbeSettings": [
+                    {
+                        "name": "healthProbeSettings-1610112949853",
+                        "properties": {
+                            "path": "/",
+                            "protocol": "Https",
+                            "intervalInSeconds": 30,
+                            "healthProbeMethod": "Head",
+                            "enabledState": "Disabled"
+                        }
+                    }
+                ],
+                "loadBalancingSettings": [
+                    {
+                        "name": "loadBalancingSettings-1610112949853",
+                        "properties": {
+                            "sampleSize": 4,
+                            "successfulSamplesRequired": 2,
+                            "additionalLatencyMilliseconds": 0
+                        }
+                    }
+                ],
+                "frontendEndpoints": "[if(variables('frontDoor').useCustomHostName,variables('frontDoorFrontendEndpointsCombined'),variables('frontDoorFrontendEndpoints').frontendEndpointsBase)]",
+                "backendPools": [
+                    {
+                        "name": "[variables('frontDoor').backendPoolName]",
+                        "properties": {
+                            "backends": [
+                                {
+                                    "address": "[variables('frontDoor').backendPoolAddress]",
+                                    "privateLinkResourceId": null,
+                                    "privateLinkLocation": null,
+                                    "privateEndpointStatus": null,
+                                    "privateLinkApprovalMessage": null,
+                                    "enabledState": "Enabled",
+                                    "httpPort": 80,
+                                    "httpsPort": 443,
+                                    "priority": 1,
+                                    "weight": 50,
+                                    "backendHostHeader": "[variables('frontDoor').backendPoolHostHeader]"
+                                }
+                            ],
+                            "loadBalancingSettings": {
+                                "id": "[resourceId('Microsoft.Network/frontDoors/loadBalancingSettings', variables('resourceNames').frontDoorName, 'loadBalancingSettings-1610112949853')]"
+                            },
+                            "healthProbeSettings": {
+                                "id": "[resourceId('Microsoft.Network/frontDoors/healthProbeSettings', variables('resourceNames').frontDoorName, 'healthProbeSettings-1610112949853')]"
+                            }
+                        }
+                    }
+                ],
+                "routingRules": [
+                    {
+                        "name": "[variables('frontDoor').routingRuleName]",
+                        "properties": {
+                            "frontendEndpoints": "[if(variables('frontDoor').useCustomHostName,variables('frontDoorRoutingRuleFrontendEndpointsCombined'),variables('frontDoorRoutingRules').routingRuleFrontendEndpointBase)]",
+                            "acceptedProtocols": [
+                                "Http",
+                                "Https"
+                            ],
+                            "patternsToMatch": [
+                                "/*"
+                            ],
+                            "enabledState": "Enabled",
+                            "routeConfiguration": {
+                                "@odata.type": "#Microsoft.Azure.FrontDoor.Models.FrontdoorForwardingConfiguration",
+                                "customForwardingPath": null,
+                                "forwardingProtocol": "HttpsOnly",
+                                "backendPool": {
+                                    "id": "[resourceId('Microsoft.Network/frontDoors/backendPools', variables('resourceNames').frontDoorName, variables('frontDoor').backendPoolName)]"
+                                },
+                                "cacheConfiguration": null
+                            }
+                        }
+                    }
+                ],
+                "backendPoolsSettings": {
+                    "enforceCertificateNameCheck": "Enabled",
+                    "sendRecvTimeoutSeconds": 30
+                }
+            }
+        },
+        {
+            "condition": "[variables('frontDoor').useCustomHostName]",
+            "type": "Microsoft.Network/frontdoors/frontendEndpoints/customHttpsConfiguration",
+            "apiVersion": "2020-07-01",
+            "name": "[concat(variables('resourceNames').frontDoorName, '/',if(variables('frontDoor').useCustomHostName,variables('frontDoor').frontendEndpointCustomDomainName,'placeholder'),'/default')]",
+            "dependsOn": [
+                "[variables('resourceNames').frontDoorName]"
+            ],
+            "properties": {
+                "protocolType": "ServerNameIndication",
+                "certificateSource": "FrontDoor",
+                "frontDoorCertificateSourceParameters": {
+                    "certificateType": "Dedicated"
+                },
+                "minimumTlsVersion": "1.2"
+            }
         }
     ],
     "outputs": {

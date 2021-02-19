@@ -106,8 +106,8 @@ parameters:
 
 jobs:
 - deployment: Deploy
-  displayName: Deploy Azure Function
-  environment: ${{parameters.environmentName}}
+  displayName: Deploy Function and Front Door
+  environment: 'ncs-b2c-${{parameters.environmentName}}'
   pool:
     vmImage: windows-latest
   variables:
@@ -164,7 +164,8 @@ jobs:
       -NotifyPasswordResetConfirmationEmailTemplateId "$(notifyPasswordResetConfirmationEmailTemplateId)"
       -NotifyEmailChangeConfirmationEmailNewEmailTemplateId "$(notifyEmailChangeConfirmationEmailNewEmailTemplateId)"
       -NotifyEmailChangeConfirmationEmailOldEmailTemplateId "$(notifyEmailChangeConfirmationEmailOldEmailTemplateId)"
-      -TncFileName "${{parameters.tncFileName}}"'
+      -TncFileName "${{parameters.tncFileName}}"
+      -B2CCustomDomain "$(b2cCustomDomain)"'
 
   strategy:
     runOnce:
@@ -234,17 +235,17 @@ jobs:
             namedValuesIncluded: true
             namedValuesFileName: '$(Build.SourcesDirectory)\eapim\namedValues\values.csv'
 
-        - template: ../steps/enable-mock-policies.yml
-          parameters:
-            eapimServiceConnection: ${{parameters.eapimServiceConnection}}
-            eapimResourceGroupName: ${{parameters.eapimResourceGroupName}}
-            eapimServiceName: ${{parameters.eapimServiceName}}
+        #- template: ../steps/enable-mock-policies.yml
+        #  parameters:
+        #    eapimServiceConnection: ${{parameters.eapimServiceConnection}}
+        #    eapimResourceGroupName: ${{parameters.eapimResourceGroupName}}
+        #    eapimServiceName: ${{parameters.eapimServiceName}}
 
-        - template: ../steps/clear-mock-policies.yml
-          parameters:
-            eapimServiceConnection: ${{parameters.eapimServiceConnection}}
-            eapimResourceGroupName: ${{parameters.eapimResourceGroupName}}
-            eapimServiceName: ${{parameters.eapimServiceName}}
+        #- template: ../steps/clear-mock-policies.yml
+        #  parameters:
+        #    eapimServiceConnection: ${{parameters.eapimServiceConnection}}
+        #    eapimResourceGroupName: ${{parameters.eapimResourceGroupName}}
+        #    eapimServiceName: ${{parameters.eapimServiceName}}
 
         # - task: AzureFileCopy@4
         #   displayName: Upload T&Cs
