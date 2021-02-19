@@ -270,17 +270,17 @@ jobs:
             namedValuesIncluded: true
             namedValuesFileName: '$(Build.SourcesDirectory)\eapim\namedValues\values.csv'
 
-        - template: ../steps/enable-mock-policies.yml
-          parameters:
-            eapimServiceConnection: ${{parameters.eapimServiceConnection}}
-            eapimResourceGroupName: ${{parameters.eapimResourceGroupName}}
-            eapimServiceName: ${{parameters.eapimServiceName}}
+        #- template: ../steps/enable-mock-policies.yml
+        #  parameters:
+        #    eapimServiceConnection: ${{parameters.eapimServiceConnection}}
+        #    eapimResourceGroupName: ${{parameters.eapimResourceGroupName}}
+        #    eapimServiceName: ${{parameters.eapimServiceName}}
 
-        - template: ../steps/clear-mock-policies.yml
-          parameters:
-            eapimServiceConnection: ${{parameters.eapimServiceConnection}}
-            eapimResourceGroupName: ${{parameters.eapimResourceGroupName}}
-            eapimServiceName: ${{parameters.eapimServiceName}}
+        #- template: ../steps/clear-mock-policies.yml
+        #  parameters:
+        #    eapimServiceConnection: ${{parameters.eapimServiceConnection}}
+        #    eapimResourceGroupName: ${{parameters.eapimResourceGroupName}}
+        #    eapimServiceName: ${{parameters.eapimServiceName}}
 
         # - task: AzureFileCopy@4
         #   displayName: Upload T&Cs
