@@ -57,7 +57,7 @@ stages:
       eapimRootUrl: dev-api-customerengagement.platform.education.gov.uk
 
 - stage: deployDev
-  displayName: Deploy - DEV
+  displayName: Resource Setup - DEV
   dependsOn:
   - build
   - devTenantSetup
@@ -109,7 +109,6 @@ stages:
   displayName: Tenant Setup - TEST
   dependsOn:
     - build
-    - devTenantSetup
     - deployDev
   jobs:
   - template: yaml/jobs/tenant-setup.yml
@@ -127,7 +126,7 @@ stages:
       eapimRootUrl: test-api-customerengagement.platform.education.gov.uk
 
 - stage: deployTest
-  displayName: Deploy - TEST
+  displayName: Resource Setup - TEST
   dependsOn:
     - build
     - deployDev
@@ -180,7 +179,6 @@ stages:
   displayName: Tenant Setup - PREPROD
   dependsOn:
     - build
-    - testTenantSetup
     - deployTest
   jobs:
   - template: yaml/jobs/tenant-setup-grouped.yml
@@ -192,7 +190,7 @@ stages:
       eapimRootUrl: oat-api-customerengagement.platform.education.gov.uk
 
 - stage: deployPreProd
-  displayName: Deploy - PREPROD
+  displayName: Resource Setup - PREPROD
   dependsOn:
     - build
     - deployTest
@@ -233,7 +231,6 @@ stages:
   displayName: Tenant Setup - PROD
   dependsOn:
     - build
-    - preProdTenantSetup
     - deployPreProd
   jobs:
   - template: yaml/jobs/tenant-setup-grouped.yml
@@ -245,7 +242,7 @@ stages:
       eapimRootUrl: api-customerengagement.platform.education.gov.uk
 
 - stage: deployProd
-  displayName: Deploy - PROD
+  displayName: Resource Setup - PROD
   dependsOn:
     - build
     - deployPreProd
