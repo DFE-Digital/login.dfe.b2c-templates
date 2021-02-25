@@ -96,6 +96,8 @@ namespace B2CAzureFunc
             }
             catch (Exception ex)
             {
+                log.LogError(ex.ToString());
+
                 return new BadRequestObjectResult(new ResponseContentModel
                 {
                     userMessage = "Sorry, Something happened unexpectedly.",
@@ -103,7 +105,7 @@ namespace B2CAzureFunc
                     status = 400,
                     code = "API12345",
                     requestId = "50f0bd91-2ff4-4b8f-828f-00f170519ddb",
-                    developerMessage = ex.ToString(),
+                    developerMessage = "See logging provider failure dependencies for exception information.",
                     moreInfo = "https://restapi/error/API12345/moreinfo"
                 });
             }

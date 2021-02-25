@@ -261,7 +261,7 @@ jobs:
             functionUrl: $(armOutputs.armOutput.functionUrl)
             productName: 'NCS Identity'
             productRequiresSubscription: true
-            publishContactEmail: 'paul.sheridan@digital.education.gov.uk'
+            publishContactEmail: 'DfESigninDevOps@education.gov.uk'
             publishApiName: 'NCS Identity'
             publishApiOpenApiSchemaPath: '$(Build.SourcesDirectory)\definition.json'
             publishApiPath: ${{parameters.applicationName}}

@@ -151,11 +151,12 @@ namespace B2CAzureFunc
             }
             catch (Exception ex)
             {
+                log.LogError(ex.ToString());
                 log.LogInformation(ex.ToString());
                 return new BadRequestObjectResult(new ResponseContentModel
                 {
                     userMessage = "Sorry, Something happened unexpectedly. Please try after sometime.",
-                    developerMessage = ex.ToString()
+                    developerMessage = "See logging provider failure dependencies for exception information."
                 });
             }
         }

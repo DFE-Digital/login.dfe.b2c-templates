@@ -129,10 +129,12 @@ namespace B2CAzureFunc
             }
             catch (Exception ex)
             {
+                log.LogError(ex.ToString());
+
                 return new BadRequestObjectResult(new ResponseContentModel
                 {
                     userMessage = "Sorry, something happened unexpectedly. Couldn't update the user. Please try again later.",
-                    developerMessage = ex.ToString()
+                    developerMessage = "See logging provider failure dependencies for exception information."
                 });
             }
         }
