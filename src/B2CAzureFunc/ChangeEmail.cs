@@ -190,7 +190,6 @@ namespace B2CAzureFunc
 
                 return new BadRequestObjectResult(new ResponseContentModel
                 {
-                    //developerMessage = ex.ToString(),
                     userMessage = "Sorry, Something happened unexpectedly. Please try after sometime."
                 });
             }
