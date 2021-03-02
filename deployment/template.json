@@ -235,7 +235,7 @@
             "type": "string"
         },
         "NCSDigitalIdentityUrl": {
-            "type":"string"
+            "type": "string"
         },
         "TouchpointId": {
             "type": "string"
@@ -284,6 +284,13 @@
             "defaultValue": "",
             "metadata": {
                 "description": "The hostname of the frontendEndpoints. Must be a domain name."
+            }
+        },
+        "advancedThreatProtectionEnabled": {
+            "type": "bool",
+            "defaultValue": true,
+            "metadata": {
+                "description": "Enable or disable Advanced Threat Protection."
             }
         }
     },
@@ -470,8 +477,24 @@
                     },
                     "keySource": "Microsoft.Storage"
                 },
-                "accessTier": "Hot"
-            }
+                "accessTier": "Hot",
+                "minimumTlsVersion": "TLS1_2",
+                "allowBlobPublicAccess": false
+            },
+            "resources": [
+                {
+                    "condition": "[parameters('advancedThreatProtectionEnabled')]",
+                    "type": "providers/advancedThreatProtectionSettings",
+                    "name": "Microsoft.Security/current",
+                    "apiVersion": "2019-01-01",
+                    "dependsOn": [
+                        "[resourceId('Microsoft.Storage/storageAccounts/', variables('resourceNames').defaultStorageAccountName)]"
+                    ],
+                    "properties": {
+                        "isEnabled": true
+                    }
+                }
+            ]
         },
         {
             "type": "Microsoft.Storage/storageAccounts/blobServices",
@@ -867,7 +890,7 @@
                             "value": "DfE NCS B2C Service"
                         },
                         {
-                            "name": "B2COpenApiConfig:ServiceTitle",    
+                            "name": "B2COpenApiConfig:ServiceTitle",
                             "value": "DFE NCS Auth"
                         },
                         {
@@ -961,7 +984,7 @@
                         {
                             "name": "AppSettings:StorageAccountConnectionString",
                             "value": "[concat('DefaultEndpointsProtocol=https;AccountName=', variables('resourceNames').defaultStorageAccountName, ';AccountKey=', listKeys(variables('resourceIds').defaultStorageAccountId, '2015-05-01-preview').key1)]"
-                        }                  
+                        }
                     ]
                 },
                 "name": "[variables('resourceNames').functionName]",
@@ -1092,13 +1115,13 @@
             "type": "string",
             "value": "[concat('https://', variables('resourceNames').functionName, '.azurewebsites.net')]"
         },
-        "functionMasterKey":{
-            "type":"string",
-            "value":"[listkeys(concat(variables('resourceIds').functionId, '/host/default/'),'2016-08-01').masterKey]"
+        "functionMasterKey": {
+            "type": "string",
+            "value": "[listkeys(concat(variables('resourceIds').functionId, '/host/default/'),'2016-08-01').masterKey]"
         },
         "functionDefaultKey": {
-            "type":"string",
-            "value":"[listkeys(concat(variables('resourceIds').functionId, '/host/default/'),'2016-08-01').functionKeys.default]"
+            "type": "string",
+            "value": "[listkeys(concat(variables('resourceIds').functionId, '/host/default/'),'2016-08-01').functionKeys.default]"
         },
         "applicationInsightsInstrumentationKey": {
             "type": "string",
