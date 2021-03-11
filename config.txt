@@ -1,0 +1,19 @@
+Function Configuration
+-----------------------------
+App Settings:
+    1.B2CTenant - Tenant name
+    2. B2CClientId - Relying party web app client id
+    3. ClientSigningKey - Decryption key used to create "B2C_1A_ClientAssertionSigningKey"
+    4. b2c:Tenant - Tenant Id eg: devauthncs.onmicrosoft.com
+    5. b2c:GraphAccessClientId - Client id of Graph access app created before
+    6. b2c:GraphAccessClientSecret - Secret created in Graph access app created before
+    7. Extension
+
+
+
+
+
+
+
+
+    

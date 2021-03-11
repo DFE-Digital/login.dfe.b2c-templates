@@ -1,0 +1,91 @@
+name: $(BuildDefinitionName)_tag-$(BuildID)_at-$(Date:yyyyMMdd)$(Rev:.r)
+resources:
+  repositories:
+    - repository: self
+      persistCredentials: true
+      clean: true
+    - repository: devopsTemplates
+      type: github
+      endpoint: DfE-Digital
+      name: DFE-Digital/operations-devops-pipeline-templates
+
+pr:
+  branches:
+    include:
+    - develop
+    - master
+trigger:
+  branches:
+    exclude:
+    - master
+    - develop
+    - feature/*
+    - release/*
+
+variables:
+- name: applicationName
+  value: authncs
+- name: parsedTestExtensionAppId
+  value: $[ replace(variables['testProxyIdentityAppClientId'],'-','') ]
+- name: parsedDevExtensionAppId
+  value: $[ replace(variables['devProxyIdentityAppClientId'],'-','') ]
+- group: ncs-b2c-global
+
+stages:
+
+- stage: prSetup
+  displayName: PR Mock Testing
+  jobs:
+  - template: yaml/jobs/tenant-mocked-setup-grouped.yml
+    parameters:
+      environmentName: dev
+      variableGroupName: ncs-b2c-dev
+      applicationName: $(applicationName)
+      signinRedirectRoot: s141d01-signin-ncs.azurewebsites.net
+      eapimRootUrl: dev-api-customerengagement.platform.education.gov.uk
+
+  - job: devEapimOperationSetup
+    displayName: EAPIM Operation Setup Mocks
+    pool:
+      vmImage: windows-latest
+    steps:
+    - template: yaml/steps/enable-mock-policies.yml
+      parameters:
+        eapimServiceConnection: $(eapimServiceConnection)
+        eapimResourceGroupName: c106d01-eapim-custeng
+        eapimServiceName: c106d01-apim-custeng
+
+- stage: buildAndtest
+  dependsOn: prSetup
+  displayName: Run Tests
+  jobs:
+  - template: /Application/dotnet/jobs/build-application.yml@devopsTemplates
+    parameters:
+      applicationName: $(applicationName)
+      webPublish: false
+      nugetConfigPath: nuget.config
+      testProjectPath: '$(Build.SourcesDirectory)/tests/MockPolicyTests/MockPolicyTests.csproj'
+
+- stage: prReset
+  dependsOn: buildAndTest
+  condition: always()
+  displayName: PR Mock Reset
+  jobs:
+  - template: yaml/jobs/tenant-setup-grouped.yml
+    parameters:
+      environmentName: dev
+      variableGroupName: ncs-b2c-dev
+      applicationName: $(applicationName)
+      signinRedirectRoot: s141d01-signin-ncs.azurewebsites.net
+      eapimRootUrl: dev-api-customerengagement.platform.education.gov.uk
+
+  - job: devEapimOperationClear
+    displayName: EAPIM Operation Clear Mocks
+    pool:
+      vmImage: windows-latest
+    steps:
+    - template: yaml/steps/clear-mock-policies.yml
+      parameters:
+        eapimServiceConnection: $(eapimServiceConnection)
+        eapimResourceGroupName: c106d01-eapim-custeng
+        eapimServiceName: c106d01-apim-custeng

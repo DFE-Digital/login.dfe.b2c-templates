@@ -1,37 +1,272 @@
+name: $(BuildDefinitionName)_tag-$(BuildID)_at-$(Date:yyyyMMdd)$(Rev:.r)
+resources:
+  repositories:
+    - repository: self
+      persistCredentials: true
+      clean: true
+    - repository: devopsTemplates
+      type: github
+      endpoint: DfE-Digital
+      name: DFE-Digital/operations-devops-pipeline-templates
+
 trigger:
+  batch: true
   branches:
     include:
     - master
-    exclude:
-    - develop/*
+    - develop
+
+variables:
+- name: applicationName
+  value: authncs
+- name: parsedTestExtensionAppId
+  value: $[ replace(variables['testProxyIdentityAppClientId'],'-','') ]
+- name: parsedDevExtensionAppId
+  value: $[ replace(variables['devProxyIdentityAppClientId'],'-','') ]
+- group: ncs-b2c-global
 
 stages:
-- stage: buildAndDeploy
+
+- stage: build
+  displayName: Build
   jobs:
-  - job: armDeploy
-    steps:
-      - checkout: self
-      - download: none
-      - task: AzureResourceManagerTemplateDeployment@3
-        displayName: Create Infrastructure
-        inputs:
-          deploymentScope: 'Resource Group'
-          azureResourceManagerConnection: $(serviceConnection)
-          subscriptionId: $(subscriptionId)
-          resourceGroupName: $(resourceGroupName)
-          location: $(deploymentLocation)
-          csmFile: '$(Build.SourcesDirectory)/arm/template.json'
-          overrideParameters: '-applicationName "ncsauth"
-            -environmentName "dev"
-            -publisherEmail "test@test.com"
-            -publisherName "deploymentTest"
-            -apimSku "Developer"
-            -apimSkuCount "1"
-            -servicePlanSkuName "F1"
-            -servicePlanSkuTier "Free"
-            -servicePlanSkuCount "0"
-            -secondaryStorageLocation "northeurope"
-            -actionGroupRecieverEmailAddress "test@test.com"      
-            -alertWebHookUrl "http://www.test.com"'
-          deploymentMode: 'Incremental'              
-      
+  - template: /Application/dotnet/jobs/build-application.yml@devopsTemplates
+    parameters:
+      applicationName: $(applicationName)
+      webPublish: false
+      nugetConfigPath: nuget.config
+      testProjectPath: '$(Build.SourcesDirectory)/tests/B2CAzureFunc.Tests/B2CAzureFunc.Tests.csproj'
+
+- stage: devTenantSetup
+  displayName: Tenant Setup - DEV
+  dependsOn:
+    - build
+  jobs:
+  - template: yaml/jobs/tenant-setup.yml
+    parameters:
+      variableGroupName: ncs-b2c-dev
+      applicationName: $(applicationName)
+      environmentName: dev
+      tenantId: $(devAzureB2cTenantId)
+      uploaderPrincipalClientId: $(devPipelineManagementClientId)
+      uploaderPrincipalClientSecret: $(devPipelineManagementClientSecret)
+      proxyAppRegistrationClientId: $(devProxyIdentityAppClientId)
+      proxyAppRegistrationObjectId: $(devProxyIdentityAppObjectId)
+      identAppRegistrationClientId: $(devIdentityAppClientId)
+      signinRedirectRoot: s141d01-signin-ncs.azurewebsites.net
+      eapimRootUrl: dev-api-customerengagement.platform.education.gov.uk
+
+- stage: deployDev
+  displayName: Resource Setup - DEV
+  dependsOn:
+  - devTenantSetup
+  jobs:
+  - template: yaml/jobs/deploy.yml
+    parameters:
+      variableGroupName: ncs-b2c-dev
+      applicationName: $(applicationName)
+      environmentName: 'dev'
+      functionServicePlanSkuName: $(functionServicePlanSkuName)
+      functionServicePlanSkuTier: $(functionServicePlanSkuTier)
+      functionServicePlanSkuCount: $(functionServicePlanSkuCount)
+      b2cSignUpPolicy: $(b2cSignUpPolicy)
+      b2cSignupConfirmPolicy: $(b2cSignupConfirmPolicy)
+      b2cPasswordResetConfirmPoicy: $(b2cPasswordResetConfirmPoicy)
+      b2cChangeEmailPolicy: $(b2cChangeEmailPolicy)
+      b2cAuthorizationUrl: $(b2cAuthorizationUrl) # Need to change this to custom domain
+      ncsApimSubscriptionKey: $(ncsApimSubscriptionKey)
+      ncsDssApiRoot: $(devNcsDssApiRoot)
+      ncsDssApiKey: $(ncsDevDssApiKey)
+      ncsDssSearchApiVersion: $(ncsDssSearchApiVersion)
+      ncsDssSearchApiUrlRoute: $(ncsDssSearchApiUrlRoute)
+      ncsDssCreateCustomerApiUrlRoute: $(ncsDssCreateCustomerApiUrlRoute)
+      ncsDssCreateContactApiUrlRoute: $(ncsDssCreateContactApiUrlRoute)
+      ncsDssCreateIdentityApiUrlRoute: $(ncsDssCreateIdentityApiUrlRoute)
+      ncsDssGetCustomerUrlRoute: $(ncsDssGetCustomerUrlRoute)
+      ncsDigitalIdentityRoute: $(ncsDigitalIdentityRoute)
+      environmentId: 'd01'
+      serviceConnection: $(devServiceConnection)
+      subscriptionId: $(devSubscriptionId)
+      relyingPartyAppClientId: $(devRelyAppClientId)
+      clientSigningKey: $(devClientSigningKey)
+      graphAccessClientId: $(devGraphAccessClientId)
+      graphAccessClientSecret: $(devGraphAccessClientSecret)
+      deploymentPrimaryLocation: $(deploymentPrimaryLocation)
+      policyCertThumbprint: $(devB2cApimCertThumbprint)
+      extensionAppId: $(parsedDevExtensionAppId)
+      notifyAidedSignupEmailTemplateId: $(devNotifyAidedSignupEmailTemplateId)
+      notifySelfSignupEmailTemplateId: $(devNotifySelfSignupEmailTemplateId)
+      notifyPasswordResetConfirmationEmailTemplateId: $(devNotifyPasswordResetConfirmationEmailTemplateId)
+      notifyEmailChangeConfirmationEmailNewEmailTemplateId: $(devNotifyEmailChangeConfirmationEmailNewEmailTemplateId)
+      notifyEmailChangeConfirmationEmailOldEmailTemplateId: $(devNotifyEmailChangeConfirmationEmailOldEmailTemplateId)
+      eapimServiceConnection: $(eapimServiceConnection)
+      eapimEnvironmentName: 'Development'
+      eapimResourceGroupName: c106d01-eapim-custeng
+      eapimServiceName: c106d01-apim-custeng
+
+- stage: testTenantSetup
+  displayName: Tenant Setup - TEST
+  dependsOn:
+    - build
+  jobs:
+  - template: yaml/jobs/tenant-setup.yml
+    parameters:
+      variableGroupName: ncs-b2c-test
+      applicationName: $(applicationName)
+      environmentName: test
+      tenantId: $(testAzureB2cTenantId)
+      uploaderPrincipalClientId: $(testPipelineMangementClientId)
+      uploaderPrincipalClientSecret: $(testPipelineManagementClientSecret)
+      proxyAppRegistrationClientId: $(testProxyIdentityAppClientId)
+      proxyAppRegistrationObjectId: $(testProxyIdentityAppObjectId)
+      identAppRegistrationClientId: $(testIdentityAppClientId)
+      signinRedirectRoot: test-ncs.signin.education.gov.uk
+      eapimRootUrl: test-api-customerengagement.platform.education.gov.uk
+
+- stage: deployTest
+  displayName: Resource Setup - TEST
+  dependsOn:
+    - testTenantSetup
+  jobs:
+  - template: yaml/jobs/deploy.yml
+    parameters:
+      variableGroupName: ncs-b2c-test
+      applicationName: $(applicationName)
+      environmentName: 'test'
+      functionServicePlanSkuName: $(functionServicePlanSkuName)
+      functionServicePlanSkuTier: $(functionServicePlanSkuTier)
+      functionServicePlanSkuCount: $(functionServicePlanSkuCount)
+      b2cSignUpPolicy: $(b2cSignUpPolicy)
+      b2cSignupConfirmPolicy: $(b2cSignupConfirmPolicy)
+      b2cPasswordResetConfirmPoicy: $(b2cPasswordResetConfirmPoicy)
+      b2cChangeEmailPolicy: $(b2cChangeEmailPolicy)
+      b2cAuthorizationUrl: $(b2cAuthorizationUrl) # Need to change this to custom domain
+      ncsApimSubscriptionKey: $(ncsTestDssApiKey)
+      ncsDssApiRoot: $(testNcsDssApiRoot)
+      ncsDssApiKey: $(ncsTestDssApiKey)
+      ncsDssSearchApiVersion: $(ncsDssSearchApiVersion)
+      ncsDssSearchApiUrlRoute: $(ncsDssSearchApiUrlRoute)
+      ncsDssCreateCustomerApiUrlRoute: $(ncsDssCreateCustomerApiUrlRoute)
+      ncsDssCreateContactApiUrlRoute: $(ncsDssCreateContactApiUrlRoute)
+      ncsDssCreateIdentityApiUrlRoute: $(ncsDssCreateIdentityApiUrlRoute)
+      ncsDssGetCustomerUrlRoute: $(ncsDssGetCustomerUrlRoute)
+      ncsDigitalIdentityRoute: $(ncsDigitalIdentityRoute)
+      environmentId: 't01'
+      serviceConnection: $(testServiceConnection)
+      subscriptionId: $(testSubscriptionId)
+      relyingPartyAppClientId: $(testRelyAppClientId)
+      clientSigningKey: $(testClientSigningKey)
+      graphAccessClientId: $(testGraphAccessClientId)
+      graphAccessClientSecret: $(testGraphAccessClientSecret)
+      deploymentPrimaryLocation: $(deploymentPrimaryLocation)
+      policyCertThumbprint: $(testB2cApimCertThumbprint)
+      extensionAppId: $(parsedTestExtensionAppId)
+      notifyAidedSignupEmailTemplateId: $(testNotifyAidedSignupEmailTemplateId)
+      notifySelfSignupEmailTemplateId: $(testNotifySelfSignupEmailTemplateId)
+      notifyPasswordResetConfirmationEmailTemplateId: $(testNotifyPasswordResetConfirmationEmailTemplateId)
+      notifyEmailChangeConfirmationEmailNewEmailTemplateId: $(testNotifyEmailChangeConfirmationEmailNewEmailTemplateId)
+      notifyEmailChangeConfirmationEmailOldEmailTemplateId: $(testNotifyEmailChangeConfirmationEmailOldEmailTemplateId)
+      eapimServiceConnection: $(eapimServiceConnection)
+      eapimEnvironmentName: 'Test'
+      eapimResourceGroupName: c106t01-eapim-custeng
+      eapimServiceName: c106t01-apim-custeng
+
+- stage: preProdTenantSetup
+  displayName: Tenant Setup - PREPROD
+  dependsOn:
+    - build
+    - deployTest
+  jobs:
+  - template: yaml/jobs/tenant-setup-grouped.yml
+    parameters:
+      environmentName: preprod
+      variableGroupName: ncs-b2c-preprod
+      applicationName: $(applicationName)
+      signinRedirectRoot: pp-ncs.signin.education.gov.uk
+      eapimRootUrl: oat-api-customerengagement.platform.education.gov.uk
+
+- stage: deployPreProd
+  displayName: Resource Setup - PREPROD
+  dependsOn:
+    - preProdTenantSetup
+  jobs:
+  - template: yaml/jobs/deploy-grouped.yml
+    parameters:
+      variableGroupName: ncs-b2c-preprod
+      applicationName: $(applicationName)
+      environmentName: 'preprod'
+      functionServicePlanSkuName: $(functionServicePlanSkuName)
+      functionServicePlanSkuTier: $(functionServicePlanSkuTier)
+      functionServicePlanSkuCount: $(functionServicePlanSkuCount)
+      b2cSignUpPolicy: $(b2cSignUpPolicy)
+      b2cSignupConfirmPolicy: $(b2cSignupConfirmPolicy)
+      b2cPasswordResetConfirmPoicy: $(b2cPasswordResetConfirmPoicy)
+      b2cChangeEmailPolicy: $(b2cChangeEmailPolicy)
+      b2cAuthorizationUrl: $(b2cAuthorizationUrl) # Need to change this to custom domain
+      ncsDssSearchApiVersion: $(ncsDssSearchApiVersion)
+      ncsDssSearchApiUrlRoute: $(ncsDssSearchApiUrlRoute)
+      ncsDssCreateCustomerApiUrlRoute: $(ncsDssCreateCustomerApiUrlRoute)
+      ncsDssCreateContactApiUrlRoute: $(ncsDssCreateContactApiUrlRoute)
+      ncsDssCreateIdentityApiUrlRoute: $(ncsDssCreateIdentityApiUrlRoute)
+      ncsDssGetCustomerUrlRoute: $(ncsDssGetCustomerUrlRoute)
+      ncsDigitalIdentityRoute: $(ncsDigitalIdentityRoute)
+      environmentId: 't01'
+      serviceConnection: $(testServiceConnection)
+      subscriptionId: $(testSubscriptionId)
+      deploymentPrimaryLocation: $(deploymentPrimaryLocation)
+      policyCertThumbprint: $(testB2cApimCertThumbprint)
+      extensionAppId: $(parsedTestExtensionAppId)
+      eapimServiceConnection: $(eapimServiceConnection)
+      eapimEnvironmentName: 'Oat'
+      eapimResourceGroupName: c106t02-eapim-custeng
+      eapimServiceName: c106t02-apim-custeng
+
+- stage: prodTenantSetup
+  displayName: Tenant Setup - PROD
+  dependsOn:
+    - build
+    - deployPreProd
+  jobs:
+  - template: yaml/jobs/tenant-setup-grouped.yml
+    parameters:
+      environmentName: prod
+      variableGroupName: ncs-b2c-prod
+      applicationName: $(applicationName)
+      signinRedirectRoot: ncs.signin.education.gov.uk
+      eapimRootUrl: api-customerengagement.platform.education.gov.uk
+
+- stage: deployProd
+  displayName: Resource Setup - PROD
+  dependsOn:
+    - prodTenantSetup
+  jobs:
+  - template: yaml/jobs/deploy-grouped.yml
+    parameters:
+      variableGroupName: ncs-b2c-prod
+      applicationName: $(applicationName)
+      environmentName: 'prod'
+      functionServicePlanSkuName: $(functionServicePlanSkuName)
+      functionServicePlanSkuTier: $(functionServicePlanSkuTier)
+      functionServicePlanSkuCount: $(functionServicePlanSkuCount)
+      b2cSignUpPolicy: $(b2cSignUpPolicy)
+      b2cSignupConfirmPolicy: $(b2cSignupConfirmPolicy)
+      b2cPasswordResetConfirmPoicy: $(b2cPasswordResetConfirmPoicy)
+      b2cChangeEmailPolicy: $(b2cChangeEmailPolicy)
+      b2cAuthorizationUrl: $(b2cAuthorizationUrl) # Need to change this to custom domain
+      ncsDssSearchApiVersion: $(ncsDssSearchApiVersion)
+      ncsDssSearchApiUrlRoute: $(ncsDssSearchApiUrlRoute)
+      ncsDssCreateCustomerApiUrlRoute: $(ncsDssCreateCustomerApiUrlRoute)
+      ncsDssCreateContactApiUrlRoute: $(ncsDssCreateContactApiUrlRoute)
+      ncsDssCreateIdentityApiUrlRoute: $(ncsDssCreateIdentityApiUrlRoute)
+      ncsDssGetCustomerUrlRoute: $(ncsDssGetCustomerUrlRoute)
+      ncsDigitalIdentityRoute: $(ncsDigitalIdentityRoute)
+      environmentId: 'p01'
+      serviceConnection: $(prodServiceConnection)
+      subscriptionId: $(prodSubscriptionId)
+      deploymentPrimaryLocation: $(deploymentPrimaryLocation)
+      policyCertThumbprint: $(prodB2cApimCertThumbprint)
+      extensionAppId: $(parsedTestExtensionAppId)
+      eapimServiceConnection: $(eapimServiceConnection)
+      eapimEnvironmentName: 'Production'
+      eapimResourceGroupName: c106p01-eapim-custeng
+      eapimServiceName: c106p01-apim-custeng

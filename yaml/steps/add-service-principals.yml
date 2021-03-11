@@ -1,0 +1,24 @@
+parameters:
+- name: environmentName
+  type: string
+- name: serviceConnection
+  type: string
+- name: identityFrameworkSecret
+  type: string
+- name: proxyIdentityFrameworkSecret
+  type: string
+- name: graphAccessSecret
+  type: string
+
+steps:
+- task: AzureCLI@2
+  inputs:
+    azureSubscription: ${{parameters.serviceConnection}}
+    scriptType: 'pscore'
+    scriptLocation: 'scriptPath'
+    scriptPath: scripts/CreateAppRegistrations.ps1
+    arguments: '
+    -environment ${{parameters.environmentName}} 
+    -identAppSecret ${{parameters.identityFrameworkSecret}} 
+    -proxyAppSecret ${{parameters.proxyIdentityFrameworkSecret}} 
+    -graphAccessAppSecret ${{parameters.graphAccessSecret}}'

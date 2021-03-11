@@ -1,0 +1,23 @@
+<policies>
+    <inbound>
+        <return-response response-variable-name="existing response variable">
+            <set-status code="200" reason="OK" />
+            <set-header name="Content-Type" exists-action="override">
+                <value>application/json</value>
+            </set-header>
+            <set-body>
+                {"id_token_hint":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2F1dGhuY3MtZGV2LWZ1bmN0aW9uLmF6dXJld2Vic2l0ZXMubmV0LyIsImlhdCI6MTU5OTIwMzk5MywiZXhwIjoxOTE0NzM2NzkzLCJhdWQiOiIxNjJiNzNhMC00OTcyLTQyZGUtYWQ0MS1mMTVjNWI0ZDliNTEiLCJzdWIiOiJBbWFuIiwiZW1haWwiOiJhbWFuZ3VwdGF6MTE3QHlvcG1haWwuY29tIiwiZXhwaXJ5IjoiMjAzMC0wOS0wMlQxNzoyODozOSIsIm9iamVjdElkIjoiNGYyNjgwNTAtYTMyOS00MjhkLWJjOWEtMzMyYWRlZDJlNjM1IiwibmV3RW1haWwiOiJhbWFuZ3VwdGF6MTE2QHlvcG1haWwuY29tIiwiam91cm5leSI6ImNoYW5nZWVtYWlsIn0.T9m05vDmtnwTJGWxUj0ynYQytX7HBiDVF6iQ689iOfk"}
+            </set-body>
+        </return-response>
+        <base />
+    </inbound>
+    <backend>
+        <base />
+    </backend>
+    <outbound>
+        <base />
+    </outbound>
+    <on-error>
+        <base />
+    </on-error>
+</policies>
