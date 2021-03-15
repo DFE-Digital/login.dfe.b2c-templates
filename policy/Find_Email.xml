@@ -24,7 +24,7 @@
           <Parameter Name="policy">{Policy:PolicyId}</Parameter>
           <Parameter Name="redirect_uri">{OIDC:RedirectUri}</Parameter>
           <Parameter Name="client_id">{OIDC:ClientId}</Parameter>
-          <Parameter Name="tenant_id">{Policy:RelyingPartyTenantId}</Parameter>
+          <Parameter Name="tenant_id">{Policy:TenantObjectId}</Parameter>
         </ContentDefinitionParameters>
         <ScriptExecution>Allow</ScriptExecution>
     </UserJourneyBehaviors>
