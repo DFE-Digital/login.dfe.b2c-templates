@@ -128,8 +128,18 @@ namespace B2CAzureFunc.Models
         /// <summary>
         /// NcsDssSearchApiVersion
         /// </summary>
-        [JsonProperty("ncsdsssearchapiversion")]
+        [JsonProperty("NcsDssSearchApiVersion")]
         public string NcsDssSearchApiVersion { get; set; }
+        /// <summary>
+        /// NcsDssDigitalIdentitiesApiVersion
+        /// </summary>
+        [JsonProperty("NcsDssDigitalIdentitiesApiVersion")]
+        public string NcsDssDigitalIdentitiesApiVersion { get; set; }
+        /// <summary>
+        /// NcsDssCustomersApiVersion
+        /// </summary>
+        [JsonProperty("NcsDssCustomersApiVersion")]
+        public string NcsDssCustomersApiVersion { get; set; }
         /// <summary>
         /// ResendSignupEmail
         /// </summary>

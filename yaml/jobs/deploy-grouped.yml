@@ -47,6 +47,9 @@ parameters:
 - name: ncsDssCreateCustomerApiUrlRoute
   type: string
 
+- name: ncsDssCustomersApiVersion
+  type: string  
+
 - name: ncsDssCreateContactApiUrlRoute
   type: string
 
@@ -55,6 +58,9 @@ parameters:
 
 - name: ncsDigitalIdentityRoute
   type: string
+
+- name: ncsDssDigitalIdentitiesApiVersion
+  type: string  
 
 - name: ncsDssCreateIdentityApiUrlRoute
   type: string
@@ -148,8 +154,10 @@ jobs:
       -NCSDSSSearchApiVersion "${{parameters.ncsDssSearchApiVersion}}"
       -NCSDSSSearchApiUrl "$(ncsDssApiRoot)${{parameters.ncsDssSearchApiUrlRoute}}"
       -NCSDSSCreateCustomerApiUrl "$(ncsDssApiRoot)${{parameters.ncsDssCreateCustomerApiUrlRoute}}"
+      -NCSDSSCustomersApiVersion "${{parameters.ncsDssCustomersApiVersion}}"
       -NCSDSSCreateContactApiUrl "$(ncsDssApiRoot)${{parameters.ncsDssCreateContactApiUrlRoute}}"
       -NCSDSSCreateIdentityApiUrl "$(ncsDssApiRoot)${{parameters.ncsDssCreateIdentityApiUrlRoute}}"
+      -NCSDSSDigitalIdentitiesApiVersion "${{parameters.ncsDssDigitalIdentitiesApiVersion}}"
       -NCSDSSGetCustomerUrl "$(ncsDssApiRoot)${{parameters.ncsDssGetCustomerUrlRoute}}"
       -NCSDigitalIdentityUrl "$(ncsDssApiRoot)${{parameters.ncsDigitalIdentityRoute}}"
       -TouchpointId "${{parameters.touchpointId}}"
@@ -180,6 +188,7 @@ jobs:
             location: ${{parameters.deploymentPrimaryLocation}}
             templateFilePath: '$(Build.SourcesDirectory)\deployment\template.json'
             armParameterOverrideString: $(overrideParameters)
+            tags: $(Tags)
 
         - pwsh: |
             Write-Host "##vso[task.setvariable variable=dsiB2cFunctionKey]$($env:ARMOUTPUTS_ARMOUTPUT_FUNCTIONDEFAULTKEY)"

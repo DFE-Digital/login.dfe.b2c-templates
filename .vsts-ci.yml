@@ -60,6 +60,8 @@ stages:
   displayName: Resource Setup - DEV
   dependsOn:
   - devTenantSetup
+  variables:
+    - group: platform-dev
   jobs:
   - template: yaml/jobs/deploy.yml
     parameters:
@@ -80,8 +82,10 @@ stages:
       ncsDssSearchApiVersion: $(ncsDssSearchApiVersion)
       ncsDssSearchApiUrlRoute: $(ncsDssSearchApiUrlRoute)
       ncsDssCreateCustomerApiUrlRoute: $(ncsDssCreateCustomerApiUrlRoute)
+      ncsDssCustomersApiVersion: $(ncsDssCustomersApiVersion)
       ncsDssCreateContactApiUrlRoute: $(ncsDssCreateContactApiUrlRoute)
       ncsDssCreateIdentityApiUrlRoute: $(ncsDssCreateIdentityApiUrlRoute)
+      ncsDssDigitalIdentitiesApiVersion: $(ncsDssDigitalIdentitiesApiVersion)
       ncsDssGetCustomerUrlRoute: $(ncsDssGetCustomerUrlRoute)
       ncsDigitalIdentityRoute: $(ncsDigitalIdentityRoute)
       environmentId: 'd01'
@@ -127,6 +131,8 @@ stages:
   displayName: Resource Setup - TEST
   dependsOn:
     - testTenantSetup
+  variables:
+    - group: platform-test
   jobs:
   - template: yaml/jobs/deploy.yml
     parameters:
@@ -147,8 +153,10 @@ stages:
       ncsDssSearchApiVersion: $(ncsDssSearchApiVersion)
       ncsDssSearchApiUrlRoute: $(ncsDssSearchApiUrlRoute)
       ncsDssCreateCustomerApiUrlRoute: $(ncsDssCreateCustomerApiUrlRoute)
+      ncsDssCustomersApiVersion: $(ncsDssCustomersApiVersion)
       ncsDssCreateContactApiUrlRoute: $(ncsDssCreateContactApiUrlRoute)
       ncsDssCreateIdentityApiUrlRoute: $(ncsDssCreateIdentityApiUrlRoute)
+      ncsDssDigitalIdentitiesApiVersion: $(ncsDssDigitalIdentitiesApiVersion)
       ncsDssGetCustomerUrlRoute: $(ncsDssGetCustomerUrlRoute)
       ncsDigitalIdentityRoute: $(ncsDigitalIdentityRoute)
       environmentId: 't01'
@@ -189,6 +197,8 @@ stages:
   displayName: Resource Setup - PREPROD
   dependsOn:
     - preProdTenantSetup
+  variables:
+    - group: platform-pp    
   jobs:
   - template: yaml/jobs/deploy-grouped.yml
     parameters:
@@ -206,8 +216,10 @@ stages:
       ncsDssSearchApiVersion: $(ncsDssSearchApiVersion)
       ncsDssSearchApiUrlRoute: $(ncsDssSearchApiUrlRoute)
       ncsDssCreateCustomerApiUrlRoute: $(ncsDssCreateCustomerApiUrlRoute)
+      ncsDssCustomersApiVersion: $(ncsDssCustomersApiVersion)
       ncsDssCreateContactApiUrlRoute: $(ncsDssCreateContactApiUrlRoute)
       ncsDssCreateIdentityApiUrlRoute: $(ncsDssCreateIdentityApiUrlRoute)
+      ncsDssDigitalIdentitiesApiVersion: $(ncsDssDigitalIdentitiesApiVersion)
       ncsDssGetCustomerUrlRoute: $(ncsDssGetCustomerUrlRoute)
       ncsDigitalIdentityRoute: $(ncsDigitalIdentityRoute)
       environmentId: 't01'
@@ -239,6 +251,8 @@ stages:
   displayName: Resource Setup - PROD
   dependsOn:
     - prodTenantSetup
+  variables:
+    - group: platform-pr    
   jobs:
   - template: yaml/jobs/deploy-grouped.yml
     parameters:
@@ -256,8 +270,10 @@ stages:
       ncsDssSearchApiVersion: $(ncsDssSearchApiVersion)
       ncsDssSearchApiUrlRoute: $(ncsDssSearchApiUrlRoute)
       ncsDssCreateCustomerApiUrlRoute: $(ncsDssCreateCustomerApiUrlRoute)
+      ncsDssCustomersApiVersion: $(ncsDssCustomersApiVersion)
       ncsDssCreateContactApiUrlRoute: $(ncsDssCreateContactApiUrlRoute)
       ncsDssCreateIdentityApiUrlRoute: $(ncsDssCreateIdentityApiUrlRoute)
+      ncsDssDigitalIdentitiesApiVersion: $(ncsDssDigitalIdentitiesApiVersion)
       ncsDssGetCustomerUrlRoute: $(ncsDssGetCustomerUrlRoute)
       ncsDigitalIdentityRoute: $(ncsDigitalIdentityRoute)
       environmentId: 'p01'
