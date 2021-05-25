@@ -141,6 +141,11 @@ namespace B2CAzureFunc.Models
         [JsonProperty("NcsDssCustomersApiVersion")]
         public string NcsDssCustomersApiVersion { get; set; }
         /// <summary>
+        /// NcsDssContactDetailsApiVersion
+        /// </summary>
+        [JsonProperty("NcsDssContactDetailsApiVersion")]
+        public string NcsDssContactDetailsApiVersion { get; set; }
+        /// <summary>
         /// ResendSignupEmail
         /// </summary>
         [JsonProperty("resendSignupEmail")]

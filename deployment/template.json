@@ -231,6 +231,9 @@
         "NCSDSSCreateContactApiUrl": {
             "type": "string"
         },
+        "NCSDSSContactDetailsApiVersion": {
+            "type": "string"
+        },
         "NCSDSSCreateIdentityApiUrl": {
             "type": "string"
         },
@@ -914,6 +917,10 @@
                         {
                             "name": "AppSettings:ncsdsscreatecontactapiurl",
                             "value": "[parameters('NCSDSSCreateContactApiUrl')]"
+                        },
+                        {
+                            "name": "AppSettings:NcsDssContactDetailsApiVersion",
+                            "value": "[parameters('NCSDSSContactDetailsApiVersion')]"
                         },
                         {
                             "name": "AppSettings:ncsdsscreateidentityapiurl",

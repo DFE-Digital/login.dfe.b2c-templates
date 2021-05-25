@@ -61,14 +61,14 @@ namespace B2CAzureFunc
                     using (var httpClient = new HttpClient())
                     {
                         var dob = String.Format("{0}-{1}-{2}", data.Year, data.Month, data.Day);
-                        var searchApiUrl = _appSettings.NcsDssSearchApiUrl;// Environment.GetEnvironmentVariable("ncsdsssearchapiurl", EnvironmentVariableTarget.Process);
+                        var searchApiUrl = _appSettings.NcsDssSearchApiUrl;
                         var url = String.Format("{0}?&search=GivenName:{1} FamilyName:{2} PostCode={3}&filter=DateOfBirth eq {4}",
                              searchApiUrl, data.GivenName, data.Surname, data.PostalCode, dob);
                         using (var request = new HttpRequestMessage(new HttpMethod("GET"), url))
                         {
-                            request.Headers.TryAddWithoutValidation("api-key", _appSettings.NcsDssApiKey);// Environment.GetEnvironmentVariable("ncsdssapikey", EnvironmentVariableTarget.Process));
-                            request.Headers.TryAddWithoutValidation("version", _appSettings.NcsDssSearchApiVersion);//Environment.GetEnvironmentVariable("ncsdsssearchapiversion", EnvironmentVariableTarget.Process));
-                            request.Headers.TryAddWithoutValidation("Ocp-Apim-Subscription-Key", _appSettings.OcpApimSubscriptionKey);//Environment.GetEnvironmentVariable("OcpApimSubscriptionKey", EnvironmentVariableTarget.Process));
+                            request.Headers.TryAddWithoutValidation("api-key", _appSettings.NcsDssApiKey);
+                            request.Headers.TryAddWithoutValidation("version", _appSettings.NcsDssSearchApiVersion);
+                            request.Headers.TryAddWithoutValidation("Ocp-Apim-Subscription-Key", _appSettings.OcpApimSubscriptionKey);
 
                             var response = await httpClient.SendAsync(request);
                             if (response.StatusCode == System.Net.HttpStatusCode.OK)

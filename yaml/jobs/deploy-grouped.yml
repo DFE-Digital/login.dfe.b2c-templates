@@ -53,6 +53,9 @@ parameters:
 - name: ncsDssCreateContactApiUrlRoute
   type: string
 
+- name: ncsDssContactDetailsApiVersion
+  type: string
+
 - name: ncsDssGetCustomerUrlRoute
   type: string
 
@@ -156,6 +159,7 @@ jobs:
       -NCSDSSCreateCustomerApiUrl "$(ncsDssApiRoot)${{parameters.ncsDssCreateCustomerApiUrlRoute}}"
       -NCSDSSCustomersApiVersion "${{parameters.ncsDssCustomersApiVersion}}"
       -NCSDSSCreateContactApiUrl "$(ncsDssApiRoot)${{parameters.ncsDssCreateContactApiUrlRoute}}"
+      -NCSDSSContactDetailsApVersion "${{parameters.ncsDssContactDetailsApiVersion}}"
       -NCSDSSCreateIdentityApiUrl "$(ncsDssApiRoot)${{parameters.ncsDssCreateIdentityApiUrlRoute}}"
       -NCSDSSDigitalIdentitiesApiVersion "${{parameters.ncsDssDigitalIdentitiesApiVersion}}"
       -NCSDSSGetCustomerUrl "$(ncsDssApiRoot)${{parameters.ncsDssGetCustomerUrlRoute}}"
