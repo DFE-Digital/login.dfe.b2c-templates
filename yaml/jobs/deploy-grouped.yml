@@ -159,7 +159,7 @@ jobs:
       -NCSDSSCreateCustomerApiUrl "$(ncsDssApiRoot)${{parameters.ncsDssCreateCustomerApiUrlRoute}}"
       -NCSDSSCustomersApiVersion "${{parameters.ncsDssCustomersApiVersion}}"
       -NCSDSSCreateContactApiUrl "$(ncsDssApiRoot)${{parameters.ncsDssCreateContactApiUrlRoute}}"
-      -NCSDSSContactDetailsApVersion "${{parameters.ncsDssContactDetailsApiVersion}}"
+      -NCSDSSContactDetailsApiVersion "${{parameters.ncsDssContactDetailsApiVersion}}"
       -NCSDSSCreateIdentityApiUrl "$(ncsDssApiRoot)${{parameters.ncsDssCreateIdentityApiUrlRoute}}"
       -NCSDSSDigitalIdentitiesApiVersion "${{parameters.ncsDssDigitalIdentitiesApiVersion}}"
       -NCSDSSGetCustomerUrl "$(ncsDssApiRoot)${{parameters.ncsDssGetCustomerUrlRoute}}"
