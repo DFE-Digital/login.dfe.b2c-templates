@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Notify" Version="2.8.0" />
+    <PackageReference Include="GovukNotify" Version="4.0.1" />
   </ItemGroup>
 
 </Project>
