@@ -225,10 +225,19 @@
         "NCSDSSCreateCustomerApiUrl": {
             "type": "string"
         },
+        "NCSDSSCustomersApiVersion": {
+            "type": "string"
+        },
         "NCSDSSCreateContactApiUrl": {
             "type": "string"
         },
+        "NCSDSSContactDetailsApiVersion": {
+            "type": "string"
+        },
         "NCSDSSCreateIdentityApiUrl": {
+            "type": "string"
+        },
+        "NCSDSSDigitalIdentitiesApiVersion": {
             "type": "string"
         },
         "NCSDSSGetCustomerUrl": {
@@ -882,7 +891,7 @@
                             "value": "[parameters('NCSDSSSearchApiUrl')]"
                         },
                         {
-                            "name": "AppSettings:ncsdsssearchapiversion",
+                            "name": "AppSettings:NcsDssSearchApiVersion",
                             "value": "[parameters('NCSDSSSearchApiVersion')]"
                         },
                         {
@@ -902,12 +911,24 @@
                             "value": "[parameters('NCSDSSCreateCustomerApiUrl')]"
                         },
                         {
+                            "name": "AppSettings:NcsDssCustomersApiVersion",
+                            "value": "[parameters('NCSDSSCustomersApiVersion')]"
+                        },
+                        {
                             "name": "AppSettings:ncsdsscreatecontactapiurl",
                             "value": "[parameters('NCSDSSCreateContactApiUrl')]"
                         },
                         {
+                            "name": "AppSettings:NcsDssContactDetailsApiVersion",
+                            "value": "[parameters('NCSDSSContactDetailsApiVersion')]"
+                        },
+                        {
                             "name": "AppSettings:ncsdsscreateidentityapiurl",
                             "value": "[parameters('NCSDSSCreateIdentityApiUrl')]"
+                        },
+                        {
+                            "name": "AppSettings:NcsDssDigitalIdentitiesApiVersion",
+                            "value": "[parameters('NCSDSSDigitalIdentitiesApiVersion')]"
                         },
                         {
                             "name": "AppSettings:ncsdssgetcustomerapiurl",

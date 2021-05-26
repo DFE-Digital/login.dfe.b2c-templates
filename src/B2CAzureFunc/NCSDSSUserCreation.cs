@@ -117,14 +117,15 @@ namespace B2CAzureFunc
 
                     using (var httpClient = new HttpClient())
                     {
-                        var url = _appSettings.NcsDssCreateContactApiUrl;// Environment.GetEnvironmentVariable("ncsdsscreatecontactapiurl", EnvironmentVariableTarget.Process);
+                        var url = _appSettings.NcsDssCreateContactApiUrl;
                         url = String.Format(url, data.CustomerId);
 
                         using (var request = new HttpRequestMessage(new HttpMethod("POST"), url))
                         {
-                            request.Headers.TryAddWithoutValidation("api-key", _appSettings.NcsDssApiKey);// Environment.GetEnvironmentVariable("ncsdssapikey", EnvironmentVariableTarget.Process));
-                            request.Headers.TryAddWithoutValidation("Ocp-Apim-Subscription-Key", _appSettings.OcpApimSubscriptionKey);//Environment.GetEnvironmentVariable("OcpApimSubscriptionKey", EnvironmentVariableTarget.Process));
-                            request.Headers.TryAddWithoutValidation("TouchpointId", _appSettings.TouchpointId.ToString());//Environment.GetEnvironmentVariable("TouchpointId", EnvironmentVariableTarget.Process));
+                            request.Headers.TryAddWithoutValidation("api-key", _appSettings.NcsDssApiKey);
+                            request.Headers.TryAddWithoutValidation("version", _appSettings.NcsDssContactDetailsApiVersion);
+                            request.Headers.TryAddWithoutValidation("Ocp-Apim-Subscription-Key", _appSettings.OcpApimSubscriptionKey);
+                            request.Headers.TryAddWithoutValidation("TouchpointId", _appSettings.TouchpointId.ToString());
 
                             request.Content = new StringContent("{\n    \"EmailAddress\": \"" + data.Email + "\",\n    \"PreferredContactMethod\": \"1\"\n}");
                             request.Content.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
@@ -160,12 +161,12 @@ namespace B2CAzureFunc
                     // Create digital identity
                     using (var httpClient = new HttpClient())
                     {
-                        using (var request = new HttpRequestMessage(new HttpMethod("POST"), _appSettings.NcsDssCreateIdentityApiUrl))// Environment.GetEnvironmentVariable("ncsdsscreateidentityapiurl", EnvironmentVariableTarget.Process)))
+                        using (var request = new HttpRequestMessage(new HttpMethod("POST"), _appSettings.NcsDssCreateIdentityApiUrl))
                         {
-                            request.Headers.TryAddWithoutValidation("api-key", _appSettings.NcsDssApiKey);// Environment.GetEnvironmentVariable("ncsdssapikey", EnvironmentVariableTarget.Process));
-                            request.Headers.TryAddWithoutValidation("version", _appSettings.NcsDssSearchApiVersion);// Environment.GetEnvironmentVariable("ncsdsssearchapiversion", EnvironmentVariableTarget.Process));
-                            request.Headers.TryAddWithoutValidation("Ocp-Apim-Subscription-Key", _appSettings.OcpApimSubscriptionKey);// Environment.GetEnvironmentVariable("OcpApimSubscriptionKey", EnvironmentVariableTarget.Process));
-                            request.Headers.TryAddWithoutValidation("TouchpointId", _appSettings.TouchpointId.ToString());// Environment.GetEnvironmentVariable("TouchpointId", EnvironmentVariableTarget.Process));
+                            request.Headers.TryAddWithoutValidation("api-key", _appSettings.NcsDssApiKey);
+                            request.Headers.TryAddWithoutValidation("version", _appSettings.NcsDssDigitalIdentitiesApiVersion);
+                            request.Headers.TryAddWithoutValidation("Ocp-Apim-Subscription-Key", _appSettings.OcpApimSubscriptionKey);
+                            request.Headers.TryAddWithoutValidation("TouchpointId", _appSettings.TouchpointId.ToString());
 
 
                             request.Content = new StringContent("{\n    \"CustomerId\": \"" + data.CustomerId + "\",\n    \"IdentityStoreId\": \"" + data.ObjectId + "\"\n}");
@@ -208,15 +209,15 @@ namespace B2CAzureFunc
                     using (var httpClient = new HttpClient())
                     {
 
-                        var patchApiUrl = _appSettings.NcsDssPatchDigitalidentityApiUrl;// Environment.GetEnvironmentVariable("ncsdsspatchdigitalidentityapiurl", EnvironmentVariableTarget.Process);
+                        var patchApiUrl = _appSettings.NcsDssPatchDigitalidentityApiUrl;
                         var requestUrl = String.Format(patchApiUrl, data.CustomerId);
 
                         using (var request = new HttpRequestMessage(new HttpMethod("PATCH"), requestUrl))
                         {
-                            request.Headers.TryAddWithoutValidation("api-key", _appSettings.NcsDssApiKey);// Environment.GetEnvironmentVariable("ncsdssapikey", EnvironmentVariableTarget.Process));
-                            request.Headers.TryAddWithoutValidation("version", _appSettings.NcsDssSearchApiVersion);// Environment.GetEnvironmentVariable("ncsdsssearchapiversion", EnvironmentVariableTarget.Process));
-                            request.Headers.TryAddWithoutValidation("Ocp-Apim-Subscription-Key", _appSettings.OcpApimSubscriptionKey);// Environment.GetEnvironmentVariable("OcpApimSubscriptionKey", EnvironmentVariableTarget.Process));
-                            request.Headers.TryAddWithoutValidation("TouchpointId", _appSettings.TouchpointId.ToString());// Environment.GetEnvironmentVariable("TouchpointId", EnvironmentVariableTarget.Process));
+                            request.Headers.TryAddWithoutValidation("api-key", _appSettings.NcsDssApiKey);
+                            request.Headers.TryAddWithoutValidation("version", _appSettings.NcsDssDigitalIdentitiesApiVersion);
+                            request.Headers.TryAddWithoutValidation("Ocp-Apim-Subscription-Key", _appSettings.OcpApimSubscriptionKey);
+                            request.Headers.TryAddWithoutValidation("TouchpointId", _appSettings.TouchpointId.ToString());
 
 
                             request.Content = new StringContent("{\n    \"CustomerId\": \"" + data.CustomerId + "\",\n    \"IdentityStoreId\": \"" + data.ObjectId + "\"\n}");

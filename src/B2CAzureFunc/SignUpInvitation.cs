@@ -68,17 +68,17 @@ namespace B2CAzureFunc
 
                 using (var httpClient = new HttpClient())
                 {
-                    var getApiUrl = _appSettings.NcsDssGetCustomerApiUrl;// Environment.GetEnvironmentVariable("ncsdssgetcustomerapiurl", EnvironmentVariableTarget.Process);
+                    var getApiUrl = _appSettings.NcsDssGetCustomerApiUrl;
                     var dssApiUrl = String.Format(getApiUrl, data.CustomerId);
 
                     log.LogInformation(getApiUrl);
 
                     using (var request = new HttpRequestMessage(new HttpMethod("GET"), dssApiUrl))
                     {
-                        request.Headers.TryAddWithoutValidation("api-key", _appSettings.NcsDssApiKey);// Environment.GetEnvironmentVariable("ncsdssapikey", EnvironmentVariableTarget.Process));
-                        request.Headers.TryAddWithoutValidation("version", _appSettings.NcsDssSearchApiVersion);//Environment.GetEnvironmentVariable("ncsdsssearchapiversion", EnvironmentVariableTarget.Process));
-                        request.Headers.TryAddWithoutValidation("Ocp-Apim-Subscription-Key", _appSettings.OcpApimSubscriptionKey);//Environment.GetEnvironmentVariable("OcpApimSubscriptionKey", EnvironmentVariableTarget.Process));
-                        request.Headers.TryAddWithoutValidation("TouchpointId", _appSettings.TouchpointId.ToString());//Environment.GetEnvironmentVariable("TouchpointId", EnvironmentVariableTarget.Process));
+                        request.Headers.TryAddWithoutValidation("api-key", _appSettings.NcsDssApiKey);
+                        request.Headers.TryAddWithoutValidation("version", _appSettings.NcsDssCustomersApiVersion);
+                        request.Headers.TryAddWithoutValidation("Ocp-Apim-Subscription-Key", _appSettings.OcpApimSubscriptionKey);
+                        request.Headers.TryAddWithoutValidation("TouchpointId", _appSettings.TouchpointId.ToString());
 
                         var response = await httpClient.SendAsync(request);
                         log.LogInformation(response.StatusCode.GetDisplayName() + " - " + response.StatusCode.ToString());
@@ -142,7 +142,7 @@ namespace B2CAzureFunc
                             return new BadRequestObjectResult(new ResponseContentModel
                             {
                                 userMessage = "Failed to fetch customer details, please contact support",
-                                developerMessage = "Apikey: " + _appSettings.NcsDssApiKey + " TouchPointId" + _appSettings.TouchpointId.ToString() + " NcsDssSearchApiVersion:" + _appSettings.NcsDssSearchApiVersion
+                                developerMessage = "Apikey: " + _appSettings.NcsDssApiKey + " TouchPointId" + _appSettings.TouchpointId.ToString() + " NcsDssSearchApiVersion:" + _appSettings.NcsDssCustomersApiVersion
                                 + " OcpApimSubscriptionKey:" + _appSettings.OcpApimSubscriptionKey
                             });
                         }
