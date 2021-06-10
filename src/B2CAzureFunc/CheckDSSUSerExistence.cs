@@ -56,14 +56,14 @@ namespace B2CAzureFunc
 
                 using (var httpClient = new HttpClient())
                 {
-                    var searchApiUrl = _appSettings.NcsDssSearchApiUrl;// Environment.GetEnvironmentVariable("ncsdsssearchapiurl", EnvironmentVariableTarget.Process);
+                    var searchApiUrl = _appSettings.NcsDssSearchApiUrl;
                     var url = String.Format("{0}?&search=EmailAddress:{1}", searchApiUrl, data.Email);
                     using (var request = new HttpRequestMessage(new HttpMethod("GET"), url))
                     {
-                        request.Headers.TryAddWithoutValidation("api-key", _appSettings.NcsDssApiKey);// Environment.GetEnvironmentVariable("ncsdssapikey", EnvironmentVariableTarget.Process));
-                        request.Headers.TryAddWithoutValidation("version", _appSettings.NcsDssSearchApiVersion);//Environment.GetEnvironmentVariable("ncsdsssearchapiversion", EnvironmentVariableTarget.Process));
-                        request.Headers.TryAddWithoutValidation("Ocp-Apim-Subscription-Key", _appSettings.OcpApimSubscriptionKey);//Environment.GetEnvironmentVariable("OcpApimSubscriptionKey", EnvironmentVariableTarget.Process));
-                        request.Headers.TryAddWithoutValidation("TouchpointId", _appSettings.TouchpointId.ToString());//Environment.GetEnvironmentVariable("TouchpointId", EnvironmentVariableTarget.Process));
+                        request.Headers.TryAddWithoutValidation("api-key", _appSettings.NcsDssApiKey);
+                        request.Headers.TryAddWithoutValidation("version", _appSettings.NcsDssSearchApiVersion);
+                        request.Headers.TryAddWithoutValidation("Ocp-Apim-Subscription-Key", _appSettings.OcpApimSubscriptionKey);
+                        request.Headers.TryAddWithoutValidation("TouchpointId", _appSettings.TouchpointId.ToString());
 
                         var response = await httpClient.SendAsync(request);
                         var retryConter = Convert.ToInt32(data.RetryCounter);
