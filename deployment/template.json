@@ -11,6 +11,20 @@
             "type": "string",
             "defaultValue": "dev"
         },
+        "virtualNetworkName": {
+            "type": "string",
+            "defaultValue": "",
+            "metadata": {
+                "description": "Name of the virtual network"
+            }
+        },
+        "subnetName": {
+            "type": "string",
+            "defaultValue": "auth-sn",
+            "metadata": {
+                "description": "Prefix of the subnet to integrate the app service with in the virtual network"
+            }
+        },
         "servicePlanSkuName": {
             "defaultValue": "F1",
             "type": "string",
@@ -314,7 +328,8 @@
             "actionGroupName": "[concat(variables('baseName'),'-action-group')]",
             "actionGroupShortName": "[concat(parameters('applicationName'),'-ag')]",
             "configStoreName": "[concat(variables('baseName'), '-cfg')]",
-            "frontDoorName": "[concat(variables('baseName'),'-frontend')]"
+            "frontDoorName": "[concat(variables('baseName'),'-frontend')]",
+            "authSubnetResourceId": "[if(variables('deployResources'), resourceId(parameters('sharedResourceGroupName'), 'Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworkName'), parameters('subnetName')), '')]"
         },
         "frontDoor": {
             "frontendEndpointName": "[concat(variables('baseName'),'-frontend-azurefd-net')]",
@@ -469,6 +484,7 @@
                 "networkAcls": {
                     "bypass": "AzureServices",
                     "virtualNetworkRules": [
+                        "[variables('resourceNames').authSubnetResourceId]"
                     ],
                     "ipRules": [
                     ],
@@ -735,6 +751,7 @@
             },
             "properties": {
                 "httpsOnly": true,
+                "virtualNetworkSubnetId": "[variables('resourceNames').authSubnetResourceId]",
                 "siteConfig": {
                     "alwaysOn": true,
                     "appSettings": [
