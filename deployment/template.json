@@ -329,7 +329,7 @@
             "actionGroupShortName": "[concat(parameters('applicationName'),'-ag')]",
             "configStoreName": "[concat(variables('baseName'), '-cfg')]",
             "frontDoorName": "[concat(variables('baseName'),'-frontend')]",
-            "authSubnetResourceId": "[if(variables('deployResources'), resourceId(parameters('sharedResourceGroupName'), 'Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworkName'), parameters('subnetName')), '')]"
+            "authSubnetResourceId": "[resourceId(parameters('sharedResourceGroupName'), 'Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworkName'), parameters('subnetName'))]"
         },
         "frontDoor": {
             "frontendEndpointName": "[concat(variables('baseName'),'-frontend-azurefd-net')]",
