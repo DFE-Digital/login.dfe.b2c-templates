@@ -315,6 +315,13 @@
             "metadata": {
                 "description": "Enable or disable Advanced Threat Protection."
             }
+        },
+        "sharedResourceGroupName": {
+            "type": "string",
+            "defaultValue": "",
+            "metadata": {
+                "description": "Shared resource group name"
+            }
         }
     },
     "variables": {
