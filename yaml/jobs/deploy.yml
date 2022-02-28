@@ -212,8 +212,8 @@ jobs:
       -NotifyEmailChangeConfirmationEmailNewEmailTemplateId "${{parameters.notifyEmailChangeConfirmationEmailNewEmailTemplateId}}"
       -NotifyEmailChangeConfirmationEmailOldEmailTemplateId "${{parameters.notifyEmailChangeConfirmationEmailOldEmailTemplateId}}"
       -TncFileName "${{parameters.tncFileName}}"
-      -B2CCustomDomain "$(b2cCustomDomain)"'
-      -sharedResourceGroupName "s141$(environmentId)-shd"
+      -B2CCustomDomain "$(b2cCustomDomain)"
+      -sharedResourceGroupName "s141$(environmentId)-shd"'
 
   strategy:
     runOnce:
