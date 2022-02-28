@@ -1,0 +1,270 @@
+parameters:
+- name: serviceConnection
+  type: string
+
+- name: eapimServiceConnection
+  type: string
+
+- name: subscriptionId
+  type: string
+
+- name: applicationName
+  type: string
+
+- name: environmentName
+  type: string
+
+- name: functionServicePlanSkuName
+  type: string
+
+- name: functionServicePlanSkuTier
+  type: string
+
+- name: functionServicePlanSkuCount
+  type: string
+
+- name: b2cSignUpPolicy
+  type: string
+
+- name: b2cSignupConfirmPolicy
+  type: string
+
+- name: b2cPasswordResetConfirmPoicy
+  type: string
+
+- name: b2cChangeEmailPolicy
+  type: string
+
+- name: b2cAuthorizationUrl
+  type: string
+
+- name: ncsDssSearchApiVersion
+  type: string
+
+- name: ncsDssSearchApiUrlRoute
+  type: string
+
+- name: ncsDssCreateCustomerApiUrlRoute
+  type: string
+
+- name: ncsDssCustomersApiVersion
+  type: string  
+
+- name: ncsDssCreateContactApiUrlRoute
+  type: string
+
+- name: ncsDssContactDetailsApiVersion
+  type: string
+
+- name: ncsDssGetCustomerUrlRoute
+  type: string
+
+- name: ncsDigitalIdentityRoute
+  type: string
+
+- name: ncsDssDigitalIdentitiesApiVersion
+  type: string  
+
+- name: ncsDssCreateIdentityApiUrlRoute
+  type: string
+
+- name: touchpointId
+  type: string
+  default: "1000000000"
+
+- name: emailChangeConfirmationEmailSubjectNewEmail
+  type: string
+  default: "Activate your new email address"
+
+- name: emailChangeConfirmationEmailSubjectOldEmail 
+  type: string
+  default: "Changed email address"
+
+- name: environmentId
+  type: string
+  
+- name: extensionAppId
+  type: string
+
+- name: deploymentPrimaryLocation
+  type: string
+
+- name: policyCertThumbprint
+  type: string
+
+- name: tncFileName
+  type: string
+  default: tncDetails.json
+
+- name: eapimEnvironmentName
+  type: string
+  values:
+  - Development
+  - Test
+  - Oat
+  - Production
+
+- name: eapimResourceGroupName
+  type: string
+
+- name: eapimServiceName
+  type: string
+
+- name: variableGroupName
+  type: string
+
+jobs:
+- deployment: Deploy
+  displayName: Deploy Function and Front Door
+  environment: 'ncs-b2c-${{parameters.environmentName}}'
+  pool:
+    vmImage: windows-latest
+  variables:
+  - name: extensionAppId
+    value:  $[ replace(variables['ProxyIdentityAppClientId'],'-','') ]
+  - group: ${{parameters.variableGroupName}}
+  - name: dsiB2cCertThumbprint
+    value: ${{parameters.policyCertThumbprint}}
+  - name: overrideParameters
+    value: '
+      -applicationName "${{parameters.applicationName}}"
+      -environmentName "${{parameters.environmentName}}"
+      -servicePlanSkuName "${{parameters.functionServicePlanSkuName}}"
+      -servicePlanSkuTier "${{parameters.functionServicePlanSkuTier}}"
+      -servicePlanSkuCount "${{parameters.functionServicePlanSkuCount}}"
+      -alertWebHookUrl "http://www.test.com"
+      -B2CTenantShortName "${{parameters.environmentName}}${{parameters.applicationName}}"
+      -B2CTenantFullName "${{parameters.environmentName}}${{parameters.applicationName}}.onmicrosoft.com"
+      -B2CSignUpPolicy "${{parameters.b2cSignUpPolicy}}"
+      -B2CSignupConfirmPolicy "${{parameters.b2cSignupConfirmPolicy}}"
+      -B2CPasswordResetConfirmPolicy "${{parameters.b2cPasswordResetConfirmPoicy}}"
+      -B2CChangeEmailPolicy "${{parameters.b2cChangeEmailPolicy}}"
+      -RelyingPartyAppClientId "$(relyAppClientId)"
+      -B2CRedirectUri "$(b2cRedirectUrl)"
+      -B2CAuthorizationUrl "${{parameters.b2cAuthorizationUrl}}"
+      -ClientSigningKey "$(clientSigningKey)"
+      -SMTPServer "$(smtpServer)"
+      -SMTPUsername "$(smtpUsername)"
+      -SMTPPassword "$(smtpPassword)"
+      -SMTPFromAddress "$(smtpFromAddress)"
+      -SMTPSubject "Sign-in to NCS"
+      -SignupEmailSubject "Complete your National Careers Service registration"
+      -SignupConfirmationEmailSubject "Complete your National Careers Service registration"
+      -PasswordResetConfirmationEmailSubject " Reset your password"
+      -AccountActivationEmailExpiryInSeconds "600"
+      -NCSApimSubscriptionKey "$(ncsDssApiKey)"
+      -NCSDSSApiKey "$(ncsDssApiKey)"
+      -NCSDSSSearchApiVersion "${{parameters.ncsDssSearchApiVersion}}"
+      -NCSDSSSearchApiUrl "$(ncsDssApiRoot)${{parameters.ncsDssSearchApiUrlRoute}}"
+      -NCSDSSCreateCustomerApiUrl "$(ncsDssApiRoot)${{parameters.ncsDssCreateCustomerApiUrlRoute}}"
+      -NCSDSSCustomersApiVersion "${{parameters.ncsDssCustomersApiVersion}}"
+      -NCSDSSCreateContactApiUrl "$(ncsDssApiRoot)${{parameters.ncsDssCreateContactApiUrlRoute}}"
+      -NCSDSSContactDetailsApiVersion "${{parameters.ncsDssContactDetailsApiVersion}}"
+      -NCSDSSCreateIdentityApiUrl "$(ncsDssApiRoot)${{parameters.ncsDssCreateIdentityApiUrlRoute}}"
+      -NCSDSSDigitalIdentitiesApiVersion "${{parameters.ncsDssDigitalIdentitiesApiVersion}}"
+      -NCSDSSGetCustomerUrl "$(ncsDssApiRoot)${{parameters.ncsDssGetCustomerUrlRoute}}"
+      -NCSDigitalIdentityUrl "$(ncsDssApiRoot)${{parameters.ncsDigitalIdentityRoute}}"
+      -TouchpointId "${{parameters.touchpointId}}"
+      -B2CGraphAccessClientId "$(graphAccessClientId)"
+      -B2CGraphAccessClientSecret "$(graphAccessClientSecret)"
+      -EmailChangeConfirmationEmailSubjectNewEmail "${{parameters.emailChangeConfirmationEmailSubjectNewEmail}}"
+      -EmailChangeConfirmationEmailSubjectOldEmail "${{parameters.emailChangeConfirmationEmailSubjectOldEmail}}"
+      -ExtensionAppId "$(extensionAppId)"
+      -NotifyApiKey "$(notifyApiKey)"
+      -NotifyAidedSignupEmailTemplateId "$(notifyAidedSignupEmailTemplateId)"
+      -NotifySelfSignupEmailTemplateId "$(notifySelfSignupEmailTemplateId)"
+      -NotifyPasswordResetConfirmationEmailTemplateId "$(notifyPasswordResetConfirmationEmailTemplateId)"
+      -NotifyEmailChangeConfirmationEmailNewEmailTemplateId "$(notifyEmailChangeConfirmationEmailNewEmailTemplateId)"
+      -NotifyEmailChangeConfirmationEmailOldEmailTemplateId "$(notifyEmailChangeConfirmationEmailOldEmailTemplateId)"
+      -TncFileName "${{parameters.tncFileName}}"
+      -B2CCustomDomain "$(b2cCustomDomain)"'
+
+  strategy:
+    runOnce:
+      deploy:
+        steps:
+        - checkout: self
+        - template: /Infrastructure/steps/deploy-template.yml@devopsTemplates
+          parameters:
+            serviceConnection: ${{parameters.serviceConnection}}
+            subscriptionId: ${{parameters.subscriptionId}}
+            resourceGroupName: s141${{parameters.environmentId}}-${{parameters.environmentName}}${{parameters.applicationName}}
+            location: ${{parameters.deploymentPrimaryLocation}}
+            templateFilePath: '$(Build.SourcesDirectory)\deployment\template.json'
+            armParameterOverrideString: $(overrideParameters)
+            tags: $(Tags)
+
+        - pwsh: |
+            Write-Host "##vso[task.setvariable variable=dsiB2cFunctionKey]$($env:ARMOUTPUTS_ARMOUTPUT_FUNCTIONDEFAULTKEY)"
+          displayName: Set Named values
+
+        - task: Tokenization@2
+          displayName: Tokenise CSV Files
+          inputs:
+            SourcePath: '$(Build.SourcesDirectory)\eapim\namedValues'
+            TargetFileNames: '*.csv'
+            RequireVariable: true
+            TokenStart: '{{'
+            TokenEnd: '}}'
+
+        - task: AzureAppServiceManage@0
+          displayName: Install Site Extensions
+          inputs:
+            azureSubscription: ${{parameters.serviceConnection}}
+            Action: 'Install Extensions'
+            WebAppName: ${{parameters.applicationName}}-${{parameters.environmentName}}-function
+            ExtensionsList: 'Microsoft.VisualStudio.SnapshotDebugger.AzureAppServices.Standalone'
+
+        - template: /Application/dotnet/steps/deploy-function.yml@devopsTemplates
+          parameters:
+            azureSubscription: ${{parameters.serviceConnection}}
+            applicationName: ${{parameters.applicationName}}
+            environmentName: ${{parameters.environmentName}}
+
+        - pwsh : |
+            $url = "$($env:ARMOUTPUTS_ARMOUTPUT_FUNCTIONURL)/swagger"
+            $filePath = "$($env:BUILD_SOURCESDIRECTORY)\definition.json"
+            Write-Host "url: $($url)"
+            Write-Host "filePath: $($filePath)"
+            Invoke-RestMethod -Method Get -Uri $url -ContentType "application/json" -OutFile $filePath -MaximumRetryCount 5 -RetryIntervalSec 10
+          name: getDefinition
+          displayName: Download OpenApi Definition
+
+        - template: /Application/dotnet/steps/import-function-eapim.yml@devopsTemplates
+          parameters:
+            serviceConnection: ${{parameters.serviceConnection}}
+            eapimServiceConnection: ${{parameters.eapimServiceConnection}}
+            functionName: $(armOutputs.armOutput.functionName)
+            functionKey: $(armOutputs.armOutput.functionMasterKey)
+            functionUrl: $(armOutputs.armOutput.functionUrl)
+            productName: 'NCS Identity'
+            productRequiresSubscription: true
+            publishContactEmail: $(eapimPublishContactEmail)
+            publishApiName: 'NCS Identity'
+            publishApiOpenApiSchemaPath: '$(Build.SourcesDirectory)\definition.json'
+            publishApiPath: ${{parameters.applicationName}}
+            publishApiXmlPolicyPath: '$(Build.SourcesDirectory)\eapim\api\policy.xml'
+            eapimEnvironment: ${{parameters.eapimEnvironmentName}}
+            namedValuesIncluded: true
+            namedValuesFileName: '$(Build.SourcesDirectory)\eapim\namedValues\values.csv'
+
+        #- template: ../steps/enable-mock-policies.yml
+        #  parameters:
+        #    eapimServiceConnection: ${{parameters.eapimServiceConnection}}
+        #    eapimResourceGroupName: ${{parameters.eapimResourceGroupName}}
+        #    eapimServiceName: ${{parameters.eapimServiceName}}
+
+        #- template: ../steps/clear-mock-policies.yml
+        #  parameters:
+        #    eapimServiceConnection: ${{parameters.eapimServiceConnection}}
+        #    eapimResourceGroupName: ${{parameters.eapimResourceGroupName}}
+        #    eapimServiceName: ${{parameters.eapimServiceName}}
+
+        # - task: AzureFileCopy@4
+        #   displayName: Upload T&Cs
+        #   inputs:
+        #     SourcePath: '$(Build.SourcesDirectory)\storage-upload\tncDetails.json'
+        #     azureSubscription: ${{parameters.serviceConnection}}
+        #     Destination: 'AzureBlob'
+        #     storage: authncs${{parameters.environmentName}}str1
+        #     ContainerName: 'terms-and-conditions'
