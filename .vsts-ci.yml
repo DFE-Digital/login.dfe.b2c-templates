@@ -202,7 +202,7 @@ stages:
   variables:
     - group: platform-pp    
   jobs:
-  - template: yaml/jobs/deploy-grouped.yml
+  - template: yaml/jobs/deploy.yml
     parameters:
       variableGroupName: ncs-b2c-preprod
       applicationName: $(applicationName)
@@ -257,7 +257,7 @@ stages:
   variables:
     - group: platform-pr    
   jobs:
-  - template: yaml/jobs/deploy-grouped.yml
+  - template: yaml/jobs/deploy.yml
     parameters:
       variableGroupName: ncs-b2c-prod
       applicationName: $(applicationName)
