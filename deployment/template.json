@@ -491,11 +491,14 @@
                 "networkAcls": {
                     "bypass": "AzureServices",
                     "virtualNetworkRules": [
-                        "[variables('resourceNames').authSubnetResourceId]"
+                        {
+                        "id":"[variables('resourceNames').authSubnetResourceId]",
+                        "action": "Allow",
+                        "state": "Succeeded"
+                        }
                     ],
-                    "ipRules": [
-                    ],
-                    "defaultAction": "Allow"
+                    "ipRules": [],
+                    "defaultAction": "Deny"
                 },
                 "supportsHttpsTrafficOnly": true,
                 "encryption": {
