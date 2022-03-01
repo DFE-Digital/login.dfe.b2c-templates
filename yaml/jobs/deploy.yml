@@ -258,15 +258,6 @@ jobs:
             applicationName: ${{parameters.applicationName}}
             environmentName: ${{parameters.environmentName}}
 
-        - pwsh : |
-            $url = "$($env:ARMOUTPUTS_ARMOUTPUT_FUNCTIONURL)/swagger"
-            $filePath = "$($env:BUILD_SOURCESDIRECTORY)\definition.json"
-            Write-Host "url: $($url)"
-            Write-Host "filePath: $($filePath)"
-            Invoke-RestMethod -Method Get -Uri $url -ContentType "application/json" -OutFile $filePath -MaximumRetryCount 5 -RetryIntervalSec 10
-          name: getDefinition
-          displayName: Download OpenApi Definition
-
         #- template: ../steps/enable-mock-policies.yml
         #  parameters:
         #    eapimServiceConnection: ${{parameters.eapimServiceConnection}}
