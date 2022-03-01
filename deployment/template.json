@@ -494,7 +494,7 @@
                         {
                         "id":"[variables('resourceNames').authSubnetResourceId]",
                         "action": "Allow",
-                        "state": "Succeeded"
+                        "state": "succeeded"
                         }
                     ],
                     "ipRules": [],
