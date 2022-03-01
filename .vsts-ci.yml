@@ -68,8 +68,8 @@ stages:
       variableGroupName: ncs-b2c-dev
       applicationName: $(applicationName)
       environmentName: 'dev'
-      functionServicePlanSkuName: 'S1'
-      functionServicePlanSkuTier: 'Standard'
+      functionServicePlanSkuName: $(functionServicePlanSkuName)
+      functionServicePlanSkuTier: $(functionServicePlanSkuTier)
       functionServicePlanSkuCount: $(functionServicePlanSkuCount)
       b2cSignUpPolicy: $(b2cSignUpPolicy)
       b2cSignupConfirmPolicy: $(b2cSignupConfirmPolicy)
@@ -140,8 +140,8 @@ stages:
       variableGroupName: ncs-b2c-test
       applicationName: $(applicationName)
       environmentName: 'test'
-      functionServicePlanSkuName: 'S1'
-      functionServicePlanSkuTier: 'Standard'
+      functionServicePlanSkuName: $(functionServicePlanSkuName)
+      functionServicePlanSkuTier: $(functionServicePlanSkuTier)
       functionServicePlanSkuCount: $(functionServicePlanSkuCount)
       b2cSignUpPolicy: $(b2cSignUpPolicy)
       b2cSignupConfirmPolicy: $(b2cSignupConfirmPolicy)
@@ -207,8 +207,8 @@ stages:
       variableGroupName: ncs-b2c-preprod
       applicationName: $(applicationName)
       environmentName: 'preprod'
-      functionServicePlanSkuName: 'S1'
-      functionServicePlanSkuTier: 'Standard'
+      functionServicePlanSkuName: $(functionServicePlanSkuName)
+      functionServicePlanSkuTier: $(functionServicePlanSkuTier)
       functionServicePlanSkuCount: $(functionServicePlanSkuCount)
       b2cSignUpPolicy: $(b2cSignUpPolicy)
       b2cSignupConfirmPolicy: $(b2cSignupConfirmPolicy)
@@ -262,8 +262,8 @@ stages:
       variableGroupName: ncs-b2c-prod
       applicationName: $(applicationName)
       environmentName: 'prod'
-      functionServicePlanSkuName: 'S1'
-      functionServicePlanSkuTier: 'Standard'
+      functionServicePlanSkuName: $(functionServicePlanSkuName)
+      functionServicePlanSkuTier: $(functionServicePlanSkuTier)
       functionServicePlanSkuCount: $(functionServicePlanSkuCount)
       b2cSignUpPolicy: $(b2cSignUpPolicy)
       b2cSignupConfirmPolicy: $(b2cSignupConfirmPolicy)
