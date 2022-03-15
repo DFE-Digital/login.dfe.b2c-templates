@@ -125,6 +125,11 @@ jobs:
   - group: ${{parameters.variableGroupName}}
   - name: dsiB2cCertThumbprint
     value: ${{parameters.policyCertThumbprint}}
+  - name: enviromentIdShd
+    ${{ if eq(parameters.environmentName, 'preprod') }}:
+      value: 't02'
+    ${{ elseif eq(parameters.environmentName, 'prod') }}:
+      value: 'pr'
   - name: overrideParameters
     value: '
       -applicationName "${{parameters.applicationName}}"
