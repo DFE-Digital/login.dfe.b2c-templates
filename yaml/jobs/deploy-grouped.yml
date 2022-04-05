@@ -185,7 +185,7 @@ jobs:
       -NotifyEmailChangeConfirmationEmailOldEmailTemplateId "$(notifyEmailChangeConfirmationEmailOldEmailTemplateId)"
       -TncFileName "${{parameters.tncFileName}}"
       -B2CCustomDomain "$(b2cCustomDomain)"
-      -sharedResourceGroupName "s141$(enviromentIdShd)-shd"
+      -sharedResourceGroupName "s141$${{parameters.environmentId}}-shd"
       -virtualNetworkName "s141$(enviromentIdShd)-signin-shd-vnet"'
 
   strategy:
