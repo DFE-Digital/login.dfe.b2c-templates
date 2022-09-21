@@ -132,7 +132,7 @@ namespace B2CAzureFunc
                                 log.LogInformation(htmlTemplate);
                                 log.LogInformation(_appSettings.NotifyApiKey);                                
                                 var result = EmailService.Send(_appSettings.NotifyApiKey, model);                                
-                                log.LogInformation(result);
+                                log.LogInformation(result.ToString());
 
                                 return result
                                     ? (ActionResult)new OkObjectResult(true)
