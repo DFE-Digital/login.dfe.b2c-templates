@@ -225,7 +225,7 @@ stages:
       ncsDssDigitalIdentitiesApiVersion: $(ncsDssDigitalIdentitiesApiVersion)
       ncsDssGetCustomerUrlRoute: $(ncsDssGetCustomerUrlRoute)
       ncsDigitalIdentityRoute: $(ncsDigitalIdentityRoute)
-      environmentId: 't01'
+      environmentId: 't02'
       serviceConnection: $(testServiceConnection)
       subscriptionId: $(testSubscriptionId)
       deploymentPrimaryLocation: $(deploymentPrimaryLocation)
