@@ -126,8 +126,13 @@ namespace B2CAzureFunc
                                               {"link", url}
                                             }
                                 };
+                                
+                                log.LogInformation(model);
+                                log.LogInformation(htmlTemplate);
+                                log.LogInformation(_appSettings.NotifyApiKey);                                
+                                var result = EmailService.Send(_appSettings.NotifyApiKey, model);                                
+                                log.LogInformation(result);
 
-                                var result = EmailService.Send(_appSettings.NotifyApiKey, model);
                                 return result
                                     ? (ActionResult)new OkObjectResult(true)
                                     : new BadRequestObjectResult(new ResponseContentModel
