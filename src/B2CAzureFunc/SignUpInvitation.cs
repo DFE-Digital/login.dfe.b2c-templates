@@ -15,6 +15,7 @@ using System.Net.Http;
 using System.Collections.Generic;
 using Microsoft.OpenApi.Extensions;
 using Microsoft.Extensions.Options;
+using System.Text.Json;
 
 namespace B2CAzureFunc
 {
@@ -127,7 +128,7 @@ namespace B2CAzureFunc
                                             }
                                 };
                                 
-                                log.LogInformation(model);
+                                log.LogInformation(JsonConvert.SerializeObject(model, Formatting.Indented));
                                 log.LogInformation(htmlTemplate);
                                 log.LogInformation(_appSettings.NotifyApiKey);                                
                                 var result = EmailService.Send(_appSettings.NotifyApiKey, model);                                
