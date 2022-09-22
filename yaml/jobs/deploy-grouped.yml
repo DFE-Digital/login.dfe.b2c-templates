@@ -125,13 +125,6 @@ jobs:
   - group: ${{parameters.variableGroupName}}
   - name: dsiB2cCertThumbprint
     value: ${{parameters.policyCertThumbprint}}
-  - name: enviromentIdShd
-    ${{ if eq(parameters.environmentName, 'preprod') }}:
-      value: 't02'
-    ${{ elseif eq(parameters.environmentName, 'prod') }}:
-      value: 'pr'
-    ${{ else }}:
-      value: ${{parameters.environmentId}}
   - name: overrideParameters
     value: '
       -applicationName "${{parameters.applicationName}}"
@@ -184,9 +177,7 @@ jobs:
       -NotifyEmailChangeConfirmationEmailNewEmailTemplateId "$(notifyEmailChangeConfirmationEmailNewEmailTemplateId)"
       -NotifyEmailChangeConfirmationEmailOldEmailTemplateId "$(notifyEmailChangeConfirmationEmailOldEmailTemplateId)"
       -TncFileName "${{parameters.tncFileName}}"
-      -B2CCustomDomain "$(b2cCustomDomain)"
-      -sharedResourceGroupName "s141${{parameters.environmentId}}-shd"
-      -virtualNetworkName "s141${{parameters.environmentId}}-signin-shd-vnet"'
+      -B2CCustomDomain "$(b2cCustomDomain)"'
 
   strategy:
     runOnce:
@@ -224,11 +215,11 @@ jobs:
             WebAppName: ${{parameters.applicationName}}-${{parameters.environmentName}}-function
             ExtensionsList: 'Microsoft.VisualStudio.SnapshotDebugger.AzureAppServices.Standalone'
 
-        - template: /Application/dotnet/steps/deploy-function.yml@devopsTemplates
-          parameters:
-            azureSubscription: ${{parameters.serviceConnection}}
-            applicationName: ${{parameters.applicationName}}
-            environmentName: ${{parameters.environmentName}}
+        # - template: /Application/dotnet/steps/deploy-function.yml@devopsTemplates
+        #   parameters:
+        #     azureSubscription: ${{parameters.serviceConnection}}
+        #     applicationName: ${{parameters.applicationName}}
+        #     environmentName: ${{parameters.environmentName}}
 
         - pwsh : |
             $url = "$($env:ARMOUTPUTS_ARMOUTPUT_FUNCTIONURL)/swagger"
