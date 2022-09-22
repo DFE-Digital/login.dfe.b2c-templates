@@ -255,26 +255,26 @@ jobs:
 
         #   displayName: HTML Escape policy content
         
-        # - task: dc6fa558-bee2-4b1d-80e4-43a23defb0f0@1
-        #   displayName: Upsert EAPIM Api Function
-        #   inputs:
-        #     azureSubscription: ${{parameters.eapimServiceConnection}}
-        #     APIPublisherContactEmail: $(eapimPublishContactEmail)
-        #     APIName: 'NCS Identity'
-        #     APISchemaType: 'OpenAPI(Swagger)'
-        #     APISchema: '$(Build.SourcesDirectory)\definition.json'
-        #     APIPath: ${{parameters.applicationName}}
-        #     APIPolicy: '$(Build.SourcesDirectory)\eapim\api\policy.xml'
-        #     APIProductName: 'NCS Identity'
-        #     BackendisFunctionApp: true
-        #     FunctionAppName: $(armOutputs.armOutput.functionName)
-        #     FunctionAppKey: $(armOutputs.armOutput.functionMasterKey)
-        #     FunctionAppURL: $(armOutputs.armOutput.functionUrl)
-        #     APICapability: 'Customer Engagement'
-        #     APIEnvironment: ${{parameters.eapimEnvironmentName}}
-        #     APIMonitoring: false
-        #     NameValueSettingsFileProvided: true
-        #     NameValueCollectionFile: '$(Build.SourcesDirectory)\eapim\namedValues\values.csv'
+        - task: dc6fa558-bee2-4b1d-80e4-43a23defb0f0@1
+          displayName: Upsert EAPIM Api Function
+          inputs:
+            azureSubscription: ${{parameters.eapimServiceConnection}}
+            APIPublisherContactEmail: $(eapimPublishContactEmail)
+            APIName: 'NCS Identity'
+            APISchemaType: 'OpenAPI(Swagger)'
+            APISchema: '$(Build.SourcesDirectory)\definition.json'
+            APIPath: ${{parameters.applicationName}}
+            APIPolicy: '$(Build.SourcesDirectory)\eapim\api\policy.xml'
+            APIProductName: 'NCS Identity'
+            BackendisFunctionApp: true
+            FunctionAppName: $(armOutputs.armOutput.functionName)
+            FunctionAppKey: $(armOutputs.armOutput.functionMasterKey)
+            FunctionAppURL: $(armOutputs.armOutput.functionUrl)
+            APICapability: 'Customer Engagement'
+            APIEnvironment: ${{parameters.eapimEnvironmentName}}
+            APIMonitoring: false
+            NameValueSettingsFileProvided: true
+            NameValueCollectionFile: '$(Build.SourcesDirectory)\eapim\namedValues\values.csv'
 
         # - template: /Application/dotnet/steps/import-function-eapim.yml@devopsTemplates
         #   parameters:
