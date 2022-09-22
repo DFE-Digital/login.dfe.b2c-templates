@@ -230,7 +230,69 @@ jobs:
           name: getDefinition
           displayName: Download OpenApi Definition
 
-       
+        - task: EapimManageProductRelease@1
+          displayName: Upsert EAPIM Product
+          inputs:
+            azureSubscription: ${{parameters.eapimServiceConnection}}
+            AddOrRemoveProduct: ${{parameters.productAddOrRemove}}
+            ProductName: ${{parameters.productName}}
+            RequiresSubscription: ${{parameters.productRequiresSubscription}}
+            RequiresApproval: ${{parameters.productRequiresApproval}}
+            isPublished: ${{parameters.productIsPublished}}
+            APICapability: ${{parameters.eapimCapabilityArea}}
+            APIEnvironment: ${{parameters.eapimEnvironment}}
+
+        #dc6fa558-bee2-4b1d-80e4-43a23defb0f0@1 - V1
+        #922d33ea-da55-43e3-ac99-10977825c9f7@1 - V2
+
+        # - pwsh: |
+
+        #     $policyContent = Get-Content -Path ${{parameters.publishApiXmlPolicyPath}} -Raw
+        #     $escapedContent = $policyContent.Replace('"', "&quot;")
+        #     Set-Content -Path ${{parameters.publishApiXmlPolicyPath}} $escapedContent
+        #     $result = Get-Content -Path ${{parameters.publishApiXmlPolicyPath}} -Raw
+        #     Write-Host $result
+
+        #   displayName: HTML Escape policy content
+        
+        - task: dc6fa558-bee2-4b1d-80e4-43a23defb0f0@1 
+          displayName: Upsert EAPIM Api Function
+          inputs:
+            azureSubscription: ${{parameters.eapimServiceConnection}}
+            APIPublisherContactEmail: ${{parameters.publishContactEmail}}
+            APIName: ${{parameters.publishApiName}}
+            APISchemaType: 'OpenAPI(Swagger)'
+            APISchema: ${{parameters.publishApiOpenApiSchemaPath}}
+            APIPath: ${{parameters.publishApiPath}}
+            APIPolicy: ${{parameters.publishApiXmlPolicyPath}}
+            APIProductName: ${{parameters.productName}}
+            BackendisFunctionApp: true
+            FunctionAppName: ${{parameters.functionName}}
+            FunctionAppKey: ${{parameters.functionKey}}
+            FunctionAppURL: ${{parameters.functionUrl}}
+            APICapability: ${{parameters.eapimCapabilityArea}}
+            APIEnvironment: ${{parameters.eapimEnvironment}}
+            APIMonitoring: ${{parameters.eapimUseHeartbeatMonitoring}}
+            NameValueSettingsFileProvided: ${{parameters.namedValuesIncluded}}
+            NameValueCollectionFile: ${{parameters.namedValuesFileName}}
+
+        # - template: /Application/dotnet/steps/import-function-eapim.yml@devopsTemplates
+        #   parameters:
+        #     serviceConnection: ${{parameters.serviceConnection}}
+        #     eapimServiceConnection: ${{parameters.eapimServiceConnection}}
+        #     functionName: $(armOutputs.armOutput.functionName)
+        #     functionKey: $(armOutputs.armOutput.functionMasterKey)
+        #     functionUrl: $(armOutputs.armOutput.functionUrl)
+        #     productName: 'NCS Identity'
+        #     productRequiresSubscription: true
+        #     publishContactEmail: $(eapimPublishContactEmail)
+        #     publishApiName: 'NCS Identity'
+        #     publishApiOpenApiSchemaPath: '$(Build.SourcesDirectory)\definition.json'
+        #     publishApiPath: ${{parameters.applicationName}}
+        #     publishApiXmlPolicyPath: '$(Build.SourcesDirectory)\eapim\api\policy.xml'
+        #     eapimEnvironment: ${{parameters.eapimEnvironmentName}}
+        #     namedValuesIncluded: true
+        #     namedValuesFileName: '$(Build.SourcesDirectory)\eapim\namedValues\values.csv'
 
         #- template: ../steps/enable-mock-policies.yml
         #  parameters:
