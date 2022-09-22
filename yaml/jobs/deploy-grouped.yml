@@ -234,13 +234,13 @@ jobs:
           displayName: Upsert EAPIM Product
           inputs:
             azureSubscription: ${{parameters.eapimServiceConnection}}
-            AddOrRemoveProduct: ${{parameters.productAddOrRemove}}
-            ProductName: ${{parameters.productName}}
-            RequiresSubscription: ${{parameters.productRequiresSubscription}}
-            RequiresApproval: ${{parameters.productRequiresApproval}}
-            isPublished: ${{parameters.productIsPublished}}
-            APICapability: ${{parameters.eapimCapabilityArea}}
-            APIEnvironment: ${{parameters.eapimEnvironment}}
+            AddOrRemoveProduct: 'add'
+            ProductName: 'NCS Identity'
+            RequiresSubscription: true
+            RequiresApproval: true
+            isPublished: true
+            APICapability: 'Customer Engagement'
+            APIEnvironment: ${{parameters.eapimEnvironmentName}}
 
         #dc6fa558-bee2-4b1d-80e4-43a23defb0f0@1 - V1
         #922d33ea-da55-43e3-ac99-10977825c9f7@1 - V2
@@ -259,17 +259,17 @@ jobs:
           displayName: Upsert EAPIM Api Function
           inputs:
             azureSubscription: ${{parameters.eapimServiceConnection}}
-            APIPublisherContactEmail: ${{parameters.publishContactEmail}}
-            APIName: ${{parameters.publishApiName}}
+            APIPublisherContactEmail: $(eapimPublishContactEmail)
+            APIName: 'NCS Identity'
             APISchemaType: 'OpenAPI(Swagger)'
-            APISchema: ${{parameters.publishApiOpenApiSchemaPath}}
+            APISchema: '$(Build.SourcesDirectory)\definition.json'
             APIPath: ${{parameters.publishApiPath}}
             APIPolicy: ${{parameters.publishApiXmlPolicyPath}}
             APIProductName: ${{parameters.productName}}
             BackendisFunctionApp: true
-            FunctionAppName: ${{parameters.functionName}}
-            FunctionAppKey: ${{parameters.functionKey}}
-            FunctionAppURL: ${{parameters.functionUrl}}
+            FunctionAppName: $(armOutputs.armOutput.functionName)
+            FunctionAppKey: $(armOutputs.armOutput.functionMasterKey)
+            FunctionAppURL: $(armOutputs.armOutput.functionUrl)
             APICapability: ${{parameters.eapimCapabilityArea}}
             APIEnvironment: ${{parameters.eapimEnvironment}}
             APIMonitoring: ${{parameters.eapimUseHeartbeatMonitoring}}
