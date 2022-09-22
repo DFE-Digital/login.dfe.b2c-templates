@@ -230,7 +230,7 @@ jobs:
           name: getDefinition
           displayName: Download OpenApi Definition
 
-        - task: EapimManageProductRelease@1
+        - task: TechTransformationEAPIMTeam.Eapim-BuildnRelease.Eapim.APIManageProduct.EapimManageProductRelease@1
           displayName: Upsert EAPIM Product
           inputs:
             azureSubscription: ${{parameters.eapimServiceConnection}}
