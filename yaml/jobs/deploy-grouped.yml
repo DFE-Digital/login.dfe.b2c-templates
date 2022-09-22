@@ -263,18 +263,18 @@ jobs:
             APIName: 'NCS Identity'
             APISchemaType: 'OpenAPI(Swagger)'
             APISchema: '$(Build.SourcesDirectory)\definition.json'
-            APIPath: ${{parameters.publishApiPath}}
-            APIPolicy: ${{parameters.publishApiXmlPolicyPath}}
-            APIProductName: ${{parameters.productName}}
+            APIPath: ${{parameters.applicationName}}
+            APIPolicy: '$(Build.SourcesDirectory)\eapim\api\policy.xml'
+            APIProductName: 'NCS Identity'
             BackendisFunctionApp: true
             FunctionAppName: $(armOutputs.armOutput.functionName)
             FunctionAppKey: $(armOutputs.armOutput.functionMasterKey)
             FunctionAppURL: $(armOutputs.armOutput.functionUrl)
-            APICapability: ${{parameters.eapimCapabilityArea}}
-            APIEnvironment: ${{parameters.eapimEnvironment}}
-            APIMonitoring: ${{parameters.eapimUseHeartbeatMonitoring}}
-            NameValueSettingsFileProvided: ${{parameters.namedValuesIncluded}}
-            NameValueCollectionFile: ${{parameters.namedValuesFileName}}
+            APICapability: 'Customer Engagement'
+            APIEnvironment: ${{parameters.eapimEnvironmentName}}
+            APIMonitoring: false
+            NameValueSettingsFileProvided: true
+            NameValueCollectionFile: '$(Build.SourcesDirectory)\eapim\namedValues\values.csv'
 
         # - template: /Application/dotnet/steps/import-function-eapim.yml@devopsTemplates
         #   parameters:
