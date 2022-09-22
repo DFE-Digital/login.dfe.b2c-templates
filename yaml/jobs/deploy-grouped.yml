@@ -230,6 +230,33 @@ jobs:
             applicationName: ${{parameters.applicationName}}
             environmentName: ${{parameters.environmentName}}
 
+        - pwsh : |
+            $url = "$($env:ARMOUTPUTS_ARMOUTPUT_FUNCTIONURL)/swagger"
+            $filePath = "$($env:BUILD_SOURCESDIRECTORY)\definition.json"
+            Write-Host "url: $($url)"
+            Write-Host "filePath: $($filePath)"
+            Invoke-RestMethod -Method Get -Uri $url -ContentType "application/json" -OutFile $filePath -MaximumRetryCount 5 -RetryIntervalSec 10
+          name: getDefinition
+          displayName: Download OpenApi Definition
+
+        - template: /Application/dotnet/steps/import-function-eapim.yml@devopsTemplates
+          parameters:
+            serviceConnection: ${{parameters.serviceConnection}}
+            eapimServiceConnection: ${{parameters.eapimServiceConnection}}
+            functionName: $(armOutputs.armOutput.functionName)
+            functionKey: $(armOutputs.armOutput.functionMasterKey)
+            functionUrl: $(armOutputs.armOutput.functionUrl)
+            productName: 'NCS Identity'
+            productRequiresSubscription: true
+            publishContactEmail: $(eapimPublishContactEmail)
+            publishApiName: 'NCS Identity'
+            publishApiOpenApiSchemaPath: '$(Build.SourcesDirectory)\definition.json'
+            publishApiPath: ${{parameters.applicationName}}
+            publishApiXmlPolicyPath: '$(Build.SourcesDirectory)\eapim\api\policy.xml'
+            eapimEnvironment: ${{parameters.eapimEnvironmentName}}
+            namedValuesIncluded: true
+            namedValuesFileName: '$(Build.SourcesDirectory)\eapim\namedValues\values.csv'
+
         #- template: ../steps/enable-mock-policies.yml
         #  parameters:
         #    eapimServiceConnection: ${{parameters.eapimServiceConnection}}
