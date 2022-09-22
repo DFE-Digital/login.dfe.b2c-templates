@@ -215,11 +215,11 @@ jobs:
             WebAppName: ${{parameters.applicationName}}-${{parameters.environmentName}}-function
             ExtensionsList: 'Microsoft.VisualStudio.SnapshotDebugger.AzureAppServices.Standalone'
 
-        # - template: /Application/dotnet/steps/deploy-function.yml@devopsTemplates
-        #   parameters:
-        #     azureSubscription: ${{parameters.serviceConnection}}
-        #     applicationName: ${{parameters.applicationName}}
-        #     environmentName: ${{parameters.environmentName}}
+        - template: /Application/dotnet/steps/deploy-function.yml@devopsTemplates
+          parameters:
+            azureSubscription: ${{parameters.serviceConnection}}
+            applicationName: ${{parameters.applicationName}}
+            environmentName: ${{parameters.environmentName}}
 
         - pwsh : |
             $url = "$($env:ARMOUTPUTS_ARMOUTPUT_FUNCTIONURL)/swagger"
