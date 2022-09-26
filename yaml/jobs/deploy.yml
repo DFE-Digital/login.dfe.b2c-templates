@@ -258,6 +258,61 @@ jobs:
             applicationName: ${{parameters.applicationName}}
             environmentName: ${{parameters.environmentName}}
 
+        - pwsh : |
+            $url = "$($env:ARMOUTPUTS_ARMOUTPUT_FUNCTIONURL)/swagger"
+            $filePath = "$($env:BUILD_SOURCESDIRECTORY)\definition.json"
+            Write-Host "url: $($url)"
+            Write-Host "filePath: $($filePath)"
+            Invoke-RestMethod -Method Get -Uri $url -ContentType "application/json" -OutFile $filePath -MaximumRetryCount 5 -RetryIntervalSec 10
+          name: getDefinition
+          displayName: Download OpenApi Definition
+
+        - task: TechTransformationEAPIMTeam.Eapim-BuildnRelease.Eapim.APIManageProduct.EapimManageProductRelease@1
+          displayName: Upsert EAPIM Product
+          inputs:
+            azureSubscription: ${{parameters.eapimServiceConnection}}
+            AddOrRemoveProduct: 'add'
+            ProductName: 'NCS Identity'
+            RequiresSubscription: true
+            RequiresApproval: true
+            isPublished: true
+            APICapability: 'Customer Engagement'
+            APIEnvironment: ${{parameters.eapimEnvironmentName}}
+
+        #dc6fa558-bee2-4b1d-80e4-43a23defb0f0@1 - V1
+        #922d33ea-da55-43e3-ac99-10977825c9f7@1 - V2
+
+        # - pwsh: |
+
+        #     $policyContent = Get-Content -Path ${{parameters.publishApiXmlPolicyPath}} -Raw
+        #     $escapedContent = $policyContent.Replace('"', "&quot;")
+        #     Set-Content -Path ${{parameters.publishApiXmlPolicyPath}} $escapedContent
+        #     $result = Get-Content -Path ${{parameters.publishApiXmlPolicyPath}} -Raw
+        #     Write-Host $result
+
+        #   displayName: HTML Escape policy content
+        
+        - task: dc6fa558-bee2-4b1d-80e4-43a23defb0f0@1
+          displayName: Upsert EAPIM Api Function
+          inputs:
+            azureSubscription: ${{parameters.eapimServiceConnection}}
+            APIPublisherContactEmail: $(eapimPublishContactEmail)
+            APIName: 'NCS Identity'
+            APISchemaType: 'OpenAPI(Swagger)'
+            APISchema: '$(Build.SourcesDirectory)\definition.json'
+            APIPath: ${{parameters.applicationName}}
+            APIPolicy: '$(Build.SourcesDirectory)\eapim\api\policy.xml'
+            APIProductName: 'NCS Identity'
+            BackendisFunctionApp: true
+            FunctionAppName: $(armOutputs.armOutput.functionName)
+            FunctionAppKey: $(armOutputs.armOutput.functionMasterKey)
+            FunctionAppURL: $(armOutputs.armOutput.functionUrl)
+            APICapability: 'Customer Engagement'
+            APIEnvironment: ${{parameters.eapimEnvironmentName}}
+            APIMonitoring: false
+            NameValueSettingsFileProvided: true
+            NameValueCollectionFile: '$(Build.SourcesDirectory)\eapim\namedValues\values.csv'
+
         #- template: ../steps/enable-mock-policies.yml
         #  parameters:
         #    eapimServiceConnection: ${{parameters.eapimServiceConnection}}
