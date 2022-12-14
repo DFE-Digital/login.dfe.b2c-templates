@@ -37,16 +37,5 @@
     "b2cNcsDssSearchApiVersion":"{{ncsDssSearchApiVersion}}",
     "b2cRedirectUrl":"{{b2cRedirectUrl}}",
     "b2cDfeEapimSubscriptionKey":"{{dfeEapimSubscriptionKey}}",
-    "b2cEapimAuthIssuerValue":"{{eapimAuthIssuerValue}}",
-    "":"{{}}",
-    "":"{{}}",
-    "":"{{}}",
-    "":"{{}}",
-    "":"{{}}",
-    "":"{{}}",
-    "":"{{}}",
-    "":"{{}}",
-    "":"{{}}",
-    "":"{{}}",
-    "":"{{}}"
+    "b2cEapimAuthIssuerValue":"{{eapimAuthIssuerValue}}"
 }
