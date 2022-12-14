@@ -37,5 +37,5 @@
     "b2cNcsDssSearchApiVersion":"{{ncsDssSearchApiVersion}}",
     "b2cRedirectUrl":"{{b2cRedirectUrl}}",
     "b2cDfeEapimSubscriptionKey":"{{dfeEapimSubscriptionKey}}",
-    "b2cCustomDomain":"b2cCustomDomain"
+    "b2cCustomDomain":"{{b2cCustomDomain}}"
 }
