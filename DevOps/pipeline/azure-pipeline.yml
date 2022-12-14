@@ -1,0 +1,171 @@
+name: $(BuildDefinitionName)_tag-$(BuildID)_at-$(Date:yyyyMMdd)$(Rev:.r)
+resources:
+  repositories:
+  # Defult branch is master
+    - repository: devopsTemplates
+      type: github
+      endpoint: DfE-Digital
+      name: DFE-Digital/login.dfe.devops
+      ref: feature/DSI-5680
+    - repository: config
+      type: github
+      endpoint: DfE-Digital
+      name: DFE-Digital/login.dfe.config
+      ref: feature/DSI-5680
+
+trigger:
+  branches:
+    include:
+    - release/*
+    - feature/*
+
+pr:
+  branches:
+    include:
+    - main
+    - develop
+
+parameters:
+- name: AppDeploy
+  type: boolean
+  displayName: 'App Deployment only'
+  default: false
+- name: InfrDeploy
+  type: boolean
+  displayName: 'Infrastrucure Deployment only'
+  default: true
+- name: tran
+  type: boolean
+  displayName: 'Transformation Deployment'
+  default: false
+- name: dev
+  type: boolean
+  displayName: 'Dev Deployment'
+  default: false
+- name: test
+  type: boolean
+  displayName: 'Test Deployment'
+  default: false
+- name: pp
+  type: boolean
+  displayName: 'Pre-Prod Deployment'
+  default: false
+- name: pr
+  type: boolean
+  displayName: 'Prod Deployment'
+  default: false
+
+variables:
+- group: dsi-global
+- name: applicationShortName
+  value: 'authncs'
+- name: applicationFullName
+  value: 'authncs'
+- name: numberOfWorkers
+  value: 1
+- name: tran
+  ${{ if eq(parameters.tran, 'true') }}:
+    value: true
+  ${{ else }}:
+    value: false
+- name: dev
+  ${{ if eq(parameters.dev, 'true') }}:
+    value: true
+  ${{ else }}:
+    value: false
+- name: test
+  ${{ if or(eq(parameters.test, 'true'), contains(variables['Build.SourceBranch'],'develop')) }}:
+    value: true
+  ${{ else }}:
+    value: false
+- name: pp
+  ${{ if or(eq(parameters.pp, 'true'), contains(variables['Build.SourceBranch'],'release')) }}:
+    value: true
+  ${{ else }}:
+    value: false
+- name: pr
+  ${{ if or(eq(parameters.pr, 'true'), contains(variables['Build.SourceBranch'],'release')) }}:
+    value: true
+  ${{ else }}:
+    value: false
+
+
+stages:
+
+# Code Scans & Build the artifact for deployment
+- stage: scanBuildApp
+  displayName: "Scan tools & Build"
+  jobs:
+    # Code scaning tools
+  - ${{ if eq(parameters.InfrDeploy, 'true') }}:
+    - template:  pipeline/checkov.yml@devopsTemplates
+
+  - ${{ if eq(parameters.AppDeploy, 'true') }}:
+
+    - template:  pipeline/eslint.yml@devopsTemplates
+
+    - template:  pipeline/dependencyCheck.yml@devopsTemplates
+      parameters:
+        npmInstCmd: 'install --force --json --no-package-lock'
+
+    # - template: pipeline/NetBuild.yml@devopsTemplates
+    #   parameters:
+    #     applicationName: ${{variables.applicationFullName}}
+
+- ${{ each var in variables }}:
+  - ${{ if in(var.key, 'tran','dev','test','pp','pr') }}:
+    - ${{ if eq(var.value, 'true') }}:
+      - stage: Deployment_${{var.Key}}
+        displayName: "Deployment [${{var.Key}}]"
+        dependsOn: 
+        - scanBuildApp
+        condition: in(dependencies.scanBuildApp.result, 'Succeeded', 'Skipped')
+        variables:
+        - group: dsi-${{var.key}}-kv
+        jobs:
+        - ${{ if parameters.InfrDeploy }}:
+          - template: pipeline/ncs-b2c/tenant-setup.yml@devopsTemplates
+            parameters:
+              ${{ if or(eq(var.key, 'dev'), eq(var.key, 'tran')) }}:
+                eapimRootUrl: ${{var.key}}-api-customerengagement.platform.education.gov.uk
+              ${{ elseif eq(var.key, 'pr') }}:
+                eapimRootUrl: api-customerengagement.platform.education.gov.uk
+              ${{ elseif eq(var.key, 'pp') }}:
+                  eapimRootUrl: oat-api-customerengagement.platform.education.gov.uk
+              ${{ elseif eq(var.key, 'test') }}:
+                eapimRootUrl: ${{var.key}}-api-customerengagement.platform.education.gov.uk
+              environmentName: ${{var.key}}
+              applicationName: ${{variables.applicationShortName}}
+
+          - template: pipeline/ncs-b2c/infrastructure.yml@devopsTemplates
+            parameters:
+              ${{ if or(eq(var.key, 'dev'), eq(var.key, 'tran')) }}:
+                serviceConnection: $(devServiceConnection)
+                eapimEnvironmentName: 'Development'
+              ${{ elseif eq(var.key, 'pr') }}:
+                serviceConnection: $(prodServiceConnection)
+                eapimEnvironmentName: 'Production'
+              ${{ else }}:
+                serviceConnection: $(testServiceConnection)
+                ${{ if eq(var.key, 'pp') }}:
+                  eapimEnvironmentName: 'Oat'
+                ${{ elseif eq(var.key, 'test') }}:
+                  eapimEnvironmentName: 'Test'
+              environmentName: ${{var.key}}
+              applicationName: ${{variables.applicationShortName}}
+
+        - ${{ if parameters.AppDeploy }}:
+          - template: pipeline/funDeploy.yml@devopsTemplates
+            parameters: 
+              ${{ if or(eq(var.key, 'dev'), eq(var.key, 'tran')) }}:
+                serviceConnection: $(devServiceConnection)
+              ${{ elseif eq(var.key, 'pr') }}:
+                serviceConnection: $(prodServiceConnection)
+              ${{ else }}:
+                serviceConnection: $(testServiceConnection)
+              environmentName: ${{var.key}}
+              applicationShortName: ${{variables.applicationShortName}}
+              applicationFullName: ${{variables.applicationFullName}}
+              releaseArtifactName: ${{variables.applicationFullName}}-$(Build.BuildId)-release
+              InfrDeploy: ${{parameters.InfrDeploy}}
+    
