@@ -20,51 +20,15 @@
         },
         "subnetName": {
             "type": "string",
-            "defaultValue": "auth-sn",
+            "defaultValue": "backend-g2-sn",
             "metadata": {
                 "description": "Prefix of the subnet to integrate the app service with in the virtual network"
             }
         },
-        "servicePlanSkuName": {
-            "defaultValue": "F1",
-            "type": "string",
-            "allowedValues": [
-                "F1",
-                "D1",
-                "B1",
-                "B2",
-                "B3",
-                "S1",
-                "S2",
-                "S3",
-                "P1",
-                "P2",
-                "P3",
-                "P4",
-                "I1"
-            ],
-            "metadata": {
-                "description": "The instance size of the app."
-            }
-        },
-        "servicePlanSkuTier": {
-            "type": "string",
-            "defaultValue": "Standard",
-            "allowedValues": [
-                "Standard",
-                "Premium",
-                "Isolated",
-                "Basic",
-                "Free"
-            ],
-            "metadata": {
-                "description": "The pricing tier for the App Service plan."
-            }
-        },
-        "servicePlanSkuCount": {
+        "servicePlanName": {
             "type": "string",
             "metadata": {
-                "description": "Instance Size"
+                "description": "Service Plan name."
             }
         },
         "configStoreSku": {
@@ -329,14 +293,13 @@
         "resourceNames": {
             "applicationInsightsName": "[concat(variables('baseName'), '-ai')]",
             "defaultStorageAccountName": "[replace(concat(variables('baseName'), 'str1'), '-', '')]",
-            "servicePlanName": "[concat(variables('baseName'), '-function-asp')]",
             "functionName": "[concat(variables('baseName'), '-function')]",
             "autoScaleRuleName": "[concat(variables('baseName'), '-function-asp-autoscale-setting')]",
             "actionGroupName": "[concat(variables('baseName'),'-action-group')]",
             "actionGroupShortName": "[concat(parameters('applicationName'),'-ag')]",
             "configStoreName": "[concat(variables('baseName'), '-cfg')]",
             "frontDoorName": "[concat(variables('baseName'),'-frontend')]",
-            "authSubnetResourceId": "[resourceId(parameters('sharedResourceGroupName'), 'Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworkName'), parameters('subnetName'))]"
+            "authSubnetResourceId": "[resourceId(parameters('sharedResourceGroupName'),'Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworkName'), parameters('subnet'))]"
         },
         "frontDoor": {
             "frontendEndpointName": "[concat(variables('baseName'),'-frontend-azurefd-net')]",
@@ -390,7 +353,7 @@
         "resourceIds": {
             "appInsightsId": "[resourceId('Microsoft.Insights/components/', variables('resourceNames').applicationInsightsName)]",
             "defaultStorageAccountId": "[resourceId('Microsoft.Storage/storageAccounts', variables('resourceNames').defaultStorageAccountName)]",
-            "servicePlanId": "[resourceId('Microsoft.Web/serverfarms', variables('resourceNames').servicePlanName)]",
+            "servicePlanId": "[resourceId(parameters('sharedResourceGroupName'),'Microsoft.Web/serverfarms', parameters('servicePlanName'))]",
             "functionId": "[resourceId('Microsoft.Web/sites', variables('resourceNames').functionName )]",
             "actionGroupId": "[resourceId('microsoft.insights/actionGroups', variables('resourceNames').actionGroupName)]",
             "storageAccountDefaultBlobContainerId": "[resourceId('Microsoft.Storage/storageAccounts/blobServices', variables('resourceNames').defaultStorageAccountName, 'default')]",
@@ -659,96 +622,6 @@
                 "[variables('resourceIds').actionGroupId]",
                 "[variables('alertRules')[copyIndex()].scopeResourceId]"
             ]
-        },
-        {
-            "condition": "[parameters('useAutoScaling')]",
-            "type": "Microsoft.Insights/autoscalesettings",
-            "name": "[variables('resourceNames').autoScaleRuleName]",
-            "apiVersion": "2015-04-01",
-            "location": "[resourceGroup().location]",
-            "dependsOn": [
-                "[variables('resourceIds').servicePlanId]"
-            ],
-            "properties": {
-                "profiles": [
-                    {
-                        "name": "DefaultAutoscaleProfile",
-                        "capacity": {
-                            "minimum": "[parameters('autoScaleMinimumNumberOfInstances')]",
-                            "maximum": "[parameters('autoScaleMaximumNumberOfInstances')]",
-                            "default": "[parameters('servicePlanSkuCount')]"
-                        },
-                        "rules": [
-                            {
-                                "metricTrigger": {
-                                    "metricName": "CpuPercentage",
-                                    "metricNamespace": "",
-                                    "MetricResourceUri": "[variables('resourceIds').servicePlanId]",
-                                    "timeGrain": "PT5M",
-                                    "statistic": "Average",
-                                    "timeWindow": "PT10M",
-                                    "timeAggregation": "Average",
-                                    "operator": "GreaterThan",
-                                    "threshold": "[parameters('scaleUpThreshold')]"
-                                },
-                                "scaleAction": {
-                                    "direction": "Increase",
-                                    "type": "ChangeCount",
-                                    "value": "1",
-                                    "cooldown": "PT5M"
-                                }
-                            },
-                            {
-                                "metricTrigger": {
-                                    "metricName": "CpuPercentage",
-                                    "metricNamespace": "",
-                                    "MetricResourceUri": "[variables('resourceIds').servicePlanId]",
-                                    "timeGrain": "PT5M",
-                                    "statistic": "Average",
-                                    "timeWindow": "PT10M",
-                                    "timeAggregation": "Average",
-                                    "operator": "LessThan",
-                                    "threshold": "[parameters('scaleDownThreshold')]"
-                                },
-                                "scaleAction": {
-                                    "direction": "Decrease",
-                                    "type": "ChangeCount",
-                                    "value": "1",
-                                    "cooldown": "PT5M"
-                                }
-                            }
-                        ]
-                    }
-                ],
-                "enabled": true,
-                "targetResourceUri": "[variables('resourceIds').servicePlanId]",
-                "notifications": [
-                    {
-                        "operation": "Scale",
-                        "webhooks": [
-                            {
-                                "serviceUri": "[parameters('alertWebHookUrl')]",
-                                "properties": {
-                                }
-                            }
-                        ]
-                    }
-                ]
-            }
-        },
-        {
-            "type": "Microsoft.Web/serverfarms",
-            "location": "[resourceGroup().location]",
-            "sku": {
-                "name": "[parameters('servicePlanSkuName')]",
-                "tier": "[parameters('servicePlanSkuTier')]",
-                "capacity": "[parameters('servicePlanSkuCount')]"
-            },
-            "apiVersion": "2018-11-01",
-            "name": "[variables('resourceNames').servicePlanName]",
-            "properties": {
-                "name": "[variables('resourceNames').servicePlanName]"
-            }
         },
         {
             "name": "[variables('resourceNames').functionName]",
@@ -1041,7 +914,6 @@
             },
             "dependsOn": [
                 "[variables('resourceIds').defaultStorageAccountId]",
-                "[variables('resourceIds').servicePlanId]",
                 "[variables('resourceIds').appInsightsId]"
             ]
         },
