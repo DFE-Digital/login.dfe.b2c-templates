@@ -65,7 +65,7 @@ namespace B2CAzureFunc
                         {
                             request.Headers.TryAddWithoutValidation("api-key", _appSettings.NcsDssApiKey);
                             request.Headers.TryAddWithoutValidation("version", _appSettings.NcsDssCustomersApiVersion);
-                            request.Headers.TryAddWithoutValidation("Ocp-Apim-Subscription-Key", _appSettings:OcpApimSubKey);
+                            request.Headers.TryAddWithoutValidation("Ocp-Apim-Subscription-Key", _appSettings:OcpApimSubscriptionKey);
                             request.Headers.TryAddWithoutValidation("TouchpointId", _appSettings.TouchpointId.ToString());
 
                             var response = await httpClient.SendAsync(request);
