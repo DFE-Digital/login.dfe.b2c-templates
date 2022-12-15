@@ -691,7 +691,7 @@
                             "value": "recommended"
                         },
                         {
-                            "name": "AppSettings:OcpSubscriptionKey",
+                            "name": "AppSettings:OcpApimSubKey",
                             "value": "[parameters('NCSApimSubscriptionKey')]"
                         },
                         {

@@ -78,7 +78,7 @@ namespace B2CAzureFunc
                     {
                         request.Headers.TryAddWithoutValidation("api-key", _appSettings.NcsDssApiKey);
                         request.Headers.TryAddWithoutValidation("version", _appSettings.NcsDssCustomersApiVersion);
-                        request.Headers.TryAddWithoutValidation("Ocp-Apim-Subscription-Key", _appSettings.OcpSubscriptionKey);
+                        request.Headers.TryAddWithoutValidation("Ocp-Apim-Subscription-Key", _appSettings:OcpApimSubKey);
                         request.Headers.TryAddWithoutValidation("TouchpointId", _appSettings.TouchpointId.ToString());
 
                         var response = await httpClient.SendAsync(request);
@@ -149,7 +149,7 @@ namespace B2CAzureFunc
                             {
                                 userMessage = "Failed to fetch customer details, please contact support",
                                 developerMessage = "Apikey: " + _appSettings.NcsDssApiKey + " TouchPointId" + _appSettings.TouchpointId.ToString() + " NcsDssSearchApiVersion:" + _appSettings.NcsDssCustomersApiVersion
-                                + " OcpApimSubscriptionKey:" + _appSettings.OcpSubscriptionKey
+                                + " OcpApimSubscriptionKey:" + _appSettings:OcpApimSubKey
                             });
                         }
                     }
