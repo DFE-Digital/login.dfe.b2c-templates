@@ -1473,7 +1473,7 @@
                 <DisplayName>User OTP Notifications</DisplayName>    
                 <Protocol Name="Proprietary" Handler="Web.TPEngine.Providers.RestfulProvider, Web.TPEngine, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" />
                 <Metadata>
-                    <Item Key="ServiceUrl">https://{{eapimRootUrl}}/{{apimAppName}}/SignupConfirmation?subscription-key={{dfeEapimSubscriptionKey}}</Item>
+                    <Item Key="ServiceUrl">https://{{eapimRootUrl}}/{{apimAppName}}/SignupConfirmation?subscription-key={{b2cDfeEapimSubscriptionKey}}</Item>
                     <Item Key="SendClaimsIn">Body</Item>                        
                     <Item Key="AuthenticationType">None</Item>
                     <Item Key="AllowInsecureAuthInProduction">true</Item>
@@ -1490,7 +1490,7 @@
                 <DisplayName>User OTP Notifications</DisplayName>    
                 <Protocol Name="Proprietary" Handler="Web.TPEngine.Providers.RestfulProvider, Web.TPEngine, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" />
                 <Metadata>
-                    <Item Key="ServiceUrl">https://{{eapimRootUrl}}/{{apimAppName}}/PasswordResetConfirmation?subscription-key={{dfeEapimSubscriptionKey}}</Item>
+                    <Item Key="ServiceUrl">https://{{eapimRootUrl}}/{{apimAppName}}/PasswordResetConfirmation?subscription-key={{b2cDfeEapimSubscriptionKey}}</Item>
                     <Item Key="SendClaimsIn">Body</Item>                        
                     <Item Key="AuthenticationType">None</Item>
                     <Item Key="AllowInsecureAuthInProduction">true</Item>
@@ -1507,7 +1507,7 @@
                 <DisplayName>User OTP Notifications</DisplayName>    
                 <Protocol Name="Proprietary" Handler="Web.TPEngine.Providers.RestfulProvider, Web.TPEngine, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" />
                 <Metadata>
-                  <Item Key="ServiceUrl">https://{{eapimRootUrl}}/{{apimAppName}}/FindEmail?subscription-key={{dfeEapimSubscriptionKey}}</Item>
+                  <Item Key="ServiceUrl">https://{{eapimRootUrl}}/{{apimAppName}}/FindEmail?subscription-key={{b2cDfeEapimSubscriptionKey}}</Item>
                   <Item Key="SendClaimsIn">Body</Item>
                   <Item Key="AuthenticationType">None</Item>
                   <Item Key="AllowInsecureAuthInProduction">true</Item>
@@ -1532,7 +1532,7 @@
                 <DisplayName>User OTP Notifications</DisplayName>    
                 <Protocol Name="Proprietary" Handler="Web.TPEngine.Providers.RestfulProvider, Web.TPEngine, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" />
                 <Metadata>
-                  <Item Key="ServiceUrl">https://{{eapimRootUrl}}/{{apimAppName}}/AidedRegistrationValidateUserDetails?subscription-key={{dfeEapimSubscriptionKey}}</Item>
+                  <Item Key="ServiceUrl">https://{{eapimRootUrl}}/{{apimAppName}}/AidedRegistrationValidateUserDetails?subscription-key={{b2cDfeEapimSubscriptionKey}}</Item>
                   <Item Key="SendClaimsIn">Body</Item>                        
                   <Item Key="AuthenticationType">None</Item>
                   <Item Key="AllowInsecureAuthInProduction">true</Item>
@@ -1557,7 +1557,7 @@
                 <DisplayName>User OTP Notifications</DisplayName>    
                 <Protocol Name="Proprietary" Handler="Web.TPEngine.Providers.RestfulProvider, Web.TPEngine, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" />
                 <Metadata>
-                  <Item Key="ServiceUrl">https://{{eapimRootUrl}}/{{apimAppName}}/NCSDSSUserCreation?subscription-key={{dfeEapimSubscriptionKey}}</Item>
+                  <Item Key="ServiceUrl">https://{{eapimRootUrl}}/{{apimAppName}}/NCSDSSUserCreation?subscription-key={{b2cDfeEapimSubscriptionKey}}</Item>
                   <Item Key="SendClaimsIn">Body</Item>                        
                   <Item Key="AuthenticationType">None</Item>
                   <Item Key="AllowInsecureAuthInProduction">true</Item>
@@ -1577,7 +1577,7 @@
                 <DisplayName>User OTP Notifications</DisplayName>    
                 <Protocol Name="Proprietary" Handler="Web.TPEngine.Providers.RestfulProvider, Web.TPEngine, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" />
                 <Metadata>
-                  <Item Key="ServiceUrl">https://{{eapimRootUrl}}/{{apimAppName}}/NCSDSSUserCreation?subscription-key={{dfeEapimSubscriptionKey}}</Item>
+                  <Item Key="ServiceUrl">https://{{eapimRootUrl}}/{{apimAppName}}/NCSDSSUserCreation?subscription-key={{b2cDfeEapimSubscriptionKey}}</Item>
                   <Item Key="SendClaimsIn">Body</Item>                        
                   <Item Key="AuthenticationType">None</Item>
                   <Item Key="AllowInsecureAuthInProduction">true</Item>
@@ -1600,7 +1600,7 @@
                 <DisplayName>User OTP Notifications</DisplayName>    
                 <Protocol Name="Proprietary" Handler="Web.TPEngine.Providers.RestfulProvider, Web.TPEngine, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" />
                 <Metadata>
-                  <Item Key="ServiceUrl">https://{{eapimRootUrl}}/{{apimAppName}}/ChangeEmail?subscription-key={{dfeEapimSubscriptionKey}}</Item>
+                  <Item Key="ServiceUrl">https://{{eapimRootUrl}}/{{apimAppName}}/ChangeEmail?subscription-key={{b2cDfeEapimSubscriptionKey}}</Item>
                   <Item Key="SendClaimsIn">Body</Item>                        
                   <Item Key="AuthenticationType">None</Item>
                   <Item Key="AllowInsecureAuthInProduction">true</Item>
@@ -1617,7 +1617,7 @@
                 <DisplayName>User OTP Notifications</DisplayName>    
                 <Protocol Name="Proprietary" Handler="Web.TPEngine.Providers.RestfulProvider, Web.TPEngine, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" />
                 <Metadata>
-                  <Item Key="ServiceUrl">https://{{eapimRootUrl}}/{{apimAppName}}/SignUpInvitation?subscription-key={{dfeEapimSubscriptionKey}}</Item>
+                  <Item Key="ServiceUrl">https://{{eapimRootUrl}}/{{apimAppName}}/SignUpInvitation?subscription-key={{b2cDfeEapimSubscriptionKey}}</Item>
                   <Item Key="SendClaimsIn">Body</Item>                        
                   <Item Key="AuthenticationType">None</Item>
                   <Item Key="AllowInsecureAuthInProduction">true</Item>
@@ -1636,7 +1636,7 @@
                 <DisplayName>User OTP Notifications</DisplayName>    
                 <Protocol Name="Proprietary" Handler="Web.TPEngine.Providers.RestfulProvider, Web.TPEngine, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" />
                 <Metadata>
-                  <Item Key="ServiceUrl">https://{{eapimRootUrl}}/{{apimAppName}}/SignupConfirmation?subscription-key={{dfeEapimSubscriptionKey}}</Item>
+                  <Item Key="ServiceUrl">https://{{eapimRootUrl}}/{{apimAppName}}/SignupConfirmation?subscription-key={{b2cDfeEapimSubscriptionKey}}</Item>
                   <Item Key="SendClaimsIn">Body</Item>                        
                   <Item Key="AuthenticationType">None</Item>
                   <Item Key="AllowInsecureAuthInProduction">true</Item>
@@ -1654,7 +1654,7 @@
                 <DisplayName>User OTP Notifications</DisplayName>    
                 <Protocol Name="Proprietary" Handler="Web.TPEngine.Providers.RestfulProvider, Web.TPEngine, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" />
                 <Metadata>
-                    <Item Key="ServiceUrl">https://{{eapimRootUrl}}/{{apimAppName}}/PasswordResetConfirmation?subscription-key={{dfeEapimSubscriptionKey}}</Item>
+                    <Item Key="ServiceUrl">https://{{eapimRootUrl}}/{{apimAppName}}/PasswordResetConfirmation?subscription-key={{b2cDfeEapimSubscriptionKey}}</Item>
                     <Item Key="SendClaimsIn">Body</Item>                        
                    <Item Key="AuthenticationType">None</Item>
                   <Item Key="AllowInsecureAuthInProduction">true</Item>
@@ -1671,7 +1671,7 @@
                 <DisplayName>User OTP Notifications</DisplayName>    
                 <Protocol Name="Proprietary" Handler="Web.TPEngine.Providers.RestfulProvider, Web.TPEngine, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" />
                 <Metadata>
-                  <Item Key="ServiceUrl">https://{{eapimRootUrl}}/{{apimAppName}}/CheckDSSUSerExistence?subscription-key={{dfeEapimSubscriptionKey}}</Item>
+                  <Item Key="ServiceUrl">https://{{eapimRootUrl}}/{{apimAppName}}/CheckDSSUSerExistence?subscription-key={{b2cDfeEapimSubscriptionKey}}</Item>
                   <Item Key="SendClaimsIn">Body</Item>                        
                   <Item Key="AuthenticationType">None</Item>
                   <Item Key="AllowInsecureAuthInProduction">true</Item>
@@ -1689,7 +1689,7 @@
                 <DisplayName>User OTP Notifications</DisplayName>    
                 <Protocol Name="Proprietary" Handler="Web.TPEngine.Providers.RestfulProvider, Web.TPEngine, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" />
                 <Metadata>
-                  <Item Key="ServiceUrl">https://{{eapimRootUrl}}/{{apimAppName}}/ChangeEmail?subscription-key={{dfeEapimSubscriptionKey}}</Item>
+                  <Item Key="ServiceUrl">https://{{eapimRootUrl}}/{{apimAppName}}/ChangeEmail?subscription-key={{b2cDfeEapimSubscriptionKey}}</Item>
                   <Item Key="SendClaimsIn">Body</Item>                        
                   <Item Key="AuthenticationType">None</Item>
                   <Item Key="AllowInsecureAuthInProduction">true</Item>
@@ -1710,7 +1710,7 @@
                 <DisplayName>Tnc Details</DisplayName>    
                 <Protocol Name="Proprietary" Handler="Web.TPEngine.Providers.RestfulProvider, Web.TPEngine, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" />
                 <Metadata>
-                  <Item Key="ServiceUrl">https://{{eapimRootUrl}}/{{apimAppName}}/GetTncDetails?subscription-key={{dfeEapimSubscriptionKey}}</Item>
+                  <Item Key="ServiceUrl">https://{{eapimRootUrl}}/{{apimAppName}}/GetTncDetails?subscription-key={{b2cDfeEapimSubscriptionKey}}</Item>
                   <Item Key="SendClaimsIn">Header</Item>                        
                   <Item Key="AuthenticationType">None</Item>
                   <Item Key="AllowInsecureAuthInProduction">true</Item>
