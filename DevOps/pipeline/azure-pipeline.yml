@@ -108,9 +108,9 @@ stages:
       parameters:
         npmInstCmd: 'install --force --json --no-package-lock'
 
-    # - template: pipeline/NetBuild.yml@devopsTemplates
-    #   parameters:
-    #     applicationName: ${{variables.applicationFullName}}
+     - template: pipeline/NetBuild.yml@devopsTemplates
+       parameters:
+         applicationName: ${{variables.applicationFullName}}
 
 - ${{ each var in variables }}:
   - ${{ if in(var.key, 'tran','dev','test','pp','pr') }}:
