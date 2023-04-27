@@ -148,7 +148,7 @@ namespace B2CAzureFunc
                             return new BadRequestObjectResult(new ResponseContentModel
                             {
                                 userMessage = "Failed to fetch customer details, please contact support",
-                                developerMessage = "Apikey: " + _appSettings.NcsDssApiKey + " TouchPointId" + _appSettings.TouchpointId.ToString() + " NcsDssSearchApiVersion:" + _appSettings.NcsDssCustomersApiVersion + " OcpApimSubscriptionKey:" + _appSettings:OcpApimSubscriptionKey
+                                developerMessage = "Apikey: " + _appSettings.NcsDssApiKey + " TouchPointId" + _appSettings.TouchpointId.ToString() + " NcsDssSearchApiVersion:" + _appSettings.NcsDssCustomersApiVersion + " OcpApimSubscriptionKey:" + _appSettings.OcpApimSubscriptionKey
                             });
                         }
                     }
