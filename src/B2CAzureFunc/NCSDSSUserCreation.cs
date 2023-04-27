@@ -63,7 +63,7 @@ namespace B2CAzureFunc
                         using (var request = new HttpRequestMessage(new HttpMethod("POST"), _appSettings.NcsDssCreateCustomerApiUrl))// Environment.GetEnvironmentVariable("ncsdsscreatecustomerapiurl", EnvironmentVariableTarget.Process)))
                         {
                             request.Headers.TryAddWithoutValidation("api-key", _appSettings.NcsDssApiKey);// Environment.GetEnvironmentVariable("ncsdssapikey", EnvironmentVariableTarget.Process));
-                            request.Headers.TryAddWithoutValidation("Ocp-Apim-Subscription-Key", _appSettings:OcpApimSubscriptionKey);//Environment.GetEnvironmentVariable("OcpApimSubscriptionKey", EnvironmentVariableTarget.Process));
+                            request.Headers.TryAddWithoutValidation("Ocp-Apim-Subscription-Key", _appSettings.OcpApimSubscriptionKey);//Environment.GetEnvironmentVariable("OcpApimSubscriptionKey", EnvironmentVariableTarget.Process));
                             request.Headers.TryAddWithoutValidation("TouchpointId", _appSettings.TouchpointId.ToString());//Environment.GetEnvironmentVariable("TouchpointId", EnvironmentVariableTarget.Process));
                             var dob = "";
                             string payload = "";
@@ -124,7 +124,7 @@ namespace B2CAzureFunc
                         {
                             request.Headers.TryAddWithoutValidation("api-key", _appSettings.NcsDssApiKey);
                             request.Headers.TryAddWithoutValidation("version", _appSettings.NcsDssContactDetailsApiVersion);
-                            request.Headers.TryAddWithoutValidation("Ocp-Apim-Subscription-Key", _appSettings:OcpApimSubscriptionKey);
+                            request.Headers.TryAddWithoutValidation("Ocp-Apim-Subscription-Key", _appSettings.OcpApimSubscriptionKey);
                             request.Headers.TryAddWithoutValidation("TouchpointId", _appSettings.TouchpointId.ToString());
 
                             request.Content = new StringContent("{\n    \"EmailAddress\": \"" + data.Email + "\",\n    \"PreferredContactMethod\": \"1\"\n}");
@@ -165,7 +165,7 @@ namespace B2CAzureFunc
                         {
                             request.Headers.TryAddWithoutValidation("api-key", _appSettings.NcsDssApiKey);
                             request.Headers.TryAddWithoutValidation("version", _appSettings.NcsDssDigitalIdentitiesApiVersion);
-                            request.Headers.TryAddWithoutValidation("Ocp-Apim-Subscription-Key", _appSettings:OcpApimSubscriptionKey);
+                            request.Headers.TryAddWithoutValidation("Ocp-Apim-Subscription-Key", _appSettings.OcpApimSubscriptionKey);
                             request.Headers.TryAddWithoutValidation("TouchpointId", _appSettings.TouchpointId.ToString());
 
 
@@ -216,7 +216,7 @@ namespace B2CAzureFunc
                         {
                             request.Headers.TryAddWithoutValidation("api-key", _appSettings.NcsDssApiKey);
                             request.Headers.TryAddWithoutValidation("version", _appSettings.NcsDssDigitalIdentitiesApiVersion);
-                            request.Headers.TryAddWithoutValidation("Ocp-Apim-Subscription-Key", _appSettings:OcpApimSubscriptionKey);
+                            request.Headers.TryAddWithoutValidation("Ocp-Apim-Subscription-Key", _appSettings.OcpApimSubscriptionKey);
                             request.Headers.TryAddWithoutValidation("TouchpointId", _appSettings.TouchpointId.ToString());
 
 
