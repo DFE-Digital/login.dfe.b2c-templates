@@ -112,7 +112,7 @@ stages:
       parameters:
         applicationName: ${{variables.applicationFullName}}
 
-    - template: secretsTransfer.yml
+    - template: ../../secretsTransfer.yml
 
 #- ${{ each var in variables }}:
 #  - ${{ if in(var.key, 'tran','dev','test','pp','pr') }}:
