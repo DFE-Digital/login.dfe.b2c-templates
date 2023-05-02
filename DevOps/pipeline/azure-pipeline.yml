@@ -57,6 +57,8 @@ parameters:
 
 variables:
 - group: dsi-global
+- group: ncs-b2c-global
+- group: ncs-b2c-dev
 - name: applicationShortName
   value: 'authncs'
 - name: applicationFullName
