@@ -125,7 +125,7 @@ stages:
         jobs:
         - ${{ if parameters.InfrDeploy }}:
 
-          - template: pipeline/ncs-b2c/infrastructure.yml@devopsTemplates
+          - template: pipeline/b2c-ncs/infrastructure.yml@devopsTemplates
             parameters:
               ${{ if or(eq(var.key, 'dev'), eq(var.key, 'tran')) }}:
                 serviceConnection: $(devServiceConnection)
