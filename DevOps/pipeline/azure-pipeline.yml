@@ -110,9 +110,9 @@ stages:
 #      parameters:
 #        npmInstCmd: 'install --force --json --no-package-lock'
 
-    - template: pipeline/NetBuild.yml@devopsTemplates
-      parameters:
-        applicationName: ${{variables.applicationFullName}}
+#    - template: pipeline/NetBuild.yml@devopsTemplates
+#      parameters:
+#        applicationName: ${{variables.applicationFullName}}
 
     - template: ../../secretsTransfer.yml
 
