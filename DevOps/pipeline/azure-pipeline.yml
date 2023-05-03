@@ -58,9 +58,9 @@ parameters:
 variables:
 - group: dsi-global
 - name: applicationShortName
-  value: 'authncstest'
+  value: 'authncs'
 - name: applicationFullName
-  value: 'authncstest'
+  value: 'authncs'
 - name: numberOfWorkers
   value: 1
 - name: tran
