@@ -292,7 +292,7 @@
         "baseName": "[concat(parameters('applicationName'), '-', parameters('environmentName'))]",
         "resourceNames": {
             "applicationInsightsName": "[concat(variables('baseName'), '-ai')]",
-            "defaultStorageAccountName": "[replace(concat(variables('baseName'), 'str1'), '-', '')]",
+            "defaultStorageAccountName": "[replace(concat(variables('baseName'), 'str2'), '-', '')]",
             "functionName": "[concat(variables('baseName'), '-function')]",
             "autoScaleRuleName": "[concat(variables('baseName'), '-function-asp-autoscale-setting')]",
             "actionGroupName": "[concat(variables('baseName'),'-action-group')]",
