@@ -20,7 +20,6 @@
         },
         "subnetName": {
             "type": "string",
-            "defaultValue": "backend-g2-sn",
             "metadata": {
                 "description": "Prefix of the subnet to integrate the app service with in the virtual network"
             }
