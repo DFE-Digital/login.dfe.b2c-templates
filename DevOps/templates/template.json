@@ -353,7 +353,7 @@
         "resourceIds": {
             "appInsightsId": "[resourceId('Microsoft.Insights/components/', variables('resourceNames').applicationInsightsName)]",
             "defaultStorageAccountId": "[resourceId('Microsoft.Storage/storageAccounts', variables('resourceNames').defaultStorageAccountName)]",
-            "servicePlanId": "[resourceId(parameters('sharedResourceGroupName'),'Microsoft.Web/serverfarms', parameters('servicePlanName'))]",
+            "servicePlanId": "[resourceId('Microsoft.Web/serverfarms', parameters('servicePlanName'))]",
             "functionId": "[resourceId('Microsoft.Web/sites', variables('resourceNames').functionName )]",
             "actionGroupId": "[resourceId('microsoft.insights/actionGroups', variables('resourceNames').actionGroupName)]",
             "storageAccountDefaultBlobContainerId": "[resourceId('Microsoft.Storage/storageAccounts/blobServices', variables('resourceNames').defaultStorageAccountName, 'default')]",
