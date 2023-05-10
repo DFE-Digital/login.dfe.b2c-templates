@@ -20,7 +20,7 @@
         },
         "subnetName": {
             "type": "string",
-            "defaultValue": "backend-g2-sn",
+            "defaultValue": "auth-sn",
             "metadata": {
                 "description": "Prefix of the subnet to integrate the app service with in the virtual network"
             }
@@ -293,7 +293,7 @@
         "resourceNames": {
             "applicationInsightsName": "[concat(variables('baseName'), '-ai')]",
             "defaultStorageAccountName": "[replace(concat(variables('baseName'), 'str1'), '-', '')]",
-            "functionName": "[concat(variables('baseName'), '-function')]",
+            "functionName": "[concat(variables('baseName'), '-function1')]",
             "autoScaleRuleName": "[concat(variables('baseName'), '-function-asp-autoscale-setting')]",
             "actionGroupName": "[concat(variables('baseName'),'-action-group')]",
             "actionGroupShortName": "[concat(parameters('applicationName'),'-ag')]",
@@ -353,7 +353,7 @@
         "resourceIds": {
             "appInsightsId": "[resourceId('Microsoft.Insights/components/', variables('resourceNames').applicationInsightsName)]",
             "defaultStorageAccountId": "[resourceId('Microsoft.Storage/storageAccounts', variables('resourceNames').defaultStorageAccountName)]",
-            "servicePlanId": "[resourceId(parameters('sharedResourceGroupName'),'Microsoft.Web/serverfarms', parameters('servicePlanName'))]",
+            "servicePlanId": "[resourceId('Microsoft.Web/serverfarms', parameters('servicePlanName'))]",
             "functionId": "[resourceId('Microsoft.Web/sites', variables('resourceNames').functionName )]",
             "actionGroupId": "[resourceId('microsoft.insights/actionGroups', variables('resourceNames').actionGroupName)]",
             "storageAccountDefaultBlobContainerId": "[resourceId('Microsoft.Storage/storageAccounts/blobServices', variables('resourceNames').defaultStorageAccountName, 'default')]",
