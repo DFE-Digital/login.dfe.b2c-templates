@@ -5,7 +5,7 @@
     "b2cSignupConfirmPolicy":"{{b2cSignupConfirmPolicy}}",
     "b2cSignUpPolicy":"{{b2cSignUpPolicy}}",
     "b2cAzureTenantId":"{{devAzureB2cTenantId}}",
-    "b2cB2cApimCertThumbprint":"{{devB2cApimCertThumbprint}}",
+    "b2cApimCertThumbprint":"{{devB2cApimCertThumbprint}}",
     "b2cClientSigningKey":"{{devClientSigningKey}}",
     "b2cEapimAuthIssuerValue":"{{devEapimAuthIssuerValue}}",
     "b2cGraphAccessClientId":"{{devGraphAccessClientId}}",

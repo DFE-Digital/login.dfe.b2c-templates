@@ -158,18 +158,18 @@ stages:
                 environmentName: test
               applicationName: ${{variables.applicationShortName}}
 
-        # - ${{ if parameters.AppDeploy }}:
-        #   - template: pipeline/funDeploy.yml@devopsTemplates
-        #     parameters: 
-        #       ${{ if eq(var.key, 'dev') }}:
-        #         serviceConnection: $(devServiceConnection)
-        #       ${{ elseif eq(var.key, 'pr') }}:
-        #         serviceConnection: $(prodServiceConnection)
-        #       ${{ else }}:
-        #         serviceConnection: $(testServiceConnection)
-        #       environmentName: ${{var.key}}
-        #       applicationShortName: ${{variables.applicationShortName}}
-        #       applicationFullName: ${{variables.applicationFullName}}
-        #       releaseArtifactName: ${{variables.applicationFullName}}-$(Build.BuildId)-release
-        #       InfrDeploy: ${{parameters.InfrDeploy}}
+        - ${{ if parameters.AppDeploy }}:
+          - template: pipeline/ncs-b2c/deploy.yml@devopsTemplates
+            parameters: 
+              ${{ if eq(var.key, 'dev') }}:
+                serviceConnection: $(devServiceConnection)
+              ${{ elseif eq(var.key, 'pr') }}:
+                serviceConnection: $(prodServiceConnection)
+              ${{ else }}:
+                serviceConnection: $(testServiceConnection)
+              environmentName: ${{var.key}}
+              applicationShortName: ${{variables.applicationShortName}}
+              applicationFullName: ${{variables.applicationFullName}}
+              releaseArtifactName: ${{variables.applicationFullName}}-$(Build.BuildId)-release
+              InfrDeploy: ${{parameters.InfrDeploy}}
     
