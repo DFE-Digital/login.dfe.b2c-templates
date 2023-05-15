@@ -29,6 +29,7 @@ try {
     $headers.Add("Authorization", 'Bearer ' + $token)
 
     $graphuri = 'https://graph.microsoft.com/beta/trustframework/policies/' + $PolicyName + '/$value'
+    Write-Output $graphuri
     $policycontent = Get-Content $FilePath
     $response = Invoke-RestMethod -Uri $graphuri -Method Put -Body $policycontent -Headers $headers
 
