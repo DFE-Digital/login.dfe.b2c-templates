@@ -129,7 +129,7 @@ stages:
             parameters:
               ${{ if or(eq(var.key, 'dev'), eq(var.key, 'tran')) }}:
                 serviceConnection: $(devServiceConnection)
-#                eapimEnvironmentName: 'Development'
+                eapimEnvironmentName: 'Development'
               ${{ elseif eq(var.key, 'pr') }}:
                 serviceConnection: $(prodServiceConnection)
                 eapimEnvironmentName: 'Production'
@@ -163,13 +163,19 @@ stages:
             parameters: 
               ${{ if eq(var.key, 'dev') }}:
                 serviceConnection: $(devServiceConnection)
+                eapimEnvironmentName: 'Development'
               ${{ elseif eq(var.key, 'pr') }}:
                 serviceConnection: $(prodServiceConnection)
+                eapimEnvironmentName: 'Production'
               ${{ else }}:
                 serviceConnection: $(testServiceConnection)
+                ${{ if eq(var.key, 'pp') }}:
+                  eapimEnvironmentName: 'Oat'
+                ${{ elseif eq(var.key, 'test') }}:
+                  eapimEnvironmentName: 'Test'
+              eapimServiceConnection: $(eapimServiceConnection)
               environmentName: ${{var.key}}
               applicationName: ${{variables.applicationFullName}}
-              variableGroupName: dsi-${{var.key}}-kv
-#              releaseArtifactName: ${{variables.applicationFullName}}-$(Build.BuildId)-release
+              releaseArtifactName: ${{variables.applicationFullName}}-$(Build.BuildId)-release
 #              InfrDeploy: ${{parameters.InfrDeploy}}
     
