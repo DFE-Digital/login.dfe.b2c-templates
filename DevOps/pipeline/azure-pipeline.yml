@@ -169,6 +169,6 @@ stages:
                 serviceConnection: $(testServiceConnection)
               environmentName: ${{var.key}}
               applicationName: ${{variables.applicationFullName}}
-              releaseArtifactName: ${{variables.applicationFullName}}-$(Build.BuildId)-release
-              InfrDeploy: ${{parameters.InfrDeploy}}
+#              releaseArtifactName: ${{variables.applicationFullName}}-$(Build.BuildId)-release
+#              InfrDeploy: ${{parameters.InfrDeploy}}
     
