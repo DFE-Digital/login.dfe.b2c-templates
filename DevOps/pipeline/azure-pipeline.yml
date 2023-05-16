@@ -129,16 +129,10 @@ stages:
             parameters:
               ${{ if or(eq(var.key, 'dev'), eq(var.key, 'tran')) }}:
                 serviceConnection: $(devServiceConnection)
-#                eapimEnvironmentName: 'Development'
               ${{ elseif eq(var.key, 'pr') }}:
                 serviceConnection: $(prodServiceConnection)
-#                eapimEnvironmentName: 'Production'
               ${{ else }}:
                 serviceConnection: $(testServiceConnection)
-                ${{ if eq(var.key, 'pp') }}:
-#                  eapimEnvironmentName: 'Oat'
-                ${{ elseif eq(var.key, 'test') }}:
-                  eapimEnvironmentName: 'Test'
               environmentName: ${{var.key}}
               applicationName: ${{variables.applicationShortName}}
           
