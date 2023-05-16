@@ -169,6 +169,7 @@ stages:
                 serviceConnection: $(testServiceConnection)
               environmentName: ${{var.key}}
               applicationName: ${{variables.applicationFullName}}
+              variableGroupName: dsi-${{var.key}}-kv
 #              releaseArtifactName: ${{variables.applicationFullName}}-$(Build.BuildId)-release
 #              InfrDeploy: ${{parameters.InfrDeploy}}
     
