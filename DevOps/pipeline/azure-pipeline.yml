@@ -164,14 +164,11 @@ stages:
               ${{ if eq(var.key, 'dev') }}:
                 serviceConnection: $(devServiceConnection)
                 eapimEnvironmentName: 'Development'
-                azureSubscription: 's141-dfesignin-development'
               ${{ elseif eq(var.key, 'pr') }}:
                 serviceConnection: $(prodServiceConnection)
                 eapimEnvironmentName: 'Production'
-                azureSubscription: 's141-dfesignin-production'
               ${{ else }}:
                 serviceConnection: $(testServiceConnection)
-                azureSubscription: 's141-dfesignin-production'
                 ${{ if eq(var.key, 'pp') }}:
                   eapimEnvironmentName: 'Oat'
                 ${{ elseif eq(var.key, 'test') }}:
