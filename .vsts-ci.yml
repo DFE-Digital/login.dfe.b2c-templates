@@ -29,7 +29,7 @@ variables:
 - name: parsedDevExtensionAppId
   value: $[ replace(variables['devProxyIdentityAppClientId'],'-','') ]
 - group: ncs-b2c-global
-- group: ncs-b2c-dev
+- group: ncs-b2c-test
 
 stages:
 - stage: KeyVault
