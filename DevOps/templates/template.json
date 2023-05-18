@@ -9,7 +9,7 @@
         },
         "environmentName": {
             "type": "string",
-            "defaultValue": "dev"
+            "defaultValue": "test"
         },
         "virtualNetworkName": {
             "type": "string",
