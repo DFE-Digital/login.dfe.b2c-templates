@@ -18,7 +18,7 @@
     "b2cNotifyEmailChangeConfirmationEmailOldEmailTemplateId":"{{testNotifyEmailChangeConfirmationEmailOldEmailTemplateId}}",
     "b2cNotifyPasswordResetConfirmationEmailTemplateId":"{{testNotifyPasswordResetConfirmationEmailTemplateId}}",
     "b2cNotifySelfSignupEmailTemplateId":"{{testNotifySelfSignupEmailTemplateId}}",
-    "b2cPipelineManagementClientId":"{{testPipelineManagementClientId}}",
+    "b2cPipelineManagementClientId":"{{pipelineManagementClientId}}",
     "b2cPipelineManagementClientSecret":"{{testPipelineManagementClientSecret}}",
     "b2cProxyIdentityAppClientId":"{{testProxyIdentityAppClientId}}",
     "b2cProxyIdentityAppObjectId":"{{testProxyIdentityAppObjectId}}",
