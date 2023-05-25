@@ -115,3 +115,18 @@ jobs:
               UPLOADER_PRINCIPAL_SECRET: ${{parameters.uploaderPrincipalClientSecret}}
               UPLOADER_PRINCIPAL_CLIENTID : ${{parameters.uploaderPrincipalClientId}}
             displayName: Policy Upload
+
+          - task: ArchiveFiles@2
+            displayName: Create Archive File
+            inputs:
+              rootFolderOrFile: '$(System.DefaultWorkingDirectory)/policy'
+              includeRootFolder: false
+              archiveType: zip
+              archiveFile: $(Build.ArtifactStagingDirectory)/${{parameters.applicationName}}-$(Build.BuildId)-2-release
+              replaceExistingArchive: true
+              verbose: true
+
+          - publish: $(Build.ArtifactStagingDirectory)
+            name: publishBuildArtifact
+            displayName: Publish Build Artifact
+            artifact: ${{parameters.applicationName}}-$(Build.BuildId)-2-release
