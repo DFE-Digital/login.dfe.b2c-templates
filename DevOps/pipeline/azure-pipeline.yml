@@ -136,21 +136,21 @@ stages:
               environmentName: ${{var.key}}
               applicationName: ${{variables.applicationShortName}}
           
-          # - template: pipeline/ncs-b2c/tenant-setup.yml@devopsTemplates
-          #   parameters:
-          #     ${{ if eq(var.key, 'dev') }}:
-          #       environmentName: dev
-          #       eapimRootUrl: ${{var.key}}-api-customerengagement.platform.education.gov.uk
-          #     ${{ elseif eq(var.key, 'pr') }}:
-          #       eapimRootUrl: api-customerengagement.platform.education.gov.uk
-          #       environmentName: prod
-          #     ${{ elseif eq(var.key, 'pp') }}:
-          #         eapimRootUrl: oat-api-customerengagement.platform.education.gov.uk
-          #         environmentName: preprod
-          #     ${{ elseif eq(var.key, 'test') }}:
-          #       eapimRootUrl: ${{var.key}}-api-customerengagement.platform.education.gov.uk
-          #       environmentName: test
-          #     applicationName: ${{variables.applicationShortName}}
+          - template: pipeline/ncs-b2c/tenant-setup.yml@devopsTemplates
+            parameters:
+              ${{ if eq(var.key, 'dev') }}:
+                environmentName: dev
+                eapimRootUrl: ${{var.key}}-api-customerengagement.platform.education.gov.uk
+              ${{ elseif eq(var.key, 'pr') }}:
+                eapimRootUrl: api-customerengagement.platform.education.gov.uk
+                environmentName: prod
+              ${{ elseif eq(var.key, 'pp') }}:
+                  eapimRootUrl: oat-api-customerengagement.platform.education.gov.uk
+                  environmentName: preprod
+              ${{ elseif eq(var.key, 'test') }}:
+                eapimRootUrl: ${{var.key}}-api-customerengagement.platform.education.gov.uk
+                environmentName: test
+              applicationName: ${{variables.applicationShortName}}
 
         - ${{ if parameters.AppDeploy }}:
           - template: pipeline/ncs-b2c/deploy.yml@devopsTemplates
