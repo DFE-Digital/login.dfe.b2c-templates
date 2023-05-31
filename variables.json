@@ -45,4 +45,3 @@
     "b2cExtensionAppId":"Need to bee added manualy in the vault. Remove all '-' devProxyIdentityAppClientId for dev & for test,pre-prod & prod from testProxyIdentityAppClientId ",  
     "standaloneNcsHostName":"{{environmentName}}-ncs.signin.education.gov.uk"
 }
-
