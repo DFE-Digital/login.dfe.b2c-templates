@@ -30,6 +30,8 @@ variables:
   value: $[ replace(variables['devProxyIdentityAppClientId'],'-','') ]
 - group: ncs-b2c-preprod
 - group: ncs-b2c-global
+- name: environmentName
+  value: pp
 
 stages:
 - stage: KeyVault
