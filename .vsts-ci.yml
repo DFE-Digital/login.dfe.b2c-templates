@@ -28,7 +28,7 @@ variables:
   value: $[ replace(variables['testProxyIdentityAppClientId'],'-','') ]
 - name: parsedDevExtensionAppId
   value: $[ replace(variables['devProxyIdentityAppClientId'],'-','') ]
-- group: ncs-b2c-test
+- group: ncs-b2c-preprod
 - group: ncs-b2c-global
 
 stages:
