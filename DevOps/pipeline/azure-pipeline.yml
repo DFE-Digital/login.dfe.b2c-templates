@@ -167,12 +167,12 @@ stages:
               ${{ elseif eq(var.key, 'pr') }}:
                 serviceConnection: $(prodServiceConnection)
                 eapimEnvironmentName: 'Production'
-                environmentName: ${{var.key}}
+                environmentName: prod
               ${{ else }}:
                 serviceConnection: $(testServiceConnection)
                 ${{ if eq(var.key, 'pp') }}:
                   eapimEnvironmentName: 'Oat'
-                  environmentName: Oat
+                  environmentName: preprod
                 ${{ elseif eq(var.key, 'test') }}:
                   eapimEnvironmentName: 'Test'
                   environmentName: ${{var.key}}
