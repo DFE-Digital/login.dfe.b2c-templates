@@ -170,10 +170,11 @@ stages:
                 serviceConnection: $(testServiceConnection)
                 ${{ if eq(var.key, 'pp') }}:
                   eapimEnvironmentName: 'Oat'
+                  environmentName: Oat
                 ${{ elseif eq(var.key, 'test') }}:
                   eapimEnvironmentName: 'Test'
-              eapimServiceConnection: $(eapimServiceConnection)
-              environmentName: ${{var.key}}
+                environmentName: ${{var.key}}
+              eapimServiceConnection: $(eapimServiceConnection)              
               applicationName: ${{variables.applicationFullName}}
               releaseArtifactName: ${{variables.applicationFullName}}-$(Build.BuildId)-release
               InfrDeploy: ${{parameters.InfrDeploy}}
