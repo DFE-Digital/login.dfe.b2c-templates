@@ -163,9 +163,11 @@ stages:
               ${{ if eq(var.key, 'dev') }}:
                 serviceConnection: $(devServiceConnection)
                 eapimEnvironmentName: 'Development'
+                environmentName: ${{var.key}}
               ${{ elseif eq(var.key, 'pr') }}:
                 serviceConnection: $(prodServiceConnection)
                 eapimEnvironmentName: 'Production'
+                environmentName: ${{var.key}}
               ${{ else }}:
                 serviceConnection: $(testServiceConnection)
                 ${{ if eq(var.key, 'pp') }}:
@@ -173,7 +175,7 @@ stages:
                   environmentName: Oat
                 ${{ elseif eq(var.key, 'test') }}:
                   eapimEnvironmentName: 'Test'
-                environmentName: ${{var.key}}
+                  environmentName: ${{var.key}}
               eapimServiceConnection: $(eapimServiceConnection)              
               applicationName: ${{variables.applicationFullName}}
               releaseArtifactName: ${{variables.applicationFullName}}-$(Build.BuildId)-release
