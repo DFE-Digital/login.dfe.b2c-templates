@@ -62,7 +62,7 @@ namespace B2CAzureFunc
                     {
                         var dob = String.Format("{0}-{1}-{2}", data.Year, data.Month, data.Day);
                         var searchApiUrl = _appSettings.NcsDssSearchApiUrl;
-                        var url = String.Format("{0}?&search=GivenName:{1} FamilyName:{2} PostCode={3}&filter=DateofBirth eq {4}",
+                        var url = String.Format("{0}?&search=GivenName:{1} FamilyName:{2} PostCode:{3}&filter=DateofBirth eq {4}",
                              searchApiUrl, data.GivenName, data.Surname, data.PostalCode, dob);
                         using (var request = new HttpRequestMessage(new HttpMethod("GET"), url))
                         {
