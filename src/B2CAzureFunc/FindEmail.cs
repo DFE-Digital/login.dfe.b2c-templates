@@ -72,7 +72,7 @@ namespace B2CAzureFunc
 
                             var response = await httpClient.SendAsync(request);
                             log.LogInformation(url);
-                            log.LogInformation(request.Headers);
+                            log.LogInformation(JsonConvert.SerializeObject(request.Headers, Formatting.Indented));
                             if (response.StatusCode == System.Net.HttpStatusCode.OK)
                             {
                                 var result = JsonConvert.DeserializeObject<SearchAPIResponseModel>(await response.Content.ReadAsStringAsync());
