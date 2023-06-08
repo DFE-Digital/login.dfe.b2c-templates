@@ -71,6 +71,8 @@ namespace B2CAzureFunc
                             request.Headers.TryAddWithoutValidation("Ocp-Apim-Subscription-Key", _appSettings.OcpApimSubscriptionKey);
 
                             var response = await httpClient.SendAsync(request);
+                            log.LogInformation(url);
+                            log.LogInformation(request.Headers);
                             if (response.StatusCode == System.Net.HttpStatusCode.OK)
                             {
                                 var result = JsonConvert.DeserializeObject<SearchAPIResponseModel>(await response.Content.ReadAsStringAsync());
