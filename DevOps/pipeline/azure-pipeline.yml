@@ -135,8 +135,6 @@ stages:
                 serviceConnection: $(testServiceConnection)
               ${{ if eq(var.key, 'pp') }}:
                 environmentName: preprod
-              ${{ elseif eq(var.key, 'pr') }}:
-                environmentName: prod
               ${{ else }}:
                 environmentName: ${{var.key}}
               applicationName: ${{variables.applicationShortName}}
