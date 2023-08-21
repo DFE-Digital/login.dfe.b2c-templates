@@ -23,7 +23,7 @@
     "b2cProxyIdentityAppObjectId":"{{ProxyIdentityAppObjectId}}",
     "b2cRelyAppClientId":"{{RelyAppClientId}}",
     "b2cEapimPublishContactEmail":"{{eapimPublishContactEmail}}",
-    "b2cNcsDssApiKey":"{{ncsDssApiKey}}",
+    "b2cNcsDssApiKey":"{{ncsDevDssApiKey}}",
     "b2cNcsDigitalIdentityRoute":"{{ncsDigitalIdentityRoute}}",
     "b2cNcsDssContactDetailsApiVersion":"{{ncsDssContactDetailsApiVersion}}",
     "b2cNcsDssCreateContactApiUrlRoute":"{{ncsDssCreateContactApiUrlRoute}}",
