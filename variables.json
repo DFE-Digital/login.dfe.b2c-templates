@@ -11,7 +11,7 @@
     "b2cIdentityAppClientId":"{{IdentityAppClientId}}",
     "b2cNcsDssApiRoot":"{{NcsDssApiRoot}}",
     "b2cNotifyAidedSignupEmailTemplateId":"{{NotifyAidedSignupEmailTemplateId}}",
-    "b2cNcsApimSubscriptionKey": "{{dfeEapimSubscriptionKey}}",
+    "b2cNcsApimSubscriptionKey": "Need to ask NCS team",
     "b2cNotifyAPIKey":"{{NotifyAPIKey}}",
     "b2cNotifyEmailChangeConfirmationEmailNewEmailTemplateId":"{{NotifyEmailChangeConfirmationEmailNewEmailTemplateId}}",
     "b2cNotifyEmailChangeConfirmationEmailOldEmailTemplateId":"{{NotifyEmailChangeConfirmationEmailOldEmailTemplateId}}",
