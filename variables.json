@@ -1,13 +1,12 @@
 {
-    "b2cAuthorizationUrl": "{{b2cAuthorizationUrl}}",
+    "b2cAuthorizationUrl": "{{b2cAuthorizationUrl}}", 
     "b2cChangeEmailPolicy":"{{b2cChangeEmailPolicy}}",
     "b2cPasswordResetConfirmPoicy":"{{b2cPasswordResetConfirmPoicy}}",
     "b2cSignupConfirmPolicy":"{{b2cSignupConfirmPolicy}}",
     "b2cSignUpPolicy":"{{b2cSignUpPolicy}}",
     "b2cAzureTenantId":"{{AzureB2cTenantId}}",
-    "b2cApimCertThumbprint":"{{testB2cApimCertThumbprint}}",
+    "b2cApimCertThumbprint":"{{prodB2cApimCertThumbprint}}",
     "b2cClientSigningKey":"{{ClientSigningKey}}",
-    "b2cEapimAuthIssuerValue":"{{devEapimAuthIssuerValue}}",
     "b2cGraphAccessClientId":"{{GraphAccessClientId}}",
     "b2cGraphAccessClientSecret":"{{GraphAccessClientSecret}}",
     "b2cIdentityAppClientId":"{{IdentityAppClientId}}",
@@ -38,10 +37,10 @@
     "b2cRedirectUrl":"{{b2cRedirectUrl}}",
     "b2cDfeEapimSubscriptionKey":"{{dfeEapimSubscriptionKey}}",
     "b2cCustomDomain":"{{b2cCustomDomain}}",
-    "b2cSmtpServer":"{{smtpServer}}",
+    "b2cSmtpServer":"{{smtpServer}}", 
     "b2cSmtpUsername":"{{smtpUsername}}",
     "b2cSmtpPassword":"{{smtpPassword}}",
     "b2cSmtpFromAddress":"{{smtpFromAddress}}",
-    "b2cExtensionAppId":"Need to bee added manualy in the vault. Remove all '-' devProxyIdentityAppClientId for dev & for test,pre-prod & prod from testProxyIdentityAppClientId ",  
-    "standaloneNcsHostName":"{{environmentName}}-ncs.signin.education.gov.uk"
+    "b2cExtensionAppId":"{{parsedTestExtensionAppId}}",  
+    "standaloneNcsHostName":"ncs.signin.education.gov.uk"
 }
