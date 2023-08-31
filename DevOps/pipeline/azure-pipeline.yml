@@ -138,7 +138,7 @@ stages:
                 environmentName: preprod
               ${{ elseif eq(var.key, 'pr') }}:
                 deployEnvironmentName: prod
-                environmentName: ${{var.key}}
+                environmentName: prod
               ${{ else }}:
                 environmentName: ${{var.key}}
                 deployEnvironmentName: ${{var.key}}
