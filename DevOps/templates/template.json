@@ -637,6 +637,7 @@
                 "virtualNetworkSubnetId": "[variables('resourceNames').authSubnetResourceId]",
                 "siteConfig": {
                     "alwaysOn": true,
+                    "ftpsState": "Disabled",
                     "appSettings": [
                         {
                             "name": "APPINSIGHTS_INSTRUMENTATIONKEY",
