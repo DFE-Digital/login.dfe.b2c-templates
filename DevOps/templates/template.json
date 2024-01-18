@@ -638,6 +638,7 @@
                 "siteConfig": {
                     "alwaysOn": true,
                     "ftpsState": "Disabled",
+                    "http20Enabled": true,
                     "appSettings": [
                         {
                             "name": "APPINSIGHTS_INSTRUMENTATIONKEY",
