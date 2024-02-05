@@ -639,6 +639,17 @@
                     "alwaysOn": true,
                     "ftpsState": "Disabled",
                     "http20Enabled": true,
+                    "scmIpSecurityRestrictions": [
+                        {
+                            "ipAddress": "Any",
+                            "action": "Deny",
+                            "priority": 2147483647,
+                            "name": "Deny all",
+                            "description": "Deny all access"
+                        }
+                    ],
+                    "scmIpSecurityRestrictionsDefaultAction": "Deny",
+                    "scmIpSecurityRestrictionsUseMain": false,
                     "appSettings": [
                         {
                             "name": "APPINSIGHTS_INSTRUMENTATIONKEY",
