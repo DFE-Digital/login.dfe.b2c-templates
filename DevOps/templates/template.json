@@ -639,6 +639,8 @@
                     "alwaysOn": true,
                     "ftpsState": "Disabled",
                     "http20Enabled": true,
+                    "scmIpSecurityRestrictionsDefaultAction": "Deny",
+                    "scmIpSecurityRestrictionsUseMain": false,
                     "appSettings": [
                         {
                             "name": "APPINSIGHTS_INSTRUMENTATIONKEY",
